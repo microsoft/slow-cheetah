@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Vsix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
   <Identifier Id="9eb9f150-fcc9-4db8-9e97-6aef2011017c">
     <Name>SlowCheetah - XML Transforms</Name>
@@ -31,6 +31,6 @@
     </Reference>
   </References>
   <Content>
-    <VsPackage>|%CurrentProject%;PkgdefProjectOutputGroup|</VsPackage>
+    <VsPackage>SlowCheetah.pkgdef</VsPackage>
   </Content>
 </Vsix>

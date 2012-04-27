@@ -8,21 +8,6 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpDemo", "FSharpDemo\FSharpDemo.fsproj", "{85361198-DB0E-4528-A513-80E025DE74A0}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://vstfcodebox:8080/tfs/tau
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Wpf.Transform\\Wpf.Transform.csproj
-		SccProjectName1 = Wpf.Transform
-		SccLocalPath1 = Wpf.Transform
-		SccProjectUniqueName2 = TransformSetupProject\\TransformSetupProject.vdproj
-		SccProjectName2 = TransformSetupProject
-		SccLocalPath2 = TransformSetupProject
-		SccProjectUniqueName3 = FSharpDemo\\FSharpDemo.fsproj
-		SccProjectName3 = FSharpDemo
-		SccLocalPath3 = FSharpDemo
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
