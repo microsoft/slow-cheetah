@@ -1,0 +1,8 @@
+﻿<Application x:Class="Wpf.Transform.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary Source="Assets/BureauBlue.xaml" />
+    </Application.Resources>
+</Application>

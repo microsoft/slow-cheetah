@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wpf.Transform", "Wpf.Transform\Wpf.Transform.csproj", "{F5E1A5EA-4544-49B2-AE4A-8590D96E6537}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TransformSetupProject", "TransformSetupProject\TransformSetupProject.vdproj", "{2B730C2F-9E22-49CE-8908-E40E82CBAE9E}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpDemo", "FSharpDemo\FSharpDemo.fsproj", "{85361198-DB0E-4528-A513-80E025DE74A0}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://vstfcodebox:8080/tfs/tau
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Wpf.Transform\\Wpf.Transform.csproj
+		SccProjectName1 = Wpf.Transform
+		SccLocalPath1 = Wpf.Transform
+		SccProjectUniqueName2 = TransformSetupProject\\TransformSetupProject.vdproj
+		SccProjectName2 = TransformSetupProject
+		SccLocalPath2 = TransformSetupProject
+		SccProjectUniqueName3 = FSharpDemo\\FSharpDemo.fsproj
+		SccProjectName3 = FSharpDemo
+		SccLocalPath3 = FSharpDemo
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5E1A5EA-4544-49B2-AE4A-8590D96E6537}.Debug|x86.ActiveCfg = Debug|x86
+		{F5E1A5EA-4544-49B2-AE4A-8590D96E6537}.Debug|x86.Build.0 = Debug|x86
+		{F5E1A5EA-4544-49B2-AE4A-8590D96E6537}.Release|x86.ActiveCfg = Release|x86
+		{F5E1A5EA-4544-49B2-AE4A-8590D96E6537}.Release|x86.Build.0 = Release|x86
+		{2B730C2F-9E22-49CE-8908-E40E82CBAE9E}.Debug|x86.ActiveCfg = Debug
+		{2B730C2F-9E22-49CE-8908-E40E82CBAE9E}.Release|x86.ActiveCfg = Release
+		{85361198-DB0E-4528-A513-80E025DE74A0}.Debug|x86.ActiveCfg = Debug|x86
+		{85361198-DB0E-4528-A513-80E025DE74A0}.Debug|x86.Build.0 = Debug|x86
+		{85361198-DB0E-4528-A513-80E025DE74A0}.Release|x86.ActiveCfg = Release|x86
+		{85361198-DB0E-4528-A513-80E025DE74A0}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
