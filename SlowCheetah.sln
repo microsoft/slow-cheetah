@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah_UnitTests", "SlowCheetah\SlowCheetah_UnitTests\SlowCheetah_UnitTests.csproj", "{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{993B3AFF-787D-4A35-AC12-BD3574086926}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah.Tasks", "SlowCheetah.Tasks\SlowCheetah.Tasks.csproj", "{CDAA253C-6C77-4E8C-8793-4E7D65EC412B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Released binaries", "Released binaries", "{7281453D-173B-4E0D-8F4F-E7893B0C295F}"
@@ -48,24 +46,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2.1", "v2.1", "{1B38300F-6
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://vstfcodebox:8080/tfs/tau
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Sample\\Sample.csproj
-		SccProjectName1 = Sample
-		SccLocalPath1 = Sample
-		SccProjectUniqueName2 = SlowCheetah\\SlowCheetah.csproj
-		SccProjectName2 = SlowCheetah
-		SccLocalPath2 = SlowCheetah
-		SccProjectUniqueName3 = SlowCheetah\\SlowCheetah_UnitTests\\SlowCheetah_UnitTests.csproj
-		SccProjectName3 = SlowCheetah/SlowCheetah_UnitTests
-		SccLocalPath3 = SlowCheetah\\SlowCheetah_UnitTests
-		SccProjectUniqueName4 = SlowCheetah.Tasks\\SlowCheetah.Tasks.csproj
-		SccProjectName4 = SlowCheetah.Tasks
-		SccLocalPath4 = SlowCheetah.Tasks
-	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SlowCheetah.vsmdi
 	EndGlobalSection
@@ -100,16 +80,6 @@ Global
 		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|x86.ActiveCfg = Release|Any CPU
 		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|x86.Build.0 = Release|Any CPU
-		{993B3AFF-787D-4A35-AC12-BD3574086926}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{993B3AFF-787D-4A35-AC12-BD3574086926}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{993B3AFF-787D-4A35-AC12-BD3574086926}.Debug|x86.ActiveCfg = Debug|x86
-		{993B3AFF-787D-4A35-AC12-BD3574086926}.Debug|x86.Build.0 = Debug|x86
-		{993B3AFF-787D-4A35-AC12-BD3574086926}.Release|Any CPU.ActiveCfg = Release|x86
-		{993B3AFF-787D-4A35-AC12-BD3574086926}.Release|Any CPU.Build.0 = Release|x86
-		{993B3AFF-787D-4A35-AC12-BD3574086926}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{993B3AFF-787D-4A35-AC12-BD3574086926}.Release|Mixed Platforms.Build.0 = Release|x86
-		{993B3AFF-787D-4A35-AC12-BD3574086926}.Release|x86.ActiveCfg = Release|x86
-		{993B3AFF-787D-4A35-AC12-BD3574086926}.Release|x86.Build.0 = Release|x86
 		{CDAA253C-6C77-4E8C-8793-4E7D65EC412B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CDAA253C-6C77-4E8C-8793-4E7D65EC412B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDAA253C-6C77-4E8C-8793-4E7D65EC412B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

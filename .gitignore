@@ -6,3 +6,5 @@ TestResults
 
 # Files
 msbuild*.log
+*.suo
+*.user
