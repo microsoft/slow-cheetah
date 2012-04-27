@@ -63,6 +63,10 @@
       <Private>false</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
+    <Reference Include="SlowCheetah.Tasks, Version=1.0.10727.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Install\SlowCheetah.Tasks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -216,12 +220,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="Resources\Package.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SlowCheetah.Tasks\SlowCheetah.Tasks.csproj">
-      <Project>{CDAA253C-6C77-4E8C-8793-4E7D65EC412B}</Project>
-      <Name>SlowCheetah.Tasks</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
