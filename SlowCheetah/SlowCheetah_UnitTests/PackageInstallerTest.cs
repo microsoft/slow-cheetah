@@ -31,7 +31,7 @@
             Assert.IsNotNull(settings);
 
             InstallSettings expected = new InstallSettings {
-                Version = 1.3
+                Version = 1.4
             };
             expected.FilesToInstall.Add(new InstallFile(@"Install-Manifest.xml", "Install.Install-Manifest.xml", FileType.Text));
             expected.FilesToInstall.Add(new InstallFile(@"SlowCheetah.Transforms.targets", "Install.SlowCheetah.Transforms.targets", FileType.Text));

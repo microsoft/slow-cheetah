@@ -192,10 +192,10 @@
     <EmbeddedResource Include="Resources\Install\SlowCheetah.Tasks.dll" />
     <Content Include="Cheetah-200.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Cheetah-Medium.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
