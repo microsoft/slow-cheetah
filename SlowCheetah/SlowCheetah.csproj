@@ -178,7 +178,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="XdtTemplate.xml" />
-    <EmbeddedResource Include="Resources\Install\SlowCheetah.Transforms.targets" />
+    <EmbeddedResource Include="Resources\Install\SlowCheetah.Transforms.targets">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
