@@ -85,10 +85,6 @@
     <EmbeddedResource Include="Resources\Install\SlowCheetah.Transforms.targets" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SlowCheetah.Tasks\SlowCheetah.Tasks.csproj">
-      <Project>{CDAA253C-6C77-4E8C-8793-4E7D65EC412B}</Project>
-      <Name>SlowCheetah.Tasks</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SlowCheetah.csproj">
       <Project>{82981C27-9587-42C7-90C3-9CB88D59C3F1}</Project>
       <Name>SlowCheetah</Name>
