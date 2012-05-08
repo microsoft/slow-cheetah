@@ -8,3 +8,5 @@ TestResults
 msbuild*.log
 *.suo
 *.user
+*.metaproj
+*.metaproj.tmp
