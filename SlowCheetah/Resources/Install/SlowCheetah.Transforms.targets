@@ -115,6 +115,8 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       <_FilesToTransform Include="@(None);@(Content);@(Resource);@(EmbeddedResource)"
                          Condition=" '%(TransformOnBuild)' == 'true' ">
         <Link>%(Link)</Link>
+        <!-- Required to remove the item if necessary later -->
+        <OriginalItemSpec>%(Identity)</OriginalItemSpec>
       </_FilesToTransform>
     </ItemGroup>
 
@@ -126,13 +128,18 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
     <ItemGroup>
       <_FilesToTransform Condition=" '%(FullPath)'=='$(_AppConfigFullPath)' ">
         <IsAppConfig>true</IsAppConfig>
+        <!-- Required to remove the item if necessary later -->
+        <OriginalItemSpec>%(Identity)</OriginalItemSpec>
       </_FilesToTransform>
     </ItemGroup>
 
     <ItemGroup>
       <_FilesToTransformNotAppConfig Include="@(_FilesToTransform)"
-                                     Condition=" '%(IsAppConfig)'!='true'"
-                                     />
+                                     Condition=" '%(IsAppConfig)'!='true'">
+        <!-- Required to remove the item if necessary later -->
+        <OriginalItemSpec>%(Identity)</OriginalItemSpec>
+        <Link>%(_FilesToTransform.Link)</Link>
+      </_FilesToTransformNotAppConfig>
 
       <_AppConfigToTransform  Include="@(_FilesToTransform)"
                               Condition=" '%(IsAppConfig)'=='true'"/>
@@ -209,7 +216,27 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
         <TargetPath>$(_OldAppConfigWithTargetPath)</TargetPath>
       </AppConfigWithTargetPath>
     </ItemGroup>
+
   </Target>
+
+  <Target Name="SlowCheetah_ClickOnceLooseFileUpdate" AfterTargets="_DeploymentComputeClickOnceManifestInfo" DependsOnTargets="DiscoverFilesToTransform">
+    <!-- For non app.config files which are being transformed we need to remove the original item and replace it with the transformed one -->
+    <ItemGroup>
+      <_DeploymentManifestFiles Remove="%(_FilesToTransformNotAppConfig.OriginalItemSpec)" />
+      <!-- Implementation for non-Link files -->
+      <_DeploymentManifestFiles Include="@(_FilesToTransformNotAppConfig->'$(OutDir)%(RelativeDir)%(Filename)%(Extension)')"
+                                Condition=" '%(_FilesToTransformNotAppConfig.Link)'=='' ">
+        <TargetPath Condition=" '%(_FilesToTransformNotAppConfig.Link)'=='' ">%(RelativeDir)%(Filename)%(Extension)</TargetPath>
+      </_DeploymentManifestFiles>
+
+      <!-- Implementation for Linked files -->
+      <_DeploymentManifestFiles Include="@(_FilesToTransformNotAppConfig->'$(OutDir)%(Link)')"
+                                Condition=" '%(_FilesToTransformNotAppConfig.Link)'!='' ">
+        <TargetPath>%(_FilesToTransformNotAppConfig.Link)</TargetPath>
+      </_DeploymentManifestFiles>
+    </ItemGroup>
+  </Target>
+
 
   <!-- ***********************************************************
   Setup project related items below

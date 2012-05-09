@@ -16,7 +16,7 @@
     		<TextBlock x:Name="TextAppSettings" TextWrapping="Wrap" Text="App settings here" ScrollViewer.HorizontalScrollBarVisibility="Visible" FontFamily="Segoe" FontSize="16" Margin="7"/>
     	</Border>
     	<Border Grid.Column="1" Margin="200,203.813,8,304.187" BorderBrush="Black" BorderThickness="1" d:LayoutOverrides="VerticalAlignment" >
-    		<TextBlock x:Name="TextConnectionStrings" TextWrapping="Wrap" Text="Connection strings here" ScrollViewer.HorizontalScrollBarVisibility="Visible" FontSize="16" FontFamily="Segoe" Margin="7,0,7,4" Height="153" VerticalAlignment="Bottom"/>
+    		<TextBlock x:Name="TextConnectionStrings" TextWrapping="Wrap" Text="Connection strings here" ScrollViewer.HorizontalScrollBarVisibility="Visible" FontSize="16" FontFamily="Segoe" Margin="7,0,7,4" Height="147" VerticalAlignment="Bottom"/>
     	</Border>
     	<Button Content="Close" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,8,15.5" VerticalAlignment="Bottom" Width="75" Click="ButtonCloseClick" />
     	<Label Content="Config content" HorizontalAlignment="Left" Margin="2,0,0,154.873" VerticalAlignment="Bottom" FontSize="18.667" Grid.Column="1" FontFamily="Segoe UI Semibold" FontWeight="Bold" d:LayoutOverrides="VerticalAlignment"/>
