@@ -191,6 +191,18 @@
     <value>Set to false to disable the preview tool and just show the transformed file</value>
     <comment>Options property description. Must start with PropDesc_</comment>
   </data>
+    <data name="TransformPreview_Caption" xml:space="preserve">
+    <value>{0} Preview</value>
+  </data>
+  <data name="TransformPreview_LeftLabel" xml:space="preserve">
+    <value>Original {0}</value>
+  </data>
+    <data name="TransformPreview_RightLabel" xml:space="preserve">
+    <value>Transformed {0}   (by  {1} )</value>
+  </data>
+    <data name="TransformPreview_ToolTip" xml:space="preserve">
+    <value>{0} Preview</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TransformContents" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\TransformContents.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>

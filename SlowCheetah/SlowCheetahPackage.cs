@@ -17,6 +17,8 @@ using Microsoft.Win32;
 using System.Linq;
 using Process = System.Diagnostics.Process;
 using SlowCheetah.VisualStudio.Exceptions;
+using IOleServiceProvider = Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
+using System.Reflection;
 
 namespace SlowCheetah.VisualStudio
 {
@@ -421,7 +423,7 @@ namespace SlowCheetah.VisualStudio
                 return;
             }
 
-            PreviewTransform(documentPath, transformPath);
+            PreviewTransform(hierarchy, documentPath, transformPath);
         }
 
         private void AddSlowCheetahImport(string projectFullPath, string importPath)
@@ -749,18 +751,17 @@ namespace SlowCheetah.VisualStudio
             return projectItem;
         }
 
-        private void PreviewTransform(string sourceFile, string transformFile)
+        private void PreviewTransform(IVsHierarchy hier, string sourceFile, string transformFile)
         {
             if (string.IsNullOrWhiteSpace(sourceFile)) { throw new ArgumentNullException("sourceFile"); }
             if (string.IsNullOrWhiteSpace(transformFile)) { throw new ArgumentNullException("transformFile"); }
-            if (!File.Exists(sourceFile)) { throw new FileNotFoundException(string.Format(Resources.Error_SourceFileNotFound, sourceFile), sourceFile); }
-            if (!File.Exists(transformFile)) { throw new FileNotFoundException(string.Format(Resources.Error_TransformFileNotFound, transformFile), transformFile); }
+            if (!File.Exists(sourceFile)) { throw new FileNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.Error_SourceFileNotFound, sourceFile), sourceFile); }
+            if (!File.Exists(transformFile)) { throw new FileNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.Error_TransformFileNotFound, transformFile), transformFile); }
 
             // Get our options
             using (OptionsDialogPage optionsPage = new OptionsDialogPage()) {
                 optionsPage.LoadSettingsFromStorage();
-
-
+                
                 this.LogMessageWriteLineFormat("SlowCheetah PreviewTransform");
                 FileInfo sourceFileInfo = new FileInfo(sourceFile);
                 // dest file
@@ -775,18 +776,56 @@ namespace SlowCheetah.VisualStudio
                 if (optionsPage.EnablePreview == false) {
                     GetDTE().ItemOperations.OpenFile(destFile);
                 }
-                else if (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath)) {
-                    throw new FileNotFoundException(Resources.Error_NoPreviewToolSpecified);
-                }
-                else if (!File.Exists(optionsPage.PreviewToolExecutablePath)) {
-                    throw new FileNotFoundException(string.Format(Resources.Error_CantFindPreviewTool, optionsPage.PreviewToolExecutablePath), optionsPage.PreviewToolExecutablePath);
-                }
-                else {
-                    // Quote the filenames...
-                    ProcessStartInfo psi = new ProcessStartInfo(optionsPage.PreviewToolExecutablePath, string.Format(optionsPage.PreviewToolCommandLine, "\"" + sourceFile + "\"", "\"" + destFile + "\""));
-                    psi.CreateNoWindow = true;
-                    psi.UseShellExecute = false;
-                    Process.Start(psi);
+                else
+                {
+                    Guid SID_SVsDifferenceService = new Guid("{77115E75-EF9E-4F30-92F2-3FE78BCAF6CF}");
+                    Guid IID_IVsDifferenceService = new Guid("{E20E53BE-8B7A-408F-AEA7-C0AAD6D1B946}");
+                    uint VSDIFFOPT_RightFileIsTemporary = 0x00000020;   //The right file is a temporary file explicitly created for diff.
+
+                    // If the diffmerge service is available (dev11) and no diff tool is specified, or diffmerge.exe is specifed we use the service
+                    IOleServiceProvider sp;
+                    hier.GetSite(out sp);
+                    IntPtr diffSvcIntPtr = IntPtr.Zero;
+                    int hr = sp.QueryService(ref SID_SVsDifferenceService, ref IID_IVsDifferenceService, out diffSvcIntPtr);
+                    if(diffSvcIntPtr != IntPtr.Zero && (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath) || optionsPage.PreviewToolExecutablePath.EndsWith(@"\diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
+                    {
+                        try {
+                            object diffSvc = Marshal.GetObjectForIUnknown(diffSvcIntPtr);
+                            Type t = diffSvc.GetType();
+                            Type[] paramTypes = new Type[] {typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(uint)};
+                            MethodInfo openComparisonWindow2 = t.GetMethod("OpenComparisonWindow2", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, paramTypes, null);
+                            Debug.Assert(openComparisonWindow2 != null);
+                            if(openComparisonWindow2 != null)
+                            {
+                                string sourceName = Path.GetFileName(sourceFile);
+                                string leftLabel = string.Format(CultureInfo.CurrentCulture,  Resources.TransformPreview_LeftLabel, sourceName);
+                                string rightLabel = string.Format(CultureInfo.CurrentCulture, Resources.TransformPreview_RightLabel, sourceName, Path.GetFileName(transformFile));
+                                string caption = string.Format(CultureInfo.CurrentCulture, Resources.TransformPreview_Caption, sourceName);
+                                string tooltip = string.Format(CultureInfo.CurrentCulture, Resources.TransformPreview_ToolTip, sourceName);
+                                object[] paras = new object[] {sourceFile, destFile,  caption, tooltip, leftLabel, rightLabel, null, null, VSDIFFOPT_RightFileIsTemporary};
+                                openComparisonWindow2.Invoke(diffSvc, paras);
+                            }
+                        }
+                        finally {
+                            Marshal.Release(diffSvcIntPtr);
+                        }
+                    }
+                    else if (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath))
+                    {
+                        throw new FileNotFoundException(Resources.Error_NoPreviewToolSpecified);
+                    }
+                    else if (!File.Exists(optionsPage.PreviewToolExecutablePath))
+                    {
+                        throw new FileNotFoundException(string.Format(Resources.Error_CantFindPreviewTool, optionsPage.PreviewToolExecutablePath), optionsPage.PreviewToolExecutablePath);
+                    }
+                    else
+                    {
+                        // Quote the filenames...
+                        ProcessStartInfo psi = new ProcessStartInfo(optionsPage.PreviewToolExecutablePath, string.Format(optionsPage.PreviewToolCommandLine, "\"" + sourceFile + "\"", "\"" + destFile + "\""));
+                        psi.CreateNoWindow = true;
+                        psi.UseShellExecute = false;
+                        Process.Start(psi);
+                    }
                 }
             }
 
