@@ -264,8 +264,14 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
         <OriginalItemSpec>$(AppConfig)</OriginalItemSpec>
       </BuiltProjectOutputGroupOutput>
 
-      <BuiltProjectOutputGroupOutput Include="@(_FilesToTransformNotAppConfig->'$(OutDir)%(RelativeDir)%(Filename)%(Extension)')">
+      <BuiltProjectOutputGroupOutput Include="@(_FilesToTransformNotAppConfig->'$(OutDir)%(RelativeDir)%(Filename)%(Extension)')"
+                                     Condition=" '%(_FilesToTransformNotAppConfig.Link)'==''">
         <OriginalItemSpec>@(_FilesToTransformNotAppConfig->'$(OutDir)%(RelativeDir)%(Filename)%(Extension)')</OriginalItemSpec>
+      </BuiltProjectOutputGroupOutput>
+
+      <BuiltProjectOutputGroupOutput Include="@(_FilesToTransformNotAppConfig->'$(OutDir)%(Link)')"
+                                     Condition=" '%(_FilesToTransformNotAppConfig.Link)'!=''">
+        <OriginalItemSpec>@(_FilesToTransformNotAppConfig->'$(OutDir)%(Link)')</OriginalItemSpec>
       </BuiltProjectOutputGroupOutput>
     </ItemGroup>
   </Target>
