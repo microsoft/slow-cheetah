@@ -192,7 +192,7 @@
     <Resource Include="Resources\Images_32bit.png" />
     <None Include="Resources\TransformContents.xml" />
     <EmbeddedResource Include="Resources\Install\SlowCheetah.Tasks.dll" />
-    <Content Include="Cheetah-200-127.jpg">
+    <Content Include="Cheetah-120.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
