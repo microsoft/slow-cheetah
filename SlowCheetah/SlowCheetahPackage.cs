@@ -246,7 +246,7 @@ namespace SlowCheetah.VisualStudio
             
             // we need to special case web.config transform files
             if (!isItemTransformFile) {
-                string pattern = @"web\.[^.]+\.config";
+                string pattern = @"web\..+\.config";
                 string filepath;
                 buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out filepath);
                 System.IO.FileInfo fi = new System.IO.FileInfo(filepath);               
