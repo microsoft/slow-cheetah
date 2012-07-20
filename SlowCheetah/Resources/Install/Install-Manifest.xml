@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<InstallManifest xmlns="http://schemas.microsoft.com/transforms/2011/02/install-manifest" version="1.42">
+<InstallManifest xmlns="http://schemas.microsoft.com/transforms/2011/02/install-manifest" version="1.43">
   
   <FilesToInstall>
     <File path="Install-Manifest.xml" name="Install.Install-Manifest.xml" type="Text"/>
