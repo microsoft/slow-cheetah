@@ -541,16 +541,6 @@ namespace SlowCheetah.VisualStudio
             }
 
             return itemSupportsTransforms;
-            //if (!isTransformFile) {
-            //    string itemExtension = Path.GetExtension(itemFullPath);
-
-            //    foreach (string supportedExtension in SupportedItemExtensions) {
-            //        if (itemExtension.Equals(supportedExtension, StringComparison.InvariantCultureIgnoreCase)) {
-            //            return true;
-            //        }
-            //    }
-            //}
-            // return false;
         }
 
         string[] s_supportedProjectExtensions;
@@ -650,6 +640,8 @@ namespace SlowCheetah.VisualStudio
 
                 // and add it to the project
                 ProjectItem addedItem = selectedProjectItem.ProjectItems.AddFromFile(itemPath);
+                // we need to set the Build Action to None to ensure that it doesn't get published for web projects
+                addedItem.Properties.Item("ItemType").Value = "None";
 
                 IVsHierarchy hierarchy = null;
                 IVsProject vsProject = (IVsProject)hierarchy;
