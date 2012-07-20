@@ -144,8 +144,6 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       <_AppConfigToTransform  Include="@(_FilesToTransform)"
                               Condition=" '%(IsAppConfig)'=='true'"/>
     </ItemGroup>
-
-    <!--<Message Text="Filename: %(_FilesToTransform.Filename) ||| link: %(_FilesToTransform.Link)" Importance="high"/>-->
   </Target>
 
 
@@ -161,6 +159,11 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       CopyAllFilesToSingleFolderForPackage;
       DiscoverFilesToTransform;
     </CopyTransformFilesWapDependsOn>
+    <!-- Required for VS 2012 since the CopyAllFilesToSingleFolderForPackage is no longer being called -->
+    <PipelineMsdeploySpecificTransformPhaseDependsOn>
+      $(PipelineMsdeploySpecificTransformPhaseDependsOn);
+      CopyTransformFilesWap
+    </PipelineMsdeploySpecificTransformPhaseDependsOn>
   </PropertyGroup>
 
   <Target Name="CopyTransformFilesWap"
