@@ -536,7 +536,11 @@ namespace SlowCheetah.VisualStudio
             // make sure its not a transform file itsle
             bool isTransformFile = IsItemTransformItem(project, itemid);
 
-            if (!isTransformFile && IsExtensionSupportedForFile(itemFullPath) && IsXmlFile(itemFullPath)) {
+            
+            FileInfo transformFileInfo = new FileInfo(itemFullPath);
+            bool isWebConfig = string.Compare("web.config", transformFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0;
+
+            if (!isWebConfig && !isTransformFile && IsExtensionSupportedForFile(itemFullPath) && IsXmlFile(itemFullPath)) {
                 itemSupportsTransforms = true;
             }
 
@@ -544,6 +548,8 @@ namespace SlowCheetah.VisualStudio
         }
 
         string[] s_supportedProjectExtensions;
+
+        
 
         private bool IsExtensionSupportedForFile(string filepath) {
             if (string.IsNullOrWhiteSpace(filepath)) { throw new ArgumentNullException("filepath"); }
