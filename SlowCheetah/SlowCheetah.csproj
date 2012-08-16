@@ -244,7 +244,7 @@
   </PropertyGroup>
   <Target Name="CopyOutputToOtherFoleders" AfterTargets="AfterBuild">
     <ItemGroup>
-      <_SCInstallFilesToCopy Include="$(SC_InstallFolder)*.xml;$(SC_InstallFolder)*.targets" />
+      <_SCInstallFilesToCopy Include="$(TargetPath);$(MSBuildThisFileDirectory)\Resources\Install\SlowCheetah.Tasks.dll;$(SC_InstallFolder)*.xml;$(SC_InstallFolder)*.targets" />
     </ItemGroup>
     <Copy SourceFiles="@(_SCInstallFilesToCopy)" DestinationFiles="@(_SCInstallFilesToCopy->'$(LOCALAPPDATA)\Microsoft\MSBuild\SlowCheetah\v1\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
