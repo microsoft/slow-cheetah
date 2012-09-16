@@ -1,12 +1,26 @@
-# Folders
-bin
-obj
-SlowCheetah.Tasks
-TestResults
+# Folders to ignore #
+OutputRoot/
+TestResults/
+bin/
+obj/
+_UpgradeReport_Files/
+.svn/
+Backups/
+TestBackup/
+csx/
 
-# Files
-msbuild*.log
+# Known files to ignore always #
 *.suo
 *.user
+~*.docx
+msbuild.log
+msbuild.*.log
+.dbshell
+*.private
+UpgradeLog*.xml
 *.metaproj
 *.metaproj.tmp
+
+##############
+
+SlowCheetah.Tasks
