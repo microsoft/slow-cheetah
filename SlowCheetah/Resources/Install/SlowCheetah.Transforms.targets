@@ -155,19 +155,23 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       $(OnAfterPipelinePreDeployCopyAllFilesToOneFolder);
       CopyTransformFilesWap;
     </OnAfterPipelinePreDeployCopyAllFilesToOneFolder>
-    <CopyTransformFilesWapDependsOn>
+    <CoreCopyTransformFilesWapDependsOn>
       CopyAllFilesToSingleFolderForPackage;
       DiscoverFilesToTransform;
-    </CopyTransformFilesWapDependsOn>
+    </CoreCopyTransformFilesWapDependsOn>
     <!-- Required for VS 2012 since the CopyAllFilesToSingleFolderForPackage is no longer being called -->
     <PipelineMsdeploySpecificTransformPhaseDependsOn>
       $(PipelineMsdeploySpecificTransformPhaseDependsOn);
       CopyTransformFilesWap
     </PipelineMsdeploySpecificTransformPhaseDependsOn>
+    <CopyTransformFilesWapDependsOn>
+      CoreCopyTransformFilesWap;
+      CopyTransformFileWapPublishProfile;
+    </CopyTransformFilesWapDependsOn>
   </PropertyGroup>
-
-  <Target Name="CopyTransformFilesWap"
-          DependsOnTargets="$(CopyTransformFilesWapDependsOn)" AfterTargets="CopyAllFilesToSingleFolderForPackage">
+  <Target Name="CopyTransformFilesWap" DependsOnTargets="$(CopyTransformFilesWapDependsOn)"/>
+  <Target Name="CoreCopyTransformFilesWap"
+          DependsOnTargets="$(CoreCopyTransformFilesWapDependsOn)" AfterTargets="CopyAllFilesToSingleFolderForPackage">
 
     <ItemGroup>
       <_TmpLinkFiles Remove="@(_TmpLinkFiles)" />
@@ -199,6 +203,28 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
                           Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)')
                           and '%(Link)'!='' " />
   </Target>
+
+  <Target Name="CopyTransformFileWapPublishProfile">
+    <!--Make sure that we do not do this for web.config-->
+    <!-- This usage will skip Link files, the task usage below will handle Link files -->
+    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
+              Transform="%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)"
+              Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(RelativeDir)%(Filename)%(Extension)')"
+              Condition=" '%(Filename)%(Extension)' != 'web.config' and
+                          Exists('%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')
+                          and '%(Link)'=='' and '$(PublishProfile)'!='' " />
+
+    <!-- Transform the Link files, they always go into the root directory -->
+    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
+              Transform="%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)"
+              Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(Link)')"
+              Condition=" '%(Filename)%(Extension)' != 'web.config' and
+                          Exists('%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')
+                          and '%(Link)'!=''  and '$(PublishProfile)'!='' " />
+  </Target>
+  
+  
+  
 
   <!-- ***********************************************************
   ClickOnce related items below
