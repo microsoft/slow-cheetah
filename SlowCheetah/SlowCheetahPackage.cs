@@ -4,21 +4,19 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Xml;
 using EnvDTE;
-using EnvDTE80;
+using Microsoft.Build.Construction;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using System.Xml;
-using SlowCheetah.VisualStudio.Properties;
-using Microsoft.Build.Construction;
-using Microsoft.Win32;
-using System.Linq;
-using Process = System.Diagnostics.Process;
 using SlowCheetah.VisualStudio.Exceptions;
+using SlowCheetah.VisualStudio.Properties;
 using IOleServiceProvider = Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
-using System.Reflection;
+using Process = System.Diagnostics.Process;
 
 namespace SlowCheetah.VisualStudio
 {
@@ -138,14 +136,9 @@ namespace SlowCheetah.VisualStudio
 
         private IList<string> TempFilesCreated { get; set; }
 
-        private void OnChangeAddTransformMenu(object sender, EventArgs e)
-        {
-        }
+        private void OnChangeAddTransformMenu(object sender, EventArgs e) { }
 
-        private void OnChangePreviewTransformMenu(object sender, EventArgs e)
-        {
-        }
-
+        private void OnChangePreviewTransformMenu(object sender, EventArgs e) { }
         /// <summary>
         /// This event is fired when a user right-clicks on a menu, but prior to the menu showing. This function is used to set the visibility
         /// of the "Add Transform" menu. It checks to see if the project is one of the supported types, and if the extension of the project item
@@ -369,19 +362,70 @@ namespace SlowCheetah.VisualStudio
 
                 string content = BuildXdtContent(itemFullPath);
                 string[] configs = GetProjectConfigurations(selectedProjectItem.ContainingProject);
-                foreach (string config in configs) {
+
+                List<string> transformsToCreate = null;
+                if (configs != null) { transformsToCreate = configs.ToList(); }
+
+                if (transformsToCreate == null) { transformsToCreate = new List<string>(); }
+                // if it is a web project we should add publish profile specific transforms as well
+                var publishProfileTransforms = this.GetPublishProfileTransforms(hierarchy, projectFullPath);
+                if (publishProfileTransforms != null) {
+                    transformsToCreate.AddRange(publishProfileTransforms);
+                }
+
+                foreach (string config in transformsToCreate)
+                {
                     string itemName = string.Format(Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
                     AddXdtTransformFile(selectedProjectItem, content, itemName, itemFolder);
                     uint addedFileId;
                     hierarchy.ParseCanonicalName(Path.Combine(itemFolder,itemName), out addedFileId);
                     buildPropertyStorage.SetItemAttribute(addedFileId, IsTransformFile, "True");
                 }
+                
+                
             }
 
             if (addImports) {
                 AddSlowCheetahImport(projectFullPath, importPath);
             }
         }
+
+
+        private List<string> GetPublishProfileTransforms(IVsHierarchy hierarchy,string projectPath) {
+            if (hierarchy == null) { throw new ArgumentNullException("hierarchy"); }
+            if (string.IsNullOrEmpty(projectPath)) { throw new ArgumentNullException("projectPath"); }
+
+            List<string> result = new List<string>();
+            string propertiesFolder = null;
+            try {
+                IVsProjectSpecialFiles specialFiles = hierarchy as IVsProjectSpecialFiles;
+                if (specialFiles != null) {
+                    uint itemid;
+                    string filePath;
+                    specialFiles.GetFile((int)__PSFFILEID2.PSFFILEID_AppDesigner, (uint)__PSFFLAGS.PSFF_FullPath, out itemid, out propertiesFolder);
+                }
+            }
+            catch (Exception ex) {
+                this.LogMessageWriteLineFormat("Exception trying to create IVsProjectSpecialFiles", ex);
+            }
+
+            if (!string.IsNullOrEmpty(propertiesFolder)) {
+                // Properties\PublishProfiles
+                string publishProfilesFolder = Path.Combine(propertiesFolder, "PublishProfiles");
+                if (Directory.Exists(publishProfilesFolder)) {
+                    string[] publishProfiles = Directory.GetFiles(publishProfilesFolder, "*.pubxml");
+                    if (publishProfiles != null) {
+                        publishProfiles.ToList().ForEach(profile => {
+                            FileInfo fi = new FileInfo(profile);
+                            result.Add(fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length));
+                        });
+                    }
+                }
+            }
+
+            return result;
+        }
+
 
         /// <summary>
         /// This function is the callback used to execute a command when the a menu item is clicked.

@@ -222,9 +222,6 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
                           Exists('%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')
                           and '%(Link)'!=''  and '$(PublishProfile)'!='' " />
   </Target>
-  
-  
-  
 
   <!-- ***********************************************************
   ClickOnce related items below
