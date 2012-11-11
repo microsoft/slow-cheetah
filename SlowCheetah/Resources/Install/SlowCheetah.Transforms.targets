@@ -155,24 +155,25 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       $(OnAfterPipelinePreDeployCopyAllFilesToOneFolder);
       CopyTransformFilesWap;
     </OnAfterPipelinePreDeployCopyAllFilesToOneFolder>
-    <CoreCopyTransformFilesWapDependsOn>
-      CopyAllFilesToSingleFolderForPackage;
-      DiscoverFilesToTransform;
-    </CoreCopyTransformFilesWapDependsOn>
-    <!-- Required for VS 2012 since the CopyAllFilesToSingleFolderForPackage is no longer being called -->
-    <PipelineMsdeploySpecificTransformPhaseDependsOn>
-      $(PipelineMsdeploySpecificTransformPhaseDependsOn);
-      CopyTransformFilesWap
-    </PipelineMsdeploySpecificTransformPhaseDependsOn>
+    
     <CopyTransformFilesWapDependsOn>
       CoreCopyTransformFilesWap;
       CopyTransformFileWapPublishProfile;
     </CopyTransformFilesWapDependsOn>
+
+    <CoreCopyTransformFilesWapDependsOn>
+      DiscoverFilesToTransform;
+    </CoreCopyTransformFilesWapDependsOn>
+
+    <!-- For VS2012 -->
+    <PipelineCopyAllFilesToOneFolderForMsdeployDependsOn>
+      $(PipelineCopyAllFilesToOneFolderForMsdeployDependsOn);
+      CopyTransformFilesWap
+    </PipelineCopyAllFilesToOneFolderForMsdeployDependsOn>
   </PropertyGroup>
   <Target Name="CopyTransformFilesWap" DependsOnTargets="$(CopyTransformFilesWapDependsOn)"/>
   <Target Name="CoreCopyTransformFilesWap"
-          DependsOnTargets="$(CoreCopyTransformFilesWapDependsOn)" AfterTargets="CopyAllFilesToSingleFolderForPackage">
-
+          DependsOnTargets="$(CoreCopyTransformFilesWapDependsOn)">
     <ItemGroup>
       <_TmpLinkFiles Remove="@(_TmpLinkFiles)" />
       <_TmpLinkFiles Include="@(_FilesToTransformNotAppConfig->'%(Link)')" />
