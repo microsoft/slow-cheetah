@@ -155,7 +155,11 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       $(OnAfterPipelinePreDeployCopyAllFilesToOneFolder);
       CopyTransformFilesWap;
     </OnAfterPipelinePreDeployCopyAllFilesToOneFolder>
-    
+    <CopyAllFilesToSingleFolderForMsdeploy>
+      $(CopyAllFilesToSingleFolderForMsdeploy);
+      CopyTransformFilesWap;
+    </CopyAllFilesToSingleFolderForMsdeploy>
+
     <CopyTransformFilesWapDependsOn>
       CoreCopyTransformFilesWap;
       CopyTransformFileWapPublishProfile;
@@ -205,23 +209,30 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
                           and '%(Link)'!='' " />
   </Target>
 
-  <Target Name="CopyTransformFileWapPublishProfile">
+  <Target Name="CopyTransformFileWapPublishProfile" DependsOnTargets="CoreCopyTransformFilesWap">
+    <ItemGroup>
+      <_ScWapPubProfileFullPath Include="$(WebPublishProfileFile)"/>
+    </ItemGroup>
+    <PropertyGroup>
+      <_WapPubProfile Condition=" '$(_WapPubProfile)'=='' and '@(_ScWapPubProfileFullPath)'!='' ">%(_ScWapPubProfileFullPath.Filename)</_WapPubProfile>
+    </PropertyGroup>
+    
     <!--Make sure that we do not do this for web.config-->
     <!-- This usage will skip Link files, the task usage below will handle Link files -->
     <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
-              Transform="%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)"
+              Transform="%(RelativeDir)%(Filename).$(_WapPubProfile)%(Extension)"
               Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(RelativeDir)%(Filename)%(Extension)')"
               Condition=" '%(Filename)%(Extension)' != 'web.config' and
-                          Exists('%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')
-                          and '%(Link)'=='' and '$(PublishProfile)'!='' " />
+                          Exists('%(RelativeDir)%(Filename).$(_WapPubProfile)%(Extension)')
+                          and '%(Link)'=='' and '$(_WapPubProfile)'!='' " />
 
     <!-- Transform the Link files, they always go into the root directory -->
     <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
-              Transform="%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)"
+              Transform="%(RelativeDir)%(Filename).$(_WapPubProfile)%(Extension)"
               Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(Link)')"
               Condition=" '%(Filename)%(Extension)' != 'web.config' and
-                          Exists('%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')
-                          and '%(Link)'!=''  and '$(PublishProfile)'!='' " />
+                          Exists('%(RelativeDir)%(Filename).$(_WapPubProfile)%(Extension)')
+                          and '%(Link)'!=''  and '$(_WapPubProfile)'!='' " />
   </Target>
 
   <!-- ***********************************************************
