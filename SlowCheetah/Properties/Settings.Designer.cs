@@ -88,7 +88,7 @@ namespace SlowCheetah.VisualStudio.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".htm;.html;.cs.vb;.txt;.jpg;.png;.ico;.aspx;.snk;.dll;.pdb;.settings")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".htm;.html;.cs.vb;.txt;.jpg;.png;.ico;.aspx;.snk;.dll;.pdb;.settings;.pubxml;.user")]
         public string ExcludedFileExtensions {
             get {
                 return ((string)(this["ExcludedFileExtensions"]));
