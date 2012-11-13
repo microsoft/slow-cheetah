@@ -61,6 +61,8 @@
         <Parent guid="guidSHLMainMenu" id="IDG_VS_PROJ_MISCADD" />
         <Icon guid="guidImages" id="bmpPic1" />
         <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
           <CommandName>cmdidSlowCheetahAddTransform</CommandName>
           <ButtonText>Add Transform</ButtonText>
@@ -70,6 +72,8 @@
         <Parent guid="guidSHLMainMenu" id="IDG_VS_PROJ_MISCADD" />
         <Icon guid="guidImages" id="bmpPicPreview" />
         <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
           <CommandName>cmdidSlowCheetahPreviewTransform</CommandName>
           <ButtonText>Preview Transform</ButtonText>
