@@ -46,6 +46,12 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
     <_IsWap Condition=" '$(_IsWap)' == '' ">false</_IsWap>
     <IsWap Condition=" '$(IsWap)' == ''">$(_IsWap)</IsWap>
 
+    <ScAllowCopyReferencedConfig Condition=" '$(ScAllowCopyReferencedConfig)'=='' ">true</ScAllowCopyReferencedConfig>
+    <AllowedReferenceRelatedFileExtensions Condition=" '$(ScAllowCopyReferencedConfig)'=='true' ">
+      $(AllowedReferenceRelatedFileExtensions);
+      .dll.config
+    </AllowedReferenceRelatedFileExtensions>
+    
     <SlowCheetahImport>$(MSBuildThisFileFullPath)</SlowCheetahImport>
     <BuildDependsOn Condition=" '$(IsWap)'!='true' ">
       $(BuildDependsOn);
