@@ -51,11 +51,12 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       $(AllowedReferenceRelatedFileExtensions);
       .dll.config
     </AllowedReferenceRelatedFileExtensions>
-    
+
     <SlowCheetahImport>$(MSBuildThisFileFullPath)</SlowCheetahImport>
     <BuildDependsOn Condition=" '$(IsWap)'!='true' ">
       $(BuildDependsOn);
-      TransformAllFiles
+      TransformAllFiles;
+      ScReplaceAppConfigItem;
     </BuildDependsOn>
     <TransformAllFilesDependsOn>
       _CopyAppConfigFile;
@@ -222,7 +223,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
     <PropertyGroup>
       <_WapPubProfile Condition=" '$(_WapPubProfile)'=='' and '@(_ScWapPubProfileFullPath)'!='' ">%(_ScWapPubProfileFullPath.Filename)</_WapPubProfile>
     </PropertyGroup>
-    
+
     <!--Make sure that we do not do this for web.config-->
     <!-- This usage will skip Link files, the task usage below will handle Link files -->
     <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
@@ -244,7 +245,12 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
   <!-- ***********************************************************
   ClickOnce related items below
   ****************************************************************-->
-  <Target Name="SlowCheetah_ClickOnceUpdate" BeforeTargets="_DeploymentComputeClickOnceManifestInfo" DependsOnTargets="TransformAllFiles">
+
+  <!-- Target was named: SlowCheetah_ClickOnceUpdate -->
+  <Target Name="ScReplaceAppConfigItem"
+          BeforeTargets="_DeploymentComputeClickOnceManifestInfo;BuiltProjectOutputGroup"
+          DependsOnTargets="TransformAllFiles">
+    <Message Text="ScReplaceAppConfigItem" Importance="low"/>
     <PropertyGroup>
       <_SlowCheetahAppConfigTransformExists Condition="Exists(@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)'))">true</_SlowCheetahAppConfigTransformExists>
     </PropertyGroup>
@@ -257,10 +263,15 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
     <ItemGroup Condition="'$(_SlowCheetahAppConfigTransformExists)'=='true'">
       <AppConfigWithTargetPath Remove="@(AppConfigWithTargetPath)" />
       <AppConfigWithTargetPath Include="$(_SCNewAppConfigFile)">
-        <TargetPath>$(_OldAppConfigWithTargetPath)</TargetPath>
+        <!--<TargetPath>$(_OldAppConfigWithTargetPath)</TargetPath>-->
+        <TargetPath>$(_SCNewAppConfigFile)</TargetPath>
       </AppConfigWithTargetPath>
     </ItemGroup>
 
+    <Message Text="Updated app.config to point to transformed file" />
+    <Message Text="    AppConfigWithTargetPath: @(AppConfigWithTargetPath)"/>
+    <Message Text="    AppConfigWithTargetPath.TargetPath: @(AppConfigWithTargetPath->'%(TargetPath)')"/>
+    
   </Target>
 
   <Target Name="SlowCheetah_ClickOnceLooseFileUpdate" AfterTargets="_DeploymentComputeClickOnceManifestInfo" DependsOnTargets="DiscoverFilesToTransform">

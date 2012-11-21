@@ -8,6 +8,7 @@ _UpgradeReport_Files/
 Backups/
 TestBackup/
 csx/
+packages/
 
 # Known files to ignore always #
 *.suo
