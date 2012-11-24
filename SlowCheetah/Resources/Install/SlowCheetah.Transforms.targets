@@ -51,7 +51,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       $(AllowedReferenceRelatedFileExtensions);
       .dll.config
     </AllowedReferenceRelatedFileExtensions>
-    
+
     <SlowCheetahImport>$(MSBuildThisFileFullPath)</SlowCheetahImport>
     <BuildDependsOn Condition=" '$(IsWap)'!='true' ">
       $(BuildDependsOn);
@@ -180,6 +180,12 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       $(PipelineCopyAllFilesToOneFolderForMsdeployDependsOn);
       CopyTransformFilesWap
     </PipelineCopyAllFilesToOneFolderForMsdeployDependsOn>
+
+    <!-- Required for File System -->
+    <PipelinePreDeployCopyAllFilesToOneFolderDependsOn>
+      $(PipelinePreDeployCopyAllFilesToOneFolderDependsOn);
+      CopyTransformFilesWap;
+    </PipelinePreDeployCopyAllFilesToOneFolderDependsOn>
   </PropertyGroup>
   <Target Name="CopyTransformFilesWap" DependsOnTargets="$(CopyTransformFilesWapDependsOn)"/>
   <Target Name="CoreCopyTransformFilesWap"
@@ -222,7 +228,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
     <PropertyGroup>
       <_WapPubProfile Condition=" '$(_WapPubProfile)'=='' and '@(_ScWapPubProfileFullPath)'!='' ">%(_ScWapPubProfileFullPath.Filename)</_WapPubProfile>
     </PropertyGroup>
-    
+
     <!--Make sure that we do not do this for web.config-->
     <!-- This usage will skip Link files, the task usage below will handle Link files -->
     <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
