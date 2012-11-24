@@ -186,6 +186,11 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       $(PipelinePreDeployCopyAllFilesToOneFolderDependsOn);
       CopyTransformFilesWap;
     </PipelinePreDeployCopyAllFilesToOneFolderDependsOn>
+    <!-- required for FS support from the VS publish dialog -->
+    <OnAfterCopyAllFilesToSingleFolderForPackage>
+      $(OnAfterCopyAllFilesToSingleFolderForPackage);
+      CopyTransformFilesWap;
+    </OnAfterCopyAllFilesToSingleFolderForPackage>
   </PropertyGroup>
   <Target Name="CopyTransformFilesWap" DependsOnTargets="$(CopyTransformFilesWapDependsOn)"/>
   <Target Name="CoreCopyTransformFilesWap"
