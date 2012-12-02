@@ -74,7 +74,7 @@ The files which get installed include the following.
   <li><b>SlowCheetah.Transforms.targets</b> -  This file is imported into the user's project file. It contains all the logic to hookup the transformations.</li>
 </ul>
 
-The <code>Install-Manifest.xml</code> file contains an attribute on the root elemene <code>version</code>. Each time that the SlowCheetah package is loaded in VS it will compare its version against the <code>Install-Manifest.xml</code>. If the installed files are out of date (<i>i.e. the running version has a higher value for <code>version</code></i>) then the new files will be installed.
+The <code>Install-Manifest.xml</code> file contains an attribute on the root element <code>version</code>. Each time that the SlowCheetah package is loaded in VS it will compare its version against the <code>Install-Manifest.xml</code>. If the installed files are out of date (<i>i.e. the running version has a higher value for <code>version</code></i>) then the new files will be installed.
 
 Below are important files you will mostly be editing in the repository.
 <ul>
@@ -87,6 +87,10 @@ Below are important files you will mostly be editing in the repository.
 <h2>Things to keep in mind during development</h2>
 <p>Here are a few things to keep in mind while developing SlowCheetah.</p>
 <p>When you are bulding the SlowCheetah.sln file there is a target which will be invoked that will automatically copy the required files to <code>%localappdata%\Microsoft\MSBuild\SlowCheetah\v1\</code>, if the files are in use you will receive an error during the build process.</p> In order to resolve that you should close all instances of VS which may have the assembly loaded (<i>i.e. any VS instance which you were testing transforms with</i>). If you are using VS 2012 after you close VS the assemblies may still be locked by msbuild.exe. In this case you may have to kill msbuild.exe using the Task Manager. VS 2012 msbuild.exe is re-used so this behavior is by design from the MSBuild team.
+
+<p>In order to build a new .vsix to test out just build the project in VS (either in debug or release mode) and then grab the .vsix in the output folder (<i>i.e. bin\debug\</i>)</p>
+
+<p>In order to submit your changes back to the source repo send a pull request to the project. It will be processed by a coordinator.</p>
 
         </article>
       </div>
