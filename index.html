@@ -68,8 +68,10 @@ After this when a build is performed in VS or in the command line the XML files 
 The files which get installed include the following.
 <ul>
   <li><b>Install-Manifest.xml</b> - This is a file which contains; the version of installed files and the files that are included</li>
+
   <li><b>SlowCheetah.tasks.dll</b> - This is the file which contains the <code>TransformXml task</code></li>
-  <li><b>SlowCheetah.Transforms.targets</b> -  This file is imported into the user's project file. It contains all the logic to hookup the transformations.<li>
+
+  <li><b>SlowCheetah.Transforms.targets</b> -  This file is imported into the user's project file. It contains all the logic to hookup the transformations.</li>
 </ul>
 
 The <code>Install-Manifest.xml</code> file contains an attribute on the root elemene <code>version</code>. Each time that the SlowCheetah package is loaded in VS it will compare its version against the <code>Install-Manifest.xml</code>. If the installed files are out of date (<i>i.e. the running version has a higher value for <code>version</code></i>) then the new files will be installed.
