@@ -181,6 +181,17 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       $(PipelineCopyAllFilesToOneFolderForMsdeployDependsOn);
       CopyTransformFilesWap
     </PipelineCopyAllFilesToOneFolderForMsdeployDependsOn>
+
+    <!-- Required for File System -->
+    <PipelinePreDeployCopyAllFilesToOneFolderDependsOn>
+      $(PipelinePreDeployCopyAllFilesToOneFolderDependsOn);
+      CopyTransformFilesWap;
+    </PipelinePreDeployCopyAllFilesToOneFolderDependsOn>
+    <!-- required for FS support from the VS publish dialog -->
+    <OnAfterCopyAllFilesToSingleFolderForPackage>
+      $(OnAfterCopyAllFilesToSingleFolderForPackage);
+      CopyTransformFilesWap;
+    </OnAfterCopyAllFilesToSingleFolderForPackage>
   </PropertyGroup>
   <Target Name="CopyTransformFilesWap" DependsOnTargets="$(CopyTransformFilesWapDependsOn)"/>
   <Target Name="CoreCopyTransformFilesWap"
@@ -226,7 +237,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
 
     <!--Make sure that we do not do this for web.config-->
     <!-- This usage will skip Link files, the task usage below will handle Link files -->
-    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
+    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(RelativeDir)%(Filename)%(Extension)')"
               Transform="%(RelativeDir)%(Filename).$(_WapPubProfile)%(Extension)"
               Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(RelativeDir)%(Filename)%(Extension)')"
               Condition=" '%(Filename)%(Extension)' != 'web.config' and
@@ -234,7 +245,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
                           and '%(Link)'=='' and '$(_WapPubProfile)'!='' " />
 
     <!-- Transform the Link files, they always go into the root directory -->
-    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
+    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(Link)')"
               Transform="%(RelativeDir)%(Filename).$(_WapPubProfile)%(Extension)"
               Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(Link)')"
               Condition=" '%(Filename)%(Extension)' != 'web.config' and
