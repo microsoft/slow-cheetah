@@ -1,6 +1,4 @@
 <!doctype html>
-<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
-<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
 <html>
 <head>
   <meta charset="utf-8">
@@ -54,20 +52,40 @@ SlowCheetah is pretty simple, it mainly consists of the following componetns.
 </ul>
 
 <p>Here is an overview of how SlowCheetah works.</p>
-<p>After installing SlowCheetah when the VS package is loaded (*i.e. when the first project is loaded in the VS instance*)
-
+<p>For supported projects (<em>any project with an extension of .csproj/.vbproj/.fsproj)</em> a new context menu will appear for XML files, Add Transform. When a user invokes this command the following will occur:
+  <ol>
+    <li>Files needed to support transformations will be dropped at <code>%localappdata%\Microsoft\MSBuild\SlowCheetah\v1\</code></li>
+    <li>The user will be prompted to approve changes to the project file</li>
+    <li>The project file will be updated to include an <code>Import</code> to the .targets file</li>
+    <li>Transform files are added to the project as child nodes of the file</li>
+  </ol>
 </p>
 
+**Note:** Step 1 in the above actually occurs when the package is loaded (<em>i.e. when a project is first loaded in VS.</em>)
+
+After this when a build is performed in VS or in the command line the XML files with transforms will be transformed. If a user invokes <code>Add Transform</code> after the import has been added the command will simply add the transform files.
+
+The files which get installed include the following.
+<ul>
+  <li><b>Install-Manifest.xml</b> - This is a file which contains; the version of installed files and the files that are included</li>
+  <li><b>SlowCheetah.tasks.dll</b> - This is the file which contains the <code>TransformXml task</code></li>
+  <li><b>SlowCheetah.Transforms.targets</b> -  This file is imported into the user's project file. It contains all the logic to hookup the transformations.<li>
+</ul>
+
+The <code>Install-Manifest.xml</code> file contains an attribute on the root elemene <code>version</code>. Each time that the SlowCheetah package is loaded in VS it will compare its version against the <code>Install-Manifest.xml</code>. If the installed files are out of date (<em>i.e. the running version has a higher value for <code>version</code></em>) then the new files will be installed.
+
+Below are important files you will mostly be editing in the repository.
+<ul>
+  <li><em>SlowCheetah.sln</em> - The solution file you will open with VS 2010</li>
+  <li><em>SlowCheetah\SlowCheetahPackage.cs</em> - most of the code for the VS UI support</li>
+  <li><em>SlowCheetah\Resources\Install\SlowCheetah.Transform.targets</em> - MSBuild .targets file</li>
+</ul>
 
 
+<h2>Things to keep in mind during development</h2>
+<p>Here are a few things to keep in mind while developing SlowCheetah.</p>
+<p>When you are bulding the SlowCheetah.sln file there is a target which will be invoked that will automatically copy the required files to <code>%localappdata%\Microsoft\MSBuild\SlowCheetah\v1\</code>, if the files are in use you will receive an error during the build process.</p> In order to resolve that you should close all instances of VS which may have the assembly loaded (<em>i.e. any VS instance which you were testing transforms with</em>). If you are using VS 2012 after you close VS the assemblies may still be locked by msbuild.exe. In this case you may have to kill msbuild.exe using the Task Manager. VS 2012 msbuild.exe is re-used so this behavior is by design from the MSBuild team.
 
-
-
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
         </article>
       </div>
     </div>
