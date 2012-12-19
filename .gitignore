@@ -19,6 +19,7 @@ msbuild.*.log
 .dbshell
 *.private
 UpgradeLog*.xml
+UpgradeLog*.htm
 *.metaproj
 *.metaproj.tmp
 
