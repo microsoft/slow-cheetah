@@ -1,0 +1,44 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+
+  <PropertyGroup>
+    <SourceRoot Condition=" '$(SourceRoot)'=='' ">$(MSBuildProjectDirectory)\</SourceRoot>
+    <OutputRootNoTrailingSlash Condition=" '$(OutputRoot)'=='' ">$(SourceRoot)BuildOutput</OutputRootNoTrailingSlash>
+    <OutputRoot Condition=" '$(OutputRoot)'=='' ">$(OutputRootNoTrailingSlash)\</OutputRoot>
+    <PackageRoot Condition=" '$(PackageRoot)'=='' ">$(OutputRoot)Nugetpkg\</PackageRoot>
+    <NugetExe Condition=" '$(NugetExe)'=='' ">$(SourceRoot)Contrib\NuGet.exe</NugetExe>
+    <NugetLocalRepo Condition=" '$(NugetLocalRepo)'=='' ">C:\Temp\Nuget\LocalRepo\</NugetLocalRepo>
+    <!--<PublishPs1 Condition=" '$(PublishPs1)'=='' ">$(SourceRoot)Powershell\Publish-Interactive.ps1</PublishPs1>
+    <PackageDirectory Condition=" '$(PackageDirectory)'=='' ">_Package</PackageDirectory>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectsToBuild Include="$(SourceRoot)SlowCheetah.sln"/>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)'=='' ">Release</Configuration>
+  </PropertyGroup>
+  
+ <!--
+ Begin targets
+ -->
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      PrepareForBuild;
+      CoreBuild
+    </BuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="Build" DependsOnTargets="$(BuildDependsOn)"/>
+  <Target Name="CoreBuild">
+    <MSBuild Projects="@(ProjectsToBuild)"
+             Properties="Configuration=$(Configuration);OutputPath=$(OutputRoot)"
+             />
+  </Target>
+
+  <Target Name="PrepareForBuild">
+    <MakeDir Directories="$(OutputRoot)"/>
+  </Target>
+  
+</Project>

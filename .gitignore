@@ -9,6 +9,7 @@ Backups/
 TestBackup/
 csx/
 packages/
+BuildOutput/
 
 # Known files to ignore always #
 *.suo
