@@ -47,15 +47,15 @@ function EnsureProjectFileIsWriteable(){
     }
 }
 
-function ComputeRelativePathToAssembly(){
-    $assembly = Get-Item ("{0}\tools\SlowCheetah.Tasks.dll" -f $rootPath)
+function ComputeRelativePathToTargetsFile(){
+    $targets = Get-Item ("{0}\tools\SlowCheetah.Transforms.targets" -f $rootPath)
     $projItem = Get-Item $project.FullName
 
     # we need to compute the relative path to the assembly
     $startLocation = Get-Location
 
     Set-Location $projItem.Directory | Out-Null
-    $relativePath = Resolve-Path -Relative $assembly.FullName
+    $relativePath = Resolve-Path -Relative $targets.FullName
 
     # reset the location
     Set-Location $startLocation | Out-Null
@@ -76,7 +76,7 @@ if(!(Test-Path $projFile)){
 # This is what we want to add to the project
 #  <PropertyGroup Label="SlowCheetah">
 #      <SlowCheetah_EnableImportFromNuGet Condition=" '$(SC_EnableImportFromNuGet)'=='' ">true</SlowCheetah_EnableImportFromNuGet>
-#      <SlowCheetah_NuGetImportPath Condition=" '$(SlowCheetah_NuGetImportPath)'=='' ">insert-full-path</SlowCheetah_NuGetImportPath>
+#      <SlowCheetah_NuGetImportPath Condition=" '$(SlowCheetah_NuGetImportPath)'=='' ">$([System.IO.Path]::GetFullPath( $(Filepath) ))</SlowCheetah_NuGetImportPath>
 #      <SlowCheetahTargets Condition=" '$(SlowCheetah_EnableImportFromNuGet)'=='true' and Exists('$(SlowCheetah_NuGetImportPath)') ">$(SlowCheetah_NuGetImportPath)</SlowCheetahTargets>
 #  </PropertyGroup>
 
@@ -90,8 +90,7 @@ EnsureProjectFileIsWriteable
 # checkout the project file if it's under source control
 # CheckoutProjFileIfUnderScc
 
-$relPathToAssembly = ComputeRelativePathToAssembly
-"Relative path to assembly: {0}" -f $relPathToAssembly | Write-Host -ForegroundColor Red
+$relPathToTargets = ComputeRelativePathToTargetsFile
 
 $projectMSBuild = [Microsoft.Build.Construction.ProjectRootElement]::Open($projFile)
 
@@ -102,7 +101,8 @@ $propertyGroup.Label = "SlowCheetah"
 $propEnableNuGetImport = $propertyGroup.AddProperty('SlowCheetah_EnableImportFromNuGet', 'true');
 $propEnableNuGetImport.Condition = ' ''$(SC_EnableImportFromNuGet)''=='''' ';
 
-$propNuGetImportPath = $propertyGroup.AddProperty('SlowCheetah_NuGetImportPath', "$relPathToAssembly");
+$importStmt = ('$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\{0} ))' -f $relPathToTargets)
+$propNuGetImportPath = $propertyGroup.AddProperty('SlowCheetah_NuGetImportPath', "$importStmt");
 $propNuGetImportPath.Condition = ' ''$(SlowCheetah_NuGetImportPath)''=='''' ';
 
 $propImport = $propertyGroup.AddProperty('SlowCheetahTargets', '$(SlowCheetah_NuGetImportPath)');
