@@ -1,5 +1,7 @@
 param($rootPath, $toolsPath, $package, $project)
 
+"Installing SlowCheetah to project [{0}]" -f $project.FullName | Write-Host
+
 #Only for debugging
 if(!$project){
     $project = (Get-Item C:\Temp\_NET\SlowCheetahMSBuild\SampleProject\SampleProject.csproj)
@@ -17,7 +19,6 @@ function RemoveExistingSlowCheetahPropertyGroups($projectRootElement){
     # if there are any PropertyGroups with a label of "SlowCheetah" they will be removed here
     $pgsToRemove = @()
     foreach($pg in $projectRootElement.PropertyGroups){
-        # "pg label: [{0}]" -f $pg.Label | Write-Host -ForegroundColor Green
         if($pg.Label -and [string]::Compare("SlowCheetah",$pg.Label,$true) -eq 0) {
             # remove this property group
             $pgsToRemove += $pg
@@ -25,12 +26,10 @@ function RemoveExistingSlowCheetahPropertyGroups($projectRootElement){
     }
 
     foreach($pg in $pgsToRemove){
-        # "Removing SlowCheetah Property Group" | Write-Host -ForegroundColor Red
         $pg.Parent.RemoveChild($pg)
     }
 }
 
-"SLOWCHEETAH INSTALLING" | Write-Host
 $projFile = $project.FullName
 
 
@@ -48,8 +47,6 @@ if(!(Test-Path $projFile)){
 #      <SlowCheetahTargets Condition=" '$(SlowCheetah_EnableImportFromNuGet)'=='true' and Exists('$(SlowCheetah_NuGetImportPath)') ">$(SlowCheetah_NuGetImportPath)</SlowCheetahTargets>
 #  </PropertyGroup>
 
-"Updating project [{0}] to import SlowCheetah .targets file" | Write-Host
-
 $projectMSBuild = [Microsoft.Build.Construction.ProjectRootElement]::Open($projFile)
 
 RemoveExistingSlowCheetahPropertyGroups -projectRootElement $projectMSBuild
@@ -66,3 +63,5 @@ $propImport = $propertyGroup.AddProperty('SlowCheetahTargets', '$(SlowCheetah_Nu
 $propImport.Condition = ' ''$(SlowCheetah_EnableImportFromNuGet)''==''true'' and Exists(''$(SlowCheetah_NuGetImportPath)'') ';
 
 $projectMSBuild.Save()
+
+"SlowCheetah has been installed into project [{0}]" -f $project.FullName| Write-Host -ForegroundColor DarkGreen
