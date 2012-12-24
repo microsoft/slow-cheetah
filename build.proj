@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="FullBuild">
 
   <PropertyGroup>
     <SourceRoot Condition=" '$(SourceRoot)'=='' ">$(MSBuildProjectDirectory)\</SourceRoot>
@@ -9,36 +9,151 @@
     <NugetLocalRepo Condition=" '$(NugetLocalRepo)'=='' ">C:\Temp\Nuget\LocalRepo\</NugetLocalRepo>
     <!--<PublishPs1 Condition=" '$(PublishPs1)'=='' ">$(SourceRoot)Powershell\Publish-Interactive.ps1</PublishPs1>
     <PackageDirectory Condition=" '$(PackageDirectory)'=='' ">_Package</PackageDirectory>-->
+    <NuGetSrc Condition=" '$(NuGetSrc)'=='' ">$(SourceRoot)NuGet\</NuGetSrc>
+    <NuGetOutputRootNoTrailingSlash Condition=" '$(NuGetOutputRootNoTrailingSlash)'=='' ">$(OutputRoot)NuGet</NuGetOutputRootNoTrailingSlash>
+    <NuGetOutputRoot Condition=" '$(NuGetOutputRoot)'=='' ">$(NuGetOutputRootNoTrailingSlash)\</NuGetOutputRoot>
+
+    <NuGetLocalRepoFolder Condition=" '$(NuGetLocalRepoFolder)'=='' ">C:\Temp\Nuget\LocalRepo\</NuGetLocalRepoFolder>
+    <EnableCopyToLocalRepo Condition=" '$(EnableCopyToLocalRepo)'=='' ">true</EnableCopyToLocalRepo>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectsToBuild Include="$(SourceRoot)SlowCheetah.sln"/>
+
+    <NuGetPackages Include="SlowCheetah">
+      <SourceFolder>$(SourceRoot)NuGet\</SourceFolder>
+      <DestFolder>$(NuGetOutputRoot)</DestFolder>
+      <NuSpec>$(NuGetOutputRoot)SlowCheetah.nuspec</NuSpec>
+    </NuGetPackages>
   </ItemGroup>
 
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)'=='' ">Release</Configuration>
   </PropertyGroup>
-  
- <!--
- Begin targets
- -->
+
+  <PropertyGroup>
+    <FullBuildDependsOn>
+      $(FullBuildDependsOn);
+      Build;
+      BuildNuGetPackages;
+    </FullBuildDependsOn>
+  </PropertyGroup>
+  <Target Name="FullBuild" DependsOnTargets="$(FullBuildDependsOn)"/>
+
+  <PropertyGroup>
+    <RebuildDependsOn>
+      $(RebuildDependsOn);
+      Clean;
+      FullBuild;
+    </RebuildDependsOn>
+  </PropertyGroup>
+  <Target Name="Rebuild" DependsOnTargets="$(RebuildDependsOn)"/>
+ 
+  <!-- ***************************************************************************************
+ Begin build targets
+ *************************************************************************************** -->
   <PropertyGroup>
     <BuildDependsOn>
       $(BuildDependsOn);
       PrepareForBuild;
-      CoreBuild
+      CoreBuild      
     </BuildDependsOn>
   </PropertyGroup>
 
   <Target Name="Build" DependsOnTargets="$(BuildDependsOn)"/>
   <Target Name="CoreBuild">
     <MSBuild Projects="@(ProjectsToBuild)"
-             Properties="Configuration=$(Configuration);OutputPath=$(OutputRoot)"
-             />
+             Properties="Configuration=$(Configuration);OutputPath=$(OutputRoot)" />
   </Target>
 
   <Target Name="PrepareForBuild">
     <MakeDir Directories="$(OutputRoot)"/>
   </Target>
+
+  <PropertyGroup>
+    <CleanDependsOn>
+      $(CleanDependsOn);
+      CoreClean;
+    </CleanDependsOn>
+  </PropertyGroup>
+  <Target Name="Clean" DependsOnTargets="$(CleanDependsOn)"/>
+  <Target Name="CoreClean">
+    <!-- Just delete the BuildOutput folder -->
+    <ItemGroup>
+      <_FilesToDelete Remove="@(_FilesToDelete)"/>
+      <_FilesToDelete Include="$(OutputRoot)**\*"/>
+    </ItemGroup>
+    <Delete Files="@(_FilesToDelete)"/>
+  </Target>
+  
+  <!-- ***************************************************************************************
+ Begin NuGet targets
+ *************************************************************************************** -->
+  <PropertyGroup>
+    <BuildNuGetPackagesDependsOn>
+      $(BuildNuGetPackagesDependsOn);
+      Build;
+      CoreBuildNuGetPackages;
+      CopyNugetPackagesToLocalRepo;
+    </BuildNuGetPackagesDependsOn>
+  </PropertyGroup>
+  <Target Name="BuildNuGetPackages" DependsOnTargets="$(BuildNuGetPackagesDependsOn)" />
+
+  <PropertyGroup>
+    <CoreBuildNuGetPackagesDependsOn>
+      CopyNuGetSourceFilesToOutput;
+      $(CoreBuildNuGetPackagesDependsOn);
+    </CoreBuildNuGetPackagesDependsOn>
+  </PropertyGroup>
+  <Target Name="CoreBuildNuGetPackages" 
+          Outputs="%(NuGetPackages.Identity)"
+          DependsOnTargets="$(CoreBuildNuGetPackagesDependsOn)" >
+    <PropertyGroup>
+      <_dest>%(NuGetPackages.DestFolder)</_dest>
+      <_NuSpecFullPath>$([System.IO.Path]::GetFullPath(%(NuGetPackages.NuSpec)))</_NuSpecFullPath>
+    </PropertyGroup>
+
+    <!-- nuget pack "C:\...\Package.nuspec" -NoPackageAnalysis -OutputDirectory "C:\...\Output\" -->
+    <PropertyGroup>
+      <_Cmd>"$(NugetExe)" pack "$(_NuSpecFullPath)" -NoPackageAnalysis -OutputDirectory "$(NuGetOutputRootNoTrailingSlash)" </_Cmd>
+    </PropertyGroup>
+
+    <Error Text=".nuspec file not found at [$(_NuSpecFullPath)]"
+           Condition=" !Exists('$(_NuSpecFullPath)')" />
+    <Message Text="Building NuGet package with the command: [$(_Cmd)]" Importance="low" />
+    <Exec Command="$(_Cmd)" />
+
+    <Message Text="ExitCode: $(exitCode)" Importance="high"/>    
+  </Target>
+
+  <Target Name="CopyNuGetSourceFilesToOutput"
+          Inputs="@(NugetSourceFiles)"
+          Outputs="@(NugetSourceFiles->'%(Dest)')">
+    <Copy SourceFiles="@(NugetSourceFiles)"
+          DestinationFiles="@(NugetSourceFiles->'%(Dest)')"/>
+  </Target>
+
+  <Target Name="CopyNugetPackagesToLocalRepo" Condition=" '$(EnableCopyToLocalRepo)'=='true' " DependsOnTargets="CoreBuildNuGetPackages">
+    <ItemGroup>
+      <_NuGetPackagesToCopy Include="$(NuGetOutputRoot)*.nupkg" />
+    </ItemGroup>
+    
+    <Copy SourceFiles="@(_NuGetPackagesToCopy)"
+          DestinationFolder="$(NuGetLocalRepoFolder)"
+          Condition=" '$(NuGetLocalRepoFolder)'!='' and Exists('$(NuGetLocalRepoFolder)')" />
+  </Target>
+  
+  <ItemGroup>
+    <NugetSourceFiles Include="$(NuGetSrc)**\*">
+      <Dest>$(NuGetOutputRoot)%(RecursiveDir)%(Filename)%(Extension)</Dest>
+    </NugetSourceFiles>
+    <NugetSourceFiles Include="$(SourceRoot)\SlowCheetah\Resources\Install\SlowCheetah.Tasks.dll">
+      <Dest>$(NuGetOutputRoot)tools\%(Filename)%(Extension)</Dest>
+    </NugetSourceFiles>
+    <NugetSourceFiles Include="$(SourceRoot)\SlowCheetah\Resources\Install\SlowCheetah.Transforms.targets">
+      <Dest>$(NuGetOutputRoot)tools\%(Filename)%(Extension)</Dest>
+    </NugetSourceFiles>
+  </ItemGroup>
+  
   
 </Project>

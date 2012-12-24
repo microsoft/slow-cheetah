@@ -12,6 +12,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah_UnitTests", "SlowCheetah\SlowCheetah_UnitTests\SlowCheetah_UnitTests.csproj", "{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{57D4810B-E372-489F-B24C-4FCB9DDE0683}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet\SlowCheetah.nuspec = NuGet\SlowCheetah.nuspec
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{8A40F2BB-49F2-425C-857D-976C19A2BC92}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet\tools\Install.ps1 = NuGet\tools\Install.ps1
+		NuGet\tools\SlowCheetah.NuGet.template.proj = NuGet\tools\SlowCheetah.NuGet.template.proj
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SlowCheetah.vsmdi
@@ -50,5 +61,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8A40F2BB-49F2-425C-857D-976C19A2BC92} = {57D4810B-E372-489F-B24C-4FCB9DDE0683}
 	EndGlobalSection
 EndGlobal
