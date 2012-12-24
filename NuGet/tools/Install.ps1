@@ -47,6 +47,9 @@ if(!(Test-Path $projFile)){
 #      <SlowCheetahTargets Condition=" '$(SlowCheetah_EnableImportFromNuGet)'=='true' and Exists('$(SlowCheetah_NuGetImportPath)') ">$(SlowCheetah_NuGetImportPath)</SlowCheetahTargets>
 #  </PropertyGroup>
 
+
+# Before modifying the project save everything so that nothing is lost
+$DTE.ExecuteCommand("File.SaveAll")
 $projectMSBuild = [Microsoft.Build.Construction.ProjectRootElement]::Open($projFile)
 
 RemoveExistingSlowCheetahPropertyGroups -projectRootElement $projectMSBuild
