@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SlowCheetah</id>
-    <version>2.5.2.1-beta</version>
+    <version>2.5.2.2-beta</version>
     <authors>Sayed Ibrahim Hashimi</authors>
     <owners>Sayed Ibrahim Hashimi</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
@@ -10,6 +10,8 @@
     <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>You can use this NuGet package to install the SlowCheetah MSBuild targets/tasks into your solution. This can be useful for command line build scenarios as well as cases where not all your team members have installed the SlowCheetah add in.
+
+    For detailed info on how to use this for Build Servers see http://sedodream.com/2012/12/24/SlowCheetahBuildServerSupportUpdated.aspx.
     </description>
     <!-- <releaseNotes></releaseNotes> -->
     <copyright>Copyright 2012 Sayed Ibrahim Hashimi</copyright>
