@@ -30,6 +30,39 @@ function RemoveExistingSlowCheetahPropertyGroups($projectRootElement){
     }
 }
 
+# TODO: Revisit this later, it was causing some exceptions
+function CheckoutProjFileIfUnderScc(){
+    # http://daltskin.blogspot.com/2012/05/nuget-powershell-and-tfs.html
+    $sourceControl = Get-Interface $project.DTE.SourceControl ([EnvDTE80.SourceControl2])
+    if($sourceControl.IsItemUnderSCC($project.FullName) -and $sourceControl.IsItemCheckedOut($project.FullName)){
+        $sourceControl.CheckOutItem($project.FullName)
+    }
+}
+
+function EnsureProjectFileIsWriteable(){
+    $projItem = Get-ChildItem $project.FullName
+    if($projItem.IsReadOnly) {
+        "The project file is read-only. Please checkout the project file and re-install this package" | Write-Host -ForegroundColor DarkRed
+        throw;
+    }
+}
+
+function ComputeRelativePathToAssembly(){
+    $assembly = Get-Item ("{0}\tools\SlowCheetah.Tasks.dll" -f $rootPath)
+    $projItem = Get-Item $project.FullName
+
+    # we need to compute the relative path to the assembly
+    $startLocation = Get-Location
+
+    Set-Location $projItem.Directory | Out-Null
+    $relativePath = Resolve-Path -Relative $assembly.FullName
+
+    # reset the location
+    Set-Location $startLocation | Out-Null
+
+    return $relativePath
+}
+
 $projFile = $project.FullName
 
 
@@ -48,8 +81,18 @@ if(!(Test-Path $projFile)){
 #  </PropertyGroup>
 
 
+# EnsureProjectFileIsWriteable
 # Before modifying the project save everything so that nothing is lost
 $DTE.ExecuteCommand("File.SaveAll")
+CheckoutProjFileIfUnderScc
+EnsureProjectFileIsWriteable
+
+# checkout the project file if it's under source control
+# CheckoutProjFileIfUnderScc
+
+$relPathToAssembly = ComputeRelativePathToAssembly
+"Relative path to assembly: {0}" -f $relPathToAssembly | Write-Host -ForegroundColor Red
+
 $projectMSBuild = [Microsoft.Build.Construction.ProjectRootElement]::Open($projFile)
 
 RemoveExistingSlowCheetahPropertyGroups -projectRootElement $projectMSBuild
@@ -59,7 +102,7 @@ $propertyGroup.Label = "SlowCheetah"
 $propEnableNuGetImport = $propertyGroup.AddProperty('SlowCheetah_EnableImportFromNuGet', 'true');
 $propEnableNuGetImport.Condition = ' ''$(SC_EnableImportFromNuGet)''=='''' ';
 
-$propNuGetImportPath = $propertyGroup.AddProperty('SlowCheetah_NuGetImportPath', "toolsPath: $toolsPath");
+$propNuGetImportPath = $propertyGroup.AddProperty('SlowCheetah_NuGetImportPath', "$relPathToAssembly");
 $propNuGetImportPath.Condition = ' ''$(SlowCheetah_NuGetImportPath)''=='''' ';
 
 $propImport = $propertyGroup.AddProperty('SlowCheetahTargets', '$(SlowCheetah_NuGetImportPath)');
