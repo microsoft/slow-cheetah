@@ -5,6 +5,12 @@
 	
 	This file is included in the SlowCheetah NuGet package (https://nuget.org/packages/slowcheetah)
 -->
-<Project ToolsVersion="4.0" DefaultTargets="RestorePackages" 
+<Project ToolsVersion="4.0" DefaultTargets="RestorePackages"
 		 xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'" Label="SlowCheetahSolutionDir">..\</SolutionDir>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

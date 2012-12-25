@@ -42,20 +42,19 @@ function CheckoutProjFileIfUnderScc(){
 function EnsureProjectFileIsWriteable(){
     $projItem = Get-ChildItem $project.FullName
     if($projItem.IsReadOnly) {
-        "The project file is read-only. Please checkout the project file and re-install this package" | Write-Host -ForegroundColor DarkRed
+        "The project file is read-only. Please checkout the project file and re-install this package" | Write-Host -ForegroundColor Red
         throw;
     }
 }
 
 function ComputeRelativePathToTargetsFile(){
-    $targets = Get-Item ("{0}\tools\SlowCheetah.Transforms.targets" -f $rootPath)
-    $projItem = Get-Item $project.FullName
-
-    # we need to compute the relative path to the assembly
+    param($startPath,$targetPath)
+    
+    # we need to compute the relative path
     $startLocation = Get-Location
 
-    Set-Location $projItem.Directory | Out-Null
-    $relativePath = Resolve-Path -Relative $targets.FullName
+    Set-Location $startPath.Directory | Out-Null
+    $relativePath = Resolve-Path -Relative $targetPath.FullName
 
     # reset the location
     Set-Location $startLocation | Out-Null
@@ -87,10 +86,59 @@ $DTE.ExecuteCommand("File.SaveAll")
 CheckoutProjFileIfUnderScc
 EnsureProjectFileIsWriteable
 
-# checkout the project file if it's under source control
-# CheckoutProjFileIfUnderScc
+function GetSolutionDirFromProj{
+    param($msbuildProject)
 
-$relPathToTargets = ComputeRelativePathToTargetsFile
+    if(!$msbuildProject){
+        throw "msbuildProject is null"
+    }
+
+    $result = $null
+    $solutionElement = $null
+    foreach($pg in $msbuildProject.PropertyGroups){
+        foreach($prop in $pg.Properties){
+            if([string]::Compare("SolutionDir",$prop.Name,$true) -eq 0){
+                $solutionElement = $prop
+                break
+            }
+        }
+    }
+
+    if($solutionElement){
+        $result = $solutionElement.Value
+    }
+
+    return $result
+}
+
+# we need to update the packageRestore.proj file to have the correct value for SolutionDir
+function UpdatePackageRestoreSolutionDir (){
+    param($pkgRestorePath, $solDirValue)
+    if(!(Test-Path $pkgRestorePath)){
+        throw ("pkgRestore file not found at {0}" -f $pkgRestorePath)
+    }
+
+    $solDirElement = $null
+    $root = [Microsoft.Build.Construction.ProjectRootElement]::Open($pkgRestorePath)
+    foreach($pg in $root.PropertyGroups){
+        foreach($prop in $pg.Properties){
+            if([string]::Compare("SlowCheetahSolutionDir",$prop.Label,$true) -eq 0){
+                $solDirElement = $prop
+                break
+            }
+        }
+    }
+    
+    if($solDirElement){
+        $solDirElement.Value = $solDirValue
+
+        $root.Save()
+
+    }
+}
+
+# Update the Project file to import the .targets file
+$relPathToTargets = ComputeRelativePathToTargetsFile -startPath ($projItem = Get-Item $project.FullName) -targetPath (Get-Item ("{0}\tools\SlowCheetah.Transforms.targets" -f $rootPath))
 
 $projectMSBuild = [Microsoft.Build.Construction.ProjectRootElement]::Open($projFile)
 
@@ -109,6 +157,21 @@ $propImport = $propertyGroup.AddProperty('SlowCheetahTargets', '$(SlowCheetah_Nu
 $propImport.Condition = ' ''$(SlowCheetah_EnableImportFromNuGet)''==''true'' and Exists(''$(SlowCheetah_NuGetImportPath)'') ';
 
 $projectMSBuild.Save()
+
+# now update the packageRestore.proj file with the correct path for SolutionDir
+$solnDirFromProj = GetSolutionDirFromProj -msbuildProject $projectMSBuild
+if($solnDirFromProj) {
+    $pkgRestorePath = (Join-Path (get-item $project.FullName).Directory 'packageRestore.proj')
+    UpdatePackageRestoreSolutionDir -pkgRestorePath $pkgRestorePath -solDirValue $solnDirFromProj
+}
+else{
+    $msg = @"
+SolutionDir property not found in project [{0}]. 
+Have you enabled NuGet Package Restore? 
+If not you may need to enable it and to enable it and re-install this package
+"@ 
+    $msg -f $project.Name | Write-Host -ForegroundColor Red
+}
 
 "SlowCheetah has been installed into project [{0}]" -f $project.FullName| Write-Host -ForegroundColor DarkGreen
 "`nFor more info how to enable SlowCheetah on build servers see http://sedodream.com/2012/12/24/SlowCheetahBuildServerSupportUpdated.aspx" | Write-Host -ForegroundColor DarkGreen
