@@ -111,3 +111,4 @@ $propImport.Condition = ' ''$(SlowCheetah_EnableImportFromNuGet)''==''true'' and
 $projectMSBuild.Save()
 
 "SlowCheetah has been installed into project [{0}]" -f $project.FullName| Write-Host -ForegroundColor DarkGreen
+"`nFor more info how to enable SlowCheetah on build servers see http://sedodream.com/2012/12/24/SlowCheetahBuildServerSupportUpdated.aspx" | Write-Host -ForegroundColor DarkGreen
