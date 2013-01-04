@@ -80,7 +80,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       <_TmpLinkFiles Remove="@(_TmpLinkFiles)" />
       <_TmpLinkFiles Include="@(_FilesToTransformNotAppConfig->'%(Link)')" />
     </ItemGroup>
-
+    
     <!-- This will handle non Link files and the second one for link files -->
     <MakeDir Directories="@(_FilesToTransformNotAppConfig->'$(OutDir)%(RelativeDir)')"
              Condition="Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)')
@@ -111,7 +111,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
                   Condition="Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)')
                               and '%(Link)'!='' " />
   </Target>
-
+  
   <Target Name="DiscoverFilesToTransform">
     <!-- 
     This will look through items list: None & Content for those
@@ -321,24 +321,39 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
   </PropertyGroup>
 
   <Target Name="AfterBuiltProjectOutputGroup" DependsOnTargets="TransformAllFiles">
+    
     <ItemGroup>
       <_TmpAppConfig Include="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" />
     </ItemGroup>
+
+    <!-- We need to get the full path to the files included in the Identiy metadata.
+         This is required for Worker Roles. The target CopyWorkerRoleFiles attempts to copy but
+         does not use the FullPath so it will not locate the files otherwise.
+         See https://github.com/sayedihashimi/slow-cheetah/issues/44.
+    -->
+    <ItemGroup>
+      <_FilesToTransformNotAppConfig>
+        <FullPathToItem Condition=" '%(Link)'=='' ">$([System.IO.Path]::GetFullPath( $(OutDir)%(RelativeDir)%(Filename)%(Extension) ))</FullPathToItem>
+        <FullPathToItem Condition=" '%(Link)'!='' ">$([System.IO.Path]::GetFullPath( $(OutDir)%(Link) ))</FullPathToItem>
+      </_FilesToTransformNotAppConfig>      
+    </ItemGroup>
+    
     <ItemGroup>
       <BuiltProjectOutputGroupOutput Include="@(_TmpAppConfig->'%(FullPath)')">
         <!-- For compatibility with 2.0 -->
         <OriginalItemSpec>$(AppConfig)</OriginalItemSpec>
       </BuiltProjectOutputGroupOutput>
 
-      <BuiltProjectOutputGroupOutput Include="@(_FilesToTransformNotAppConfig->'$(OutDir)%(RelativeDir)%(Filename)%(Extension)')"
+      <BuiltProjectOutputGroupOutput Include="@(_FilesToTransformNotAppConfig->'%(FullPathToItem)')"
                                      Condition=" '%(_FilesToTransformNotAppConfig.Link)'==''">
         <OriginalItemSpec>@(_FilesToTransformNotAppConfig->'$(OutDir)%(RelativeDir)%(Filename)%(Extension)')</OriginalItemSpec>
+        <TargetPath>@(_FilesToTransformNotAppConfig->'%(RelativeDir)%(Filename)%(Extension)')</TargetPath>
       </BuiltProjectOutputGroupOutput>
 
-      <BuiltProjectOutputGroupOutput Include="@(_FilesToTransformNotAppConfig->'$(OutDir)%(Link)')"
+      <BuiltProjectOutputGroupOutput Include="@(_FilesToTransformNotAppConfig->'%(FullPathToItem)')"
                                      Condition=" '%(_FilesToTransformNotAppConfig.Link)'!=''">
         <OriginalItemSpec>@(_FilesToTransformNotAppConfig->'$(OutDir)%(Link)')</OriginalItemSpec>
       </BuiltProjectOutputGroupOutput>
-    </ItemGroup>
-  </Target>
+    </ItemGroup>    
+  </Target>  
 </Project>
