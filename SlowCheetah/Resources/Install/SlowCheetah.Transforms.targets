@@ -353,8 +353,11 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       <BuiltProjectOutputGroupOutput Include="@(_FilesToTransformNotAppConfig->'%(FullPathToItem)')"
                                      Condition=" '%(_FilesToTransformNotAppConfig.Link)'!=''">
         <OriginalItemSpec>@(_FilesToTransformNotAppConfig->'$(OutDir)%(Link)')</OriginalItemSpec>
-        <TargetPath>@(_FilesToTransformNotAppConfig->'$(OutDir)%(Link)')</TargetPath>
+        <TargetPath>@(_FilesToTransformNotAppConfig->'%(Link)')</TargetPath>
       </BuiltProjectOutputGroupOutput>
-    </ItemGroup>    
+    </ItemGroup>
+    
+    <!--<Message Text="OutDir: $(Outdir)" Importance="high"/>
+    <Message Text="BuiltProjectOutputGroupOutput: [%(BuiltProjectOutputGroupOutput.Identity),%(BuiltProjectOutputGroupOutput.TargetPath)]" Importance="high"/>-->
   </Target>  
 </Project>
