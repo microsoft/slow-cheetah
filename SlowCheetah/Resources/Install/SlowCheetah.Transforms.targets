@@ -80,7 +80,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       <_TmpLinkFiles Remove="@(_TmpLinkFiles)" />
       <_TmpLinkFiles Include="@(_FilesToTransformNotAppConfig->'%(Link)')" />
     </ItemGroup>
-    
+
     <!-- This will handle non Link files and the second one for link files -->
     <MakeDir Directories="@(_FilesToTransformNotAppConfig->'$(OutDir)%(RelativeDir)')"
              Condition="Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)')
@@ -111,7 +111,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
                   Condition="Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)')
                               and '%(Link)'!='' " />
   </Target>
-  
+
   <Target Name="DiscoverFilesToTransform">
     <!-- 
     This will look through items list: None & Content for those
@@ -267,22 +267,22 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
     </PropertyGroup>
     <PropertyGroup>
       <_OldAppConfigWithTargetPath>%(AppConfigWithTargetPath.TargetPath)</_OldAppConfigWithTargetPath>
-      <_SCNewAppConfigFile>@(AppConfigWithTargetPath->'$(IntermediateOutputPath)SlowCheetah\%(Filename)%(Extension)')</_SCNewAppConfigFile>
+      <!--<_SCNewAppConfigFile>@(AppConfigWithTargetPath->'$(IntermediateOutputPath)SlowCheetah\%(Filename)%(Extension)')</_SCNewAppConfigFile>-->
     </PropertyGroup>
 
     <Copy SourceFiles="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" DestinationFiles="$(_SCNewAppConfigFile)" Condition="'$(_SlowCheetahAppConfigTransformExists)'=='true'" />
     <ItemGroup Condition="'$(_SlowCheetahAppConfigTransformExists)'=='true'">
       <AppConfigWithTargetPath Remove="@(AppConfigWithTargetPath)" />
       <AppConfigWithTargetPath Include="$(_SCNewAppConfigFile)">
-        <!--<TargetPath>$(_OldAppConfigWithTargetPath)</TargetPath>-->
-        <TargetPath>$(_SCNewAppConfigFile)</TargetPath>
+        <TargetPath>$(_OldAppConfigWithTargetPath)</TargetPath>
+        <!--<TargetPath>$(_SCNewAppConfigFile)</TargetPath>-->
       </AppConfigWithTargetPath>
     </ItemGroup>
 
     <Message Text="Updated app.config to point to transformed file" />
     <Message Text="    AppConfigWithTargetPath: @(AppConfigWithTargetPath)"/>
     <Message Text="    AppConfigWithTargetPath.TargetPath: @(AppConfigWithTargetPath->'%(TargetPath)')"/>
-    
+
   </Target>
 
   <Target Name="SlowCheetah_ClickOnceLooseFileUpdate" AfterTargets="_DeploymentComputeClickOnceManifestInfo" DependsOnTargets="DiscoverFilesToTransform">
@@ -321,7 +321,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
   </PropertyGroup>
 
   <Target Name="AfterBuiltProjectOutputGroup" DependsOnTargets="TransformAllFiles">
-    
+
     <ItemGroup>
       <_TmpAppConfig Include="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" />
     </ItemGroup>
@@ -335,9 +335,9 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
       <_FilesToTransformNotAppConfig>
         <FullPathToItem Condition=" '%(Link)'=='' ">$([System.IO.Path]::GetFullPath( $(OutDir)%(RelativeDir)%(Filename)%(Extension) ))</FullPathToItem>
         <FullPathToItem Condition=" '%(Link)'!='' ">$([System.IO.Path]::GetFullPath( $(OutDir)%(Link) ))</FullPathToItem>
-      </_FilesToTransformNotAppConfig>      
+      </_FilesToTransformNotAppConfig>
     </ItemGroup>
-    
+
     <ItemGroup>
       <BuiltProjectOutputGroupOutput Include="@(_TmpAppConfig->'%(FullPath)')">
         <!-- For compatibility with 2.0 -->
@@ -356,8 +356,8 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
         <TargetPath>@(_FilesToTransformNotAppConfig->'%(Link)')</TargetPath>
       </BuiltProjectOutputGroupOutput>
     </ItemGroup>
-    
+
     <!--<Message Text="OutDir: $(Outdir)" Importance="high"/>
     <Message Text="BuiltProjectOutputGroupOutput: [%(BuiltProjectOutputGroupOutput.Identity),%(BuiltProjectOutputGroupOutput.TargetPath)]" Importance="high"/>-->
-  </Target>  
+  </Target>
 </Project>
