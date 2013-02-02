@@ -26,7 +26,7 @@
     <Utf8Output>true</Utf8Output>
     <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>\\IBRAHIM-P55\share\publish\01\</PublishUrl>
+    <PublishUrl>\\$(computername)\share\publish\01\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
