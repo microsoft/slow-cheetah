@@ -6,13 +6,10 @@
       <Value Profile="(Default)">Microsoft\MSBuild\SlowCheetah\v1\</Value>
     </Setting>
     <Setting Name="TransformAssemblyPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">SlowCheetah.Tasks.dll</Value>
+      <Value Profile="(Default)">SlowCheetah.Xdt.dll</Value>
     </Setting>
     <Setting Name="InstallUserFolder" Type="System.String" Scope="Application">
       <Value Profile="(Default)">%LOCALAPPDATA%</Value>
-    </Setting>
-    <Setting Name="TransformXmlTaskName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">SlowCheetah.Tasks.TransformXml</Value>
     </Setting>
     <Setting Name="InstallUserFolderMSBuild" Type="System.String" Scope="Application">
       <Value Profile="(Default)">$(LOCALAPPDATA)</Value>
@@ -25,6 +22,9 @@
     </Setting>
     <Setting Name="ExcludedFileExtensions" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.htm;.html;.cs.vb;.txt;.jpg;.png;.ico;.aspx;.snk;.dll;.pdb;.settings</Value>
+    </Setting>
+    <Setting Name="TransformXmlTaskName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SlowCheetah.Xdt.TransformXml</Value>
     </Setting>
   </Settings>
 </SettingsFile>

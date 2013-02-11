@@ -13,8 +13,8 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
 ***********************************************************************************************
 -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <UsingTask TaskName="SlowCheetah.Tasks.TransformXml"
-         AssemblyFile="SlowCheetah.Tasks.dll"/>
+  <UsingTask TaskName="SlowCheetah.Xdt.TransformXml"
+         AssemblyFile="SlowCheetah.Xdt.dll"/>
 
   <ItemDefinitionGroup>
     <!-- Set the default value to false here -->
@@ -89,7 +89,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
     <MakeDir Directories="@(_TmpLinkFiles->'$(OutDir)%(RelativeDir)')"
                  Condition=" '%(Link)'!='' " />
 
-    <SlowCheetah.Tasks.TransformXml Source="@(_AppConfigToTransform->'%(FullPath)')"
+    <SlowCheetah.Xdt.TransformXml Source="@(_AppConfigToTransform->'%(FullPath)')"
                   Transform="%(RelativeDir)%(Filename).$(Configuration)%(Extension)"
                   Destination="$(_AppConfigDest)"
                   Condition=" Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)') " />
@@ -98,14 +98,14 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
     For link files this will write the transformed file into the 
     incorrect location so let's handle those seperately in the transformation underneath this one
     -->
-    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
+    <SlowCheetah.Xdt.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
                   Transform="%(RelativeDir)%(Filename).$(Configuration)%(Extension)"
                   Destination="@(_FilesToTransformNotAppConfig->'$(OutDir)%(RelativeDir)%(Filename)%(Extension)')"
                   Condition=" Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)')
                               and '%(Link)'=='' " />
 
     <!-- Transform the Link files -->
-    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
+    <SlowCheetah.Xdt.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
                   Transform="%(RelativeDir)%(Filename).$(Configuration)%(Extension)"
                   Destination="@(_FilesToTransformNotAppConfig->'$(OutDir)%(Link)')"
                   Condition="Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)')
@@ -211,7 +211,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
 
     <!--Make sure that we do not do this for web.config-->
     <!-- This usage will skip Link files, the task usage below will handle Link files -->
-    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
+    <SlowCheetah.Xdt.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
               Transform="%(RelativeDir)%(Filename).$(Configuration)%(Extension)"
               Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(RelativeDir)%(Filename)%(Extension)')"
               Condition=" '%(Filename)%(Extension)' != 'web.config' and
@@ -219,7 +219,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
                           and '%(Link)'=='' " />
 
     <!-- Transform the Link files, they always go into the root directory -->
-    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
+    <SlowCheetah.Xdt.TransformXml Source="@(_FilesToTransformNotAppConfig->'%(FullPath)')"
               Transform="%(RelativeDir)%(Filename).$(Configuration)%(Extension)"
               Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(Link)')"
               Condition=" '%(Filename)%(Extension)' != 'web.config' and
@@ -237,7 +237,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
 
     <!--Make sure that we do not do this for web.config-->
     <!-- This usage will skip Link files, the task usage below will handle Link files -->
-    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(RelativeDir)%(Filename)%(Extension)')"
+    <SlowCheetah.Xdt.TransformXml Source="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(RelativeDir)%(Filename)%(Extension)')"
               Transform="%(RelativeDir)%(Filename).$(_WapPubProfile)%(Extension)"
               Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(RelativeDir)%(Filename)%(Extension)')"
               Condition=" '%(Filename)%(Extension)' != 'web.config' and
@@ -245,7 +245,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
                           and '%(Link)'=='' and '$(_WapPubProfile)'!='' " />
 
     <!-- Transform the Link files, they always go into the root directory -->
-    <SlowCheetah.Tasks.TransformXml Source="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(Link)')"
+    <SlowCheetah.Xdt.TransformXml Source="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(Link)')"
               Transform="%(RelativeDir)%(Filename).$(_WapPubProfile)%(Extension)"
               Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(Link)')"
               Condition=" '%(Filename)%(Extension)' != 'web.config' and

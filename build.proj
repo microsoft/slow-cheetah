@@ -147,13 +147,14 @@
     <NugetSourceFiles Include="$(NuGetSrc)**\*">
       <Dest>$(NuGetOutputRoot)%(RecursiveDir)%(Filename)%(Extension)</Dest>
     </NugetSourceFiles>
-    <NugetSourceFiles Include="$(SourceRoot)\SlowCheetah\Resources\Install\SlowCheetah.Tasks.dll">
+    <NugetSourceFiles Include="$(SourceRoot)\SlowCheetah\Resources\Install\Microsoft.Web.XmlTransform.dll">
+      <Dest>$(NuGetOutputRoot)tools\%(Filename)%(Extension)</Dest>
+    </NugetSourceFiles>
+    <NugetSourceFiles Include="$(SourceRoot)\SlowCheetah\Resources\Install\SlowCheetah.Xdt.dll">
       <Dest>$(NuGetOutputRoot)tools\%(Filename)%(Extension)</Dest>
     </NugetSourceFiles>
     <NugetSourceFiles Include="$(SourceRoot)\SlowCheetah\Resources\Install\SlowCheetah.Transforms.targets">
       <Dest>$(NuGetOutputRoot)tools\%(Filename)%(Extension)</Dest>
     </NugetSourceFiles>
-  </ItemGroup>
-  
-  
+  </ItemGroup>    
 </Project>

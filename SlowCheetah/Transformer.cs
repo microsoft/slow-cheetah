@@ -7,6 +7,9 @@
     using SlowCheetah.VisualStudio.Properties;
     using System.Reflection;
     using SlowCheetah.VisualStudio.Exceptions;
+    using Microsoft.Build.Framework;
+    using Microsoft.Build.Utilities;
+    using Microsoft.Web.XmlTransform;
 
     public class Transformer : ITransformer {
         public void Transform(string source, string transform, string destination) {
@@ -21,39 +24,20 @@
                 throw new FileNotFoundException("Transform file not found", transform);
             }
 
-            // get the path to the assmebly which has the TransformXml task inside of it
-            // Settings.Default.InstallPath; => MSBuild\SlowCheetah\v1\
-            // Settings.Default.TransformAssemblyPath; => SlowCheetah.Tasks.dll
-            // System.Environment.ExpandEnvironmentVariables(Consts.PublicFolder)
+            using (XmlTransformableDocument document = new XmlTransformableDocument())
+            using (XmlTransformation transformation = new XmlTransformation(transform)) {
+                document.PreserveWhitespace = true;
+                document.Load(source);
 
-            string assemblyPath = Path.Combine(
-                this.InstallRoot,
-                Settings.Default.TransformAssemblyPath);
+                var success = transformation.Apply(document);
+                if (!success) {
+                    string message = string.Format(
+                        "There was an unknown error trying while trying to apply the transform. Source file='{0}',Transform='{1}', Destination='{2}'",
+                        source,transform,destination);
+                    throw new TransformFailedException(message);
+                }
 
-
-
-            if (!File.Exists(assemblyPath)) {
-                throw new FileNotFoundException("Transform assembly not found", assemblyPath);
-            }
-
-            // load the assembly
-            Assembly assembly = Assembly.LoadFile(assemblyPath);
-            // find the class
-            Type type = assembly.GetType(Settings.Default.TransformXmlTaskName, true, true);
-
-            // create a new instance of it
-            dynamic transformTask = Activator.CreateInstance(type);
-            // set the properties on it
-            transformTask.BuildEngine = new MockBuildEngine();
-            transformTask.Source = source;
-            transformTask.Transform = transform;
-            transformTask.Destination = destination;
-
-            bool succeeded = transformTask.Execute();
-
-            if (!succeeded) {
-                string message = string.Format("There was an error processing the transformation.");
-                throw new TransformFailedException(message);
+                document.Save(destination);
             }
         }
 

@@ -20,7 +20,8 @@
             };
             expected.FilesToInstall.Add(new InstallFile (@"Install-Manifest.xml","Install.Install-Manifest.xml",FileType.Text));
             expected.FilesToInstall.Add(new InstallFile(@"SlowCheetah.Transforms.targets", "Install.SlowCheetah.Transforms.targets", FileType.Text));
-            expected.FilesToInstall.Add(new InstallFile(@"SlowCheetah.Tasks.dll", "Install.SlowCheetah.Tasks.dll", FileType.Binary));
+            expected.FilesToInstall.Add(new InstallFile(@"Microsoft.Web.XmlTransform.dll", "Install.Microsoft.Web.XmlTransform.dll", FileType.Binary));
+            expected.FilesToInstall.Add(new InstallFile(@"SlowCheetah.Xdt.dll", "Install.SlowCheetah.Xdt.dll", FileType.Binary));
 
             CustomAssert.AssertAreEqual(expected, settings);
         }
@@ -35,7 +36,8 @@
             };
             expected.FilesToInstall.Add(new InstallFile(@"Install-Manifest.xml", "Install.Install-Manifest.xml", FileType.Text));
             expected.FilesToInstall.Add(new InstallFile(@"SlowCheetah.Transforms.targets", "Install.SlowCheetah.Transforms.targets", FileType.Text));
-            expected.FilesToInstall.Add(new InstallFile(@"SlowCheetah.Tasks.dll", "Install.SlowCheetah.Tasks.dll", FileType.Binary));
+            expected.FilesToInstall.Add(new InstallFile(@"Microsoft.Web.XmlTransform.dll", "Install.Microsoft.Web.XmlTransform.dll", FileType.Binary));
+            expected.FilesToInstall.Add(new InstallFile(@"SlowCheetah.Xdt.dll", "Install.SlowCheetah.Xdt.dll", FileType.Binary));
 
             CustomAssert.AssertAreEqual(expected, settings);
         }
@@ -50,7 +52,8 @@
             };
             expected.FilesToInstall.Add(new InstallFile(@"Install-Manifest.xml", "Install.Install-Manifest.xml", FileType.Text));
             expected.FilesToInstall.Add(new InstallFile(@"SlowCheetah.Transforms.targets", "Install.SlowCheetah.Transforms.targets", FileType.Text));
-            expected.FilesToInstall.Add(new InstallFile(@"SlowCheetah.Tasks.dll", "Install.SlowCheetah.Tasks.dll", FileType.Binary));
+            expected.FilesToInstall.Add(new InstallFile(@"Microsoft.Web.XmlTransform.dll", "Install.Microsoft.Web.XmlTransform.dll", FileType.Binary));
+            expected.FilesToInstall.Add(new InstallFile(@"SlowCheetah.Xdt.dll", "Install.SlowCheetah.Xdt.dll", FileType.Binary));
 
             CustomAssert.AssertAreEqual(expected, settings);
         }
@@ -111,7 +114,8 @@
   <FilesToInstall>
     <File path=""Install-Manifest.xml"" name=""Install.Install-Manifest.xml"" type=""Text""/>
     <File path=""SlowCheetah.Transforms.targets"" name=""Install.SlowCheetah.Transforms.targets"" type=""Text""/>
-    <File path=""SlowCheetah.Tasks.dll"" name=""Install.SlowCheetah.Tasks.dll"" type=""Binary""/>
+    <File path=""Microsoft.Web.XmlTransform.dll"" name=""Install.Microsoft.Web.XmlTransform.dll"" type=""Binary""/>
+    <File path=""SlowCheetah.Xdt.dll"" name=""Install.SlowCheetah.Xdt.dll"" type=""Binary""/>
   </FilesToInstall>
 
 </InstallManifest>";
@@ -123,7 +127,8 @@
   <FilesToInstall>
     <File path=""Install-Manifest.xml"" name=""Install.Install-Manifest.xml"" type=""Text""/>
     <File path=""SlowCheetah.Transforms.targets"" name=""Install.SlowCheetah.Transforms.targets"" type=""Text""/>
-    <File path=""SlowCheetah.Tasks.dll"" name=""Install.SlowCheetah.Tasks.dll"" type=""Binary""/>
+    <File path=""Microsoft.Web.XmlTransform.dll"" name=""Install.Microsoft.Web.XmlTransform.dll"" type=""Binary""/>
+    <File path=""SlowCheetah.Xdt.dll"" name=""Install.SlowCheetah.Xdt.dll"" type=""Binary""/>
   </FilesToInstall>
   
 </InstallManifest>";
@@ -135,7 +140,8 @@
   <FilesToInstall>
     <File path=""Install-Manifest.xml"" name=""Install.Install-Manifest.xml"" type=""Text""/>
     <File path=""SlowCheetah.Transforms.targets"" name=""Install.SlowCheetah.Transforms.targets"" type=""Text""/>
-    <File path=""SlowCheetah.Tasks.dll"" name=""Install.SlowCheetah.Tasks.dll"" type=""Binary""/>
+    <File path=""Microsoft.Web.XmlTransform.dll"" name=""Install.Microsoft.Web.XmlTransform.dll"" type=""Binary""/>
+    <File path=""SlowCheetah.Xdt.dll"" name=""Install.SlowCheetah.Xdt.dll"" type=""Binary""/>
   </FilesToInstall>
   
 </InstallManifest>";

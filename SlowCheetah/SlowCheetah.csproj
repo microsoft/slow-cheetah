@@ -63,9 +63,11 @@
       <Private>false</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
-    <Reference Include="SlowCheetah.Tasks, Version=1.0.10727.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Resources\Install\SlowCheetah.Tasks.dll</HintPath>
+    <Reference Include="Microsoft.Web.XmlTransform">
+      <HintPath>..\packages\Microsoft.Web.Xdt.1.0.0-alpha\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
+    </Reference>
+    <Reference Include="SlowCheetah.Xdt">
+      <HintPath>..\packages\SlowCheetah.Xdt.1.1.1-beta\lib\SlowCheetah.Xdt.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -182,6 +184,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -191,7 +194,6 @@
     </None>
     <Resource Include="Resources\Images_32bit.png" />
     <None Include="Resources\TransformContents.xml" />
-    <EmbeddedResource Include="Resources\Install\SlowCheetah.Tasks.dll" />
     <Content Include="Cheetah-120.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -207,6 +209,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <EmbeddedResource Include="Resources\Install\Microsoft.Web.XmlTransform.dll" />
+    <EmbeddedResource Include="Resources\Install\SlowCheetah.Xdt.dll" />
     <Content Include="XDTSupportedExtensions.pkgdef">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -245,7 +249,7 @@
   </PropertyGroup>
   <Target Name="CopyOutputToOtherFoleders" AfterTargets="AfterBuild">
     <ItemGroup>
-      <_SCInstallFilesToCopy Include="$(TargetPath);$(MSBuildThisFileDirectory)\Resources\Install\SlowCheetah.Tasks.dll;$(SC_InstallFolder)*.xml;$(SC_InstallFolder)*.targets" />
+      <_SCInstallFilesToCopy Include="$(TargetPath);$(MSBuildThisFileDirectory)\Resources\Install\*.dll;$(SC_InstallFolder)*.xml;$(SC_InstallFolder)*.targets" />
     </ItemGroup>
     <Copy SourceFiles="@(_SCInstallFilesToCopy)" DestinationFiles="@(_SCInstallFilesToCopy->'$(LOCALAPPDATA)\Microsoft\MSBuild\SlowCheetah\v1\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>

@@ -10,7 +10,6 @@
         internal static void AssertAreEqual(IInstallSettings expected, IInstallSettings actual) {
             Assert.IsNotNull(expected);
             Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.Version, actual.Version);
             Assert.IsNotNull(expected.FilesToInstall);
             Assert.AreEqual(expected.FilesToInstall.Count, actual.FilesToInstall.Count);
 

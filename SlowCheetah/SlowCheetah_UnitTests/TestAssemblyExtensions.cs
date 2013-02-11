@@ -28,7 +28,7 @@
 
         private static class Consts {
             public static string ResxInstalManifestName = @"SlowCheetah_UnitTests.Resources.Install.Install-Manifest.xml";
-            public static string ResxWebPubDllName = @"SlowCheetah_UnitTests.Resources.Install.SlowCheetah.Tasks.dll";
+            public static string ResxWebPubDllName = @"SlowCheetah_UnitTests.Resources.Install.SlowCheetah.Xdt.dll";
             public static string ResxTransformsTargetsName = @"SlowCheetah_UnitTests.Resources.Install.SlowCheetah.Transforms.targets";
 
         }
