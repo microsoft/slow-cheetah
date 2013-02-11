@@ -26,5 +26,8 @@
     <Setting Name="TransformXmlTaskName" Type="System.String" Scope="Application">
       <Value Profile="(Default)">SlowCheetah.Xdt.TransformXml</Value>
     </Setting>
+    <Setting Name="SlowCheetahNugetPkgName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SlowCheetah</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

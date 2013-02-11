@@ -12,7 +12,7 @@
 
         [TestMethod]
         public void TestTransform01() {
-            string sourceFile = this.WriteTextToTempFile(Consts.Source01);
+           string sourceFile = this.WriteTextToTempFile(Consts.Source01);
             string transformFile = this.WriteTextToTempFile(Consts.Transform01);
             string expectedResultFile = this.WriteTextToTempFile(Consts.Result01);
 

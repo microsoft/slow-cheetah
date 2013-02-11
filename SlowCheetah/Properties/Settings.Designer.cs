@@ -94,5 +94,17 @@ namespace SlowCheetah.VisualStudio.Properties {
                 return ((string)(this["TransformXmlTaskName"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("SlowCheetah")]
+        public string SlowCheetahNugetPkgName {
+            get {
+                return ((string)(this["SlowCheetahNugetPkgName"]));
+            }
+            set {
+                this["SlowCheetahNugetPkgName"] = value;
+            }
+        }
     }
 }
