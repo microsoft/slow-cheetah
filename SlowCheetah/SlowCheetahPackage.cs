@@ -245,11 +245,13 @@ namespace SlowCheetah.VisualStudio
                 string pattern = @"web\..+\.config";
                 string filepath;
                 buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out filepath);
-                System.IO.FileInfo fi = new System.IO.FileInfo(filepath);               
-                System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(
-                    pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                if (regex.IsMatch(fi.Name)) {
-                    isItemTransformFile = true;
+                if (!string.IsNullOrEmpty(filepath)) {
+                    System.IO.FileInfo fi = new System.IO.FileInfo(filepath);
+                    System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(
+                        pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                    if (regex.IsMatch(fi.Name)) {
+                        isItemTransformFile = true;
+                    }
                 }
             }
 
