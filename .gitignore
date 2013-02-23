@@ -9,6 +9,8 @@ Backups/
 TestBackup/
 csx/
 packages/
+BuildOutput/
+SlowCheetah.Samples/
 
 # Known files to ignore always #
 *.suo
@@ -19,6 +21,8 @@ msbuild.*.log
 .dbshell
 *.private
 UpgradeLog*.xml
+UpgradeLog*.htm
+
 *.metaproj
 *.metaproj.tmp
 
