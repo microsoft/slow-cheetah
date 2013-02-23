@@ -1031,8 +1031,12 @@ namespace SlowCheetah.VisualStudio
                 var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
                 IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();
                 if (!installerServices.IsPackageInstalled(project, pkgName)) {
+                    this.GetDTE().StatusBar.Text = "Installing SlowCheetah NuGet pacakge, this may take a few seconds";
+
                     IVsPackageInstaller installer = (IVsPackageInstaller)componentModel.GetService<IVsPackageInstaller>();
                     installer.InstallPackage("All", project, pkgName, (System.Version)null, false);                  
+
+                    this.GetDTE().StatusBar.Text = "Finished installing SlowCheetah NuGet package";
                 }
 
             }
