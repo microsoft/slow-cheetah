@@ -9,7 +9,7 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
 
 This file defines the steps in order to transform XML files.
 
-Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
+Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserved.
 ***********************************************************************************************
 -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -157,6 +157,13 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
   <!-- ***********************************************************
   WAP related items below
   ****************************************************************-->
+  <ItemGroup>
+    <!-- This will exclude packageRestore.proj from the web publish process -->
+    <ExcludeFromPackageFiles Include="packageRestore.proj">
+      <FromTarget>Project</FromTarget>
+    </ExcludeFromPackageFiles>
+  </ItemGroup>
+  
   <PropertyGroup Condition=" '$(IsWap)' == 'true' ">
     <OnAfterPipelinePreDeployCopyAllFilesToOneFolder>
       $(OnAfterPipelinePreDeployCopyAllFilesToOneFolder);
