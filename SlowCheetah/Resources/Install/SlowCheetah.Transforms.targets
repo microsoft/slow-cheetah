@@ -89,10 +89,17 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <MakeDir Directories="@(_TmpLinkFiles->'$(OutDir)%(RelativeDir)')"
                  Condition=" '%(Link)'!='' " />
 
-    <SlowCheetah.Xdt.TransformXml Source="@(_AppConfigToTransform->'%(FullPath)')"
-                  Transform="%(RelativeDir)%(Filename).$(Configuration)%(Extension)"
-                  Destination="$(_AppConfigDest)"
-                  Condition=" Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)') " />
+    <!-- use Configuration transform, if it exists -->
+    <SlowCheetah.Xdt.TransformXml 
+              Source="$(_AppConfigDest)" Destination="$(_AppConfigDest)"
+              Transform="@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')"
+              Condition=" Exists(@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')) " />
+
+    <!-- use PublishProfile transform, if it exists -->
+    <SlowCheetah.Xdt.TransformXml
+              Source="$(_AppConfigDest)" Destination="$(_AppConfigDest)"
+              Transform="@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')"
+              Condition=" Exists(@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')) " />
 
     <!-- 
     For link files this will write the transformed file into the 
