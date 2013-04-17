@@ -63,7 +63,7 @@
   <Target Name="Build" DependsOnTargets="$(BuildDependsOn)"/>
   <Target Name="CoreBuild">
     <MSBuild Projects="@(ProjectsToBuild)"
-             Properties="Configuration=$(Configuration);OutputPath=$(OutputRoot)" />
+             Properties="Configuration=$(Configuration);OutputPath=$(OutputRoot);RestorePackages=true" />
   </Target>
 
   <Target Name="PrepareForBuild">
