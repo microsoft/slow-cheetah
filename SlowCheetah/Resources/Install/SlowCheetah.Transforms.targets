@@ -256,7 +256,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
               Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(RelativeDir)%(Filename)%(Extension)')"
               Condition=" '%(Filename)%(Extension)' != 'web.config' and
                           Exists('%(RelativeDir)%(Filename).$(_WapPubProfile)%(Extension)')
-                          and '%(Link)'=='' and '$(_WapPubProfile)'!='' " />
+                          and '%(Link)'=='' and '$(_WapPubProfile)'!='' and '$(_WapPubProfile)'!='$(Configuration)' " />
 
     <!-- Transform the Link files, they always go into the root directory -->
     <SlowCheetah.Xdt.TransformXml Source="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(Link)')"
@@ -264,7 +264,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
               Destination="@(_FilesToTransformNotAppConfig->'$(_PackageTempDir)\%(Link)')"
               Condition=" '%(Filename)%(Extension)' != 'web.config' and
                           Exists('%(RelativeDir)%(Filename).$(_WapPubProfile)%(Extension)')
-                          and '%(Link)'!=''  and '$(_WapPubProfile)'!='' " />
+                          and '%(Link)'!=''  and '$(_WapPubProfile)'!='' and '$(_WapPubProfile)'!='$(Configuration)' " />
   </Target>
 
   <!-- ***********************************************************
