@@ -58,14 +58,21 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       TransformAllFiles;
       ScReplaceAppConfigItem;
     </BuildDependsOn>
-    <TransformAllFilesDependsOn>
+    <!--<TransformAllFilesDependsOn>
       _CopyAppConfigFile;
+      DiscoverFilesToTransform;
+    </TransformAllFilesDependsOn>-->
+    <TransformAllFilesDependsOn>
       DiscoverFilesToTransform;
     </TransformAllFilesDependsOn>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <__SC_IntermediateAppConfig>$(IntermediateOutputPath)$(MSBuildProjectFile)-sc.App.config</__SC_IntermediateAppConfig>
+  </PropertyGroup>
+
   <Target Name="TransformAllFiles"
-          DependsOnTargets="$(TransformAllFilesDependsOn)">
+          DependsOnTargets="$(TransformAllFilesDependsOn)" BeforeTargets="_CopyAppConfigFile">
     <!-- Now we have the item list _FilesToTransformNotAppConfig and _AppConfigToTransform item lists -->
     <!-- Transform the app.config file -->
     <ItemGroup>
@@ -89,17 +96,25 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <MakeDir Directories="@(_TmpLinkFiles->'$(OutDir)%(RelativeDir)')"
                  Condition=" '%(Link)'!='' " />
 
-    <!-- use Configuration transform, if it exists -->
-    <SlowCheetah.Xdt.TransformXml 
-              Source="$(_AppConfigDest)" Destination="$(_AppConfigDest)"
-              Transform="@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')"
-              Condition=" Exists(@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')) " />
+    <PropertyGroup>
+      <_Sc_HasAppConfigTransform>false</_Sc_HasAppConfigTransform>
+      <_Sc_HasAppConfigTransform Condition=" Exists( '@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')' ) ">true</_Sc_HasAppConfigTransform>
+    </PropertyGroup>
 
-    <!-- use PublishProfile transform, if it exists -->
-    <SlowCheetah.Xdt.TransformXml
-              Source="$(_AppConfigDest)" Destination="$(_AppConfigDest)"
-              Transform="@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')"
-              Condition=" Exists(@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')) " />
+    <SlowCheetah.Xdt.TransformXml Source="$(AppConfig)"
+                  Transform="@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')"
+                  Destination="$(__SC_IntermediateAppConfig)"
+                  Condition=" '$(_Sc_HasAppConfigTransform)'=='true' " />
+
+    <PropertyGroup Condition=" '$(_Sc_HasAppConfigTransform)'=='true' " >
+      <AppConfig>$(__SC_IntermediateAppConfig)</AppConfig>
+    </PropertyGroup>
+    <ItemGroup Condition=" '$(_Sc_HasAppConfigTransform)'=='true' " >
+      <AppConfigWithTargetPath Remove="@(AppConfigWithTargetPath)" />
+      <AppConfigWithTargetPath Include="$(AppConfig)">
+        <TargetPath>$(TargetFileName).config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
 
     <!-- 
     For link files this will write the transformed file into the 
@@ -140,7 +155,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 
     <!-- Now look to see if any of these are the app.config file -->
     <ItemGroup>
-      <_FilesToTransform Condition=" '%(FullPath)'=='$(_AppConfigFullPath)' ">
+      <_FilesToTransform Condition=" '%(Filename)%(Extension)'=='app.config' ">
         <IsAppConfig>true</IsAppConfig>
         <!-- Required to remove the item if necessary later -->
         <OriginalItemSpec>%(Identity)</OriginalItemSpec>
@@ -170,7 +185,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       <FromTarget>Project</FromTarget>
     </ExcludeFromPackageFiles>
   </ItemGroup>
-  
+
   <PropertyGroup Condition=" '$(IsWap)' == 'true' ">
     <OnAfterPipelinePreDeployCopyAllFilesToOneFolder>
       $(OnAfterPipelinePreDeployCopyAllFilesToOneFolder);
