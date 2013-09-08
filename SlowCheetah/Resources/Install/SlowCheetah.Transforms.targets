@@ -290,27 +290,31 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
   <Target Name="ScReplaceAppConfigItem"
           BeforeTargets="_DeploymentComputeClickOnceManifestInfo;BuiltProjectOutputGroup"
           DependsOnTargets="TransformAllFiles">
-    <Message Text="ScReplaceAppConfigItem" Importance="low"/>
+    <!--<Message Text="ScReplaceAppConfigItem" Importance="low"/>
     <PropertyGroup>
       <_SlowCheetahAppConfigTransformExists Condition="Exists(@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)'))">true</_SlowCheetahAppConfigTransformExists>
     </PropertyGroup>
     <PropertyGroup>
       <_OldAppConfigWithTargetPath>%(AppConfigWithTargetPath.TargetPath)</_OldAppConfigWithTargetPath>
       <_SCNewAppConfigFile>@(AppConfigWithTargetPath->'$(IntermediateOutputPath)SlowCheetah\%(Filename)%(Extension)')</_SCNewAppConfigFile>
+      <_TmpFileExist>false</_TmpFileExist>
+      <_TmpFileExist Condition="Exists('@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')')">true</_TmpFileExist>
     </PropertyGroup>
-
-    <Copy SourceFiles="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" DestinationFiles="$(_SCNewAppConfigFile)" Condition="'$(_SlowCheetahAppConfigTransformExists)'=='true'" />
+    <Message Text="****_TmpFileExis: [$(_TmpFileExist)]" Importance="high"/>
+    <Copy SourceFiles="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" 
+          DestinationFiles="$(_SCNewAppConfigFile)" 
+          Condition="'$(_SlowCheetahAppConfigTransformExists)'=='true' and Exists('@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')')" />
+    
     <ItemGroup Condition="'$(_SlowCheetahAppConfigTransformExists)'=='true'">
       <AppConfigWithTargetPath Remove="@(AppConfigWithTargetPath)" />
       <AppConfigWithTargetPath Include="$(_SCNewAppConfigFile)">
         <TargetPath>$(_OldAppConfigWithTargetPath)</TargetPath>
-        <!--<TargetPath>$(_SCNewAppConfigFile)</TargetPath>-->
       </AppConfigWithTargetPath>
     </ItemGroup>
 
     <Message Text="Updated app.config to point to transformed file" />
     <Message Text="    AppConfigWithTargetPath: @(AppConfigWithTargetPath)"/>
-    <Message Text="    AppConfigWithTargetPath.TargetPath: @(AppConfigWithTargetPath->'%(TargetPath)')"/>
+    <Message Text="    AppConfigWithTargetPath.TargetPath: @(AppConfigWithTargetPath->'%(TargetPath)')"/>-->
 
   </Target>
 
