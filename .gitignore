@@ -10,10 +10,12 @@ TestBackup/
 csx/
 packages/
 BuildOutput/
+Backup/
 
 # Known files to ignore always #
 *.suo
 *.user
+*.DotSettings
 ~*.docx
 msbuild.log
 msbuild.*.log
