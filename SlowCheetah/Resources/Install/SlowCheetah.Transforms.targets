@@ -13,8 +13,27 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 ***********************************************************************************************
 -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <sc-MSBuildLibPathLocal Condition=" '$(ls-MSBuildLibPathLocal)'=='' ">$(LocalAppData)\Microsoft\MSBuild\SlowCheetah\v2.5.10\</sc-MSBuildLibPathLocal>
+  </PropertyGroup>
+
+  <Target Name="CopyAssembliesToLocalPath">
+    <ItemGroup>
+      <_FilesToCopy Remove="@(_FilesToCopy)"/>
+      <_FilesToCopy Include="$(SlowCheetahToolsPath)**\*"/>
+    </ItemGroup>
+
+    <MakeDir Directories="$(sc-MSBuildLibPathLocal)"/>
+    <Message Text="Copying SlowCheetah build files to [$(ls-MSBuildLibPathLocal)] if needed" />
+    <Message Text="************ @(_FilesToCopy): [@(_FilesToCopy)]" Importance="high"/>
+    <Copy SourceFiles="@(_FilesToCopy)"
+          DestinationFiles="@(_FilesToCopy->'$(sc-MSBuildLibPathLocal)%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true"/>
+  </Target>
+
   <UsingTask TaskName="SlowCheetah.Xdt.TransformXml"
-         AssemblyFile="SlowCheetah.Xdt.dll"/>
+       AssemblyFile="$(sc-MSBuildLibPathLocal)SlowCheetah.Xdt.dll"/>
 
   <ItemDefinitionGroup>
     <!-- Set the default value to false here -->
@@ -55,6 +74,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <SlowCheetahImport>$(MSBuildThisFileFullPath)</SlowCheetahImport>
     <BuildDependsOn Condition=" '$(IsWap)'!='true' ">
       $(BuildDependsOn);
+      CopyAssembliesToLocalPath;
       TransformAllFiles;
       ScReplaceAppConfigItem;
     </BuildDependsOn>
@@ -63,6 +83,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       DiscoverFilesToTransform;
     </TransformAllFilesDependsOn>-->
     <TransformAllFilesDependsOn>
+      CopyAssembliesToLocalPath;
       DiscoverFilesToTransform;
     </TransformAllFilesDependsOn>
   </PropertyGroup>

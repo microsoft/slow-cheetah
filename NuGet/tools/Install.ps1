@@ -2,15 +2,6 @@ param($rootPath, $toolsPath, $package, $project)
 
 "Installing SlowCheetah to project [{0}]" -f $project.FullName | Write-Host
 
-#Only for debugging
-if(!$project){
-    $project = (Get-Item C:\Temp\_NET\SlowCheetahMSBuild\SampleProject\SampleProject.csproj)
-
-    [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.Build")
-    [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.Build.Engine")
-    [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.Build.Framework")
-}
-
 $scLabel = "SlowCheetah"
 
 # When this package is installed we need to add a property
@@ -187,8 +178,6 @@ $DTE.ExecuteCommand("File.SaveAll")
 CheckoutProjFileIfUnderScc
 EnsureProjectFileIsWriteable
 
-
-
 # Update the Project file to import the .targets file
 $relPathToTargets = ComputeRelativePathToTargetsFile -startPath ($projItem = Get-Item $project.FullName) -targetPath (Get-Item ("{0}\tools\SlowCheetah.Transforms.targets" -f $rootPath))
 
@@ -198,10 +187,13 @@ RemoveExistingSlowCheetahPropertyGroups -projectRootElement $projectMSBuild
 $propertyGroup = $projectMSBuild.AddPropertyGroup()
 $propertyGroup.Label = $scLabel
 
+$relPathToToolsFolder = ComputeRelativePathToTargetsFile -startPath ($projItem = Get-Item $project.FullName) -targetPath (Get-Item ("{0}\tools\" -f $rootPath))
+$propertyGroup.AddProperty('SlowCheetahToolsPath', ('$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\{0}\))') -f $relPathToToolsFolder);
+
 $propEnableNuGetImport = $propertyGroup.AddProperty('SlowCheetah_EnableImportFromNuGet', 'true');
 $propEnableNuGetImport.Condition = ' ''$(SC_EnableImportFromNuGet)''=='''' ';
 
-$importStmt = ('$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\{0} ))' -f $relPathToTargets)
+$importStmt = ('$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\Properties\SlowCheetah\SlowCheetah.Transforms.targets ))' -f $relPathToTargets)
 $propNuGetImportPath = $propertyGroup.AddProperty('SlowCheetah_NuGetImportPath', "$importStmt");
 $propNuGetImportPath.Condition = ' ''$(SlowCheetah_NuGetImportPath)''=='''' ';
 
@@ -213,19 +205,19 @@ AddImportElementIfNotExists -projectRootElement $projectMSBuild
 $projectMSBuild.Save()
 
 # now update the packageRestore.proj file with the correct path for SolutionDir
-$solnDirFromProj = GetSolutionDirFromProj -msbuildProject $projectMSBuild
-if($solnDirFromProj) {
-    $pkgRestorePath = (Join-Path (get-item $project.FullName).Directory 'packageRestore.proj')
-    UpdatePackageRestoreSolutionDir -pkgRestorePath $pkgRestorePath -solDirValue $solnDirFromProj
-}
-else{
-    $msg = @"
-    SolutionDir property not found in project [{0}].
-    Have you enabled NuGet Package Restore? This is required for build server support.
-    You may need to enable it and to enable it and re-install this package
-"@ 
-    $msg -f $project.Name | Write-Host -ForegroundColor Red
-}
+#$solnDirFromProj = GetSolutionDirFromProj -msbuildProject $projectMSBuild
+#if($solnDirFromProj) {
+#    $pkgRestorePath = (Join-Path (get-item $project.FullName).Directory 'packageRestore.proj')
+#    UpdatePackageRestoreSolutionDir -pkgRestorePath $pkgRestorePath -solDirValue $solnDirFromProj
+#}
+#else{
+#    $msg = @"
+#    SolutionDir property not found in project [{0}].
+#    Have you enabled NuGet Package Restore? This is required for build server support.
+#    You may need to enable it and to enable it and re-install this package
+#"@ 
+#    $msg -f $project.Name | Write-Host -ForegroundColor Red
+#}
 
-"    SlowCheetah has been installed into project [{0}]" -f $project.FullName| Write-Host -ForegroundColor DarkGreen
-"    `nFor more info how to enable SlowCheetah on build servers see http://sedodream.com/2012/12/24/SlowCheetahBuildServerSupportUpdated.aspx" | Write-Host -ForegroundColor DarkGreen
+#"    SlowCheetah has been installed into project [{0}]" -f $project.FullName| Write-Host -ForegroundColor DarkGreen
+#"    `nFor more info how to enable SlowCheetah on build servers see http://sedodream.com/2012/12/24/SlowCheetahBuildServerSupportUpdated.aspx" | Write-Host -ForegroundColor DarkGreen

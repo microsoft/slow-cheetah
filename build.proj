@@ -156,5 +156,8 @@
     <NugetSourceFiles Include="$(SourceRoot)\SlowCheetah\Resources\Install\SlowCheetah.Transforms.targets">
       <Dest>$(NuGetOutputRoot)tools\%(Filename)%(Extension)</Dest>
     </NugetSourceFiles>
+    <NugetSourceFiles Include="$(SourceRoot)\SlowCheetah\Resources\Install\SlowCheetah.Transforms.targets">
+      <Dest>$(NuGetOutputRoot)content\Properties\SlowCheetah\%(Filename)%(Extension)</Dest>
+    </NugetSourceFiles>
   </ItemGroup>    
 </Project>
