@@ -55,6 +55,7 @@
   <PropertyGroup>
     <BuildDependsOn>
       $(BuildDependsOn);
+      Clean;
       PrepareForBuild;
       CoreBuild      
     </BuildDependsOn>
