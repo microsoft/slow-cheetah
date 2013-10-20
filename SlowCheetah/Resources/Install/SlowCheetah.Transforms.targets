@@ -3,9 +3,9 @@
 ***********************************************************************************************
 SlowCheetah.Transforms.targets
 
-WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
-          created a backup copy.  Incorrect changes to this file will make it
-          impossible to load or build your web deploy projects from the command-line or the IDE.
+WARNING:  DO NOT MODIFY this file, this file is added to your project automatically
+          through the SlowCheetah NuGet package. If you modify this file it may
+          get out of sync when you update the package at a later date.
 
 This file defines the steps in order to transform XML files.
 
