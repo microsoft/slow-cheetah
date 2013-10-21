@@ -25,8 +25,8 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     </ItemGroup>
 
     <MakeDir Directories="$(sc-MSBuildLibPathLocal)"/>
-    <Message Text="Copying SlowCheetah build files to [$(ls-MSBuildLibPathLocal)] if needed" />
-    <Message Text="************ @(_FilesToCopy): [@(_FilesToCopy)]" Importance="high"/>
+    <Message Text="Copying SlowCheetah build files to [$(sc-MSBuildLibPathLocal)] if needed" />
+    <Message Text="************ %40(_FilesToCopy): [@(_FilesToCopy)]" Importance="high"/>
     <Copy SourceFiles="@(_FilesToCopy)"
           DestinationFiles="@(_FilesToCopy->'$(sc-MSBuildLibPathLocal)%(RecursiveDir)%(Filename)%(Extension)')"
           SkipUnchangedFiles="true"/>
