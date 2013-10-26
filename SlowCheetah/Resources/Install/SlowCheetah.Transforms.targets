@@ -15,10 +15,10 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <sc-MSBuildLibPathLocal Condition=" '$(ls-MSBuildLibPathLocal)'=='' ">$(LocalAppData)\Microsoft\MSBuild\SlowCheetah\v2.5.10\</sc-MSBuildLibPathLocal>
+    <sc-MSBuildLibPathLocal Condition=" '$(sc-MSBuildLibPathLocal)'=='' ">$(LocalAppData)\Microsoft\MSBuild\SlowCheetah\v2.5.10.2\</sc-MSBuildLibPathLocal>
   </PropertyGroup>
 
-  <Target Name="CopyAssembliesToLocalPath">
+  <Target Name="CopyAssembliesToLocalPath" Condition=" '$(sc-MSBuildLibPathLocal)'!='' and !Exists('$(sc-MSBuildLibPathLocal)')">
     <ItemGroup>
       <_FilesToCopy Remove="@(_FilesToCopy)"/>
       <_FilesToCopy Include="$(SlowCheetahToolsPath)**\*"/>
@@ -72,9 +72,12 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     </AllowedReferenceRelatedFileExtensions>
 
     <SlowCheetahImport>$(MSBuildThisFileFullPath)</SlowCheetahImport>
+    <BuildDependsOn>
+      CopyAssembliesToLocalPath;
+      $(BuildDependsOn);
+    </BuildDependsOn>
     <BuildDependsOn Condition=" '$(IsWap)'!='true' ">
       $(BuildDependsOn);
-      CopyAssembliesToLocalPath;
       TransformAllFiles;
       ScReplaceAppConfigItem;
     </BuildDependsOn>
