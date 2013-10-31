@@ -21,7 +21,10 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
   <Target Name="CopyAssembliesToLocalPath" Condition=" '$(sc-MSBuildLibPathLocal)'!='' and !Exists('$(sc-MSBuildLibPathLocal)')">
     <ItemGroup>
       <_FilesToCopy Remove="@(_FilesToCopy)"/>
-      <_FilesToCopy Include="$(SlowCheetahToolsPath)**\*"/>
+      <_FilesToCopy Include="$(SlowCheetahToolsPath)Microsoft.Web.XmlTransform.dll"/>
+      <_FilesToCopy Include="$(SlowCheetahToolsPath)SlowCheetah.NuGet.template.proj"/>
+      <_FilesToCopy Include="$(SlowCheetahToolsPath)SlowCheetah.Transforms.targets"/>
+      <_FilesToCopy Include="$(SlowCheetahToolsPath)SlowCheetah.Xdt.dll"/>
     </ItemGroup>
 
     <MakeDir Directories="$(sc-MSBuildLibPathLocal)"/>
