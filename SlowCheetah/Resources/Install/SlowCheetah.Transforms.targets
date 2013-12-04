@@ -27,12 +27,19 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       <_FilesToCopy Include="$(SlowCheetahToolsPath)SlowCheetah.Xdt.dll"/>
     </ItemGroup>
 
-    <MakeDir Directories="$(sc-MSBuildLibPathLocal)"/>
+    <MakeDir Directories="$(sc-MSBuildLibPathLocal)" ContinueOnError="true"/>
     <Message Text="Copying SlowCheetah build files to [$(sc-MSBuildLibPathLocal)] if needed" />
     <Message Text="************ %40(_FilesToCopy): [@(_FilesToCopy)]" Importance="high"/>
+    
+    <!-- If the copy does not succeed then we need to revert back to the packages folder -->
     <Copy SourceFiles="@(_FilesToCopy)"
           DestinationFiles="@(_FilesToCopy->'$(sc-MSBuildLibPathLocal)%(RecursiveDir)%(Filename)%(Extension)')"
-          SkipUnchangedFiles="true"/>
+          SkipUnchangedFiles="true" ContinueOnError="true"/>
+
+    <PropertyGroup>
+      <sc-MSBuildLibPathLocal Condition=" !Exists('$(sc-MSBuildLibPathLocal)Microsoft.Web.XmlTransform.dll') ">$(SlowCheetahToolsPath)</sc-MSBuildLibPathLocal>
+    </PropertyGroup>
+    <Message Text="SlowCheetah tools path: sc-MSBuildLibPathLocal: [$(sc-MSBuildLibPathLocal)]" />
   </Target>
 
   <UsingTask TaskName="SlowCheetah.Xdt.TransformXml"
