@@ -18,7 +18,11 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <sc-MSBuildLibPathLocal Condition=" '$(sc-MSBuildLibPathLocal)'=='' ">$(LocalAppData)\Microsoft\MSBuild\SlowCheetah\v2.5.10.2\</sc-MSBuildLibPathLocal>
   </PropertyGroup>
 
-  <Target Name="CopyAssembliesToLocalPath" Condition=" '$(sc-MSBuildLibPathLocal)'!='' and !Exists('$(sc-MSBuildLibPathLocal)')">
+  <ItemGroup>
+    <LocalAppDataFiles Include="$(sc-MSBuildLibPathLocal)**\*" />
+  </ItemGroup>
+
+  <Target Name="CopyAssembliesToLocalPath" Condition=" '$(sc-MSBuildLibPathLocal)'!='' and ( !Exists('$(sc-MSBuildLibPathLocal)') or '@(LocalAppDataFiles)'=='' )">
     <ItemGroup>
       <_FilesToCopy Remove="@(_FilesToCopy)"/>
       <_FilesToCopy Include="$(SlowCheetahToolsPath)Microsoft.Web.XmlTransform.dll"/>
