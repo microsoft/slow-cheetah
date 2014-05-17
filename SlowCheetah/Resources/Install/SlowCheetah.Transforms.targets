@@ -15,7 +15,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <sc-MSBuildLibPathLocal Condition=" '$(sc-MSBuildLibPathLocal)'=='' ">$(LocalAppData)\Microsoft\MSBuild\SlowCheetah\v2.5.10.2\</sc-MSBuildLibPathLocal>
+    <sc-MSBuildLibPathLocal Condition=" '$(sc-MSBuildLibPathLocal)'=='' ">$(LocalAppData)\Microsoft\MSBuild\SlowCheetah\v2.5.10.3\</sc-MSBuildLibPathLocal>
   </PropertyGroup>
 
   <ItemGroup>
