@@ -15,10 +15,15 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <sc-MSBuildLibPathLocal Condition=" '$(sc-MSBuildLibPathLocal)'=='' ">$(LocalAppData)\Microsoft\MSBuild\SlowCheetah\v2.5.10.4\</sc-MSBuildLibPathLocal>
-    <!-- this property should be defined in the .csproj -->
+    <sc-MSBuildLibPathLocal Condition=" '$(sc-MSBuildLibPathLocal)'=='' ">$(LocalAppData)\Microsoft\MSBuild\SlowCheetah\v2.5.10.5\</sc-MSBuildLibPathLocal>
+    
+    <!-- this property should be defined in the .csproj to point to the packages path -->
     <SlowCheetahToolsPath Condition=" '$(SlowCheetahToolsPath)'=='' ">$(MSBuildThisFileDirectory)</SlowCheetahToolsPath>
-    <SlowCheetahTaskPath Condition=" '$(SlowCheetahTaskPath)'=='' and Exists('$(sc-MSBuildLibPathLocal)Microsoft.Web.XmlTransform.dll')">$(sc-MSBuildLibPathLocal)Microsoft.Web.XmlTransform.dll</SlowCheetahTaskPath>
+    
+    <!-- if building in VS then we should try and use from app data if the files are there -->
+    <SlowCheetahTaskPath Condition=" '$(SlowCheetahTaskPath)'=='' and '$(BuildingInsideVisualStudio)'=='true' and Exists('$(sc-MSBuildLibPathLocal)SlowCheetah.Xdt.dll')">$(sc-MSBuildLibPathLocal)</SlowCheetahTaskPath>
+    
+    <!-- this typically points to the packages folder -->
     <SlowCheetahTaskPath Condition=" '$(SlowCheetahTaskPath)'=='' and Exists('$(SlowCheetahToolsPath)SlowCheetah.Xdt.dll')">$(SlowCheetahToolsPath)</SlowCheetahTaskPath>
   </PropertyGroup>
   <ItemGroup>
