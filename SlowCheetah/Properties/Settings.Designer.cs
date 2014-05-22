@@ -25,7 +25,7 @@ namespace SlowCheetah.VisualStudio.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft\\MSBuild\\SlowCheetah\\v2.5.10.5\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft\\MSBuild\\SlowCheetah\\v2.5.10.6\\")]
         public string InstallPath {
             get {
                 return ((string)(this["InstallPath"]));

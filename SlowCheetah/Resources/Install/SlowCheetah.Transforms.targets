@@ -15,7 +15,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <sc-MSBuildLibPathLocal Condition=" '$(sc-MSBuildLibPathLocal)'=='' ">$(LocalAppData)\Microsoft\MSBuild\SlowCheetah\v2.5.10.5\</sc-MSBuildLibPathLocal>
+    <sc-MSBuildLibPathLocal Condition=" '$(sc-MSBuildLibPathLocal)'=='' ">$(LocalAppData)\Microsoft\MSBuild\SlowCheetah\v2.5.10.6\</sc-MSBuildLibPathLocal>
     
     <!-- this property should be defined in the .csproj to point to the packages path -->
     <SlowCheetahToolsPath Condition=" '$(SlowCheetahToolsPath)'=='' ">$(MSBuildThisFileDirectory)</SlowCheetahToolsPath>
@@ -57,9 +57,8 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <Message Text="SlowCheetah tools path: sc-MSBuildLibPathLocal: [$(sc-MSBuildLibPathLocal)]" />
   </Target>
 
-  <UsingTask TaskName="TransformXml"
-       AssemblyFile="$(SlowCheetahTaskPath)SlowCheetah.Xdt.dll"/>
-
+  <UsingTask TaskName="TransformXml" 
+             AssemblyFile="$([MSBUILD]::Unescape($(SlowCheetahTaskPath)SlowCheetah.Xdt.dll))"/>
   <ItemDefinitionGroup>
     <!-- Set the default value to false here -->
     <None>
