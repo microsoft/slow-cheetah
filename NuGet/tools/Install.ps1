@@ -191,7 +191,7 @@ $relPathToToolsFolder = ComputeRelativePathToTargetsFile -startPath ($projItem =
 $propertyGroup.AddProperty('SlowCheetahToolsPath', ('$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\{0}\))') -f $relPathToToolsFolder);
 
 $propEnableNuGetImport = $propertyGroup.AddProperty('SlowCheetah_EnableImportFromNuGet', 'true');
-$propEnableNuGetImport.Condition = ' ''$(SC_EnableImportFromNuGet)''=='''' ';
+$propEnableNuGetImport.Condition = ' ''$(SlowCheetah_EnableImportFromNuGet)''=='''' ';
 
 $importStmt = ('$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\Properties\SlowCheetah\SlowCheetah.Transforms.targets ))' -f $relPathToTargets)
 $propNuGetImportPath = $propertyGroup.AddProperty('SlowCheetah_NuGetImportPath', "$importStmt");
