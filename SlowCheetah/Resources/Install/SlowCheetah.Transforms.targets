@@ -24,7 +24,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <SlowCheetahTaskPath Condition=" '$(SlowCheetahTaskPath)'=='' and '$(BuildingInsideVisualStudio)'=='true' and Exists('$(sc-MSBuildLibPathLocal)SlowCheetah.Xdt.dll')">$(sc-MSBuildLibPathLocal)</SlowCheetahTaskPath>
     
     <!-- this typically points to the packages folder -->
-    <SlowCheetahTaskPath Condition=" '$(SlowCheetahTaskPath)'=='' )">$(SlowCheetahToolsPath)</SlowCheetahTaskPath>
+    <SlowCheetahTaskPath Condition=" '$(SlowCheetahTaskPath)'==''">$(SlowCheetahToolsPath)</SlowCheetahTaskPath>
   </PropertyGroup>
   <ItemGroup>
     <LocalAppDataFiles Include="$(sc-MSBuildLibPathLocal)**\*" />
