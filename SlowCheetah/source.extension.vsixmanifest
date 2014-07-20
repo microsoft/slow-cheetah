@@ -3,7 +3,7 @@
   <Identifier Id="9eb9f150-fcc9-4db8-9e97-6aef2011017c">
     <Name>SlowCheetah - XML Transforms</Name>
     <Author>Sayed I. Hashimi</Author>
-    <Version>2.5.10</Version>
+    <Version>2.5.11</Version>
     <Description xml:space="preserve">This package enables you to transform your app.config or any other XML file based on the build configuration. It also adds additional tooling to help you create XML transforms.. Written by: Sayed Ibrahim Hashimi, Chuck England and Bill Hiebert</Description>
     <Locale>1033</Locale>
     <MoreInfoUrl>http://sedodream.com/</MoreInfoUrl>
