@@ -146,13 +146,21 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 
     <PropertyGroup>
       <_Sc_HasAppConfigTransform>false</_Sc_HasAppConfigTransform>
-      <_Sc_HasAppConfigTransform Condition=" Exists( '@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')' ) ">true</_Sc_HasAppConfigTransform>
+      <_Sc_HasAppConfigConfigurationTransform Condition=" Exists( '@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')' ) ">true</_Sc_HasAppConfigConfigurationTransform>
+      <_Sc_HasAppConfigPublishProfileTransform Condition=" Exists( '@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')' ) ">true</_Sc_HasAppConfigPublishProfileTransform>
+      <_Sc_HasAppConfigPublishProfileTransform Condition=" '$(Configuration)'=='$(PublishProfile)' ">false</_Sc_HasAppConfigPublishProfileTransform>
+      <_Sc_HasAppConfigTransform Condition=" '$(_Sc_HasAppConfigConfigurationTransform)'=='true' ">true</_Sc_HasAppConfigTransform>
+      <_Sc_HasAppConfigTransform Condition=" '$(_Sc_HasAppConfigPublishProfileTransform)'=='true' ">true</_Sc_HasAppConfigTransform>
     </PropertyGroup>
     <Message Text="Tasks path: $(SlowCheetahTaskPath)" Importance="low"/>
     <SlowCheetah.Xdt.TransformXml Source="$(AppConfig)"
                   Transform="@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')"
                   Destination="$(__SC_IntermediateAppConfig)"
-                  Condition=" '$(_Sc_HasAppConfigTransform)'=='true' " />
+                  Condition=" '$(_Sc_HasAppConfigConfigurationTransform)'=='true' " />
+    <SlowCheetah.Xdt.TransformXml Source="$(AppConfig)"
+                  Transform="@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')"
+                  Destination="$(__SC_IntermediateAppConfig)"
+                  Condition=" '$(_Sc_HasAppConfigPublishProfileTransform)'=='true' " />
 
     <PropertyGroup Condition=" '$(_Sc_HasAppConfigTransform)'=='true' " >
       <AppConfig>$(__SC_IntermediateAppConfig)</AppConfig>
