@@ -16,13 +16,13 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 
   <PropertyGroup>
     <sc-MSBuildLibPathLocal Condition=" '$(sc-MSBuildLibPathLocal)'=='' ">$(LocalAppData)\Microsoft\MSBuild\SlowCheetah\v2.5.11\</sc-MSBuildLibPathLocal>
-    
+
     <!-- this property should be defined in the .csproj to point to the packages path -->
     <SlowCheetahToolsPath Condition=" '$(SlowCheetahToolsPath)'=='' ">$(MSBuildThisFileDirectory)</SlowCheetahToolsPath>
-    
+
     <!-- if building in VS then we should try and use from app data if the files are there -->
     <SlowCheetahTaskPath Condition=" '$(SlowCheetahTaskPath)'=='' and '$(BuildingInsideVisualStudio)'=='true' and Exists('$(sc-MSBuildLibPathLocal)SlowCheetah.Xdt.dll')">$(sc-MSBuildLibPathLocal)</SlowCheetahTaskPath>
-    
+
     <!-- this typically points to the packages folder -->
     <SlowCheetahTaskPath Condition=" '$(SlowCheetahTaskPath)'==''">$(SlowCheetahToolsPath)</SlowCheetahTaskPath>
   </PropertyGroup>
@@ -57,7 +57,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <Message Text="SlowCheetah tools path: sc-MSBuildLibPathLocal: [$(sc-MSBuildLibPathLocal)]" />
   </Target>
 
-  <UsingTask TaskName="TransformXml" 
+  <UsingTask TaskName="TransformXml"
              AssemblyFile="$([MSBUILD]::Unescape($(SlowCheetahTaskPath)SlowCheetah.Xdt.dll))"/>
   <ItemDefinitionGroup>
     <!-- Set the default value to false here -->
@@ -153,11 +153,16 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       <_Sc_HasAppConfigTransform Condition=" '$(_Sc_HasAppConfigPublishProfileTransform)'=='true' ">true</_Sc_HasAppConfigTransform>
     </PropertyGroup>
     <Message Text="Tasks path: $(SlowCheetahTaskPath)" Importance="low"/>
-    <SlowCheetah.Xdt.TransformXml Source="$(AppConfig)"
+
+    <!-- we may transform the file multiple times so copy it to dest and then use that as source for all transforms -->
+    <Copy SourceFiles="$(AppConfig)" DestinationFiles="$(__SC_IntermediateAppConfig)"/>
+
+    <SlowCheetah.Xdt.TransformXml Source="$(__SC_IntermediateAppConfig)"
                   Transform="@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')"
                   Destination="$(__SC_IntermediateAppConfig)"
                   Condition=" '$(_Sc_HasAppConfigConfigurationTransform)'=='true' " />
-    <SlowCheetah.Xdt.TransformXml Source="$(AppConfig)"
+
+    <SlowCheetah.Xdt.TransformXml Source="$(__SC_IntermediateAppConfig)"
                   Transform="@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')"
                   Destination="$(__SC_IntermediateAppConfig)"
                   Condition=" '$(_Sc_HasAppConfigPublishProfileTransform)'=='true' " />
