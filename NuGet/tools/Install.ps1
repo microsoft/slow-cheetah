@@ -203,21 +203,4 @@ $propImport.Condition = ' ''$(SlowCheetah_EnableImportFromNuGet)''==''true'' and
 AddImportElementIfNotExists -projectRootElement $projectMSBuild
 
 $projectMSBuild.Save()
-
-# now update the packageRestore.proj file with the correct path for SolutionDir
-#$solnDirFromProj = GetSolutionDirFromProj -msbuildProject $projectMSBuild
-#if($solnDirFromProj) {
-#    $pkgRestorePath = (Join-Path (get-item $project.FullName).Directory 'packageRestore.proj')
-#    UpdatePackageRestoreSolutionDir -pkgRestorePath $pkgRestorePath -solDirValue $solnDirFromProj
-#}
-#else{
-#    $msg = @"
-#    SolutionDir property not found in project [{0}].
-#    Have you enabled NuGet Package Restore? This is required for build server support.
-#    You may need to enable it and to enable it and re-install this package
-#"@ 
-#    $msg -f $project.Name | Write-Host -ForegroundColor Red
-#}
-
-#"    SlowCheetah has been installed into project [{0}]" -f $project.FullName| Write-Host -ForegroundColor DarkGreen
-#"    `nFor more info how to enable SlowCheetah on build servers see http://sedodream.com/2012/12/24/SlowCheetahBuildServerSupportUpdated.aspx" | Write-Host -ForegroundColor DarkGreen
+start http://bit.ly/slowcheetah-ps1

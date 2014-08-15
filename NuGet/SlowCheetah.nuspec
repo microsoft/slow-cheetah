@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SlowCheetah</id>
-    <version>2.5.13-beta</version>
+    <version>2.5.14</version>
     <authors>Sayed Ibrahim Hashimi</authors>
     <owners>Sayed Ibrahim Hashimi</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
