@@ -37,8 +37,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah", "SlowCheetah\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah_UnitTests", "SlowCheetah\SlowCheetah_UnitTests\SlowCheetah_UnitTests.csproj", "{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{874344FA-D252-4BC6-AB90-7E78328BEF36}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
