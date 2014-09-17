@@ -37,6 +37,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah", "SlowCheetah\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah_UnitTests", "SlowCheetah\SlowCheetah_UnitTests\SlowCheetah_UnitTests.csproj", "{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "FunctionalTests\ConsoleApp\ConsoleApp.csproj", "{F6918592-C735-4712-8F4A-2095B56C2931}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTestProjects", "IntegrationTestProjects", "{5CEDDE9F-0A58-410F-93B6-287498FFCB1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah.IntegrationTests", "SlowCheetah.IntegrationTests\SlowCheetah.IntegrationTests.csproj", "{5FA573BF-14DC-4568-B63E-20330EEB5B51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,12 +75,32 @@ Global
 		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|x86.ActiveCfg = Release|Any CPU
 		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|x86.Build.0 = Release|Any CPU
+		{F6918592-C735-4712-8F4A-2095B56C2931}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6918592-C735-4712-8F4A-2095B56C2931}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6918592-C735-4712-8F4A-2095B56C2931}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F6918592-C735-4712-8F4A-2095B56C2931}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F6918592-C735-4712-8F4A-2095B56C2931}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6918592-C735-4712-8F4A-2095B56C2931}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6918592-C735-4712-8F4A-2095B56C2931}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6918592-C735-4712-8F4A-2095B56C2931}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F6918592-C735-4712-8F4A-2095B56C2931}.Release|x86.ActiveCfg = Release|Any CPU
+		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8A40F2BB-49F2-425C-857D-976C19A2BC92} = {57D4810B-E372-489F-B24C-4FCB9DDE0683}
+		{F6918592-C735-4712-8F4A-2095B56C2931} = {5CEDDE9F-0A58-410F-93B6-287498FFCB1A}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SlowCheetah.vsmdi
