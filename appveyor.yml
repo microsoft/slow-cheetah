@@ -9,7 +9,7 @@
 #---------------------------------#
 
 # version format
-version: 1.0.{build}-test
+version: 1.0.{build}
 
 #---------------------------------#
 #    environment configuration    #
@@ -26,4 +26,4 @@ build:
   project: build.proj      # path to Visual Studio solution or project
   
   # MSBuild verbosity level
-  verbosity: detailed
+  verbosity: normal
