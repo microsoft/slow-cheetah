@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Build.Evaluation;
+using Microsoft.Build.Logging;
+using Microsoft.Build.Framework;
 
 namespace SlowCheetah.IntegrationTests
 {
@@ -11,7 +13,9 @@ namespace SlowCheetah.IntegrationTests
         public void BuildConsoleApp()
         {
             var p = new Project(@"E:\Project\GitHub\cfbarbero\slow-cheetah\FunctionalTests\ConsoleApp\ConsoleApp.csproj");
-            p.Build();
+            p.SetGlobalProperty("Configuration", "Release");
+            var logger = new ConsoleLogger(LoggerVerbosity.Diagnostic);
+            p.Build(logger);
         }
     }
 }
