@@ -30,6 +30,7 @@ namespace SlowCheetah.IntegrationTests
             var logger = new ConsoleLogger(LoggerVerbosity.Diagnostic);
 
             Assert.IsTrue(project.Build(logger));
+            ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
         }
 
 
