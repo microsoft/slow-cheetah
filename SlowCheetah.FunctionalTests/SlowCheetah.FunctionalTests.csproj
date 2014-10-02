@@ -54,7 +54,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AppSettingTests.cs" />
+    <Compile Include="WebAppTests.cs" />
+    <Compile Include="ConsoleAppTests.cs" />
     <Compile Include="ConfigTransformTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

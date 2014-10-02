@@ -19,14 +19,19 @@ namespace SlowCheetah.IntegrationTests
         public string TestProjectsDir { get { return Path.Combine(SolutionDir, @"SlowCheetah.FunctionalTests\TestProjects"); } }
 
 
-        
+
 
         public void BuildProject(string projectName)
         {
-            var project = new Project(Path.Combine(TestProjectsDir, projectName, projectName + ".csproj"));
-            project.SetGlobalProperty("Configuration", "Debug");
-            project.SetGlobalProperty("SolutionDir", SolutionDir);
-            project.SetGlobalProperty("OutputPath", OutputPath);
+            var globalProperties = new Dictionary<string, string>(){
+               {"Configuration", "Debug"},
+               {"SolutionDir", SolutionDir},
+               {"OutputPath", OutputPath},
+               //{"VSToolsPath", @"$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v12.0"}
+               //{"VSToolsPath", @"c:\program files (x86)MSBuild\Microsoft\Microsoft\VisualStudio\v12.0"}
+            };
+            var project = new Project(Path.Combine(TestProjectsDir, projectName, projectName + ".csproj"),
+                globalProperties, "12.0");
             var logger = new ConsoleLogger(LoggerVerbosity.Diagnostic);
 
             Assert.IsTrue(project.Build(logger));
@@ -46,7 +51,7 @@ namespace SlowCheetah.IntegrationTests
         public string GetConfigNodeValue(string configFilePath, string nodeName)
         {
             var configFile = XDocument.Load(configFilePath);
-            return  configFile.Descendants(nodeName).Single().Value;
+            return configFile.Descendants(nodeName).Single().Value;
         }
 
     }

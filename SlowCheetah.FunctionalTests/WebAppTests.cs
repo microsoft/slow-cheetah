@@ -11,28 +11,14 @@ using System.Linq;
 namespace SlowCheetah.IntegrationTests
 {
     [TestClass]
-    public class AppSettingTests : ConfigTransformTestsBase
+    public class WebAppTests : ConfigTransformTestsBase
     {
         
         [TestMethod]
         [TestCategory("FunctionalTests")]
-        public void ConsoleApp_AppConfig_IsTransformed()
+        public void WebApp_OtherConfig_IsTransformed()
         {
-            var projectName = "ConsoleApp";
-            BuildProject(projectName);
-
-            var configFilePath = Path.Combine(OutputPath, "ConsoleApp.exe.config");
-
-            var testSetting = GetAppSettingValue(configFilePath, "TestSetting");
-
-            Assert.AreEqual("Debug", testSetting);
-        }
-
-        [TestMethod]
-        [TestCategory("FunctionalTests")]
-        public void ConsoleApp_OtherConfig_IsTransformed()
-        {
-            var projectName = "ConsoleApp";
+            var projectName = "WebApplication";
             BuildProject(projectName);
 
             var configFilePath = Path.Combine(OutputPath, "Other.config");
