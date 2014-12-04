@@ -27,3 +27,12 @@ build:
   
   # MSBuild verbosity level
   verbosity: normal
+
+artifacts:
+  - path: 'BuildOutput\**\*.nupkg'
+  
+  - path: 'BuildOutput\**\*.vsix'
+  
+  - path: 'BuildOutput\**\*.dll'
+  
+  - path: 'BuildOutput\**\*.config'
