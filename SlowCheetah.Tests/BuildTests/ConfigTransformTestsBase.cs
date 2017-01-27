@@ -16,7 +16,7 @@ namespace SlowCheetah.Tests.BuildTests
     {
         public string SolutionDir { get { return Path.Combine(Environment.CurrentDirectory, @"..\.."); } }
         public string OutputPath { get { return Path.Combine(Environment.CurrentDirectory, @"ProjectOutput"); } }
-        public string TestProjectsDir { get { return Path.Combine(SolutionDir, @"BuildTests\TestProjects"); } }
+        public string TestProjectsDir { get { return Path.Combine(SolutionDir, @"SlowCheetah.Tests\BuildTests\TestProjects"); } }
 
         public void BuildProject(string projectName)
         {
