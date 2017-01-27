@@ -27,7 +27,7 @@ namespace SlowCheetah.Tests.BuildTests
             };
             var project = new Project(Path.Combine(TestProjectsDir, projectName, projectName + ".csproj"),
                 globalProperties, "4.0");
-            var logger = new ConsoleLogger(LoggerVerbosity.Diagnostic);
+            var logger = new ConsoleLogger(LoggerVerbosity.Quiet);
             bool buildSuccess = project.Build(logger);
             Assert.True(buildSuccess);
             ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
