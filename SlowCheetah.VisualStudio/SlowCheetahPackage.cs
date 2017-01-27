@@ -1,28 +1,22 @@
-﻿//------------------------------------------------------------------------------
-// <copyright file="SlowCheetahPackage.cs" company="Company">
-//     Copyright (c) Company.  All rights reserved.
-// </copyright>
-//------------------------------------------------------------------------------
+﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Runtime.InteropServices;
-using Microsoft.VisualStudio;
-using interop = Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.Win32;
-using SlowCheetah.VisualStudio.Properties;
-using System.Collections.Generic;
 using System.IO;
-using EnvDTE;
-using System.Xml;
-using Microsoft.Build.Construction;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Xml;
+using EnvDTE;
+using Microsoft.Build.Construction;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using SlowCheetah.VisualStudio.Properties;
 
 namespace SlowCheetah.VisualStudio
 {
@@ -1003,7 +997,7 @@ namespace SlowCheetah.VisualStudio
                     uint VSDIFFOPT_RightFileIsTemporary = 0x00000020;   //The right file is a temporary file explicitly created for diff.
 
                     // If the diffmerge service is available (dev11) and no diff tool is specified, or diffmerge.exe is specifed we use the service
-                    interop.IServiceProvider sp;
+                    Microsoft.VisualStudio.OLE.Interop.IServiceProvider sp;
                     hier.GetSite(out sp);
                     IntPtr diffSvcIntPtr = IntPtr.Zero;
                     int hr = sp.QueryService(ref SID_SVsDifferenceService, ref IID_IVsDifferenceService, out diffSvcIntPtr);

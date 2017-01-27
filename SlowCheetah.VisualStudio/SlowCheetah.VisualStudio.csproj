@@ -83,7 +83,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="index.html" />
     <Content Include="Resources\Images\Cheetah-120.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -97,7 +96,6 @@
     </Content>
     <Content Include="Resources\SlowCheetahPackage.ico" />
     <Content Include="Resources\TransformContents.xml" />
-    <Content Include="stylesheet.css" />
     <Content Include="XDTSupportedExtensions.pkgdef">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

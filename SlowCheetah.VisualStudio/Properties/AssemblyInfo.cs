@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SlowCheetah.VisualStudio")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright © Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

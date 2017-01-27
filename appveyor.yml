@@ -28,6 +28,9 @@ cache:
 #       build configuration       #
 #---------------------------------#
 
+before_build:
+  nuget restore SlowCheetah.sln
+
 build:
   project: SlowCheetah.sln  # path to Visual Studio solution or project
   verbosity: normal         # MSBuild verbosity level

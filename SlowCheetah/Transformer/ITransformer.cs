@@ -1,4 +1,6 @@
-﻿namespace SlowCheetah
+﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
+
+namespace SlowCheetah
 {
     /// <summary>
     /// Interface for file tranformers
