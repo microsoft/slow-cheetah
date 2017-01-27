@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Error_CantFindPreviewTool" xml:space="preserve">
+    <value>Cannot find the preview tool {0}. Verify the settings in the 'Config Transform' category of Tools\Options.</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="Error_NoPreviewToolSpecified" xml:space="preserve">
+    <value>No preview tool specified. You can set a preview tool in the 'Config Transform' category of Tools\Options.</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="Error_SavingProjectFile" xml:space="preserve">
+    <value>Unable to save the project file {0}. {1}</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="Error_SourceFileNotFound" xml:space="preserve">
+    <value>The source file for the transform {0} was not found.</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="Error_TransformFileNotFound" xml:space="preserve">
+    <value>The transform file {0} was not found.</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="String_AddImportText" xml:space="preserve">
+    <value>In order to support transforms your project file will need to be modified. This will cause your project to be unloaded and then reloaded. If your project is checked into source control then it may be checked out.\n\nChoose Yes to proceed otherwise No.</value>
+  </data>
+  <data name="String_AddImportTitle" xml:space="preserve">
+    <value>Add Transform Project Import</value>
+    <comment>Title for the warning dialog that you project is about to have the import added.</comment>
+  </data>
+  <data name="String_FormatTransformFilename" xml:space="preserve">
+    <value>{0}.{1}{2}</value>
+    <comment>This is the format string for the new transform file's filename.</comment>
+  </data>
+  <data name="String_ImportPath" xml:space="preserve">
+    <value>$()</value>
+  </data>
+  <data name="String_SlowCheetahImportProp" xml:space="preserve">
+    <value>SlowCheetahImport</value>
+    <comment>This property is set to full path of the SlowCheetah targets file, indicating that the imports exist.</comment>
+  </data>
+  <data name="String_TransformFileContents" xml:space="preserve">
+    <value>&lt;?xml version="1.0" encoding="utf-8" ?&gt;\n&lt;!-- For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. --&gt;\n</value>
+    <comment>This is the initial contents of the transform file.</comment>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TransformContents" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TransformContents.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TransformPreview_Caption" xml:space="preserve">
+    <value>{0} Preview</value>
+  </data>
+  <data name="TransformPreview_LeftLabel" xml:space="preserve">
+    <value>Original {0}</value>
+  </data>
+  <data name="TransformPreview_RightLabel" xml:space="preserve">
+    <value>Transformed {0}   (by  {1} )</value>
+  </data>
+  <data name="TransformPreview_ToolTip" xml:space="preserve">
+    <value>{0} Preview</value>
+  </data>
+</root>

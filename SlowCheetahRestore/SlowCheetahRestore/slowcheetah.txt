@@ -1,1 +1,0 @@
-SlowCheetah support for build servers has been installed. This file is required in order to have the NuGet package install the needed support. You can delete this file after installing the NuGet package if you want.
