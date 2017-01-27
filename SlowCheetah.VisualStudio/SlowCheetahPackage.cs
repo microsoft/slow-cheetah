@@ -679,7 +679,7 @@ namespace SlowCheetah.VisualStudio
             }
 
             bool itemSupportsTransforms = false;
-            // make sure its not a transform file itslef
+            // make sure its not a transform file itself
             bool isTransformFile = IsItemTransformItem(project, itemid);
 
 
