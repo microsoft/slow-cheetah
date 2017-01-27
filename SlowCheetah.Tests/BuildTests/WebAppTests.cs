@@ -1,19 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
 
-namespace SlowCheetah.UnitTests.BuildTests
+using System.IO;
+using Xunit;
+
+namespace SlowCheetah.Tests.BuildTests
 {
-    [TestClass]
+    [Collection("BuildTests")]
     public class WebAppTests : ConfigTransformTestsBase
     {
 
-        [TestMethod]
-        [TestCategory("FunctionalTests")]
+        [Fact]
         public void WebApp_OtherConfig_IsTransformed()
         {
             var projectName = "WebApplication";
@@ -23,7 +19,7 @@ namespace SlowCheetah.UnitTests.BuildTests
 
             var testNodeValue = GetConfigNodeValue(configFilePath, "TestNode");
 
-            Assert.AreEqual("Debug", testNodeValue);
+            Assert.Equal("Debug", testNodeValue);
         }
     }
 }

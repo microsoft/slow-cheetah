@@ -1,29 +1,27 @@
-﻿using Microsoft.Build.Evaluation;
-using Microsoft.Build.Framework;
-using Microsoft.Build.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.Build.Evaluation;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Logging;
+using Xunit;
 
-namespace SlowCheetah.UnitTests.BuildTests
+namespace SlowCheetah.Tests.BuildTests
 {
-    public abstract class ConfigTransformTestsBase
+    public abstract class ConfigTransformTestsBase : IDisposable
     {
-        public TestContext TestContext { get; set; }
-        public string SolutionDir { get { return Path.Combine(TestContext.TestRunDirectory, @"..\.."); } }
-        public string OutputPath { get { return Path.Combine(TestContext.TestRunDirectory, @"ProjectOutput"); } }
-        public string TestProjectsDir { get { return Path.Combine(SolutionDir, @"SlowCheetah.UnitTests\BuildTests\TestProjects"); } }
+        public string SolutionDir { get { return Path.Combine(Environment.CurrentDirectory, @"..\.."); } }
+        public string OutputPath { get { return Path.Combine(Environment.CurrentDirectory, @"ProjectOutput"); } }
+        public string TestProjectsDir { get { return Path.Combine(SolutionDir, @"BuildTests\TestProjects"); } }
 
         public void BuildProject(string projectName)
         {
             var globalProperties = new Dictionary<string, string>(){
                {"Configuration", "Debug"},
-               {"SolutionDir", SolutionDir},
                {"OutputPath", OutputPath},
                {"VSToolsPath", ""}
             };
@@ -31,7 +29,7 @@ namespace SlowCheetah.UnitTests.BuildTests
                 globalProperties, "4.0");
             var logger = new ConsoleLogger(LoggerVerbosity.Diagnostic);
             bool buildSuccess = project.Build(logger);
-            Assert.IsTrue(buildSuccess);
+            Assert.True(buildSuccess);
             ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
         }
 
@@ -48,6 +46,11 @@ namespace SlowCheetah.UnitTests.BuildTests
         {
             var configFile = XDocument.Load(configFilePath);
             return configFile.Descendants(nodeName).Single().Value;
+        }
+
+        public void Dispose()
+        {
+            Directory.Delete(OutputPath, true);
         }
     }
 }

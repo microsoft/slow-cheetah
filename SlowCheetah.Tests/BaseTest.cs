@@ -3,53 +3,37 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SlowCheetah.UnitTests
+namespace SlowCheetah.Tests
 {
     /// <summary>
     /// Class that contains base initialization methods for all the unit tests, such as creating and deleting temporary files.
     /// </summary>
-    [TestClass]
-    public class BaseTest
+    public class BaseTest : IDisposable
     {
-        //
-        protected IList<string> FilesToDeleteAfterTest { get; set; }
-
-        /// <summary>
-        /// Before tests, creates a list of files to be deleted when tests are done.
-        /// </summary>
-        [TestInitialize]
-        public virtual void SetupFilesToDeleteList()
-        {
-            this.FilesToDeleteAfterTest = new List<string>();
-        }
+        protected IList<string> FilesToDeleteAfterTest { get; } = new List<string>();
 
         /// <summary>
         /// At the end of tests, attempts to delete all the files generated during the test.
         /// </summary>
-        [TestCleanup]
-        public virtual void CleanUpFilesToDeleteList()
+        public void Dispose()
         {
-            if (this.FilesToDeleteAfterTest != null && this.FilesToDeleteAfterTest.Count > 0)
+            foreach (string filename in this.FilesToDeleteAfterTest)
             {
-                foreach (string filename in this.FilesToDeleteAfterTest)
+                if (File.Exists(filename))
                 {
-                    if (File.Exists(filename))
+                    try
                     {
-                        try
-                        {
-                            File.Delete(filename);
-                        }
-                        catch (System.IO.IOException)
-                        {
-                            // some processes will hold onto the file until the AppDomain is unloaded
-                        }
+                        File.Delete(filename);
+                    }
+                    catch (System.IO.IOException)
+                    {
+                        // some processes will hold onto the file until the AppDomain is unloaded
                     }
                 }
             }
 
-            this.FilesToDeleteAfterTest = null;
+            this.FilesToDeleteAfterTest.Clear();
         }
 
         /// <summary>

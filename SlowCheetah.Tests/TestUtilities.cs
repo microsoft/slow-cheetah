@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
 
 
-namespace SlowCheetah.UnitTests
+namespace SlowCheetah.Tests
 {
     /// <summary>
     /// Utilities class for SlowCheetah tests.

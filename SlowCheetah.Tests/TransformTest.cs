@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
 
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
-namespace SlowCheetah.UnitTests
+namespace SlowCheetah.Tests
 {
-    [TestClass]
     public class TransformTest : BaseTest
     {
-        [TestMethod]
+        [Fact]
         public void TestXmlTransform()
         {
             string sourceFile = this.WriteTextToTempFile(TestUtilities.Source01);
@@ -19,13 +18,13 @@ namespace SlowCheetah.UnitTests
             ITransformer transformer = new XmlTransformer();
             transformer.Transform(sourceFile, transformFile, destFile);
 
-            Assert.IsTrue(File.Exists(sourceFile));
-            Assert.IsTrue(File.Exists(transformFile));
-            Assert.IsTrue(File.Exists(destFile));
+            Assert.True(File.Exists(sourceFile));
+            Assert.True(File.Exists(transformFile));
+            Assert.True(File.Exists(destFile));
 
             string actualResult = File.ReadAllText(destFile);
             string expectedResult = File.ReadAllText(expectedResultFile);
-            Assert.AreEqual(expectedResult.Trim(), actualResult.Trim());
+            Assert.Equal(expectedResult.Trim(), actualResult.Trim());
         }
     }
 }

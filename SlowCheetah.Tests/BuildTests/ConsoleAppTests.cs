@@ -1,13 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
+﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
 
-namespace SlowCheetah.UnitTests.BuildTests
+using System.IO;
+using Xunit;
+
+namespace SlowCheetah.Tests.BuildTests
 {
-    [TestClass]
+    [Collection("BuildTests")]
     public class ConsoleAppTests : ConfigTransformTestsBase
     {
-        [TestMethod]
-        [TestCategory("BuildTests")]
+        [Fact]
         public void ConsoleApp_AppConfig_IsTransformed()
         {
             var projectName = "ConsoleApp";
@@ -17,11 +18,10 @@ namespace SlowCheetah.UnitTests.BuildTests
 
             var testSetting = GetAppSettingValue(configFilePath, "TestSetting");
 
-            Assert.AreEqual("Debug", testSetting);
+            Assert.Equal("Debug", testSetting);
         }
 
-        [TestMethod]
-        [TestCategory("BuildTests")]
+        [Fact]
         public void ConsoleApp_OtherConfig_IsTransformed()
         {
             var projectName = "ConsoleApp";
@@ -31,7 +31,7 @@ namespace SlowCheetah.UnitTests.BuildTests
 
             var testNodeValue = GetConfigNodeValue(configFilePath, "TestNode");
 
-            Assert.AreEqual("Debug", testNodeValue);
+            Assert.Equal("Debug", testNodeValue);
         }
     }
 }
