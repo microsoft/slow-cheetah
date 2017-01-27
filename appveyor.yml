@@ -14,25 +14,62 @@ version: 1.0.{build}
 #---------------------------------#
 #    environment configuration    #
 #---------------------------------#
+# Build worker image (VM template)
+image: Visual Studio 2015
 
-# Operating system (build VM template)
-os: Windows Server 2012 R2
+environment:
+  DeployExtension: false
+  Package: true
+
+cache:
+  - packages -> **\packages.config
 
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#
 
 build:
-  project: SlowCheetah.sln      # path to Visual Studio solution or project
-  
-  # MSBuild verbosity level
-  verbosity: normal
+  project: SlowCheetah.sln  # path to Visual Studio solution or project
+  verbosity: normal         # MSBuild verbosity level
+
+# pack and push the release artifact on a tag build
+after_build:
+  - IF %APPVEYOR_REPO_TAG%==true 7z a bin\%CONFIGURATION%\SlowCheetah.%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\bin\%CONFIGURATION%\SlowCheetah*.vsix, %APPVEYOR_BUILD_FOLDER%\bin\%CONFIGURATION%\SlowCheetah*.nupkg
+  - IF %APPVEYOR_REPO_TAG%==true appveyor PushArtifact bin\%CONFIGURATION%\SlowCheetah.%APPVEYOR_BUILD_VERSION%.zip
+
+#---------------------------------#
+#       test configuration        #
+#---------------------------------#
+
+test:
+  assemblies:
+    - '**\*tests.dll'
+
+#---------------------------------#
+#     artifact configuration      #
+#---------------------------------#
 
 artifacts:
-#  - path: 'BuildOutput\**\*.nupkg'
-#  
-#  - path: 'BuildOutput\**\*.vsix'
-#  
-#  - path: 'BuildOutput\**\*.dll'
-#  
-#  - path: 'BuildOutput\**\*.config'
+  - path: 'bin\**\SlowCheetah*.nupkg'
+  - path: 'bin\**\SlowCheetah*.vsix'
+  - path: 'bin\**\SlowCheetah*.dll'
+  - path: 'bin\**\SlowCheetah*.pdb'
+  - path: 'bin\**\SlowCheetah*.xml'
+  - path: 'bin\**\SlowCheetah*.targets'
+
+#---------------------------------#
+#      deploy configuration       #
+#---------------------------------#
+
+# deploy:
+#   release: slowcheetah-v$(appveyor_build_version)
+#   description: 'SlowCheetah NuGet package and VSIX'
+#   provider: GitHub
+#   auth_token:
+#     secure: <your encrypted token>        # your encrypted token from GitHub
+#   artifact: /bin.*SlowCheetah\..*\.zip/   # upload slow cheetah zip as release file
+#   draft: false
+#   prerelease: false
+#   on:
+#     branch: master                 # release from master branch only
+#     appveyor_repo_tag: true        # deploy on tag push only
