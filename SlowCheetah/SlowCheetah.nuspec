@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SlowCheetah</id>
+    <version>2.5.14</version>
+    <authors>Sayed Ibrahim Hashimi</authors>
+    <owners>Sayed Ibrahim Hashimi</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://visualstudiogallery.msdn.microsoft.com/69023d00-a4f9-4a34-a6cd-7e854ba318b5/</projectUrl>
+    <iconUrl>http://sedodream.com/content/binary/images/cheetah-120x120.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Allows for configuration based XML transformations at build time.</description>
+    <!-- <releaseNotes></releaseNotes> -->
+    <copyright>Copyright 2012-2013 Sayed Ibrahim Hashimi</copyright>
+    <tags>SlowCheetah slow cheetah XML Transform XDT web.config app.config</tags>
+  </metadata>
+  <files>
+    <file src="..\bin\$configuration$\Microsoft.Web.XmlTransform.dll" target="tools" />
+    <file src="..\bin\$configuration$\Build\$id$.targets" target="build" />
+  </files>
+</package>

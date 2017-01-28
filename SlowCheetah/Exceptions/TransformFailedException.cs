@@ -1,11 +1,12 @@
-﻿namespace SlowCheetah.VisualStudio.Exceptions {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
 
+using System;
+
+namespace SlowCheetah.Exceptions
+{
     [Serializable]
-    public class TransformFailedException : Exception {
+    public class TransformFailedException : Exception
+    {
         public TransformFailedException() { }
         public TransformFailedException(string message) : base(message) { }
         public TransformFailedException(string message, Exception inner) : base(message, inner) { }
