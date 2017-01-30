@@ -24,6 +24,8 @@ environment:
 cache:
   - packages -> **\packages.config
 
+configuration: Release
+
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#
