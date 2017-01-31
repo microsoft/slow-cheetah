@@ -1,9 +1,0 @@
-﻿Backlog
-
- 0) Need to be able to add the items to the project.
- 1) Need to make the items added children of the main project node.
- 2) Need a list of the configurations available in the project.
- 3) Need to have the items added to the project be based on the configurations list.
- 4) Need logic to check to see if the configuration item already exists, and handle gracefully.
- 5) Need to provide logic to add the import (if required) to the project.
- 6) Installation: Need to be able to install the Task DLL and the target file under MSBuild.

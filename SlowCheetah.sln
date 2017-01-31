@@ -1,94 +1,62 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D625B625-3C78-43C7-B285-8A2BFA9C3B6B}"
-	ProjectSection(SolutionItems) = preProject
-		IntegrationTests.testsettings = IntegrationTests.testsettings
-		SlowCheetah.vsmdi = SlowCheetah.vsmdi
-		UnitTests.testsettings = UnitTests.testsettings
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah", "SlowCheetah\SlowCheetah.csproj", "{6354D859-E629-49FC-B154-FC0BA42D71B0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{57D4810B-E372-489F-B24C-4FCB9DDE0683}"
-	ProjectSection(SolutionItems) = preProject
-		NuGet\SlowCheetah.nuspec = NuGet\SlowCheetah.nuspec
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah.VisualStudio", "SlowCheetah.VisualStudio\SlowCheetah.VisualStudio.csproj", "{93A62D50-111D-4D2D-BA41-E5522AE08DAA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{8A40F2BB-49F2-425C-857D-976C19A2BC92}"
-	ProjectSection(SolutionItems) = preProject
-		NuGet\tools\Install.ps1 = NuGet\tools\Install.ps1
-		NuGet\tools\SlowCheetah.NuGet.template.proj = NuGet\tools\SlowCheetah.NuGet.template.proj
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{C1BE92B2-B2A8-45C7-9DF9-B553A722054B}"
-	ProjectSection(SolutionItems) = preProject
-		build.proj = build.proj
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BBF26ACF-C208-43E7-ADB9-A02B874BCAD3}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah", "SlowCheetah\SlowCheetah.csproj", "{82981C27-9587-42C7-90C3-9CB88D59C3F1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah_UnitTests", "SlowCheetah\SlowCheetah_UnitTests\SlowCheetah_UnitTests.csproj", "{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah.FunctionalTests", "SlowCheetah.FunctionalTests\SlowCheetah.FunctionalTests.csproj", "{5FA573BF-14DC-4568-B63E-20330EEB5B51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah.Tests", "SlowCheetah.Tests\SlowCheetah.Tests.csproj", "{8011779C-108E-46A7-B0E3-BE2DC023BDFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
-		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{82981C27-9587-42C7-90C3-9CB88D59C3F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82981C27-9587-42C7-90C3-9CB88D59C3F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82981C27-9587-42C7-90C3-9CB88D59C3F1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{82981C27-9587-42C7-90C3-9CB88D59C3F1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{82981C27-9587-42C7-90C3-9CB88D59C3F1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{82981C27-9587-42C7-90C3-9CB88D59C3F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82981C27-9587-42C7-90C3-9CB88D59C3F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82981C27-9587-42C7-90C3-9CB88D59C3F1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{82981C27-9587-42C7-90C3-9CB88D59C3F1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{82981C27-9587-42C7-90C3-9CB88D59C3F1}.Release|x86.ActiveCfg = Release|Any CPU
-		{82981C27-9587-42C7-90C3-9CB88D59C3F1}.Release|x86.Build.0 = Release|Any CPU
-		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|x86.ActiveCfg = Release|Any CPU
-		{2FAF5A09-3AA5-43BB-BC9A-608CE27ABBE4}.Release|x86.Build.0 = Release|Any CPU
-		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{5FA573BF-14DC-4568-B63E-20330EEB5B51}.Release|x86.ActiveCfg = Release|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Debug|x64.Build.0 = Debug|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Debug|x86.Build.0 = Debug|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Release|x64.ActiveCfg = Release|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Release|x64.Build.0 = Release|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Release|x86.ActiveCfg = Release|Any CPU
+		{6354D859-E629-49FC-B154-FC0BA42D71B0}.Release|x86.Build.0 = Release|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Debug|x64.Build.0 = Debug|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Debug|x86.Build.0 = Debug|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Release|x64.ActiveCfg = Release|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Release|x64.Build.0 = Release|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Release|x86.ActiveCfg = Release|Any CPU
+		{93A62D50-111D-4D2D-BA41-E5522AE08DAA}.Release|x86.Build.0 = Release|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Debug|x64.Build.0 = Debug|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Debug|x86.Build.0 = Debug|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Release|x64.ActiveCfg = Release|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Release|x64.Build.0 = Release|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Release|x86.ActiveCfg = Release|Any CPU
+		{8011779C-108E-46A7-B0E3-BE2DC023BDFE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{8A40F2BB-49F2-425C-857D-976C19A2BC92} = {57D4810B-E372-489F-B24C-4FCB9DDE0683}
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = SlowCheetah.vsmdi
 	EndGlobalSection
 EndGlobal
