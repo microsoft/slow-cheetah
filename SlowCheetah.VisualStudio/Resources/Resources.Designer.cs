@@ -106,6 +106,15 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://github.com/sayedihashimi/slow-cheetah/blob/master/UPDATE.md.
+        /// </summary>
+        internal static string NugetUpdate_Link {
+            get {
+                return ResourceManager.GetString("NugetUpdate_Link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In order to support transforms your project file will need to be modified. This will cause your project to be unloaded and then reloaded. If your project is checked into source control then it may be checked out.\n\nChoose Yes to proceed otherwise No..
         /// </summary>
         internal static string String_AddImportText {

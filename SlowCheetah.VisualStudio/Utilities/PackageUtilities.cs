@@ -16,8 +16,8 @@ namespace SlowCheetah.VisualStudio
 
         /// <summary>
         /// Given a string which contains a list of extensions separated by semi-colons, this function sorts through the list
-        /// throwing out any blank or empty items, and then makes sure that the extensions start with a ".". The validated list
-        /// is returned.
+        /// throwing out any blank or empty items, and then makes sure that the extensions start with a ".".
+        /// The validated list is returned.
         /// </summary>
         /// <param name="items">A list of extensions separated by semi-colans. The items may be prefixed with the ".", but don't have to be.</param>
         /// <returns>The validated and culled list of extensions. The returned items all begin with a ".".</returns>
@@ -55,6 +55,11 @@ namespace SlowCheetah.VisualStudio
             return ExcludedExtensions;
         }
 
+        /// <summary>
+        /// Verifies if the extension of the given file is supported
+        /// </summary>
+        /// <param name="filepath">Full path to the file</param>
+        /// <returns>True if the file is supported</returns>
         public static bool IsExtensionSupportedForFile(string filepath)
         {
             if (string.IsNullOrWhiteSpace(filepath)) { throw new ArgumentNullException("filepath"); }
@@ -108,6 +113,12 @@ namespace SlowCheetah.VisualStudio
             return path;
         }
 
+        /// <summary>
+        /// Verifies if a file is in XML format.
+        /// Attempts to open a file using an XML Reader.
+        /// </summary>
+        /// <param name="filepath">Full path to the </param>
+        /// <returns>True is the file is XML</returns>
         public static bool IsXmlFile(string filepath)
         {
             if (string.IsNullOrWhiteSpace(filepath)) { throw new ArgumentNullException("filepath"); }
@@ -131,18 +142,6 @@ namespace SlowCheetah.VisualStudio
                 isXmlFile = false;
             }
             return isXmlFile;
-        }
-
-        public static bool DoesVsEditionSupportInfoBar(string vsRegistry)
-        {
-            string versionMajorNumber = vsRegistry.Split('\\').Last().Split('.').First();
-
-            if (Int32.TryParse(versionMajorNumber, out int vNumber))
-            {
-                return vNumber >= 14;
-            }
-
-            return false;
         }
     }
 }

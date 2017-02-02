@@ -343,6 +343,13 @@ namespace SlowCheetah.VisualStudio
                 return;
             }
 
+            ProjectItem selectedProjectItem = GetProjectItemFromHierarchy(hierarchy, itemId);
+            if (!IsSlowCheetahPackageInstalled(selectedProjectItem.ContainingProject))
+            {
+                INugetPackageHandler nugetHandler = NugetHandlerFactory.GetHandler(this);
+                nugetHandler.ShowUpdateInfo();
+            }
+
             ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out object value));
             uint parentId = (uint)(int)value;
             if (parentId == (uint)VSConstants.VSITEMID.Nil)
@@ -578,35 +585,12 @@ namespace SlowCheetah.VisualStudio
         }
 
         /// <summary>
-        /// Verifies if a file is xml
+        /// Creates a new XML transformation file and adds it to the project.
         /// </summary>
-        /// <param name="filepath">Full path to the file</param>
-        /// <returns></returns>
-        private bool IsXmlFile(string filepath)
-        {
-            if (string.IsNullOrWhiteSpace(filepath)) { throw new ArgumentNullException("filepath"); }
-            if (!File.Exists(filepath))
-            {
-                throw new FileNotFoundException("File not found", filepath);
-            }
-
-            bool isXmlFile = true;
-            try
-            {
-                using (XmlTextReader xmlTextReader = new XmlTextReader(filepath))
-                {
-                    // This is required because if the XML file has a DTD then it will try and download the DTD!
-                    xmlTextReader.DtdProcessing = DtdProcessing.Ignore;
-                    xmlTextReader.Read();
-                }
-            }
-            catch (XmlException)
-            {
-                isXmlFile = false;
-            }
-            return isXmlFile;
-        }
-
+        /// <param name="selectedProjectItem">The selected item to be transformed</param>
+        /// <param name="content">Contents to be written to the transformation file</param>
+        /// <param name="itemName">Full name of the transformation file</param>
+        /// <param name="projectPath">Full path to the current project</param>
         private void AddXdtTransformFile(ProjectItem selectedProjectItem, string content, string itemName, string projectPath)
         {
             try
@@ -641,6 +625,11 @@ namespace SlowCheetah.VisualStudio
             }
         }
 
+        /// <summary>
+        /// Builds the contents of a transformation file for a given source file.
+        /// </summary>
+        /// <param name="sourceItemPath">Full path to the file to be transformed.</param>
+        /// <returns>Contents of the XML transform file.</returns>
         private string BuildXdtContent(string sourceItemPath)
         {
             string content = Resources.Resources.TransformContents;
@@ -813,23 +802,10 @@ namespace SlowCheetah.VisualStudio
             //          http://social.msdn.microsoft.com/Forums/en/vsx/thread/eb032063-eb4d-42e0-84e8-dec64bf42abf
         }
 
-        private bool HasUserAcceptedWarningMessage(string projectPath, string importPath)
-        {
-            if (GetService(typeof(SVsUIShell)) is IVsUIShell shell)
-            {
-                string message = Resources.Resources.String_AddImportText.Replace(@"\n", Environment.NewLine);
-                message = string.Format(message, Path.GetFileNameWithoutExtension(projectPath), importPath);
-
-                Guid compClass = Guid.Empty;
-                if (VSConstants.S_OK == shell.ShowMessageBox(0, ref compClass, Resources.Resources.String_AddImportTitle, message, null, 0, OLEMSGBUTTON.OLEMSGBUTTON_YESNO, OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_SECOND, OLEMSGICON.OLEMSGICON_WARNING, 1, out int result))
-                {
-                    return result == IDYES;
-                }
-            }
-
-            return false;
-        }
-
+        /// <summary>
+        /// Gets the installation directory for the current instance of Visual Studio.
+        /// </summary>
+        /// <returns>Full path to the VS instalation directory</returns>
         public string GetVsInstallDirectory()
         {
             string installDirectory = null;
@@ -844,6 +820,11 @@ namespace SlowCheetah.VisualStudio
             return installDirectory;
         }
 
+        /// <summary>
+        /// Verifies if the correct (updated) SlowCheetah Nuget package is installed.
+        /// </summary>
+        /// <param name="project">Current project</param>
+        /// <returns>True if the package is installed</returns>
         private bool IsSlowCheetahPackageInstalled(EnvDTE.Project project)
         {
             var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
@@ -861,33 +842,6 @@ namespace SlowCheetah.VisualStudio
                 }
             }
             return false;
-        }
-
-        private bool InstallSlowCheetahNuGetPackage(EnvDTE.Project project)
-        {
-            bool installedPackage = true;
-            try
-            {
-                var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
-                IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();
-                if (!installerServices.IsPackageInstalled(project, pkgName))
-                {
-                    ProjectUtilities.GetDTE().StatusBar.Text = "Installing SlowCheetah NuGet package, this may take a few seconds";
-
-                    IVsPackageInstaller installer = (IVsPackageInstaller)componentModel.GetService<IVsPackageInstaller>();
-                    installer.InstallPackage("All", project, pkgName, (System.Version)null, false);
-
-                    ProjectUtilities.GetDTE().StatusBar.Text = "Finished installing SlowCheetah NuGet package";
-                }
-
-            }
-            catch (Exception ex)
-            {
-                installedPackage = false;
-                this.LogMessageWriteLineFormat("Unable to install the SlowCheetah Nuget package. {0}", ex.ToString());
-            }
-
-            return installedPackage;
         }
 
         public static bool Succeeded(int hr)

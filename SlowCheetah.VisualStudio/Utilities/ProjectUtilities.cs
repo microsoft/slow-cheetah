@@ -13,6 +13,12 @@ namespace SlowCheetah.VisualStudio
 {
     public static class ProjectUtilities
     {
+        private static string SupportedProjectExtensionsKey = @"XdtTransforms\SupportedProjectExtensions";
+        private static string SupportedItemExtensionsKey = @"XdtTransforms\SupportedItemExtensions";
+
+        /// <summary>
+        /// Gets the DTE from current context
+        /// </summary>
         public static DTE GetDTE()
         {
             return (DTE)Package.GetGlobalService(typeof(DTE));
@@ -42,14 +48,24 @@ namespace SlowCheetah.VisualStudio
             return configurations.ToArray();
         }
 
+        /// <summary>
+        /// Retrieves the supported project extensions from the package settings
+        /// </summary>
+        /// <param name="settingsManager"> </param>
+        /// <returns>List of supported project extensions starting with '.'</returns>
         public static string[] GetSupportedProjectExtensions(IVsSettingsManager settingsManager)
         {
-            return GetSupportedExtensions(settingsManager, @"XdtTransforms\SupportedProjectExtensions");
+            return GetSupportedExtensions(settingsManager, SupportedProjectExtensionsKey);
         }
 
+        /// <summary>
+        /// Retrieves the supported item extensions from the package settings
+        /// </summary>
+        /// <param name="settingsManager"></param>
+        /// <returns></returns>
         public static string[] GetSupportedItemExtensions(IVsSettingsManager settingsManager)
         {
-            return GetSupportedExtensions(settingsManager, @"XdtTransforms\SupportedItemExtensions");
+            return GetSupportedExtensions(settingsManager, SupportedItemExtensionsKey);
         }
 
         private static string[] GetSupportedExtensions(IVsSettingsManager settingsManager, string rootKey)

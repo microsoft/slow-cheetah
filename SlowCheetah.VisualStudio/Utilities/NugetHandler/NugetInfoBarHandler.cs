@@ -14,7 +14,6 @@ namespace SlowCheetah.VisualStudio
         private uint? uiCookie;
             
         private static string UpdateLink = "UPDATE_LINK";
-        private const string UpdateUrl = "https://github.com/sayedihashimi/slow-cheetah";
 
         public NugetInfoBarHandler(IServiceProvider package) : base(package)
         {
@@ -26,7 +25,7 @@ namespace SlowCheetah.VisualStudio
             var model = new InfoBarModel(
                 textSpans: new[]
                 {
-                    new InfoBarTextSpan("It seems that you do not have the correct version of the SlowCheetah Nuget package installed. Click "),
+                    new InfoBarTextSpan("It seems that you do not have the correct version of the SlowCheetah Nuget package installed. Transforms on this project will not be executed. Click "),
                     new InfoBarHyperlink("here", UpdateLink),
                     new InfoBarTextSpan(" to learn about updating from an older version or install the package.")
                 }
@@ -85,7 +84,7 @@ namespace SlowCheetah.VisualStudio
         {
             if (UpdateLink.Equals(actionItem.ActionContext))
             {
-                System.Diagnostics.Process.Start(UpdateUrl);
+                System.Diagnostics.Process.Start(Resources.Resources.NugetUpdate_Link);
             }
         }
     }

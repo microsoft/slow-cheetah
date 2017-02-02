@@ -44,8 +44,6 @@ namespace SlowCheetah.VisualStudio
             EnablePreview = true;
         }
 
-        //---------------------------------------------------------------------------//
-
         public string PreviewToolExecutablePath { get; set; }
         public string PreviewToolCommandLine { get; set; }
         public bool EnablePreview { get; set; }
