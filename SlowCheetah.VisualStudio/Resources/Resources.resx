@@ -148,13 +148,6 @@
     <value>{0}.{1}{2}</value>
     <comment>This is the format string for the new transform file's filename.</comment>
   </data>
-  <data name="String_ImportPath" xml:space="preserve">
-    <value>$()</value>
-  </data>
-  <data name="String_SlowCheetahImportProp" xml:space="preserve">
-    <value>SlowCheetahImport</value>
-    <comment>This property is set to full path of the SlowCheetah targets file, indicating that the imports exist.</comment>
-  </data>
   <data name="String_TransformFileContents" xml:space="preserve">
     <value>&lt;?xml version="1.0" encoding="utf-8" ?&gt;\n&lt;!-- For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. --&gt;\n</value>
     <comment>This is the initial contents of the transform file.</comment>

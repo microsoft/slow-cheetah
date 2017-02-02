@@ -133,24 +133,6 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to $().
-        /// </summary>
-        internal static string String_ImportPath {
-            get {
-                return ResourceManager.GetString("String_ImportPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SlowCheetahImport.
-        /// </summary>
-        internal static string String_SlowCheetahImportProp {
-            get {
-                return ResourceManager.GetString("String_SlowCheetahImportProp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;\n&lt;!-- For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. --&gt;\n.
         /// </summary>
         internal static string String_TransformFileContents {
