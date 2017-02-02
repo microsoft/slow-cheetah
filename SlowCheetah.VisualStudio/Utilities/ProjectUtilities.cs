@@ -71,14 +71,17 @@ namespace SlowCheetah.VisualStudio
 
         private static string[] GetSupportedExtensions(IVsSettingsManager settingsManager, string rootKey)
         {
-            ErrorHandler.ThrowOnFailure(settingsManager.GetReadOnlySettingsStore((uint)__VsSettingsScope.SettingsScope_Configuration, out var settings));
-            ErrorHandler.ThrowOnFailure(settings.GetSubCollectionCount(rootKey, out uint count));
+            IVsSettingsStore settings;
+            uint count;
+            ErrorHandler.ThrowOnFailure(settingsManager.GetReadOnlySettingsStore((uint)__VsSettingsScope.SettingsScope_Configuration, out settings));
+            ErrorHandler.ThrowOnFailure(settings.GetSubCollectionCount(rootKey, out count));
 
             string[] supportedExtensions = new string[count];
 
             for (uint i = 0; i != count; ++i)
             {
-                ErrorHandler.ThrowOnFailure(settings.GetSubCollectionName(rootKey, i, out string keyName));
+                string keyName;
+                ErrorHandler.ThrowOnFailure(settings.GetSubCollectionName(rootKey, i, out keyName));
                 supportedExtensions[i] = keyName;
             }
 

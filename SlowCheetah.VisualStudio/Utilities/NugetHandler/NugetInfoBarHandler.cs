@@ -41,7 +41,8 @@ namespace SlowCheetah.VisualStudio
             IVsInfoBarUIElement uiElement;
             if (!_isInfoBarOpen && TryCreateInfoBarUI(model, out uiElement))
             {
-                uiElement.Advise(this, out uint cookie);
+                uint cookie;
+                uiElement.Advise(this, out cookie);
                 AddInfoBar(uiElement);
                 _uiCookie = cookie;
                 _isInfoBarOpen = true;

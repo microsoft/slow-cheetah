@@ -97,7 +97,8 @@ namespace SlowCheetah.VisualStudio
 
             this.LogMessageWriteLineFormat(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             // Add our command handlers for menu (commands must exist in the .vsct file)
-            if (GetService(typeof(IMenuCommandService)) is OleMenuCommandService mcs)
+            OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            if (mcs != null)
             {
                 // create the command for the "Add Transform" query status menu item
                 CommandID menuContextCommandID = new CommandID(GuidList.guidSlowCheetahCmdSet, (int)PkgCmdIDList.cmdidAddTransform);
@@ -151,7 +152,8 @@ namespace SlowCheetah.VisualStudio
         private void OnBeforeQueryStatusAddTransformCommand(object sender, EventArgs e)
         {
             // get the menu that fired the event
-            if (sender is OleMenuCommand menuCommand)
+            OleMenuCommand menuCommand = sender as OleMenuCommand;
+            if (menuCommand != null)
             {
                 // start by assuming that the menu will not be shown
                 menuCommand.Visible = false;
@@ -194,7 +196,8 @@ namespace SlowCheetah.VisualStudio
         private void OnBeforeQueryStatusPreviewTransformCommand(object sender, EventArgs e)
         {
             // get the menu that fired the event
-            if (sender is OleMenuCommand menuCommand)
+            OleMenuCommand menuCommand = sender as OleMenuCommand;
+            if (menuCommand != null)
             {
                 // start by assuming that the menu will not be shown
                 menuCommand.Visible = false;
@@ -436,7 +439,8 @@ namespace SlowCheetah.VisualStudio
             uint itemid;
             try
             {
-                if (hierarchy is IVsProjectSpecialFiles specialFiles)
+                IVsProjectSpecialFiles specialFiles = hierarchy as IVsProjectSpecialFiles;
+                if (specialFiles != null)
                 {
                     specialFiles.GetFile((int)__PSFFILEID2.PSFFILEID_AppDesigner, (uint)__PSFFLAGS.PSFF_FullPath, out itemid, out propertiesFolder);
                 }
@@ -824,7 +828,8 @@ namespace SlowCheetah.VisualStudio
         public string GetVsInstallDirectory()
         {
             string installDirectory = null;
-            if (GetService(typeof(SVsShell)) is IVsShell shell)
+            IVsShell shell = GetService(typeof(SVsShell)) as IVsShell;
+            if (shell != null)
             {
                 object installDirectoryObj;
                 shell.GetProperty((int)__VSSPROPID.VSSPROPID_InstallDirectory, out installDirectoryObj);
