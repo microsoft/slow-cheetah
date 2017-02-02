@@ -59,7 +59,6 @@ artifacts:
   - path: 'bin\**\SlowCheetah*.vsix'
   - path: 'bin\**\SlowCheetah*.dll'
   - path: 'bin\**\SlowCheetah*.pdb'
-  - path: 'bin\**\SlowCheetah*.xml'
   - path: 'bin\**\SlowCheetah*.targets'
 
 #---------------------------------#
@@ -71,7 +70,7 @@ artifacts:
 #   description: 'SlowCheetah NuGet package and VSIX'
 #   provider: GitHub
 #   auth_token:
-#     secure: <your encrypted token>        # your encrypted token from GitHub
+#     secure: z+T+CuFrnl/PoGwwnSx5G/xBEPAzjoW5xoUicVUSH8aUHU7OXESK90d8+wxQxc4Y   # your encrypted token from GitHub
 #   artifact: /bin.*SlowCheetah\..*\.zip/   # upload slow cheetah zip as release file
 #   draft: false
 #   prerelease: false
