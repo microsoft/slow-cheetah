@@ -137,8 +137,16 @@
     <value>The transform file {0} was not found.</value>
     <comment>Error message</comment>
   </data>
+  <data name="NugetUpdate_InfoBarLink" xml:space="preserve">
+    <value>here</value>
+    <comment>Text of the link in the update info bar</comment>
+  </data>
+  <data name="NugetUpdate_InfoBarText" xml:space="preserve">
+    <value>It seems that you do not have the correct version of the SlowCheetah Nuget package installed. Transforms on this project will not be executed. To learn about updating from an older version, click </value>
+    <comment>Text to be displayed on the update info bar</comment>
+  </data>
   <data name="NugetUpdate_Link" xml:space="preserve">
-    <value>https://github.com/sayedihashimi/slow-cheetah/blob/master/UPDATE.md</value>
+    <value>https://github.com/sayedihashimi/slow-cheetah/blob/master/doc/update.md</value>
     <comment>Link to the update info for the SlowCheetah Nuget package</comment>
   </data>
   <data name="String_AddImportText" xml:space="preserve">

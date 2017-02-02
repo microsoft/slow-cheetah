@@ -83,14 +83,16 @@ namespace SlowCheetah.VisualStudio
             try
             {
                 InitializeDefaults();
-                if (SlowCheetahPackage.Succeeded(reader.ReadSettingString(regPreviewExe, out string exePath)) && !string.IsNullOrEmpty(exePath))
+                string exePath, exeCmdLine;
+                int enablePreview;
+                if (SlowCheetahPackage.Succeeded(reader.ReadSettingString(regPreviewExe, out exePath)) && !string.IsNullOrEmpty(exePath))
                 {
                     PreviewToolExecutablePath = exePath;
                 }
 
-                if (SlowCheetahPackage.Succeeded(reader.ReadSettingString(regPreviewCmdLine, out string exeCmdLine)) && !string.IsNullOrEmpty(exeCmdLine))
+                if (SlowCheetahPackage.Succeeded(reader.ReadSettingString(regPreviewCmdLine, out exeCmdLine)) && !string.IsNullOrEmpty(exeCmdLine))
                     PreviewToolCommandLine = exeCmdLine;
-                if (SlowCheetahPackage.Succeeded(reader.ReadSettingBoolean(regPreviewEnable, out int enablePreview)))
+                if (SlowCheetahPackage.Succeeded(reader.ReadSettingBoolean(regPreviewEnable, out enablePreview)))
                     EnablePreview = enablePreview == 1;
             }
             catch (Exception e)

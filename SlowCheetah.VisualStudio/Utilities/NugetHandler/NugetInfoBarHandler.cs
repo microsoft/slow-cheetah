@@ -5,43 +5,53 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Shell14.Microsoft.VisualStudio.Shell;
 using Shell14.Microsoft.VisualStudio.Shell.Interop;
+using Shell14.Microsoft.VisualStudio.Imaging;
 
 namespace SlowCheetah.VisualStudio
 {
-    public class NugetInfoBarHandler : NugetPackageHandlerBase, IVsInfoBarUIEvents
+    /// <summary>
+    /// Displays an info bar with update information for the SlowCheetah NuGet package
+    /// </summary>
+    public class NugetInfoBarHandler : INugetPackageHandler, IVsInfoBarUIEvents
     {
-        private bool isInfoBarOpen;
-        private uint? uiCookie;
-            
-        private static string UpdateLink = "UPDATE_LINK";
+        private bool _isInfoBarOpen;
+        private uint _uiCookie;
+        protected IServiceProvider Package { get; }
 
-        public NugetInfoBarHandler(IServiceProvider package) : base(package)
+        private static string UpdateLink = "SLOWCHEETAH_UPDATE_LINK";
+
+        public NugetInfoBarHandler(IServiceProvider package)
         {
-            isInfoBarOpen = false;
+            Package = package;
+            _isInfoBarOpen = false;
         }
 
-        public override void ShowUpdateInfo()
+        public void ShowUpdateInfo()
         {
             var model = new InfoBarModel(
                 textSpans: new[]
                 {
-                    new InfoBarTextSpan("It seems that you do not have the correct version of the SlowCheetah Nuget package installed. Transforms on this project will not be executed. Click "),
-                    new InfoBarHyperlink("here", UpdateLink),
-                    new InfoBarTextSpan(" to learn about updating from an older version or install the package.")
-                }
+                    new InfoBarTextSpan(Resources.Resources.NugetUpdate_InfoBarText),
+                    new InfoBarHyperlink(Resources.Resources.NugetUpdate_InfoBarLink, UpdateLink)
+                },
+                image: KnownMonikers.StatusInformation
+
             );
-            if (TryCreateInfoBarUI(model, out var uiElement) && !isInfoBarOpen)
+
+            IVsInfoBarUIElement uiElement;
+            if (!_isInfoBarOpen && TryCreateInfoBarUI(model, out uiElement))
             {
                 uiElement.Advise(this, out uint cookie);
                 AddInfoBar(uiElement);
-                this.uiCookie = cookie;
-                this.isInfoBarOpen = true;
+                _uiCookie = cookie;
+                _isInfoBarOpen = true;
             }
         }
 
         private void AddInfoBar(IVsUIElement uiElement)
         {
-            if (TryGetInfoBarHost(out var infoBarHost))
+            IVsInfoBarHost infoBarHost;
+            if (TryGetInfoBarHost(out infoBarHost))
             {
                 infoBarHost.AddInfoBar(uiElement);
             }
@@ -49,8 +59,9 @@ namespace SlowCheetah.VisualStudio
 
         private bool TryGetInfoBarHost(out IVsInfoBarHost infoBarHost)
         {
-            var shell = package.GetService(typeof(SVsShell)) as IVsShell;
-            if (ErrorHandler.Failed(shell.GetProperty((int)__VSSPROPID7.VSSPROPID_MainWindowInfoBarHost, out object infoBarHostObj)))
+            var shell = Package.GetService(typeof(SVsShell)) as IVsShell;
+            object infoBarHostObj;
+            if (ErrorHandler.Failed(shell.GetProperty((int)__VSSPROPID7.VSSPROPID_MainWindowInfoBarHost, out infoBarHostObj)))
             {
                 infoBarHost = null;
                 return false;
@@ -62,7 +73,7 @@ namespace SlowCheetah.VisualStudio
 
         private bool TryCreateInfoBarUI(IVsInfoBar infoBar, out IVsInfoBarUIElement uiElement)
         {
-            IVsInfoBarUIFactory infoBarUIFactory = package.GetService(typeof(SVsInfoBarUIFactory)) as IVsInfoBarUIFactory;
+            IVsInfoBarUIFactory infoBarUIFactory = Package.GetService(typeof(SVsInfoBarUIFactory)) as IVsInfoBarUIFactory;
             if (infoBarUIFactory == null)
             {
                 uiElement = null;
@@ -75,9 +86,8 @@ namespace SlowCheetah.VisualStudio
 
         public void OnClosed(IVsInfoBarUIElement infoBarUIElement)
         {
-            this.isInfoBarOpen = false;
-            infoBarUIElement.Unadvise(this.uiCookie.Value);
-            this.uiCookie = null;
+            _isInfoBarOpen = false;
+            infoBarUIElement.Unadvise(_uiCookie);
         }
 
         public void OnActionItemClicked(IVsInfoBarUIElement infoBarUIElement, IVsInfoBarActionItem actionItem)

@@ -7,32 +7,37 @@ using Microsoft.VisualStudio.Shell;
 
 namespace SlowCheetah.VisualStudio
 {
+    /// <summary>
+    /// Factory that determines the user's version of Visual Studio and return the correct <see cref="INugetPackageHandler"/>
+    /// </summary>
     public static class NugetHandlerFactory
     {
-        private static INugetPackageHandler s_ourHandler;
+        private static INugetPackageHandler s_handler;
 
         public static INugetPackageHandler GetHandler(IServiceProvider package)
         {
-            if (s_ourHandler == null)
+            if (s_handler == null)
             {
                 EnvDTE.DTE dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));
                 bool showInfoBar = false;
-                if (Int32.TryParse(dte.Version.Split('.').First(), out int vNumber))
+                Version vsVersion;
+                System.Version.TryParse(dte.Version, out vsVersion);
+                if (System.Version.TryParse(dte.Version, out vsVersion))
                 {
-                    showInfoBar = vNumber >= 14;
+                    showInfoBar = (vsVersion.CompareTo(new Version(14, 0)) >= 0);
                 }
 
                 if (showInfoBar)
                 {
-                    s_ourHandler = new NugetInfoBarHandler(package);
+                    s_handler = new NugetInfoBarHandler(package);
                 }
                 else
                 {
-                    s_ourHandler = new NugetMessageHandler(package);
+                    s_handler = new NugetMessageHandler(package);
                 }
             }
 
-            return s_ourHandler;
+            return s_handler;
         }
     }
 }

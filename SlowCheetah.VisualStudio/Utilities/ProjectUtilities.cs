@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace SlowCheetah.VisualStudio
 {
+    //Utilities class for the Visual Studio Extension Package that deals specifically with projects
     public static class ProjectUtilities
     {
         private static string SupportedProjectExtensionsKey = @"XdtTransforms\SupportedProjectExtensions";

@@ -54,7 +54,6 @@
     <Compile Include="Utilities\NugetHandler\NugetHandlerFactory.cs" />
     <Compile Include="Utilities\NugetHandler\NugetMessageHandler.cs" />
     <Compile Include="Utilities\NugetHandler\NugetInfoBarHandler.cs" />
-    <Compile Include="Utilities\NugetHandler\NugetPackageHandlerBase.cs" />
     <Compile Include="OptionsDialogPage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -133,6 +132,10 @@
     <Reference Include="Microsoft.VisualStudio.GraphModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\VSSDK.GraphModel.11.0.4\lib\net45\Microsoft.VisualStudio.GraphModel.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.ImageCatalog, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.VisualStudio.ImageCatalog.14.3.25407\lib\net45\Microsoft.VisualStudio.ImageCatalog.dll</HintPath>
+      <Aliases>Shell14</Aliases>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Imaging, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.VisualStudio.Imaging.14.3.25407\lib\net45\Microsoft.VisualStudio.Imaging.dll</HintPath>

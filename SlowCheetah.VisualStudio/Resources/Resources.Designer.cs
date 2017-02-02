@@ -106,7 +106,25 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://github.com/sayedihashimi/slow-cheetah/blob/master/UPDATE.md.
+        ///   Looks up a localized string similar to here.
+        /// </summary>
+        internal static string NugetUpdate_InfoBarLink {
+            get {
+                return ResourceManager.GetString("NugetUpdate_InfoBarLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It seems that you do not have the correct version of the SlowCheetah Nuget package installed. Transforms on this project will not be executed. To learn about updating from an older version, click .
+        /// </summary>
+        internal static string NugetUpdate_InfoBarText {
+            get {
+                return ResourceManager.GetString("NugetUpdate_InfoBarText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://github.com/sayedihashimi/slow-cheetah/blob/master/doc/update.md.
         /// </summary>
         internal static string NugetUpdate_Link {
             get {

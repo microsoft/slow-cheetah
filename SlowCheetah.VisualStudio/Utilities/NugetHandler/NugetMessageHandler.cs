@@ -7,11 +7,20 @@ using Microsoft.VisualStudio.Shell;
 
 namespace SlowCheetah.VisualStudio
 {
-    public class NugetMessageHandler : NugetPackageHandlerBase
+    /// <summary>
+    /// Displays information on updating the SlowCheetah NuGet package.
+    /// Opens the default web browser with the github documentation.
+    /// </summary>
+    public class NugetMessageHandler : INugetPackageHandler
     {
-        public NugetMessageHandler(IServiceProvider package) : base(package) { }
+        protected IServiceProvider Package { get; }
 
-        public override void ShowUpdateInfo()
+        public NugetMessageHandler(IServiceProvider package)
+        {
+            Package = package;
+        }
+
+        public void ShowUpdateInfo()
         {
             System.Diagnostics.Process.Start(Resources.Resources.NugetUpdate_Link);
         }

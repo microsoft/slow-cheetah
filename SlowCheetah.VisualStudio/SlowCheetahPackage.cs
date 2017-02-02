@@ -158,7 +158,8 @@ namespace SlowCheetah.VisualStudio
                 menuCommand.Enabled = false;
                 uint itemid = VSConstants.VSITEMID_NIL;
 
-                if (!IsSingleProjectItemSelection(out var hierarchy, out itemid))
+                IVsHierarchy hierarchy;
+                if (!IsSingleProjectItemSelection(out hierarchy, out itemid))
                 {
                     return;
                 }
@@ -200,7 +201,8 @@ namespace SlowCheetah.VisualStudio
                 menuCommand.Enabled = false;
                 uint itemid = VSConstants.VSITEMID_NIL;
 
-                if (!IsSingleProjectItemSelection(out var hierarchy, out itemid))
+                IVsHierarchy hierarchy;
+                if (!IsSingleProjectItemSelection(out hierarchy, out itemid))
                 {
                     return;
                 }
@@ -234,7 +236,8 @@ namespace SlowCheetah.VisualStudio
         {
             uint itemid = VSConstants.VSITEMID_NIL;
 
-            if (!IsSingleProjectItemSelection(out var hierarchy, out itemid))
+            IVsHierarchy hierarchy;
+            if (!IsSingleProjectItemSelection(out hierarchy, out itemid))
             {
                 return;
             }
@@ -245,7 +248,8 @@ namespace SlowCheetah.VisualStudio
                 return;
             }
 
-            if (ErrorHandler.Failed(vsProject.GetMkDocument(VSConstants.VSITEMID_ROOT, out string projectFullPath)))
+            string projectFullPath;
+            if (ErrorHandler.Failed(vsProject.GetMkDocument(VSConstants.VSITEMID_ROOT, out projectFullPath)))
             {
                 return;
             }
@@ -257,7 +261,8 @@ namespace SlowCheetah.VisualStudio
                 return;
             }
             // get the name of the item
-            if (ErrorHandler.Failed(vsProject.GetMkDocument(itemid, out string itemFullPath)))
+            string itemFullPath;
+            if (ErrorHandler.Failed(vsProject.GetMkDocument(itemid, out itemFullPath)))
             {
                 return;
             }
@@ -304,11 +309,12 @@ namespace SlowCheetah.VisualStudio
                     transformsToCreate.AddRange(publishProfileTransforms);
                 }
 
+                uint addedFileId;
                 foreach (string config in transformsToCreate)
                 {
                     string itemName = string.Format(Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
                     AddXdtTransformFile(selectedProjectItem, content, itemName, itemFolder);
-                    hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out uint addedFileId);
+                    hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out addedFileId);
                     buildPropertyStorage.SetItemAttribute(addedFileId, IsTransformFile, "True");
                     buildPropertyStorage.SetItemAttribute(addedFileId, DependentUpon, itemFilenameExtension);
                 }
@@ -338,7 +344,8 @@ namespace SlowCheetah.VisualStudio
                 return;
             }
             // get the full path of the configuration xdt
-            if (ErrorHandler.Failed(project.GetMkDocument(itemId, out string transformPath)))
+            string transformPath;
+            if (ErrorHandler.Failed(project.GetMkDocument(itemId, out transformPath)))
             {
                 return;
             }
@@ -350,14 +357,16 @@ namespace SlowCheetah.VisualStudio
                 nugetHandler.ShowUpdateInfo();
             }
 
-            ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out object value));
-            uint parentId = (uint)(int)value;
+            object parentIdObj;
+            ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out parentIdObj));
+            uint parentId = (uint)(int)parentIdObj;
             if (parentId == (uint)VSConstants.VSITEMID.Nil)
             {
                 return;
             }
 
-            if (ErrorHandler.Failed(project.GetMkDocument(parentId, out string documentPath)))
+            string documentPath;
+            if (ErrorHandler.Failed(project.GetMkDocument(parentId, out documentPath)))
             {
                 return;
             }
@@ -383,7 +392,8 @@ namespace SlowCheetah.VisualStudio
             }
 
             bool isItemTransformFile = false;
-            buildPropertyStorage.GetItemAttribute(itemid, IsTransformFile, out string value);
+            string value;
+            buildPropertyStorage.GetItemAttribute(itemid, IsTransformFile, out value);
             if (string.Compare("true", value, true) == 0)
             {
                 isItemTransformFile = true;
@@ -393,10 +403,11 @@ namespace SlowCheetah.VisualStudio
             if (!isItemTransformFile)
             {
                 string pattern = @"web\..+\.config";
-                buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out string filepath);
-                if (!string.IsNullOrEmpty(filepath))
+                string filePath;
+                buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out filePath);
+                if (!string.IsNullOrEmpty(filePath))
                 {
-                    System.IO.FileInfo fi = new System.IO.FileInfo(filepath);
+                    System.IO.FileInfo fi = new System.IO.FileInfo(filePath);
                     System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(
                         pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                     if (regex.IsMatch(fi.Name))
@@ -422,11 +433,12 @@ namespace SlowCheetah.VisualStudio
 
             List<string> result = new List<string>();
             string propertiesFolder = null;
+            uint itemid;
             try
             {
                 if (hierarchy is IVsProjectSpecialFiles specialFiles)
                 {
-                    specialFiles.GetFile((int)__PSFFILEID2.PSFFILEID_AppDesigner, (uint)__PSFFLAGS.PSFF_FullPath, out uint itemid, out propertiesFolder);
+                    specialFiles.GetFile((int)__PSFFILEID2.PSFFILEID_AppDesigner, (uint)__PSFFLAGS.PSFF_FullPath, out itemid, out propertiesFolder);
                 }
             }
             catch (Exception ex)
@@ -537,7 +549,8 @@ namespace SlowCheetah.VisualStudio
         /// <returns>True if the project supports transformation</returns>
         private bool ProjectSupportsTransforms(IVsProject project)
         {
-            if (ErrorHandler.Failed(project.GetMkDocument(VSConstants.VSITEMID_ROOT, out string projectFullPath)))
+            string projectFullPath;
+            if (ErrorHandler.Failed(project.GetMkDocument(VSConstants.VSITEMID_ROOT, out projectFullPath)))
             {
                 return false;
             }
@@ -563,7 +576,8 @@ namespace SlowCheetah.VisualStudio
         /// <returns>True if the item supports transforms</returns>
         private bool ItemSupportsTransforms(IVsProject project, uint itemid)
         {
-            if (ErrorHandler.Failed(project.GetMkDocument(itemid, out string itemFullPath)))
+            string itemFullPath;
+            if (ErrorHandler.Failed(project.GetMkDocument(itemid, out itemFullPath)))
             {
                 return false;
             }
@@ -696,7 +710,8 @@ namespace SlowCheetah.VisualStudio
         /// <returns>ProjectItem corresponding to the desired item</returns>
         private ProjectItem GetProjectItemFromHierarchy(IVsHierarchy pHierarchy, uint itemID)
         {
-            ErrorHandler.ThrowOnFailure(pHierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_ExtObject, out object propertyValue));
+            object propertyValue;
+            ErrorHandler.ThrowOnFailure(pHierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_ExtObject, out propertyValue));
             ProjectItem projectItem = propertyValue as ProjectItem;
             if (projectItem == null)
             {
@@ -811,7 +826,8 @@ namespace SlowCheetah.VisualStudio
             string installDirectory = null;
             if (GetService(typeof(SVsShell)) is IVsShell shell)
             {
-                shell.GetProperty((int)__VSSPROPID.VSSPROPID_InstallDirectory, out object installDirectoryObj);
+                object installDirectoryObj;
+                shell.GetProperty((int)__VSSPROPID.VSSPROPID_InstallDirectory, out installDirectoryObj);
                 if (installDirectoryObj != null)
                 {
                     installDirectory = installDirectoryObj as string;
@@ -831,14 +847,11 @@ namespace SlowCheetah.VisualStudio
             IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();
             if (installerServices.IsPackageInstalled(project, pkgName))
             {
-                IVsPackageMetadata scPackage = installerServices.GetInstalledPackages().Where(pkg => pkg.Id == pkgName).First();
-                string [] version = scPackage.VersionString.Split('.');
-                if (version.Count() >= 2)
+                IVsPackageMetadata scPackage = installerServices.GetInstalledPackages().First(pkg => pkg.Id == pkgName);
+                Version ver;
+                if (Version.TryParse(scPackage.VersionString, out ver))
                 {
-                    if (Int32.TryParse(version[0], out int major) && Int32.TryParse(version[1], out int minor))
-                    {
-                        return (major >= 2 && minor > 5);
-                    }
+                    return (ver.CompareTo(new Version(2, 6)) >= 0);
                 }
             }
             return false;
