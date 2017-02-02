@@ -12,7 +12,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Xml;
 using EnvDTE;
-using Microsoft.Build.Construction;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
@@ -334,7 +333,8 @@ namespace SlowCheetah.VisualStudio
             uint itemId = VSConstants.VSITEMID_NIL;
 
             // verify only one item is selected
-            if (!IsSingleProjectItemSelection(out var hierarchy, out itemId))
+            IVsHierarchy hierarchy;
+            if (!IsSingleProjectItemSelection(out hierarchy, out itemId))
             {
                 return;
             }
@@ -767,7 +767,8 @@ namespace SlowCheetah.VisualStudio
                     Guid IID_IVsDifferenceService = new Guid("{E20E53BE-8B7A-408F-AEA7-C0AAD6D1B946}");
                     uint VSDIFFOPT_RightFileIsTemporary = 0x00000020;   //The right file is a temporary file explicitly created for diff.
                                                                         // If the diffmerge service is available (dev11) and no diff tool is specified, or diffmerge.exe is specifed we use the service
-                    hier.GetSite(out var sp);
+                    Microsoft.VisualStudio.OLE.Interop.IServiceProvider sp;
+                    hier.GetSite(out sp);
                     IntPtr diffSvcIntPtr = IntPtr.Zero;
                     int hr = sp.QueryService(ref SID_SVsDifferenceService, ref IID_IVsDifferenceService, out diffSvcIntPtr);
                     if (diffSvcIntPtr != IntPtr.Zero && (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath) || optionsPage.PreviewToolExecutablePath.EndsWith(@"\diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
