@@ -95,5 +95,28 @@ namespace SlowCheetah.VisualStudio
 
             return isXmlFile;
         }
+
+        /// <summary>
+        /// Checks if a file is a transform of another file according to their names.
+        /// If a given file is  "name.extension", a transfomation file should be "name.configuration.extension"
+        /// </summary>
+        /// <param name="documentName">File to be transformed</param>
+        /// <param name="transformName">File to</param>
+        /// <returns>True if the name</returns>
+        public static bool IsFileTransfrom(string documentName, string transformName)
+        {
+            if (!Path.GetExtension(documentName).Equals(Path.GetExtension(transformName), StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+            else
+            {
+                string docNameNoExt = Path.GetFileNameWithoutExtension(documentName);
+                string trnNameNoExt = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(transformName));
+                return (docNameNoExt.Equals(trnNameNoExt, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return true;
+        }
     }
 }

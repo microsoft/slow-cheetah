@@ -369,8 +369,9 @@ namespace SlowCheetah.VisualStudio
             }
 
             string documentPath;
-            if (ErrorHandler.Failed(project.GetMkDocument(parentId, out documentPath)))
+            if (GetFileToTransform(hierarchy, parentId, Path.GetFileName(transformPath), out documentPath))
             {
+                //TO DO: Possibly tell the user that the transform file was not found.
                 return;
             }
 
@@ -378,6 +379,64 @@ namespace SlowCheetah.VisualStudio
         }
 
         #endregion
+
+        /// <summary>
+        /// Searches for a file to transform based on a transformation file.
+        /// Starts the search with the parent of the file then checks all visible children.
+        /// </summary>
+        /// <param name="hierarchy">Current project hierarchy</param>
+        /// <param name="parentId">Parent ID of the file.</param>
+        /// <param name="transformName">Name of the transformation file</param>
+        /// <param name="documentPath">Resulting path of the file to transform</param>
+        /// <returns>True if the correct file was found</returns>
+        bool GetFileToTransform(IVsHierarchy hierarchy, uint parentId, string transformName, out string documentPath)
+        {
+            IVsProject project = (IVsProject)hierarchy;
+            if (ErrorHandler.Failed(project.GetMkDocument(parentId, out documentPath)))
+            {
+                return false;
+            }
+
+            if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName))
+            {
+                return true;
+            }
+            else
+            {
+                object childIdObj;
+                hierarchy.GetProperty(parentId, (int)__VSHPROPID.VSHPROPID_FirstVisibleChild, out childIdObj);
+                uint childId = (uint)(int)childIdObj;
+                if (ErrorHandler.Failed(project.GetMkDocument(childId, out documentPath)))
+                {
+                    return false;
+                }
+
+                if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName))
+                {
+                    return true;
+                }
+                else
+                {
+                    while (childId != VSConstants.VSITEMID_NIL)
+                    {
+                        hierarchy.GetProperty(childId, (int)__VSHPROPID.VSHPROPID_NextVisibleSibling, out childIdObj);
+                        childId = (uint)(int)childIdObj;
+                        if (ErrorHandler.Failed(project.GetMkDocument(childId, out documentPath)))
+                        {
+                            return false;
+                        }
+
+                        if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
 
         /// <summary>
         /// Verifies if the item has a trasform configured already
