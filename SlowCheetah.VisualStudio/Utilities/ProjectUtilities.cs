@@ -1,9 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
+
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
@@ -14,8 +11,11 @@ namespace SlowCheetah.VisualStudio
     //Utilities class for the Visual Studio Extension Package that deals specifically with projects
     public static class ProjectUtilities
     {
-        private static string SupportedProjectExtensionsKey = @"XdtTransforms\SupportedProjectExtensions";
-        private static string SupportedItemExtensionsKey = @"XdtTransforms\SupportedItemExtensions";
+        private const string _supportedProjectExtensionsKey = @"XdtTransforms\SupportedProjectExtensions";
+        private const string _supportedItemExtensionsKey = @"XdtTransforms\SupportedItemExtensions";
+
+        private static IEnumerable<string> s_supportedProjectExtensions;
+        private static IEnumerable<string> s_supportedItemExtensions;
 
         /// <summary>
         /// Gets the DTE from current context
@@ -30,7 +30,7 @@ namespace SlowCheetah.VisualStudio
         /// </summary>
         /// <param name="project">Current open project</param>
         /// <returns>List of configuration names for that project</returns>
-        public static string[] GetProjectConfigurations(EnvDTE.Project project)
+        public static IEnumerable<string> GetProjectConfigurations(EnvDTE.Project project)
         {
             List<string> configurations = new List<string>();
 
@@ -46,7 +46,7 @@ namespace SlowCheetah.VisualStudio
                 }
             }
 
-            return configurations.ToArray();
+            return configurations;
         }
 
         /// <summary>
@@ -54,9 +54,14 @@ namespace SlowCheetah.VisualStudio
         /// </summary>
         /// <param name="settingsManager"> </param>
         /// <returns>List of supported project extensions starting with '.'</returns>
-        public static string[] GetSupportedProjectExtensions(IVsSettingsManager settingsManager)
+        public static IEnumerable<string> GetSupportedProjectExtensions(IVsSettingsManager settingsManager)
         {
-            return GetSupportedExtensions(settingsManager, SupportedProjectExtensionsKey);
+            if (s_supportedProjectExtensions == null)
+            {
+                s_supportedProjectExtensions = GetSupportedExtensions(settingsManager, _supportedProjectExtensionsKey);
+            }
+
+            return s_supportedProjectExtensions;
         }
 
         /// <summary>
@@ -64,30 +69,33 @@ namespace SlowCheetah.VisualStudio
         /// </summary>
         /// <param name="settingsManager"></param>
         /// <returns></returns>
-        public static string[] GetSupportedItemExtensions(IVsSettingsManager settingsManager)
+        public static IEnumerable<string> GetSupportedItemExtensions(IVsSettingsManager settingsManager)
         {
-            return GetSupportedExtensions(settingsManager, SupportedItemExtensionsKey);
+            if (s_supportedItemExtensions == null)
+            {
+                s_supportedItemExtensions = GetSupportedExtensions(settingsManager, _supportedProjectExtensionsKey);
+            }
+
+            return s_supportedItemExtensions;
         }
 
-        private static string[] GetSupportedExtensions(IVsSettingsManager settingsManager, string rootKey)
+        private static IEnumerable<string> GetSupportedExtensions(IVsSettingsManager settingsManager, string rootKey)
         {
             IVsSettingsStore settings;
             uint count;
             ErrorHandler.ThrowOnFailure(settingsManager.GetReadOnlySettingsStore((uint)__VsSettingsScope.SettingsScope_Configuration, out settings));
             ErrorHandler.ThrowOnFailure(settings.GetSubCollectionCount(rootKey, out count));
 
-            string[] supportedExtensions = new string[count];
+            List<string> supportedExtensions = new List<string>();
 
             for (uint i = 0; i != count; ++i)
             {
                 string keyName;
                 ErrorHandler.ThrowOnFailure(settings.GetSubCollectionName(rootKey, i, out keyName));
-                supportedExtensions[i] = keyName;
+                supportedExtensions.Add(keyName);
             }
 
             return supportedExtensions;
         }
-
-        
     }
 }

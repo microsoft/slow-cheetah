@@ -18,6 +18,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using NuGet.VisualStudio;
 using SlowCheetah.VisualStudio.Properties;
+using System.Text.RegularExpressions;
 
 namespace SlowCheetah.VisualStudio
 {
@@ -62,9 +63,9 @@ namespace SlowCheetah.VisualStudio
         private static readonly string IsTransformFile = "IsTransformFile";
         private static readonly string DependentUpon = "DependentUpon";
         public static SlowCheetahPackage OurPackage { get; set; }
-        private string pkgName = Settings.Default.SlowCheetahNugetPkgName;
+        private static readonly string pkgName = Settings.Default.SlowCheetahNugetPkgName;
 
-        private IList<string> TempFilesCreated { get; set; }
+        private IList<string> TempFilesCreated { get; } = new List<String>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlowCheetahPackage"/> class.
@@ -89,7 +90,6 @@ namespace SlowCheetah.VisualStudio
         {
             base.Initialize();
             this.LogMessageWriteLineFormat("SlowCheetah initalizing");
-            this.TempFilesCreated = new List<string>();
 
             //Initialization logic
             //TO DO: Detect Nuget package?
@@ -113,21 +113,18 @@ namespace SlowCheetah.VisualStudio
 
         protected override void Dispose(bool disposing)
         {
-            if (this.TempFilesCreated != null && this.TempFilesCreated.Count > 0)
+            foreach (string file in this.TempFilesCreated)
             {
-                foreach (string file in this.TempFilesCreated)
+                try
                 {
-                    try
-                    {
-                        File.Delete(file);
-                    }
-                    catch (Exception ex)
-                    {
-                        this.LogMessageWriteLineFormat(
-                            "There was an error deleting a temp file [{0}], error: [{1}]",
-                            file,
-                            ex.Message);
-                    }
+                    File.Delete(file);
+                }
+                catch (Exception ex)
+                {
+                    this.LogMessageWriteLineFormat(
+                        "There was an error deleting a temp file [{0}], error: [{1}]",
+                        file,
+                        ex.Message);
                 }
             }
 
@@ -276,15 +273,11 @@ namespace SlowCheetah.VisualStudio
             {
                 throw new COMException(string.Format(Resources.Resources.Error_SavingProjectFile, itemFullPath, GetErrorInfo()), hr);
             }
-            ProjectItem selectedProjectItem = GetProjectItemFromHierarchy(hierarchy, itemid);
+
+            ProjectItem selectedProjectItem = GetAutomationFromHierarchy<ProjectItem>(hierarchy, itemid);
             if (selectedProjectItem != null)
             {
-
-                if (!IsSlowCheetahPackageInstalled(selectedProjectItem.ContainingProject))
-                {
-                    INugetPackageHandler nugetHandler = NugetHandlerFactory.GetHandler(this);
-                    nugetHandler.ShowUpdateInfo();
-                }
+                CheckSlowCheetahNugetInstallation(selectedProjectItem.ContainingProject);
 
                 // need to enure that this item has metadata TransformOnBuild set to true
                 if (buildPropertyStorage != null)
@@ -298,7 +291,7 @@ namespace SlowCheetah.VisualStudio
                 string itemFilenameExtension = Path.GetFileName(itemFullPath);
 
                 string content = BuildXdtContent(itemFullPath);
-                string[] configs = ProjectUtilities.GetProjectConfigurations(selectedProjectItem.ContainingProject);
+                IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(selectedProjectItem.ContainingProject);
 
                 List<string> transformsToCreate = null;
                 if (configs != null) { transformsToCreate = configs.ToList(); }
@@ -311,9 +304,9 @@ namespace SlowCheetah.VisualStudio
                     transformsToCreate.AddRange(publishProfileTransforms);
                 }
 
-                uint addedFileId;
                 foreach (string config in transformsToCreate)
                 {
+                    uint addedFileId;
                     string itemName = string.Format(Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
                     AddXdtTransformFile(selectedProjectItem, content, itemName, itemFolder);
                     hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out addedFileId);
@@ -353,12 +346,8 @@ namespace SlowCheetah.VisualStudio
                 return;
             }
 
-            ProjectItem selectedProjectItem = GetProjectItemFromHierarchy(hierarchy, itemId);
-            if (!IsSlowCheetahPackageInstalled(selectedProjectItem.ContainingProject))
-            {
-                INugetPackageHandler nugetHandler = NugetHandlerFactory.GetHandler(this);
-                nugetHandler.ShowUpdateInfo();
-            }
+            Project currentProject = GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
+            CheckSlowCheetahNugetInstallation(currentProject);
 
             object parentIdObj;
             ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out parentIdObj));
@@ -379,6 +368,15 @@ namespace SlowCheetah.VisualStudio
         }
 
         #endregion
+
+        private void CheckSlowCheetahNugetInstallation(Project project)
+        {
+            if (!IsSlowCheetahPackageInstalled(project))
+            {
+                INugetPackageHandler nugetHandler = NugetHandlerFactory.GetHandler(this);
+                nugetHandler.ShowUpdateInfo();
+            }
+        }
 
         /// <summary>
         /// Searches for a file to transform based on a transformation file.
@@ -453,33 +451,25 @@ namespace SlowCheetah.VisualStudio
                 return false;
             }
 
-            bool isItemTransformFile = false;
             string value;
             buildPropertyStorage.GetItemAttribute(itemid, IsTransformFile, out value);
-            if (string.Compare("true", value, true) == 0)
+            bool valueAsBool;
+            if (Boolean.TryParse(value, out valueAsBool) && valueAsBool)
             {
-                isItemTransformFile = true;
+                return true;
             }
 
             // we need to special case web.config transform files
-            if (!isItemTransformFile)
+            string pattern = @"web\..+\.config";
+            string filePath;
+            buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out filePath);
+            if (!string.IsNullOrEmpty(filePath))
             {
-                string pattern = @"web\..+\.config";
-                string filePath;
-                buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out filePath);
-                if (!string.IsNullOrEmpty(filePath))
-                {
-                    System.IO.FileInfo fi = new System.IO.FileInfo(filePath);
-                    System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(
-                        pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                    if (regex.IsMatch(fi.Name))
-                    {
-                        isItemTransformFile = true;
-                    }
-                }
+                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+                return regex.IsMatch(Path.GetFileName(filePath));
             }
 
-            return isItemTransformFile;
+            return false;
         }
 
         /// <summary>
@@ -488,7 +478,7 @@ namespace SlowCheetah.VisualStudio
         /// <param name="hierarchy"></param>
         /// <param name="projectPath">Full path of the current project</param>
         /// <returns>List of publish profile names</returns>
-        private List<string> GetPublishProfileTransforms(IVsHierarchy hierarchy, string projectPath)
+        private IEnumerable<string> GetPublishProfileTransforms(IVsHierarchy hierarchy, string projectPath)
         {
             if (hierarchy == null) { throw new ArgumentNullException("hierarchy"); }
             if (string.IsNullOrEmpty(projectPath)) { throw new ArgumentNullException("projectPath"); }
@@ -496,17 +486,10 @@ namespace SlowCheetah.VisualStudio
             List<string> result = new List<string>();
             string propertiesFolder = null;
             uint itemid;
-            try
+            IVsProjectSpecialFiles specialFiles = hierarchy as IVsProjectSpecialFiles;
+            if (ErrorHandler.Failed(specialFiles.GetFile((int)__PSFFILEID2.PSFFILEID_AppDesigner, (uint)__PSFFLAGS.PSFF_FullPath, out itemid, out propertiesFolder)))
             {
-                IVsProjectSpecialFiles specialFiles = hierarchy as IVsProjectSpecialFiles;
-                if (specialFiles != null)
-                {
-                    specialFiles.GetFile((int)__PSFFILEID2.PSFFILEID_AppDesigner, (uint)__PSFFLAGS.PSFF_FullPath, out itemid, out propertiesFolder);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.LogMessageWriteLineFormat("Exception trying to create IVsProjectSpecialFiles", ex);
+                this.LogMessageWriteLineFormat("Exception trying to create IVsProjectSpecialFiles");
             }
 
             if (!string.IsNullOrEmpty(propertiesFolder))
@@ -518,16 +501,12 @@ namespace SlowCheetah.VisualStudio
                     string[] publishProfiles = Directory.GetFiles(publishProfilesFolder, "*.pubxml");
                     if (publishProfiles != null)
                     {
-                        publishProfiles.ToList().ForEach(profile =>
-                        {
-                            FileInfo fi = new FileInfo(profile);
-                            result.Add(fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length));
-                        });
+                        return publishProfiles.Select(profile => Path.GetFileNameWithoutExtension(profile));
                     }
                 }
             }
 
-            return result;
+            return null;
         }
 
         /// <summary>
@@ -720,6 +699,7 @@ namespace SlowCheetah.VisualStudio
                         OmitXmlDeclaration = true,
                         NewLineOnAttributes = true
                     };
+
                     XmlWriter contentWriter = XmlWriter.Create(contentStream, settings);
 
                     using (XmlReader reader = XmlReader.Create(sourceItemPath))
@@ -771,11 +751,11 @@ namespace SlowCheetah.VisualStudio
         /// <param name="pHierarchy">Current IVsHierarchy</param>
         /// <param name="itemID">ID of the desired item in the project</param>
         /// <returns>ProjectItem corresponding to the desired item</returns>
-        private ProjectItem GetProjectItemFromHierarchy(IVsHierarchy pHierarchy, uint itemID)
+        private T GetAutomationFromHierarchy<T>(IVsHierarchy pHierarchy, uint itemID) where T : class
         {
             object propertyValue;
             ErrorHandler.ThrowOnFailure(pHierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_ExtObject, out propertyValue));
-            ProjectItem projectItem = propertyValue as ProjectItem;
+            T projectItem = propertyValue as T;
             if (projectItem == null)
             {
                 this.LogMessageWriteLineFormat("ERROR: Item not found");
@@ -889,13 +869,15 @@ namespace SlowCheetah.VisualStudio
             IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();
             if (installerServices.IsPackageInstalled(project, pkgName))
             {
-                IVsPackageMetadata scPackage = installerServices.GetInstalledPackages().First(pkg => pkg.Id == pkgName);
+                IVsPackageMetadata scPackage = 
+                    installerServices.GetInstalledPackages().First(pkg => string.Equals(pkg.Id, pkgName, StringComparison.OrdinalIgnoreCase));
                 Version ver;
                 if (Version.TryParse(scPackage.VersionString, out ver))
                 {
-                    return (ver.CompareTo(new Version(2, 6)) >= 0);
+                    return ver > new Version(2, 5, 15);
                 }
             }
+
             return false;
         }
 
@@ -920,8 +902,12 @@ namespace SlowCheetah.VisualStudio
             {
                 uiShell.GetErrorInfo(out errText);
             }
+
             if (errText == null)
+            {
                 return string.Empty;
+            }
+
             return errText;
         }
 

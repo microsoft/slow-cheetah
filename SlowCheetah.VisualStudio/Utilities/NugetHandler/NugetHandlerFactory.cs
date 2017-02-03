@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.Shell;
+﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
+
+using System;
 
 namespace SlowCheetah.VisualStudio
 {
@@ -18,13 +15,13 @@ namespace SlowCheetah.VisualStudio
         {
             if (s_handler == null)
             {
-                EnvDTE.DTE dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));
+                EnvDTE.DTE dte = ProjectUtilities.GetDTE();
                 bool showInfoBar = false;
                 Version vsVersion;
-                System.Version.TryParse(dte.Version, out vsVersion);
-                if (System.Version.TryParse(dte.Version, out vsVersion))
+                Version.TryParse(dte.Version, out vsVersion);
+                if (Version.TryParse(dte.Version, out vsVersion))
                 {
-                    showInfoBar = (vsVersion.CompareTo(new Version(14, 0)) >= 0);
+                    showInfoBar = (vsVersion >= new Version(14, 0));
                 }
 
                 if (showInfoBar)
@@ -33,7 +30,7 @@ namespace SlowCheetah.VisualStudio
                 }
                 else
                 {
-                    s_handler = new NugetMessageHandler(package);
+                    s_handler = new LegacyNugetMessageHandler(package);
                 }
             }
 

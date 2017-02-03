@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.Shell;
+﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
+
+using System;
 
 namespace SlowCheetah.VisualStudio
 {
@@ -11,14 +8,14 @@ namespace SlowCheetah.VisualStudio
     /// Displays information on updating the SlowCheetah NuGet package.
     /// Opens the default web browser with the github documentation.
     /// </summary>
-    public class NugetMessageHandler : INugetPackageHandler
+    public class LegacyNugetMessageHandler : INugetPackageHandler
     {
-        protected IServiceProvider Package { get; }
-
-        public NugetMessageHandler(IServiceProvider package)
+        public LegacyNugetMessageHandler(IServiceProvider package)
         {
             Package = package;
         }
+
+        protected IServiceProvider Package { get; }
 
         public void ShowUpdateInfo()
         {

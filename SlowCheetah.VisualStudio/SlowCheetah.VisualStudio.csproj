@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="Utilities\NugetHandler\INugetPackageHandler.cs" />
     <Compile Include="Utilities\NugetHandler\NugetHandlerFactory.cs" />
-    <Compile Include="Utilities\NugetHandler\NugetMessageHandler.cs" />
+    <Compile Include="Utilities\NugetHandler\LegacyNugetMessageHandler.cs" />
     <Compile Include="Utilities\NugetHandler\NugetInfoBarHandler.cs" />
     <Compile Include="OptionsDialogPage.cs">
       <SubType>Component</SubType>
