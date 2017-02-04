@@ -358,7 +358,7 @@ namespace SlowCheetah.VisualStudio
             }
 
             string documentPath;
-            if (GetFileToTransform(hierarchy, parentId, Path.GetFileName(transformPath), out documentPath))
+            if (!GetFileToTransform(hierarchy, parentId, Path.GetFileName(transformPath), out documentPath))
             {
                 //TO DO: Possibly tell the user that the transform file was not found.
                 return;

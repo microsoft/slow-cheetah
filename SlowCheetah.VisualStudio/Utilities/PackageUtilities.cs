@@ -103,6 +103,9 @@ namespace SlowCheetah.VisualStudio
         /// <returns>True if the name</returns>
         public static bool IsFileTransfrom(string documentName, string transformName)
         {
+            if (string.IsNullOrEmpty(documentName)) { throw new ArgumentNullException("documentName"); }
+            if (string.IsNullOrEmpty(transformName)) { throw new ArgumentNullException("transformName"); }
+
             if (!Path.GetExtension(documentName).Equals(Path.GetExtension(transformName), StringComparison.OrdinalIgnoreCase))
             {
                 return false;
@@ -113,8 +116,6 @@ namespace SlowCheetah.VisualStudio
                 string trnNameNoExt = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(transformName));
                 return (docNameNoExt.Equals(trnNameNoExt, StringComparison.OrdinalIgnoreCase));
             }
-
-            return true;
         }
     }
 }
