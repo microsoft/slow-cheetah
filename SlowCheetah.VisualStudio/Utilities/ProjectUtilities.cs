@@ -11,8 +11,8 @@ namespace SlowCheetah.VisualStudio
     //Utilities class for the Visual Studio Extension Package that deals specifically with projects
     public static class ProjectUtilities
     {
-        private const string _supportedProjectExtensionsKey = @"XdtTransforms\SupportedProjectExtensions";
-        private const string _supportedItemExtensionsKey = @"XdtTransforms\SupportedItemExtensions";
+        private const string SupportedProjectExtensionsKey = @"XdtTransforms\SupportedProjectExtensions";
+        private const string SupportedItemExtensionsKey = @"XdtTransforms\SupportedItemExtensions";
 
         private static IEnumerable<string> s_supportedProjectExtensions;
         private static IEnumerable<string> s_supportedItemExtensions;
@@ -58,7 +58,7 @@ namespace SlowCheetah.VisualStudio
         {
             if (s_supportedProjectExtensions == null)
             {
-                s_supportedProjectExtensions = GetSupportedExtensions(settingsManager, _supportedProjectExtensionsKey);
+                s_supportedProjectExtensions = GetSupportedExtensions(settingsManager, SupportedProjectExtensionsKey);
             }
 
             return s_supportedProjectExtensions;
@@ -73,7 +73,7 @@ namespace SlowCheetah.VisualStudio
         {
             if (s_supportedItemExtensions == null)
             {
-                s_supportedItemExtensions = GetSupportedExtensions(settingsManager, _supportedProjectExtensionsKey);
+                s_supportedItemExtensions = GetSupportedExtensions(settingsManager, SupportedProjectExtensionsKey);
             }
 
             return s_supportedItemExtensions;
