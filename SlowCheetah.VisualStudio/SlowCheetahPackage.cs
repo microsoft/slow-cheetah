@@ -419,14 +419,12 @@ namespace SlowCheetah.VisualStudio
                     {
                         hierarchy.GetProperty(childId, (int)__VSHPROPID.VSHPROPID_NextVisibleSibling, out childIdObj);
                         childId = (uint)(int)childIdObj;
-                        if (ErrorHandler.Failed(project.GetMkDocument(childId, out documentPath)))
+                        if (ErrorHandler.Succeeded(project.GetMkDocument(childId, out documentPath)))
                         {
-                            return false;
-                        }
-
-                        if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName))
-                        {
-                            return true;
+                            if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName))
+                            {
+                                return true;
+                            }
                         }
                     }
                 }

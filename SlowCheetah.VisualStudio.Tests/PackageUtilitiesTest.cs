@@ -10,12 +10,12 @@ namespace SlowCheetah.VisualStudio.Tests
         [Fact]
         public void IsFileTransfromWithNullArguments()
         {
-            Assert.Throws<ArgumentNullException>(() => PackageUtilities.IsFileTransfrom(null, null));
-            Assert.Throws<ArgumentNullException>(() => PackageUtilities.IsFileTransfrom("", ""));
-            Assert.Throws<ArgumentNullException>(() => PackageUtilities.IsFileTransfrom("App.config", null));
-            Assert.Throws<ArgumentNullException>(() => PackageUtilities.IsFileTransfrom("App.config", ""));
-            Assert.Throws<ArgumentNullException>(() => PackageUtilities.IsFileTransfrom(null, "App.Debug.config"));
-            Assert.Throws<ArgumentNullException>(() => PackageUtilities.IsFileTransfrom("", "App.Debug.config"));
+            Assert.False(PackageUtilities.IsFileTransfrom(null, null));
+            Assert.False(PackageUtilities.IsFileTransfrom("", ""));
+            Assert.False(PackageUtilities.IsFileTransfrom("App.config", null));
+            Assert.False(PackageUtilities.IsFileTransfrom("App.config", ""));
+            Assert.False(PackageUtilities.IsFileTransfrom(null, "App.Debug.config"));
+            Assert.False(PackageUtilities.IsFileTransfrom("", "App.Debug.config"));
         }
 
         [Fact]
