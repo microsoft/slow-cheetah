@@ -58,7 +58,7 @@ namespace SlowCheetah.VisualStudio
         {
             if (s_supportedProjectExtensions == null)
             {
-                s_supportedProjectExtensions = GetSupportedExtensions(settingsManager, _supportedProjectExtensionsKey);
+                s_supportedProjectExtensions = GetSupportedExtensions(settingsManager, SupportedProjectExtensionsKey);
             }
 
             return s_supportedProjectExtensions;
@@ -73,7 +73,7 @@ namespace SlowCheetah.VisualStudio
         {
             if (s_supportedItemExtensions == null)
             {
-                s_supportedItemExtensions = GetSupportedExtensions(settingsManager, _supportedProjectExtensionsKey);
+                s_supportedItemExtensions = GetSupportedExtensions(settingsManager, SupportedProjectExtensionsKey);
             }
 
             return s_supportedItemExtensions;
