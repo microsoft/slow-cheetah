@@ -44,8 +44,6 @@ namespace SlowCheetah.VisualStudio
             EnablePreview = true;
         }
 
-        //---------------------------------------------------------------------------//
-
         public string PreviewToolExecutablePath { get; set; }
         public string PreviewToolCommandLine { get; set; }
         public bool EnablePreview { get; set; }
@@ -88,7 +86,9 @@ namespace SlowCheetah.VisualStudio
                 string exePath, exeCmdLine;
                 int enablePreview;
                 if (SlowCheetahPackage.Succeeded(reader.ReadSettingString(regPreviewExe, out exePath)) && !string.IsNullOrEmpty(exePath))
+                {
                     PreviewToolExecutablePath = exePath;
+                }
 
                 if (SlowCheetahPackage.Succeeded(reader.ReadSettingString(regPreviewCmdLine, out exeCmdLine)) && !string.IsNullOrEmpty(exeCmdLine))
                     PreviewToolCommandLine = exeCmdLine;

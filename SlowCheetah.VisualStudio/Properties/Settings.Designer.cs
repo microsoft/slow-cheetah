@@ -43,14 +43,5 @@ namespace SlowCheetah.VisualStudio.Properties {
                 return ((string)(this["ExcludedFileExtensions"]));
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SlowCheetahTargets")]
-        public string SlowCheetahTargets {
-            get {
-                return ((string)(this["SlowCheetahTargets"]));
-            }
-        }
     }
 }
