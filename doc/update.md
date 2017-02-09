@@ -1,8 +1,9 @@
 # SlowCheetah in VS 2017 
 
 We have made significant changes to the SlowCheetah extension and NuGet package. This is because the old version had the following limitations:
-- Installation methods were inconsistent throughout versions, mixing VS extensions with NuGet packages which led to issues such as #119 
-- Build tools were installed directly to the local app data  
+- Installation methods were inconsistent throughout versions, mixing VS extensions with NuGet packages which led to issues such as
+  [#119](https://github.com/sayedihashimi/slow-cheetah/issues/119)
+- Build tools were installed directly to the local app data
 - Users' project files were manually edited to include SC files leading to [#183](https://github.com/sayedihashimi/slow-cheetah/issues/183),
   [#91](https://github.com/sayedihashimi/slow-cheetah/issues/91), [#195](https://github.com/sayedihashimi/slow-cheetah/issues/195), etc.
 - Unnecessary files were imported into the project
