@@ -37,11 +37,6 @@ build:
   project: SlowCheetah.sln  # path to Visual Studio solution or project
   verbosity: normal         # MSBuild verbosity level
 
-# pack and push the release artifact on a tag build
-after_build:
-  - IF %APPVEYOR_REPO_TAG%==true 7z a bin\%CONFIGURATION%\SlowCheetah.%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\bin\%CONFIGURATION%\SlowCheetah*.vsix, %APPVEYOR_BUILD_FOLDER%\bin\%CONFIGURATION%\SlowCheetah*.nupkg
-  - IF %APPVEYOR_REPO_TAG%==true appveyor PushArtifact bin\%CONFIGURATION%\SlowCheetah.%APPVEYOR_BUILD_VERSION%.zip
-
 #---------------------------------#
 #       test configuration        #
 #---------------------------------#
@@ -71,7 +66,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: z+T+CuFrnl/PoGwwnSx5G/xBEPAzjoW5xoUicVUSH8aUHU7OXESK90d8+wxQxc4Y   # your encrypted token from GitHub
-  artifact: /bin.*SlowCheetah\..*\.zip/   # upload slow cheetah zip as release file
+  artifact: /bin\/.*\/SlowCheetah.*\.(nupkg|vsix)/   # upload slow cheetah nupkg and vsix
   draft: false
   prerelease: false
   on:
