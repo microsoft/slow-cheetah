@@ -11,7 +11,7 @@ namespace SlowCheetah.VisualStudio
     /// <summary>
     /// Utilities class for the Visual Studio Extension Package
     /// </summary>
-    public static class PackageUtilities
+    public class PackageUtilities
     {
         public static readonly IReadOnlyCollection<string> ExcludedExtensions = new List<string>(new string[] { ".htm", ".html", ".cs", ".vb", ".txt", ".jpg", ".png", ".ico", ".aspx", ".snk", ".dll", ".pdb", ".settings" });
 
