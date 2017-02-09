@@ -42,10 +42,10 @@ Lastly, remove the following includes:
 <None Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
 ```
 
-Also, delete the `Properties\SlowCheetah` folder and the packageRestore.proj file from your project if they are present. If there are any other lines in the project file or any items in the project tree related to SlowCheetah, those should also be removed. All SlowCheetah related lines that  should be present are the transformation files which are marked with `<IsTransformFile>true</IsTransformFile>` on the project file.
+Also, delete the `Properties\SlowCheetah` folder and the `packageRestore.proj` file from your project if they are present. If there are any other lines in the project file or any items in the project tree related to SlowCheetah, those should also be removed. All SlowCheetah related lines that  should be present are the transformation files which are marked with `<IsTransformFile>true</IsTransformFile>` on the project file.
 
 Now, install or update to the latest SlowCheetah package through the NuGet package manager and download the latest extension from the Visual Studio extension gallery.
 
-Optionally, if you no longer plan on using the older version of SlowCheetah on any projects, you may safely delete the %LocalAppData%\Microsoft\MSBuild\SlowCheetah folder.
+Optionally, if you no longer plan on using the older version of SlowCheetah on any projects, you may safely delete the `%LocalAppData%\Microsoft\MSBuild\SlowCheetah` folder.
 
 We have plans to auto-migrate old SlowCheetah projects in the future. #209 has been opened to track this.
