@@ -48,6 +48,16 @@ namespace SlowCheetah.VisualStudio
 
             return configurations;
         }
+        /// <summary>
+        /// Gets all project configurations
+        /// </summary>
+        /// <param name="hierarchy">Current project hierarchy</param>
+        /// <returns>List of configuration names for that project</returns>
+        public static IEnumerable<string> GetProjectConfigurations(IVsHierarchy hierarchy)
+        {
+            Project project = PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
+            return GetProjectConfigurations(project);
+        }
 
         /// <summary>
         /// Retrieves the supported project extensions from the package settings

@@ -104,7 +104,7 @@ namespace SlowCheetah.VisualStudio
         /// <param name="documentName">File to be transformed</param>
         /// <param name="transformName">File to</param>
         /// <returns>True if the name</returns>
-        public static bool IsFileTransfrom(string documentName, string transformName, IEnumerable<string> configs)
+        public static bool IsFileTransform(string documentName, string transformName, IEnumerable<string> configs)
         {
             if (string.IsNullOrEmpty(documentName)) { return false; }
             if (string.IsNullOrEmpty(transformName)) { return false; }
@@ -119,8 +119,8 @@ namespace SlowCheetah.VisualStudio
                 string trnNameNoExt = Path.GetFileNameWithoutExtension(transformName);
                 Regex regex = new Regex("^" + docNameNoExt + @"\.", RegexOptions.IgnoreCase);
                 string configName = regex.Replace(trnNameNoExt, "");
-                return configs.Contains(configName);
-                //return (docNameNoExt.Equals(trnNameNoExt, StringComparison.OrdinalIgnoreCase));
+                return (!configName.Equals(trnNameNoExt) && configs.Any(s => { return string.Compare(s, configName, true) == 0; }));
+
             }
         }
 

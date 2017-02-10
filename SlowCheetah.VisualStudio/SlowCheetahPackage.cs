@@ -383,8 +383,7 @@ namespace SlowCheetah.VisualStudio
         {
             IVsProject project = (IVsProject)hierarchy;
 
-            IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(
-                PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root));
+            IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(hierarchy);
 
 
             if (ErrorHandler.Failed(project.GetMkDocument(parentId, out documentPath)))
@@ -392,7 +391,7 @@ namespace SlowCheetah.VisualStudio
                 return false;
             }
 
-            if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName, configs))
+            if (PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
             {
                 return true;
             }
@@ -406,7 +405,7 @@ namespace SlowCheetah.VisualStudio
                     return false;
                 }
 
-                if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName, configs))
+                if (PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
                 {
                     return true;
                 }
@@ -418,7 +417,7 @@ namespace SlowCheetah.VisualStudio
                         childId = (uint)(int)childIdObj;
                         if (ErrorHandler.Succeeded(project.GetMkDocument(childId, out documentPath)))
                         {
-                            if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName, configs))
+                            if (PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
                             {
                                 return true;
                             }
@@ -455,13 +454,12 @@ namespace SlowCheetah.VisualStudio
             }
 
             // we need to special case web.config transform files
-            string pattern = @"web\..+\.config";
             string filePath;
             buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out filePath);
-            if (!string.IsNullOrEmpty(filePath))
+            IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(vsProject as IVsHierarchy);
+            if (PackageUtilities.IsFileTransform("web.config", Path.GetFileName(filePath), configs))
             {
-                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                return regex.IsMatch(Path.GetFileName(filePath));
+                return true;
             }
 
             return false;
