@@ -106,6 +106,33 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to here.
+        /// </summary>
+        internal static string NugetUpdate_InfoBarLink {
+            get {
+                return ResourceManager.GetString("NugetUpdate_InfoBarLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It seems that you do not have the correct version of the SlowCheetah Nuget package installed. Transforms on this project will not be executed. To learn about updating from an older version, click .
+        /// </summary>
+        internal static string NugetUpdate_InfoBarText {
+            get {
+                return ResourceManager.GetString("NugetUpdate_InfoBarText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://github.com/sayedihashimi/slow-cheetah/blob/master/doc/update.md.
+        /// </summary>
+        internal static string NugetUpdate_Link {
+            get {
+                return ResourceManager.GetString("NugetUpdate_Link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In order to support transforms your project file will need to be modified. This will cause your project to be unloaded and then reloaded. If your project is checked into source control then it may be checked out.\n\nChoose Yes to proceed otherwise No..
         /// </summary>
         internal static string String_AddImportText {
@@ -129,24 +156,6 @@ namespace SlowCheetah.VisualStudio.Resources {
         internal static string String_FormatTransformFilename {
             get {
                 return ResourceManager.GetString("String_FormatTransformFilename", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to $().
-        /// </summary>
-        internal static string String_ImportPath {
-            get {
-                return ResourceManager.GetString("String_ImportPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SlowCheetahImport.
-        /// </summary>
-        internal static string String_SlowCheetahImportProp {
-            get {
-                return ResourceManager.GetString("String_SlowCheetahImportProp", resourceCulture);
             }
         }
         

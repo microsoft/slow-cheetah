@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SlowCheetah</id>
-    <version>2.5.14</version>
+    <version>$version$</version>
     <authors>Sayed Ibrahim Hashimi</authors>
     <owners>Sayed Ibrahim Hashimi</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
@@ -17,5 +17,6 @@
   <files>
     <file src="..\bin\$configuration$\Microsoft.Web.XmlTransform.dll" target="tools" />
     <file src="..\bin\$configuration$\Build\$id$.targets" target="build" />
+    <file src="..\bin\$configuration$\Build\readme.txt" target="" />
   </files>
 </package>

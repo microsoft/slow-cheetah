@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="9eb9f150-fcc9-4db8-9e97-6aef2011017c" Version="2.5.11" Language="en-US" Publisher="Sayed I. Hashimi" />
+    <Identity Id="9eb9f150-fcc9-4db8-9e97-6aef2011017c" Version="|SlowCheetah.VisualStudio;GetBuildVersion|" Language="en-US" Publisher="Sayed I. Hashimi" />
     <DisplayName>SlowCheetah - XML Transforms</DisplayName>
     <Description xml:space="preserve">This package enables you to transform your app.config or any other XML file based on the build configuration. It also adds additional tooling to help you create XML transforms.. Written by: Sayed Ibrahim Hashimi, Chuck England and Bill Hiebert.</Description>
     <MoreInfo>http://sedodream.com/</MoreInfo>
     <License>Resources\License.txt</License>
-    <Icon>Cheetah-120.png</Icon>
-    <PreviewImage>Cheetah-120.png</PreviewImage>
+    <Icon>Resources\Images\Cheetah-120.png</Icon>
+    <PreviewImage>Resources\Images\Cheetah-120.png</PreviewImage>
   </Metadata>
   <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0]" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[11.0,16.0)" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-    <Dependency Id="Microsoft.VisualStudio.MPF.15.0" DisplayName="Visual Studio MPF 15.0" d:Source="Installed" Version="[15.0]" />
+    <Dependency Id="Microsoft.VisualStudio.MPF.11.0" DisplayName="Visual Studio MPF 11.0" d:Source="Installed" Version="[11.0]" />
   </Dependencies>
   <Prerequisites>
     <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />
