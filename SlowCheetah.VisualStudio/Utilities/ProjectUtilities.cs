@@ -30,7 +30,7 @@ namespace SlowCheetah.VisualStudio
         /// </summary>
         /// <param name="project">Current open project</param>
         /// <returns>List of configuration names for that project</returns>
-        public static IEnumerable<string> GetProjectConfigurations(EnvDTE.Project project)
+        public static IEnumerable<string> GetProjectConfigurations(Project project)
         {
             List<string> configurations = new List<string>();
 

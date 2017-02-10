@@ -173,10 +173,6 @@ namespace SlowCheetah.VisualStudio
                     return;
                 }
 
-                //if (IsItemTransformItem(vsProject, itemid)) {
-                //    return;
-                //}
-
                 menuCommand.Visible = true;
                 menuCommand.Enabled = true;
             }
@@ -211,10 +207,6 @@ namespace SlowCheetah.VisualStudio
                 {
                     return;
                 }
-
-                //if (!ItemSupportsTransforms(vsProject, itemid)) {
-                //    return;
-                //}
 
                 if (!IsItemTransformItem(vsProject, itemid))
                 {
@@ -274,7 +266,7 @@ namespace SlowCheetah.VisualStudio
                 throw new COMException(string.Format(Resources.Resources.Error_SavingProjectFile, itemFullPath, GetErrorInfo()), hr);
             }
 
-            ProjectItem selectedProjectItem = GetAutomationFromHierarchy<ProjectItem>(hierarchy, itemid);
+            ProjectItem selectedProjectItem = PackageUtilities.GetAutomationFromHierarchy<ProjectItem>(hierarchy, itemid);
             if (selectedProjectItem != null)
             {
                 CheckSlowCheetahNugetInstallation(selectedProjectItem.ContainingProject);
@@ -346,7 +338,7 @@ namespace SlowCheetah.VisualStudio
                 return;
             }
 
-            Project currentProject = GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
+            Project currentProject = PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
             CheckSlowCheetahNugetInstallation(currentProject);
 
             object parentIdObj;
@@ -390,12 +382,17 @@ namespace SlowCheetah.VisualStudio
         bool GetFileToTransform(IVsHierarchy hierarchy, uint parentId, string transformName, out string documentPath)
         {
             IVsProject project = (IVsProject)hierarchy;
+
+            IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(
+                PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root));
+
+
             if (ErrorHandler.Failed(project.GetMkDocument(parentId, out documentPath)))
             {
                 return false;
             }
 
-            if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName))
+            if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName, configs))
             {
                 return true;
             }
@@ -409,7 +406,7 @@ namespace SlowCheetah.VisualStudio
                     return false;
                 }
 
-                if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName))
+                if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName, configs))
                 {
                     return true;
                 }
@@ -421,7 +418,7 @@ namespace SlowCheetah.VisualStudio
                         childId = (uint)(int)childIdObj;
                         if (ErrorHandler.Succeeded(project.GetMkDocument(childId, out documentPath)))
                         {
-                            if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName))
+                            if (PackageUtilities.IsFileTransfrom(Path.GetFileName(documentPath), transformName, configs))
                             {
                                 return true;
                             }
@@ -744,26 +741,6 @@ namespace SlowCheetah.VisualStudio
         }
 
         /// <summary>
-        /// Gets a ProjectItem from the hierarchy
-        /// </summary>
-        /// <param name="pHierarchy">Current IVsHierarchy</param>
-        /// <param name="itemID">ID of the desired item in the project</param>
-        /// <returns>ProjectItem corresponding to the desired item</returns>
-        private T GetAutomationFromHierarchy<T>(IVsHierarchy pHierarchy, uint itemID) where T : class
-        {
-            object propertyValue;
-            ErrorHandler.ThrowOnFailure(pHierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_ExtObject, out propertyValue));
-            T projectItem = propertyValue as T;
-            if (projectItem == null)
-            {
-                this.LogMessageWriteLineFormat("ERROR: Item not found");
-                return null;
-            }
-
-            return projectItem;
-        }
-
-        /// <summary>
         /// Shows a preview of the transformation in a temporary file.
         /// </summary>
         /// <param name="hier">Current IVsHierarchy</param>
@@ -861,7 +838,7 @@ namespace SlowCheetah.VisualStudio
         /// </summary>
         /// <param name="project">Current project</param>
         /// <returns>True if the package is installed</returns>
-        private bool IsSlowCheetahPackageInstalled(EnvDTE.Project project)
+        private bool IsSlowCheetahPackageInstalled(Project project)
         {
             var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
             IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();

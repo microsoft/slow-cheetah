@@ -4,7 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace SlowCheetah.VisualStudio
 {
@@ -101,7 +104,7 @@ namespace SlowCheetah.VisualStudio
         /// <param name="documentName">File to be transformed</param>
         /// <param name="transformName">File to</param>
         /// <returns>True if the name</returns>
-        public static bool IsFileTransfrom(string documentName, string transformName)
+        public static bool IsFileTransfrom(string documentName, string transformName, IEnumerable<string> configs)
         {
             if (string.IsNullOrEmpty(documentName)) { return false; }
             if (string.IsNullOrEmpty(transformName)) { return false; }
@@ -113,9 +116,28 @@ namespace SlowCheetah.VisualStudio
             else
             {
                 string docNameNoExt = Path.GetFileNameWithoutExtension(documentName);
-                string trnNameNoExt = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(transformName));
-                return (docNameNoExt.Equals(trnNameNoExt, StringComparison.OrdinalIgnoreCase));
+                string trnNameNoExt = Path.GetFileNameWithoutExtension(transformName);
+                Regex regex = new Regex("^" + docNameNoExt + @"\.", RegexOptions.IgnoreCase);
+                string configName = regex.Replace(trnNameNoExt, "");
+                return configs.Contains(configName);
+                //return (docNameNoExt.Equals(trnNameNoExt, StringComparison.OrdinalIgnoreCase));
             }
+        }
+
+        /// <summary>
+        /// Gets an item from the project hierarchy
+        /// </summary>
+        /// <typeparam name="T">Type of object to be fetched</typeparam>
+        /// <param name="pHierarchy">Current IVsHierarchy</param>
+        /// <param name="itemID">ID of the desired item in the project</param>
+        /// <returns>The deired object typed to T</returns>
+        public static T GetAutomationFromHierarchy<T>(IVsHierarchy pHierarchy, uint itemID) where T : class
+        {
+            object propertyValue;
+            ErrorHandler.ThrowOnFailure(pHierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_ExtObject, out propertyValue));
+            T projectItem = propertyValue as T;
+
+            return projectItem;
         }
     }
 }
