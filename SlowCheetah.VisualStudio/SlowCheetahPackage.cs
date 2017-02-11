@@ -457,7 +457,8 @@ namespace SlowCheetah.VisualStudio
             string filePath;
             buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out filePath);
             IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(vsProject as IVsHierarchy);
-            return PackageUtilities.IsFileTransform("web.config", Path.GetFileName(filePath), configs);
+            //If the project is a web app, check for the Web.config files added by default
+            return (ProjectUtilities.IsProjectWebApp(vsProject) && PackageUtilities.IsFileTransform("web.config", Path.GetFileName(filePath), configs));
         }
 
         /// <summary>

@@ -107,5 +107,25 @@ namespace SlowCheetah.VisualStudio
 
             return supportedExtensions;
         }
+
+        /// <summary>
+        /// Verifies if the given project is a Web Application.
+        /// Checks the type GUIDs for that project.
+        /// </summary>
+        /// <param name="project">Project to verify</param>
+        /// <returns>True if a subtype GUID matches the Web App Guid in Resources</returns>
+        public static bool IsProjectWebApp(IVsProject project)
+        {
+            IVsAggregatableProject aggregatableProject = project as IVsAggregatableProject;
+            if (aggregatableProject != null)
+            {
+                string projectTypeGuids;
+                aggregatableProject.GetAggregateProjectTypeGuids(out projectTypeGuids);
+                List<string> guids = new List<string>(projectTypeGuids.Split(';'));
+                return guids.Contains(Resources.Resources.WebAppGuid);
+            }
+
+            return false;
+        }
     }
 }
