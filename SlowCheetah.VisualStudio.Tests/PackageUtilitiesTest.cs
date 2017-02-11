@@ -7,10 +7,16 @@ using Xunit;
 
 namespace SlowCheetah.VisualStudio.Tests
 {
+    /// <summary>
+    /// Test class for <see cref="PackageUtilities"/>
+    /// </summary>
     public class PackageUtilitiesTest
     {
         IEnumerable<string> baseTestProjectConfigs = new List<string>(new string[] { "Debug", "Release"});
 
+        /// <summary>
+        /// Tests <see cref="PackageUtilities.IsFileTransform(string, string, IEnumerable{string})"/> returns on arguments that are null or empty strings
+        /// </summary>
         [Fact]
         public void IsFileTransfromWithNullArguments()
         {
@@ -22,6 +28,9 @@ namespace SlowCheetah.VisualStudio.Tests
             Assert.False(PackageUtilities.IsFileTransform("", "App.Debug.config", baseTestProjectConfigs));
         }
 
+        /// <summary>
+        /// Tests <see cref="PackageUtilities.IsFileTransform(string, string, IEnumerable{string})"/> with valid arguments normally found in projects.
+        /// </summary>
         [Fact]
         public void IsFileTransfromWithValidArguments()
         {
@@ -31,6 +40,9 @@ namespace SlowCheetah.VisualStudio.Tests
             Assert.True(PackageUtilities.IsFileTransform("App.Test.config", "App.Test.Debug.config", baseTestProjectConfigs));
         }
 
+        /// <summary>
+        /// Tests <see cref="PackageUtilities.IsFileTransform(string, string, IEnumerable{string})"/> with invalid arguments
+        /// </summary>
         [Fact]
         public void IsFileTransfromWithInvalidArguments()
         {
@@ -39,6 +51,10 @@ namespace SlowCheetah.VisualStudio.Tests
             Assert.False(PackageUtilities.IsFileTransform("App.Debug.config", "App.Release.config", baseTestProjectConfigs));
         }
 
+        /// <summary>
+        /// Tests <see cref="PackageUtilities.IsFileTransform(string, string, IEnumerable{string})"/> with project configurations containing dots 
+        /// and file names with similar structures
+        /// </summary>
         [Fact]
         public void IsFileTransformWithDottedConfigs()
         {
