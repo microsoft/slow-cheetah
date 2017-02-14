@@ -11,9 +11,7 @@ namespace SlowCheetah.VisualStudio
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Runtime.InteropServices;
-    using System.Text.RegularExpressions;
     using System.Xml;
     using EnvDTE;
     using Microsoft.VisualStudio;
@@ -56,11 +54,6 @@ namespace SlowCheetah.VisualStudio
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class SlowCheetahPackage : Package
     {
-        /// <summary>
-        /// SlowCheetahPackage GUID string.
-        /// </summary>
-        public const string PackageGuidString = "9f2f5f20-3e0c-4c4d-9064-0351c3adec59";
-
         private static readonly string TransformOnBuild = "TransformOnBuild";
         private static readonly string IsTransformFile = "IsTransformFile";
         private static readonly string DependentUpon = "DependentUpon";
