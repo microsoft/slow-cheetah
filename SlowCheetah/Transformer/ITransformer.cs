@@ -1,4 +1,5 @@
-﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
+﻿// Copyright (c) Sayed Ibrahim Hashimi. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See  License.md file in the project root for full license information.
 
 namespace SlowCheetah
 {

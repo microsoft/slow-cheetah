@@ -1,18 +1,22 @@
-﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Xml;
+﻿// Copyright (c) Sayed Ibrahim Hashimi. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See  License.md file in the project root for full license information.
 
 namespace SlowCheetah.VisualStudio
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Xml;
+
     /// <summary>
     /// Utilities class for the Visual Studio Extension Package
     /// </summary>
     public class PackageUtilities
     {
+        /// <summary>
+        /// List of extensions that should not be transformed
+        /// </summary>
         public static readonly IReadOnlyCollection<string> ExcludedExtensions = new List<string>(new string[] { ".htm", ".html", ".cs", ".vb", ".txt", ".jpg", ".png", ".ico", ".aspx", ".snk", ".dll", ".pdb", ".settings" });
 
         /// <summary>
@@ -22,8 +26,15 @@ namespace SlowCheetah.VisualStudio
         /// <returns>True if the file is supported</returns>
         public static bool IsExtensionSupportedForFile(string filepath)
         {
-            if (string.IsNullOrWhiteSpace(filepath)) { throw new ArgumentNullException("filepath"); }
-            if (!File.Exists(filepath)) { throw new FileNotFoundException("File not found", filepath); }
+            if (string.IsNullOrWhiteSpace(filepath))
+            {
+                throw new ArgumentNullException("filepath");
+            }
+
+            if (!File.Exists(filepath))
+            {
+                throw new FileNotFoundException("File not found", filepath);
+            }
 
             FileInfo fi = new FileInfo(filepath);
 
@@ -70,7 +81,11 @@ namespace SlowCheetah.VisualStudio
         /// <returns>True is the file is XML</returns>
         public static bool IsXmlFile(string filepath)
         {
-            if (string.IsNullOrWhiteSpace(filepath)) { throw new ArgumentNullException("filepath"); }
+            if (string.IsNullOrWhiteSpace(filepath))
+            {
+                throw new ArgumentNullException("filepath");
+            }
+
             if (!File.Exists(filepath))
             {
                 throw new FileNotFoundException("File not found", filepath);

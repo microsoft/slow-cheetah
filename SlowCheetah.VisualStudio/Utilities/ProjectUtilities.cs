@@ -1,28 +1,109 @@
-﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
-
-using System.Collections.Generic;
-using EnvDTE;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
+﻿// Copyright (c) Sayed Ibrahim Hashimi. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See  License.md file in the project root for full license information.
 
 namespace SlowCheetah.VisualStudio
 {
-    //Utilities class for the Visual Studio Extension Package that deals specifically with projects
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.InteropServices;
+    using EnvDTE;
+    using Microsoft.VisualStudio;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Shell.Interop;
+
+    /// <summary>
+    /// Utilities class for the Visual Studio Extension Package that deals specifically with projects
+    /// </summary>
     public static class ProjectUtilities
     {
         private const string SupportedProjectExtensionsKey = @"XdtTransforms\SupportedProjectExtensions";
         private const string SupportedItemExtensionsKey = @"XdtTransforms\SupportedItemExtensions";
 
-        private static IEnumerable<string> s_supportedProjectExtensions;
-        private static IEnumerable<string> s_supportedItemExtensions;
+        private static IEnumerable<string> supportedProjectExtensions;
+        private static IEnumerable<string> supportedItemExtensions;
 
         /// <summary>
         /// Gets the DTE from current context
         /// </summary>
+        /// <returns>The Visual Studio DTE object</returns>
         public static DTE GetDTE()
         {
             return (DTE)Package.GetGlobalService(typeof(DTE));
+        }
+
+        /// <summary>
+        /// Verifies if a single object is selected
+        /// </summary>
+        /// <param name="hierarchy">Current selected project hierarchy</param>
+        /// <param name="itemid">ID of the selected item</param>
+        /// <returns>True if a single item is selected</returns>
+        public static bool IsSingleProjectItemSelection(out IVsHierarchy hierarchy, out uint itemid)
+        {
+            hierarchy = null;
+            itemid = VSConstants.VSITEMID_NIL;
+            int hr = VSConstants.S_OK;
+
+            IVsMonitorSelection monitorSelection = Package.GetGlobalService(typeof(SVsShellMonitorSelection)) as IVsMonitorSelection;
+            IVsSolution solution = Package.GetGlobalService(typeof(SVsSolution)) as IVsSolution;
+            if (monitorSelection == null || solution == null)
+            {
+                return false;
+            }
+
+            IVsMultiItemSelect multiItemSelect = null;
+            IntPtr hierarchyPtr = IntPtr.Zero;
+            IntPtr selectionContainerPtr = IntPtr.Zero;
+
+            try
+            {
+                hr = monitorSelection.GetCurrentSelection(out hierarchyPtr, out itemid, out multiItemSelect, out selectionContainerPtr);
+
+                if (ErrorHandler.Failed(hr) || hierarchyPtr == IntPtr.Zero || itemid == VSConstants.VSITEMID_NIL)
+                {
+                    // there is no selection
+                    return false;
+                }
+
+                if (multiItemSelect != null)
+                {
+                    // multiple items are selected
+                    return false;
+                }
+
+                if (itemid == VSConstants.VSITEMID_ROOT)
+                {
+                    // there is a hierarchy root node selected, thus it is not a single item inside a project
+                    return false;
+                }
+
+                hierarchy = Marshal.GetObjectForIUnknown(hierarchyPtr) as IVsHierarchy;
+                if (hierarchy == null)
+                {
+                    return false;
+                }
+
+                Guid guidProjectID = Guid.Empty;
+
+                if (ErrorHandler.Failed(solution.GetGuidOfProject(hierarchy, out guidProjectID)))
+                {
+                    return false; // hierarchy is not a project inside the Solution if it does not have a ProjectID Guid
+                }
+
+                // if we got this far then there is a single project item selected
+                return true;
+            }
+            finally
+            {
+                if (selectionContainerPtr != IntPtr.Zero)
+                {
+                    Marshal.Release(selectionContainerPtr);
+                }
+
+                if (hierarchyPtr != IntPtr.Zero)
+                {
+                    Marshal.Release(hierarchyPtr);
+                }
+            }
         }
 
         /// <summary>
@@ -52,31 +133,31 @@ namespace SlowCheetah.VisualStudio
         /// <summary>
         /// Retrieves the supported project extensions from the package settings
         /// </summary>
-        /// <param name="settingsManager"> </param>
+        /// <param name="settingsManager">The settings manager for the project</param>
         /// <returns>List of supported project extensions starting with '.'</returns>
         public static IEnumerable<string> GetSupportedProjectExtensions(IVsSettingsManager settingsManager)
         {
-            if (s_supportedProjectExtensions == null)
+            if (supportedProjectExtensions == null)
             {
-                s_supportedProjectExtensions = GetSupportedExtensions(settingsManager, SupportedProjectExtensionsKey);
+                supportedProjectExtensions = GetSupportedExtensions(settingsManager, SupportedProjectExtensionsKey);
             }
 
-            return s_supportedProjectExtensions;
+            return supportedProjectExtensions;
         }
 
         /// <summary>
         /// Retrieves the supported item extensions from the package settings
         /// </summary>
-        /// <param name="settingsManager"></param>
-        /// <returns></returns>
+        /// <param name="settingsManager">The settings manager for the project</param>
+        /// <returns>A list of supported item extensions</returns>
         public static IEnumerable<string> GetSupportedItemExtensions(IVsSettingsManager settingsManager)
         {
-            if (s_supportedItemExtensions == null)
+            if (supportedItemExtensions == null)
             {
-                s_supportedItemExtensions = GetSupportedExtensions(settingsManager, SupportedProjectExtensionsKey);
+                supportedItemExtensions = GetSupportedExtensions(settingsManager, SupportedProjectExtensionsKey);
             }
 
-            return s_supportedItemExtensions;
+            return supportedItemExtensions;
         }
 
         private static IEnumerable<string> GetSupportedExtensions(IVsSettingsManager settingsManager, string rootKey)

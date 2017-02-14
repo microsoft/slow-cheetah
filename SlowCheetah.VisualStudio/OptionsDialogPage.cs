@@ -1,61 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using System.Diagnostics;
-using Microsoft.Win32;
-using System.IO;
+﻿// Copyright (c) Sayed Ibrahim Hashimi. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See  License.md file in the project root for full license information.
 
 namespace SlowCheetah.VisualStudio
 {
+    using System;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.IO;
+    using Microsoft.VisualStudio;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Shell.Interop;
+    using Microsoft.Win32;
+
+    /// <summary>
+    /// Options page for SlowCheetah
+    /// </summary>
     [System.Runtime.InteropServices.Guid("01B6BAC2-0BD6-4ead-95AE-6D6DE30A6286")]
     internal class OptionsDialogPage : DialogPage
     {
-        const string regOptionsKey = "ConfigTransform";
-        const string regPreviewCmdLine = "PreviewCmdLine";
-        const string regPreviewExe = "PreviewExe";
-        const string regPreviewEnable = "EnablePreview";
+        private const string RegOptionsKey = "ConfigTransform";
+        private const string RegPreviewCmdLine = "PreviewCmdLine";
+        private const string RegPreviewExe = "PreviewExe";
+        private const string RegPreviewEnable = "EnablePreview";
 
         /// <summary>
-        /// Constructor called by VSIP just in time when user wants to view this 
-        /// tools, options page
+        /// Initializes a new instance of the <see cref="OptionsDialogPage"/> class.
+        /// Constructor called by VSIP just in time when user wants to view this tools, options page
         /// </summary>
         public OptionsDialogPage()
         {
-            InitializeDefaults();
+            this.InitializeDefaults();
         }
 
-        /// <summary> 
-        /// Sets up our default values.
+        /// <summary>
+        /// Gets or sets the exe path for the diff tool used to preview transformations
         /// </summary>
-        private void InitializeDefaults()
-        {
-            string diffToolPath = SlowCheetahPackage.OurPackage.GetVsInstallDirectory();
-            if (diffToolPath != null)
-            {
-                diffToolPath = Path.Combine(diffToolPath, "diffmerge.exe");
-                PreviewToolExecutablePath = diffToolPath;
-            }
-            PreviewToolCommandLine = "{0} {1}";
-            EnablePreview = true;
-        }
-
         public string PreviewToolExecutablePath { get; set; }
-        public string PreviewToolCommandLine { get; set; }
-        public bool EnablePreview { get; set; }
 
-        //--------------------------------------------------------------------------------------
-        // This event is raised when VS wants to deactivate this
-        // page.  The page is deactivated unless the event is
-        // cancelled.
-        //--------------------------------------------------------------------------------------
-        protected override void OnDeactivate(CancelEventArgs e)
-        {
-        }
+        /// <summary>
+        /// Gets or sets the required command on execution of the preview tool
+        /// </summary>
+        public string PreviewToolCommandLine { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether preview is enabled or not
+        /// </summary>
+        public bool EnablePreview { get; set; }
 
         /// <summary>
         /// Save our settings to the specified XML writer so they can be exported
@@ -68,32 +58,41 @@ namespace SlowCheetah.VisualStudio
                 base.SaveSettingsToXml(writer);
 
                 // Write settings to XML
-                writer.WriteSettingString(regPreviewExe, PreviewToolExecutablePath);
-                writer.WriteSettingString(regPreviewCmdLine, PreviewToolCommandLine);
-                writer.WriteSettingBoolean(regPreviewEnable, EnablePreview ? 1 : 0);
+                writer.WriteSettingString(RegPreviewExe, this.PreviewToolExecutablePath);
+                writer.WriteSettingString(RegPreviewCmdLine, this.PreviewToolCommandLine);
+                writer.WriteSettingBoolean(RegPreviewEnable, this.EnablePreview ? 1 : 0);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.Assert(false, "Error exporting Slow Cheetah settings: " + e.Message);
             }
         }
 
+        /// <summary>
+        /// Loads our settings to the specified XML writer
+        /// </summary>
+        /// <param name="reader">The VsSettings reader we read ou values from</param>
         public override void LoadSettingsFromXml(IVsSettingsReader reader)
         {
             try
             {
-                InitializeDefaults();
+                this.InitializeDefaults();
                 string exePath, exeCmdLine;
                 int enablePreview;
-                if (SlowCheetahPackage.Succeeded(reader.ReadSettingString(regPreviewExe, out exePath)) && !string.IsNullOrEmpty(exePath))
+                if (ErrorHandler.Succeeded(reader.ReadSettingString(RegPreviewExe, out exePath)) && !string.IsNullOrEmpty(exePath))
                 {
-                    PreviewToolExecutablePath = exePath;
+                    this.PreviewToolExecutablePath = exePath;
                 }
 
-                if (SlowCheetahPackage.Succeeded(reader.ReadSettingString(regPreviewCmdLine, out exeCmdLine)) && !string.IsNullOrEmpty(exeCmdLine))
-                    PreviewToolCommandLine = exeCmdLine;
-                if (SlowCheetahPackage.Succeeded(reader.ReadSettingBoolean(regPreviewEnable, out enablePreview)))
-                    EnablePreview = enablePreview == 1;
+                if (ErrorHandler.Succeeded(reader.ReadSettingString(RegPreviewCmdLine, out exeCmdLine)) && !string.IsNullOrEmpty(exeCmdLine))
+                {
+                    this.PreviewToolCommandLine = exeCmdLine;
+                }
+
+                if (ErrorHandler.Succeeded(reader.ReadSettingBoolean(RegPreviewEnable, out enablePreview)))
+                {
+                    this.EnablePreview = enablePreview == 1;
+                }
             }
             catch (Exception e)
             {
@@ -101,39 +100,37 @@ namespace SlowCheetah.VisualStudio
             }
         }
 
-        ///--------------------------------------------------------------------------------------
         /// <summary>
         /// Load Tools-->Options settings from registry. Defaults are set in constructor so these
         /// will just override those values.
         /// </summary>
-        ///--------------------------------------------------------------------------------------
         public override void LoadSettingsFromStorage()
         {
             try
             {
-                InitializeDefaults();
+                this.InitializeDefaults();
                 using (RegistryKey userRootKey = SlowCheetahPackage.OurPackage.UserRegistryRoot)
                 {
-                    using (RegistryKey cheetahKey = userRootKey.OpenSubKey(regOptionsKey))
+                    using (RegistryKey cheetahKey = userRootKey.OpenSubKey(RegOptionsKey))
                     {
                         if (cheetahKey != null)
                         {
-                            object previewTool = cheetahKey.GetValue(regPreviewExe);
+                            object previewTool = cheetahKey.GetValue(RegPreviewExe);
                             if (previewTool != null && (previewTool is string) && !string.IsNullOrEmpty((string)previewTool))
                             {
-                                PreviewToolExecutablePath = (string)previewTool;
+                                this.PreviewToolExecutablePath = (string)previewTool;
                             }
 
-                            object previewCmdLine = cheetahKey.GetValue(regPreviewCmdLine);
+                            object previewCmdLine = cheetahKey.GetValue(RegPreviewCmdLine);
                             if (previewCmdLine != null && (previewCmdLine is string) && !string.IsNullOrEmpty((string)previewCmdLine))
                             {
-                                PreviewToolCommandLine = (string)previewCmdLine;
+                                this.PreviewToolCommandLine = (string)previewCmdLine;
                             }
 
-                            object enablePreview = cheetahKey.GetValue(regPreviewEnable);
+                            object enablePreview = cheetahKey.GetValue(RegPreviewEnable);
                             if (enablePreview != null && (enablePreview is int))
                             {
-                                EnablePreview = ((int)enablePreview) == 1;
+                                this.EnablePreview = ((int)enablePreview) == 1;
                             }
                         }
                     }
@@ -145,11 +142,9 @@ namespace SlowCheetah.VisualStudio
             }
         }
 
-        ///--------------------------------------------------------------------------------------
         /// <summary>
         /// Save Tools-->Options settings to registry
         /// </summary>
-        ///--------------------------------------------------------------------------------------
         public override void SaveSettingsToStorage()
         {
             try
@@ -157,11 +152,11 @@ namespace SlowCheetah.VisualStudio
                 base.SaveSettingsToStorage();
                 using (RegistryKey userRootKey = SlowCheetahPackage.OurPackage.UserRegistryRoot)
                 {
-                    using (RegistryKey cheetahKey = userRootKey.CreateSubKey(regOptionsKey))
+                    using (RegistryKey cheetahKey = userRootKey.CreateSubKey(RegOptionsKey))
                     {
-                        cheetahKey.SetValue(regPreviewExe, PreviewToolExecutablePath);
-                        cheetahKey.SetValue(regPreviewCmdLine, PreviewToolCommandLine);
-                        cheetahKey.SetValue(regPreviewEnable, EnablePreview ? 1 : 0);
+                        cheetahKey.SetValue(RegPreviewExe, this.PreviewToolExecutablePath);
+                        cheetahKey.SetValue(RegPreviewCmdLine, this.PreviewToolCommandLine);
+                        cheetahKey.SetValue(RegPreviewEnable, this.EnablePreview ? 1 : 0);
                     }
                 }
             }
@@ -171,66 +166,103 @@ namespace SlowCheetah.VisualStudio
             }
         }
 
-        ///--------------------------------------------------------------------------------------------
+        /// <summary>
+        /// This event is raised when VS wants to deactivate this page.
+        /// The page is deactivated unless the event is cancelled.
+        /// </summary>
+        /// <param name="e">Arguments for the event</param>
+        protected override void OnDeactivate(CancelEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Sets up our default values.
+        /// </summary>
+        private void InitializeDefaults()
+        {
+            string diffToolPath = SlowCheetahPackage.OurPackage.GetVsInstallDirectory();
+            if (diffToolPath != null)
+            {
+                diffToolPath = Path.Combine(diffToolPath, "diffmerge.exe");
+                this.PreviewToolExecutablePath = diffToolPath;
+            }
+
+            this.PreviewToolCommandLine = "{0} {1}";
+            this.EnablePreview = true;
+        }
+
         /// <summary>
         /// Attribute class allows us to loc the displayname for our properties. Property resource
         /// is expected to be named PropName_[propertyname]
         /// </summary>
-        ///--------------------------------------------------------------------------------------------
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
         internal sealed class LocDisplayNameAttribute : DisplayNameAttribute
         {
-            private string _displayName;
+            private string displayName;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="LocDisplayNameAttribute"/> class.
+            /// </summary>
+            /// <param name="name">Attribute name</param>
             public LocDisplayNameAttribute(string name)
             {
-                _displayName = name;
+                this.displayName = name;
             }
 
+            /// <summary>
+            /// Gets the display name of the attribute
+            /// </summary>
             public override string DisplayName
             {
                 get
                 {
-                    string result = Resources.Resources.ResourceManager.GetString("PropName_" + _displayName);
+                    string result = Resources.Resources.ResourceManager.GetString("PropName_" + this.displayName);
                     if (result == null)
                     {
                         // Just return non-loc'd value
-                        Debug.Assert(false, "String resource '" + _displayName + "' is missing");
-                        result = _displayName;
+                        Debug.Assert(false, "String resource '" + this.displayName + "' is missing");
+                        result = this.displayName;
                     }
 
                     return result;
                 }
             }
         }
-        ///--------------------------------------------------------------------------------------------
+
         /// <summary>
         /// Attribute class allows us to loc the description for our properties. Property resource
         /// is expected to be named PropDesc_[propertyname]
         /// </summary>
-        ///--------------------------------------------------------------------------------------------
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
         internal sealed class LocDescriptionAttribute : DescriptionAttribute
         {
-            private string _descName;
+            private string descName;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="LocDescriptionAttribute"/> class.
+            /// </summary>
+            /// <param name="name">Attribute name</param>
             public LocDescriptionAttribute(string name)
             {
-                _descName = name;
+                this.descName = name;
             }
 
+            /// <summary>
+            /// Gets the description for the attribute
+            /// </summary>
             public override string Description
             {
                 get
                 {
-                    string result = Resources.Resources.ResourceManager.GetString("PropDesc_" + _descName);
+                    string result = Resources.Resources.ResourceManager.GetString("PropDesc_" + this.descName);
 
                     if (result == null)
                     {
                         // Just return non-loc'd value
-                        Debug.Assert(false, "String resource '" + _descName + "' is missing");
-                        result = _descName;
+                        Debug.Assert(false, "String resource '" + this.descName + "' is missing");
+                        result = this.descName;
                     }
+
                     return result;
                 }
             }
