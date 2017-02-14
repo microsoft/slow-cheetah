@@ -180,7 +180,4 @@
   <data name="TransformPreview_ToolTip" xml:space="preserve">
     <value>{0} Preview</value>
   </data>
-  <data name="WebAppGuid" xml:space="preserve">
-    <value>{349c5851-65df-11da-9384-00065b846f21}</value>
-  </data>
 </root>

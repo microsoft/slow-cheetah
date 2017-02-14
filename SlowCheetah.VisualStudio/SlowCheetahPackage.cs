@@ -350,7 +350,7 @@ namespace SlowCheetah.VisualStudio
             }
 
             string documentPath;
-            if (!GetFileToTransform(hierarchy, parentId, Path.GetFileName(transformPath), out documentPath))
+            if (!TryGetFileToTransform(hierarchy, parentId, Path.GetFileName(transformPath), out documentPath))
             {
                 //TO DO: Possibly tell the user that the transform file was not found.
                 return;
@@ -379,12 +379,11 @@ namespace SlowCheetah.VisualStudio
         /// <param name="transformName">Name of the transformation file</param>
         /// <param name="documentPath">Resulting path of the file to transform</param>
         /// <returns>True if the correct file was found</returns>
-        bool GetFileToTransform(IVsHierarchy hierarchy, uint parentId, string transformName, out string documentPath)
+        private bool TryGetFileToTransform(IVsHierarchy hierarchy, uint parentId, string transformName, out string documentPath)
         {
             IVsProject project = (IVsProject)hierarchy;
 
             IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(hierarchy);
-
 
             if (ErrorHandler.Failed(project.GetMkDocument(parentId, out documentPath)))
             {

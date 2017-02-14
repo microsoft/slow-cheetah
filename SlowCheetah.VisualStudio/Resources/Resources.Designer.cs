@@ -215,14 +215,5 @@ namespace SlowCheetah.VisualStudio.Resources {
                 return ResourceManager.GetString("TransformPreview_ToolTip", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {349c5851-65df-11da-9384-00065b846f21}.
-        /// </summary>
-        internal static string WebAppGuid {
-            get {
-                return ResourceManager.GetString("WebAppGuid", resourceCulture);
-            }
-        }
     }
 }

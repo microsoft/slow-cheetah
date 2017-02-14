@@ -122,7 +122,7 @@ namespace SlowCheetah.VisualStudio
                 string projectTypeGuids;
                 aggregatableProject.GetAggregateProjectTypeGuids(out projectTypeGuids);
                 List<string> guids = new List<string>(projectTypeGuids.Split(';'));
-                return guids.Contains(Resources.Resources.WebAppGuid);
+                return guids.Contains(GuidList.guidWebApplicationString);
             }
 
             return false;

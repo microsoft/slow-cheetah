@@ -120,7 +120,6 @@ namespace SlowCheetah.VisualStudio
                 Regex regex = new Regex("^" + docNameNoExt + @"\.", RegexOptions.IgnoreCase);
                 string configName = regex.Replace(trnNameNoExt, "");
                 return (!configName.Equals(trnNameNoExt) && configs.Any(s => { return string.Compare(s, configName, true) == 0; }));
-
             }
         }
 
@@ -130,7 +129,7 @@ namespace SlowCheetah.VisualStudio
         /// <typeparam name="T">Type of object to be fetched</typeparam>
         /// <param name="pHierarchy">Current IVsHierarchy</param>
         /// <param name="itemID">ID of the desired item in the project</param>
-        /// <returns>The deired object typed to T</returns>
+        /// <returns>The desired object typed to T</returns>
         public static T GetAutomationFromHierarchy<T>(IVsHierarchy pHierarchy, uint itemID) where T : class
         {
             object propertyValue;
