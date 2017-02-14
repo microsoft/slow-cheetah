@@ -6,8 +6,8 @@
     <Description xml:space="preserve">This package enables you to transform your app.config or any other XML file based on the build configuration. It also adds additional tooling to help you create XML transforms.. Written by: Sayed Ibrahim Hashimi, Chuck England and Bill Hiebert.</Description>
     <MoreInfo>http://sedodream.com/</MoreInfo>
     <License>Resources\License.txt</License>
-    <Icon>Cheetah-120.png</Icon>
-    <PreviewImage>Cheetah-120.png</PreviewImage>
+    <Icon>Resources\Images\Cheetah-120.png</Icon>
+    <PreviewImage>Resources\Images\Cheetah-120.png</PreviewImage>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[11.0,16.0)" />

@@ -1,12 +1,21 @@
-﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
-
-using System;
+﻿// Copyright (c) Sayed Ibrahim Hashimi. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See  License.md file in the project root for full license information.
 
 namespace SlowCheetah.VisualStudio
 {
-    static class PkgCmdIDList
+    /// <summary>
+    /// List of the Command IDs for SlowCheetah
+    /// </summary>
+    public static class PkgCmdID
     {
-        public const uint cmdidAddTransform = 0x100;
-        public const uint cmdidPreviewTransform = 0x101;
+        /// <summary>
+        /// ID for the "Add Transform" command
+        /// </summary>
+        public const uint CmdIdAddTransform = 0x100;
+
+        /// <summary>
+        /// ID for the "Preview Transform" command
+        /// </summary>
+        public const uint CmdIdPreviewTransform = 0x101;
     }
 }

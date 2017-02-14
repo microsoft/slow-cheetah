@@ -1,39 +1,45 @@
-﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
-
-using System;
+﻿// Copyright (c) Sayed Ibrahim Hashimi. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See  License.md file in the project root for full license information.
 
 namespace SlowCheetah.VisualStudio
 {
+    using System;
+
     /// <summary>
     /// Factory that determines the user's version of Visual Studio and return the correct <see cref="INugetPackageHandler"/>
     /// </summary>
     public static class NugetHandlerFactory
     {
-        private static INugetPackageHandler s_handler;
+        private static INugetPackageHandler handler;
 
+        /// <summary>
+        /// Gets the appropriate <see cref="INugetPackageHandler"/> depending on the user's Visual Stuido version
+        /// </summary>
+        /// <param name="package">Visual Studio Package</param>
+        /// <returns>The correct handler</returns>
         public static INugetPackageHandler GetHandler(IServiceProvider package)
         {
-            if (s_handler == null)
+            if (handler == null)
             {
                 EnvDTE.DTE dte = ProjectUtilities.GetDTE();
                 bool showInfoBar = false;
                 Version vsVersion;
                 if (Version.TryParse(dte.Version, out vsVersion))
                 {
-                    showInfoBar = (vsVersion >= new Version(14, 0));
+                    showInfoBar = vsVersion >= new Version(14, 0);
                 }
 
                 if (showInfoBar)
                 {
-                    s_handler = new NugetInfoBarHandler(package);
+                    handler = new NugetInfoBarHandler(package);
                 }
                 else
                 {
-                    s_handler = new LegacyNugetMessageHandler(package);
+                    handler = new LegacyNugetMessageHandler(package);
                 }
             }
 
-            return s_handler;
+            return handler;
         }
     }
 }

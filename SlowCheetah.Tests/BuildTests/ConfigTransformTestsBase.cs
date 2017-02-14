@@ -1,38 +1,73 @@
-﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Xml.Linq;
-using Microsoft.Build.Evaluation;
-using Microsoft.Build.Framework;
-using Microsoft.Build.Logging;
-using Xunit;
+﻿// Copyright (c) Sayed Ibrahim Hashimi. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See  License.md file in the project root for full license information.
 
 namespace SlowCheetah.Tests.BuildTests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Xml.Linq;
+    using Microsoft.Build.Evaluation;
+    using Microsoft.Build.Framework;
+    using Microsoft.Build.Logging;
+    using Xunit;
+
+    /// <summary>
+    /// Base class for transformation tests.
+    /// </summary>
     public abstract class ConfigTransformTestsBase : IDisposable
     {
-        public string SolutionDir { get { return Path.Combine(Environment.CurrentDirectory, @"..\.."); } }
-        public string OutputPath { get { return Path.Combine(Environment.CurrentDirectory, @"ProjectOutput"); } }
-        public string TestProjectsDir { get { return Path.Combine(SolutionDir, @"SlowCheetah.Tests\BuildTests\TestProjects"); } }
+        /// <summary>
+        /// Gets the test solution directory
+        /// </summary>
+        public string SolutionDir
+        {
+            get { return Path.Combine(Environment.CurrentDirectory, @"..\.."); }
+        }
 
+        /// <summary>
+        /// Gets the output path of the test project
+        /// </summary>
+        public string OutputPath
+        {
+            get { return Path.Combine(Environment.CurrentDirectory, @"ProjectOutput"); }
+        }
+
+        /// <summary>
+        /// Gets the test projects directory
+        /// </summary>
+        public string TestProjectsDir
+        {
+            get { return Path.Combine(this.SolutionDir, @"SlowCheetah.Tests\BuildTests\TestProjects"); }
+        }
+
+        /// <summary>
+        /// Builds the project of the given name from the <see cref="TestProjectsDir"/>
+        /// </summary>
+        /// <param name="projectName">Name of the project to be built.
+        /// Must correspond to a folder name in the test projects directory</param>
         public void BuildProject(string projectName)
         {
-            var globalProperties = new Dictionary<string, string>(){
-               {"Configuration", "Debug"},
-               {"OutputPath", OutputPath},
-               {"VSToolsPath", ""}
+            var globalProperties = new Dictionary<string, string>()
+            {
+               { "Configuration", "Debug" },
+               { "OutputPath", this.OutputPath },
+               { "VSToolsPath", string.Empty }
             };
-            var project = new Project(Path.Combine(TestProjectsDir, projectName, projectName + ".csproj"),
-                globalProperties, "4.0");
+            var project = new Project(Path.Combine(this.TestProjectsDir, projectName, projectName + ".csproj"), globalProperties, "4.0");
             var logger = new ConsoleLogger(LoggerVerbosity.Quiet);
             bool buildSuccess = project.Build(logger);
             Assert.True(buildSuccess);
             ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
         }
 
+        /// <summary>
+        /// Gets a app setting from a configuration file
+        /// </summary>
+        /// <param name="configFilePath">Path to the configuration file</param>
+        /// <param name="appSettingKey">Setting key</param>
+        /// <returns>Value of the setting</returns>
         public string GetAppSettingValue(string configFilePath, string appSettingKey)
         {
             var configFile = XDocument.Load(configFilePath);
@@ -42,15 +77,24 @@ namespace SlowCheetah.Tests.BuildTests
             return testSetting;
         }
 
+        /// <summary>
+        /// Gets the value of a node within a configuration file
+        /// </summary>
+        /// <param name="configFilePath">Path to the configuration file</param>
+        /// <param name="nodeName">Name of the node</param>
+        /// <returns>Value of the node</returns>
         public string GetConfigNodeValue(string configFilePath, string nodeName)
         {
             var configFile = XDocument.Load(configFilePath);
             return configFile.Descendants(nodeName).Single().Value;
         }
 
+        /// <summary>
+        /// At the end of tests, delete the output path for the tested projects
+        /// </summary>
         public void Dispose()
         {
-            Directory.Delete(OutputPath, true);
+            Directory.Delete(this.OutputPath, true);
         }
     }
 }
