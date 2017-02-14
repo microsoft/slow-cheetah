@@ -296,7 +296,7 @@ namespace SlowCheetah.VisualStudio
                 throw new COMException(string.Format(Resources.Resources.Error_SavingProjectFile, itemFullPath, this.GetErrorInfo()), hr);
             }
 
-            ProjectItem selectedProjectItem = this.GetAutomationFromHierarchy<ProjectItem>(hierarchy, itemid);
+            ProjectItem selectedProjectItem = PackageUtilities.GetAutomationFromHierarchy<ProjectItem>(hierarchy, itemid);
             if (selectedProjectItem != null)
             {
                 this.CheckSlowCheetahNugetInstallation(selectedProjectItem.ContainingProject);
@@ -378,7 +378,7 @@ namespace SlowCheetah.VisualStudio
                 return;
             }
 
-            Project currentProject = this.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
+            Project currentProject = PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
             this.CheckSlowCheetahNugetInstallation(currentProject);
 
             object parentIdObj;
@@ -390,8 +390,9 @@ namespace SlowCheetah.VisualStudio
             }
 
             string documentPath;
-            if (ErrorHandler.Failed(project.GetMkDocument(parentId, out documentPath)))
+            if (!TryGetFileToTransform(hierarchy, parentId, Path.GetFileName(transformPath), out documentPath))
             {
+                //TO DO: Possibly tell the user that the transform file was not found.
                 return;
             }
 
@@ -406,6 +407,65 @@ namespace SlowCheetah.VisualStudio
                 nugetHandler.ShowUpdateInfo();
             }
         }
+
+        /// <summary>
+        /// Searches for a file to transform based on a transformation file.
+        /// Starts the search with the parent of the file then checks all visible children.
+        /// </summary>
+        /// <param name="hierarchy">Current project hierarchy</param>
+        /// <param name="parentId">Parent ID of the file.</param>
+        /// <param name="transformName">Name of the transformation file</param>
+        /// <param name="documentPath">Resulting path of the file to transform</param>
+        /// <returns>True if the correct file was found</returns>
+        private bool TryGetFileToTransform(IVsHierarchy hierarchy, uint parentId, string transformName, out string documentPath)
+        {
+            IVsProject project = (IVsProject)hierarchy;
+
+            IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(hierarchy);
+
+            if (ErrorHandler.Failed(project.GetMkDocument(parentId, out documentPath)))
+            {
+                return false;
+            }
+
+            if (PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
+            {
+                return true;
+            }
+            else
+            {
+                object childIdObj;
+                hierarchy.GetProperty(parentId, (int)__VSHPROPID.VSHPROPID_FirstVisibleChild, out childIdObj);
+                uint childId = (uint)(int)childIdObj;
+                if (ErrorHandler.Failed(project.GetMkDocument(childId, out documentPath)))
+                {
+                    return false;
+                }
+
+                if (PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
+                {
+                    return true;
+                }
+                else
+                {
+                    while (childId != VSConstants.VSITEMID_NIL)
+                    {
+                        hierarchy.GetProperty(childId, (int)__VSHPROPID.VSHPROPID_NextVisibleSibling, out childIdObj);
+                        childId = (uint)(int)childIdObj;
+                        if (ErrorHandler.Succeeded(project.GetMkDocument(childId, out documentPath)))
+                        {
+                            if (PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
 
         /// <summary>
         /// Verifies if the item has a trasform configured already
@@ -431,16 +491,11 @@ namespace SlowCheetah.VisualStudio
             }
 
             // we need to special case web.config transform files
-            string pattern = @"web\..+\.config";
             string filePath;
             buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out filePath);
-            if (!string.IsNullOrEmpty(filePath))
-            {
-                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                return regex.IsMatch(Path.GetFileName(filePath));
-            }
-
-            return false;
+            IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(vsProject as IVsHierarchy);
+            //If the project is a web app, check for the Web.config files added by default
+            return (ProjectUtilities.IsProjectWebApp(vsProject) && PackageUtilities.IsFileTransform("web.config", Path.GetFileName(filePath), configs));
         }
 
         /// <summary>
@@ -651,28 +706,6 @@ namespace SlowCheetah.VisualStudio
         }
 
         /// <summary>
-        /// Gets a ProjectItem from the hierarchy
-        /// </summary>
-        /// <param name="pHierarchy">Current IVsHierarchy</param>
-        /// <param name="itemID">ID of the desired item in the project</param>
-        /// <returns>ProjectItem corresponding to the desired item</returns>
-        /// <typeparam name="T">Desired automation type to get</typeparam>
-        private T GetAutomationFromHierarchy<T>(IVsHierarchy pHierarchy, uint itemID)
-            where T : class
-        {
-            object propertyValue;
-            ErrorHandler.ThrowOnFailure(pHierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_ExtObject, out propertyValue));
-            T projectItem = propertyValue as T;
-            if (projectItem == null)
-            {
-                this.LogMessageWriteLineFormat("ERROR: Item not found");
-                return null;
-            }
-
-            return projectItem;
-        }
-
-        /// <summary>
         /// Shows a preview of the transformation in a temporary file.
         /// </summary>
         /// <param name="hier">Current IVsHierarchy</param>
@@ -724,39 +757,16 @@ namespace SlowCheetah.VisualStudio
                 }
                 else
                 {
-                    // REVISE: Reference directly, not with Guid
-                    Guid sID_SVsDifferenceService = new Guid("{77115E75-EF9E-4F30-92F2-3FE78BCAF6CF}");
-                    Guid iID_IVsDifferenceService = new Guid("{E20E53BE-8B7A-408F-AEA7-C0AAD6D1B946}");
-                    uint vSDIFFOPT_RightFileIsTemporary = 0x00000020;   // The right file is a temporary file explicitly created for diff.
-                                                                        // If the diffmerge service is available (dev11) and no diff tool is specified, or diffmerge.exe is specifed we use the service
-                    Microsoft.VisualStudio.OLE.Interop.IServiceProvider sp;
-                    hier.GetSite(out sp);
-                    IntPtr diffSvcIntPtr = IntPtr.Zero;
-                    int hr = sp.QueryService(ref sID_SVsDifferenceService, ref iID_IVsDifferenceService, out diffSvcIntPtr);
-                    if (diffSvcIntPtr != IntPtr.Zero && (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath) || optionsPage.PreviewToolExecutablePath.EndsWith(@"\diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
+                    // If the diffmerge service is available (dev11) and no diff tool is specified, or diffmerge.exe is specifed we use the service
+                    IVsDifferenceService diffService = GetService(typeof(SVsDifferenceService)) as IVsDifferenceService;
+                    if (diffService != null && (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath) || optionsPage.PreviewToolExecutablePath.EndsWith(@"\diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
                     {
-                        try
-                        {
-                            object diffSvc = Marshal.GetObjectForIUnknown(diffSvcIntPtr);
-                            Type t = diffSvc.GetType();
-                            Type[] paramTypes = new Type[] { typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(uint) };
-                            MethodInfo openComparisonWindow2 = t.GetMethod("OpenComparisonWindow2", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, paramTypes, null);
-                            Debug.Assert(openComparisonWindow2 != null, "The comparison window should not be null");
-                            if (openComparisonWindow2 != null)
-                            {
-                                string sourceName = Path.GetFileName(sourceFile);
-                                string leftLabel = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_LeftLabel, sourceName);
-                                string rightLabel = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_RightLabel, sourceName, Path.GetFileName(transformFile));
-                                string caption = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_Caption, sourceName);
-                                string tooltip = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_ToolTip, sourceName);
-                                object[] paras = new object[] { sourceFile, destFile, caption, tooltip, leftLabel, rightLabel, null, null, vSDIFFOPT_RightFileIsTemporary };
-                                openComparisonWindow2.Invoke(diffSvc, paras);
-                            }
-                        }
-                        finally
-                        {
-                            Marshal.Release(diffSvcIntPtr);
-                        }
+                        string sourceName = Path.GetFileName(sourceFile);
+                        string leftLabel = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_LeftLabel, sourceName);
+                        string rightLabel = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_RightLabel, sourceName, Path.GetFileName(transformFile));
+                        string caption = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_Caption, sourceName);
+                        string tooltip = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_ToolTip, sourceName);
+                        diffService.OpenComparisonWindow2(sourceFile, destFile, caption, tooltip, leftLabel, rightLabel, null, null, (uint)__VSDIFFSERVICEOPTIONS.VSDIFFOPT_RightFileIsTemporary);
                     }
                     else if (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath))
                     {
@@ -789,7 +799,7 @@ namespace SlowCheetah.VisualStudio
         /// </summary>
         /// <param name="project">Current project</param>
         /// <returns>True if the package is installed</returns>
-        private bool IsSlowCheetahPackageInstalled(EnvDTE.Project project)
+        private bool IsSlowCheetahPackageInstalled(Project project)
         {
             var componentModel = (IComponentModel)this.GetService(typeof(SComponentModel));
             IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();
