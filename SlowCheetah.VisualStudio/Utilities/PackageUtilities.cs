@@ -7,7 +7,10 @@ namespace SlowCheetah.VisualStudio
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Xml;
+    using Microsoft.VisualStudio;
+    using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
     /// Utilities class for the Visual Studio Extension Package
@@ -115,11 +118,19 @@ namespace SlowCheetah.VisualStudio
         /// </summary>
         /// <param name="documentName">File to be transformed</param>
         /// <param name="transformName">File to</param>
+        /// <param name="configs">Project configurations</param>
         /// <returns>True if the name</returns>
         public static bool IsFileTransform(string documentName, string transformName, IEnumerable<string> configs)
         {
-            if (string.IsNullOrEmpty(documentName)) { return false; }
-            if (string.IsNullOrEmpty(transformName)) { return false; }
+            if (string.IsNullOrEmpty(documentName))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(transformName))
+            {
+                return false;
+            }
 
             if (!Path.GetExtension(documentName).Equals(Path.GetExtension(transformName), StringComparison.OrdinalIgnoreCase))
             {
@@ -130,8 +141,8 @@ namespace SlowCheetah.VisualStudio
                 string docNameNoExt = Path.GetFileNameWithoutExtension(documentName);
                 string trnNameNoExt = Path.GetFileNameWithoutExtension(transformName);
                 Regex regex = new Regex("^" + docNameNoExt + @"\.", RegexOptions.IgnoreCase);
-                string configName = regex.Replace(trnNameNoExt, "");
-                return (!configName.Equals(trnNameNoExt) && configs.Any(s => { return string.Compare(s, configName, true) == 0; }));
+                string configName = regex.Replace(trnNameNoExt, string.Empty);
+                return !configName.Equals(trnNameNoExt) && configs.Any(s => { return string.Compare(s, configName, true) == 0; });
             }
         }
 
@@ -142,7 +153,8 @@ namespace SlowCheetah.VisualStudio
         /// <param name="pHierarchy">Current IVsHierarchy</param>
         /// <param name="itemID">ID of the desired item in the project</param>
         /// <returns>The desired object typed to T</returns>
-        public static T GetAutomationFromHierarchy<T>(IVsHierarchy pHierarchy, uint itemID) where T : class
+        public static T GetAutomationFromHierarchy<T>(IVsHierarchy pHierarchy, uint itemID)
+            where T : class
         {
             object propertyValue;
             ErrorHandler.ThrowOnFailure(pHierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_ExtObject, out propertyValue));

@@ -129,6 +129,7 @@ namespace SlowCheetah.VisualStudio
 
             return configurations;
         }
+
         /// <summary>
         /// Gets all project configurations
         /// </summary>
@@ -170,6 +171,26 @@ namespace SlowCheetah.VisualStudio
             return supportedItemExtensions;
         }
 
+        /// <summary>
+        /// Verifies if the given project is a Web Application.
+        /// Checks the type GUIDs for that project.
+        /// </summary>
+        /// <param name="project">Project to verify</param>
+        /// <returns>True if a subtype GUID matches the Web App Guid in Resources</returns>
+        public static bool IsProjectWebApp(IVsProject project)
+        {
+            IVsAggregatableProject aggregatableProject = project as IVsAggregatableProject;
+            if (aggregatableProject != null)
+            {
+                string projectTypeGuids;
+                aggregatableProject.GetAggregateProjectTypeGuids(out projectTypeGuids);
+                List<string> guids = new List<string>(projectTypeGuids.Split(';'));
+                return guids.Contains(Guids.GuidWebApplicationString);
+            }
+
+            return false;
+        }
+
         private static IEnumerable<string> GetSupportedExtensions(IVsSettingsManager settingsManager, string rootKey)
         {
             IVsSettingsStore settings;
@@ -187,26 +208,6 @@ namespace SlowCheetah.VisualStudio
             }
 
             return supportedExtensions;
-        }
-
-        /// <summary>
-        /// Verifies if the given project is a Web Application.
-        /// Checks the type GUIDs for that project.
-        /// </summary>
-        /// <param name="project">Project to verify</param>
-        /// <returns>True if a subtype GUID matches the Web App Guid in Resources</returns>
-        public static bool IsProjectWebApp(IVsProject project)
-        {
-            IVsAggregatableProject aggregatableProject = project as IVsAggregatableProject;
-            if (aggregatableProject != null)
-            {
-                string projectTypeGuids;
-                aggregatableProject.GetAggregateProjectTypeGuids(out projectTypeGuids);
-                List<string> guids = new List<string>(projectTypeGuids.Split(';'));
-                return guids.Contains(GuidList.guidWebApplicationString);
-            }
-
-            return false;
         }
     }
 }

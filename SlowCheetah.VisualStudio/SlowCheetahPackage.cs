@@ -390,9 +390,9 @@ namespace SlowCheetah.VisualStudio
             }
 
             string documentPath;
-            if (!TryGetFileToTransform(hierarchy, parentId, Path.GetFileName(transformPath), out documentPath))
+            if (!this.TryGetFileToTransform(hierarchy, parentId, Path.GetFileName(transformPath), out documentPath))
             {
-                //TO DO: Possibly tell the user that the transform file was not found.
+                // TO DO: Possibly tell the user that the transform file was not found.
                 return;
             }
 
@@ -466,7 +466,6 @@ namespace SlowCheetah.VisualStudio
             return false;
         }
 
-
         /// <summary>
         /// Verifies if the item has a trasform configured already
         /// </summary>
@@ -494,8 +493,9 @@ namespace SlowCheetah.VisualStudio
             string filePath;
             buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out filePath);
             IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(vsProject as IVsHierarchy);
-            //If the project is a web app, check for the Web.config files added by default
-            return (ProjectUtilities.IsProjectWebApp(vsProject) && PackageUtilities.IsFileTransform("web.config", Path.GetFileName(filePath), configs));
+
+            // If the project is a web app, check for the Web.config files added by default
+            return ProjectUtilities.IsProjectWebApp(vsProject) && PackageUtilities.IsFileTransform("web.config", Path.GetFileName(filePath), configs);
         }
 
         /// <summary>
@@ -758,7 +758,7 @@ namespace SlowCheetah.VisualStudio
                 else
                 {
                     // If the diffmerge service is available (dev11) and no diff tool is specified, or diffmerge.exe is specifed we use the service
-                    IVsDifferenceService diffService = GetService(typeof(SVsDifferenceService)) as IVsDifferenceService;
+                    IVsDifferenceService diffService = this.GetService(typeof(SVsDifferenceService)) as IVsDifferenceService;
                     if (diffService != null && (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath) || optionsPage.PreviewToolExecutablePath.EndsWith(@"\diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
                     {
                         string sourceName = Path.GetFileName(sourceFile);
