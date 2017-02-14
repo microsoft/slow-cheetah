@@ -1,16 +1,20 @@
-﻿// Copyright (c) Sayed Ibrahim Hashimi.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.md in the project root for license information.
-
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿// Copyright (c) Sayed Ibrahim Hashimi. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See  License.md file in the project root for full license information.
 
 namespace SlowCheetah.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
     /// <summary>
     /// Class that contains base initialization methods for all the unit tests, such as creating and deleting temporary files.
     /// </summary>
     public class BaseTest : IDisposable
     {
+        /// <summary>
+        /// Gets the list of temporary files to delete after test
+        /// </summary>
         protected IList<string> FilesToDeleteAfterTest { get; } = new List<string>();
 
         /// <summary>
@@ -43,7 +47,10 @@ namespace SlowCheetah.Tests
         /// <returns>The path of the created file.</returns>
         protected virtual string WriteTextToTempFile(string content)
         {
-            if (string.IsNullOrEmpty(content)) { throw new ArgumentNullException("content"); }
+            if (string.IsNullOrEmpty(content))
+            {
+                throw new ArgumentNullException("content");
+            }
 
             string tempFile = this.GetTempFilename(true);
             File.WriteAllText(tempFile, content);
@@ -62,6 +69,7 @@ namespace SlowCheetah.Tests
             {
                 File.Delete(path);
             }
+
             this.FilesToDeleteAfterTest.Add(path);
             return path;
         }
