@@ -4,6 +4,7 @@
 namespace SlowCheetah.VisualStudio
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Linq;
     using System.Threading.Tasks;
     using EnvDTE;
@@ -25,6 +26,8 @@ namespace SlowCheetah.VisualStudio
 
         private IServiceProvider package;
 
+        private ConcurrentDictionary<string, Task> installTasks;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SlowCheetahNuGetManager"/> class.
         /// </summary>
@@ -32,6 +35,7 @@ namespace SlowCheetah.VisualStudio
         private SlowCheetahNuGetManager(IServiceProvider package)
         {
             this.package = package;
+            this.installTasks = new ConcurrentDictionary<string, Task>();
         }
 
         /// <summary>
@@ -148,17 +152,25 @@ namespace SlowCheetah.VisualStudio
 
         private void BackgroundInstallSlowCheetah(Project project)
         {
-            if (this.HasUserAcceptedWarningMessage())
+            string projName = project.UniqueName;
+            Task installTask;
+            if (!this.installTasks.TryGetValue(projName, out installTask))
             {
-                // Installs the latest version of the SlowCheetah NuGet package
-                var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
-                IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
-                Parallel.Invoke(async () =>
+                if (this.HasUserAcceptedWarningMessage())
                 {
-                    // Simulate delay in package install
-                    await Task.Delay(10000);
-                    InstallSlowCheetahPackage(packageInstaller, project);
-                });
+                    // Installs the latest version of the SlowCheetah NuGet package
+                    var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
+                    IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
+                    installTask = Task.Run(() =>
+                    {
+                        InstallSlowCheetahPackage(packageInstaller, project);
+                    }).ContinueWith(t =>
+                    {
+                        Task outTask;
+                        this.installTasks.TryRemove(projName, out outTask);
+                    });
+                    this.installTasks.TryAdd(projName, installTask);
+                }
             }
         }
 
