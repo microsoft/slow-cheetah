@@ -137,6 +137,22 @@
     <value>The transform file {0} was not found.</value>
     <comment>Error message</comment>
   </data>
+  <data name="NugetInstall_Text" xml:space="preserve">
+    <value>In order to execute transform on build, you will need the SlowCheetah NuGet package. Do you want to install the package now?</value>
+    <comment>Text for the prompt to install the SlowCheetah NuGet package</comment>
+  </data>
+  <data name="NugetInstall_Title" xml:space="preserve">
+    <value>Install SlowCheetah NuGet package</value>
+    <comment>Title for the prompt to install the SlowCheetah NuGet package</comment>
+  </data>
+  <data name="NugetInstall_WaitText" xml:space="preserve">
+    <value>Installing the SlowCheetah NuGet package, this may take a few seconds</value>
+    <comment>Text for the wait dialog on install of the NuGet package</comment>
+  </data>
+  <data name="NugetInstall_WaitTitle" xml:space="preserve">
+    <value>SlowCheetah</value>
+    <comment>Title for the wait dialog on install of the NuGet package</comment>
+  </data>
   <data name="NugetUpdate_InfoBarLink" xml:space="preserve">
     <value>here</value>
     <comment>Text of the link in the update info bar</comment>
@@ -149,20 +165,9 @@
     <value>https://github.com/sayedihashimi/slow-cheetah/blob/master/doc/update.md</value>
     <comment>Link to the update info for the SlowCheetah Nuget package</comment>
   </data>
-  <data name="String_AddImportText" xml:space="preserve">
-    <value>In order to support transforms your project file will need to be modified. This will cause your project to be unloaded and then reloaded. If your project is checked into source control then it may be checked out.\n\nChoose Yes to proceed otherwise No.</value>
-  </data>
-  <data name="String_AddImportTitle" xml:space="preserve">
-    <value>Add Transform Project Import</value>
-    <comment>Title for the warning dialog that you project is about to have the import added.</comment>
-  </data>
   <data name="String_FormatTransformFilename" xml:space="preserve">
     <value>{0}.{1}{2}</value>
     <comment>This is the format string for the new transform file's filename.</comment>
-  </data>
-  <data name="String_TransformFileContents" xml:space="preserve">
-    <value>&lt;?xml version="1.0" encoding="utf-8" ?&gt;\n&lt;!-- For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. --&gt;\n</value>
-    <comment>This is the initial contents of the transform file.</comment>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TransformContents" type="System.Resources.ResXFileRef, System.Windows.Forms">

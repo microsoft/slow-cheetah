@@ -106,6 +106,42 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In order to execute transform on build, you will need the SlowCheetah NuGet package. Do you want to install the package now?.
+        /// </summary>
+        internal static string NugetInstall_Text {
+            get {
+                return ResourceManager.GetString("NugetInstall_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Install SlowCheetah NuGet package.
+        /// </summary>
+        internal static string NugetInstall_Title {
+            get {
+                return ResourceManager.GetString("NugetInstall_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installing the SlowCheetah NuGet package, this may take a few seconds.
+        /// </summary>
+        internal static string NugetInstall_WaitText {
+            get {
+                return ResourceManager.GetString("NugetInstall_WaitText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SlowCheetah.
+        /// </summary>
+        internal static string NugetInstall_WaitTitle {
+            get {
+                return ResourceManager.GetString("NugetInstall_WaitTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to here.
         /// </summary>
         internal static string NugetUpdate_InfoBarLink {
@@ -133,38 +169,11 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In order to support transforms your project file will need to be modified. This will cause your project to be unloaded and then reloaded. If your project is checked into source control then it may be checked out.\n\nChoose Yes to proceed otherwise No..
-        /// </summary>
-        internal static string String_AddImportText {
-            get {
-                return ResourceManager.GetString("String_AddImportText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add Transform Project Import.
-        /// </summary>
-        internal static string String_AddImportTitle {
-            get {
-                return ResourceManager.GetString("String_AddImportTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0}.{1}{2}.
         /// </summary>
         internal static string String_FormatTransformFilename {
             get {
                 return ResourceManager.GetString("String_FormatTransformFilename", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;\n&lt;!-- For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. --&gt;\n.
-        /// </summary>
-        internal static string String_TransformFileContents {
-            get {
-                return ResourceManager.GetString("String_TransformFileContents", resourceCulture);
             }
         }
         

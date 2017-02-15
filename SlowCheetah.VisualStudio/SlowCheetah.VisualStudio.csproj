@@ -51,6 +51,7 @@
     <Compile Include="NugetHandler\NugetHandlerFactory.cs" />
     <Compile Include="NugetHandler\LegacyNugetMessageHandler.cs" />
     <Compile Include="NugetHandler\NugetInfoBarHandler.cs" />
+    <Compile Include="NugetHandler\SlowCheetahNuGetManager.cs" />
     <Compile Include="OptionsDialogPage.cs">
       <SubType>Component</SubType>
     </Compile>
