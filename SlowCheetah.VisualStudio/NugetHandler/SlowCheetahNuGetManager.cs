@@ -36,12 +36,14 @@ namespace SlowCheetah.VisualStudio
         /// If no version is installed, prompts for install of latest version;
         /// if an older version is detected, shows update information.
         /// </summary>
-        /// <param name="project">Project to be verified</param>
-        public void CheckSlowCheetahInstallation(Project project)
+        /// <param name="hierarchy">Hierarchy of the project to be verified</param>
+        public void CheckSlowCheetahInstallation(IVsHierarchy hierarchy)
         {
-            if (this.IsSlowCheetahInstalled(project))
+            Project currentProject = PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
+            bool isOldScInstalled = this.IsOldSlowCheetahInstalled(hierarchy as IVsBuildPropertyStorage);
+            if (isOldScInstalled || this.IsSlowCheetahInstalled(currentProject))
             {
-                if (!this.IsSlowCheetahUpdated(project))
+                if (isOldScInstalled || !this.IsSlowCheetahUpdated(currentProject))
                 {
                     INugetPackageHandler nugetHandler = NugetHandlerFactory.GetHandler(this.package);
                     nugetHandler.ShowUpdateInfo();
@@ -49,8 +51,26 @@ namespace SlowCheetah.VisualStudio
             }
             else
             {
-                this.InstallSlowCheetah(project);
+                this.InstallSlowCheetah(currentProject);
             }
+        }
+
+        private bool IsOldSlowCheetahInstalled(IVsBuildPropertyStorage buildPropertyStorage)
+        {
+            string propertyValue;
+            buildPropertyStorage.GetPropertyValue("SlowCheetahImport", null, (uint)_PersistStorageType.PST_PROJECT_FILE, out propertyValue);
+            if (!string.IsNullOrEmpty(propertyValue))
+            {
+                return true;
+            }
+
+            buildPropertyStorage.GetPropertyValue("SlowCheetahTargets", null, (uint)_PersistStorageType.PST_PROJECT_FILE, out propertyValue);
+            if (!string.IsNullOrEmpty(propertyValue))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private bool IsSlowCheetahInstalled(Project project)
@@ -89,7 +109,7 @@ namespace SlowCheetah.VisualStudio
                 twdFactory?.CreateInstance(out dialog);
                 string title = Resources.Resources.NugetInstall_WaitTitle;
                 string text = Resources.Resources.NugetInstall_WaitText;
-                dialog?.StartWaitDialog(title, text, null, null, null, 0, false, true);
+                dialog?.StartWaitDialog(title, text, null, null, null, InstallDialogDelay, false, true);
 
                 // Installs the latest version of the SlowCheetah NuGet package
                 var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));

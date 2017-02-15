@@ -15,10 +15,8 @@ namespace SlowCheetah.VisualStudio
     using System.Xml;
     using EnvDTE;
     using Microsoft.VisualStudio;
-    using Microsoft.VisualStudio.ComponentModelHost;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
-    using NuGet.VisualStudio;
     using SlowCheetah.VisualStudio.Properties;
 
     /// <summary>
@@ -57,8 +55,6 @@ namespace SlowCheetah.VisualStudio
         private static readonly string TransformOnBuild = "TransformOnBuild";
         private static readonly string IsTransformFile = "IsTransformFile";
         private static readonly string DependentUpon = "DependentUpon";
-
-        private static readonly string PkgName = Settings.Default.SlowCheetahNugetPkgName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlowCheetahPackage"/> class.
@@ -292,8 +288,9 @@ namespace SlowCheetah.VisualStudio
             ProjectItem selectedProjectItem = PackageUtilities.GetAutomationFromHierarchy<ProjectItem>(hierarchy, itemid);
             if (selectedProjectItem != null)
             {
+                // Checks the SlowCheetah NuGet package installation
                 SlowCheetahNuGetManager scNugetManager = new SlowCheetahNuGetManager(this);
-                scNugetManager.CheckSlowCheetahInstallation(selectedProjectItem.ContainingProject);
+                scNugetManager.CheckSlowCheetahInstallation(hierarchy);
 
                 // need to enure that this item has metadata TransformOnBuild set to true
                 if (buildPropertyStorage != null)
@@ -372,9 +369,9 @@ namespace SlowCheetah.VisualStudio
                 return;
             }
 
-            Project currentProject = PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
+            // Checks the SlowCheetah NuGet package installation
             SlowCheetahNuGetManager scNugetManager = new SlowCheetahNuGetManager(this);
-            scNugetManager.CheckSlowCheetahInstallation(currentProject);
+            scNugetManager.CheckSlowCheetahInstallation(hierarchy);
 
             object parentIdObj;
             ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out parentIdObj));
