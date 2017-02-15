@@ -5,6 +5,7 @@ namespace SlowCheetah.VisualStudio
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using EnvDTE;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.ComponentModelHost;
@@ -20,15 +21,33 @@ namespace SlowCheetah.VisualStudio
         private static readonly string PackageName = Settings.Default.SlowCheetahNugetPkgName;
         private static readonly int InstallDialogDelay = 1;
 
+        private static SlowCheetahNuGetManager instance = null;
+
         private IServiceProvider package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlowCheetahNuGetManager"/> class.
         /// </summary>
         /// <param name="package">VS Package</param>
-        public SlowCheetahNuGetManager(IServiceProvider package)
+        private SlowCheetahNuGetManager(IServiceProvider package)
         {
             this.package = package;
+        }
+
+        /// <summary>
+        /// Gets the instance of <see cref="SlowCheetahNuGetManager"/>
+        /// </summary>
+        /// <param name="package">VS Package</param>
+        /// <returns>Singleton instance of this manager</returns>
+        public static SlowCheetahNuGetManager GetInstance(IServiceProvider package)
+        {
+            if (instance == null)
+            {
+                instance = new SlowCheetahNuGetManager(package);
+            }
+
+            instance.package = package;
+            return instance;
         }
 
         /// <summary>
@@ -51,8 +70,13 @@ namespace SlowCheetah.VisualStudio
             }
             else
             {
-                this.InstallSlowCheetah(currentProject);
+                this.BackgroundInstallSlowCheetah(currentProject);
             }
+        }
+
+        private static void InstallSlowCheetahPackage(IVsPackageInstaller2 installer, Project project)
+        {
+            installer.InstallLatestPackage(null, project, PackageName, false, false);
         }
 
         private bool IsOldSlowCheetahInstalled(IVsBuildPropertyStorage buildPropertyStorage)
@@ -119,6 +143,22 @@ namespace SlowCheetah.VisualStudio
                 // Closes the wait dialog. If the dialog failed, does nothing
                 int canceled;
                 dialog?.EndWaitDialog(out canceled);
+            }
+        }
+
+        private void BackgroundInstallSlowCheetah(Project project)
+        {
+            if (this.HasUserAcceptedWarningMessage())
+            {
+                // Installs the latest version of the SlowCheetah NuGet package
+                var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
+                IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
+                Parallel.Invoke(async () =>
+                {
+                    // Simulate delay in package install
+                    await Task.Delay(10000);
+                    InstallSlowCheetahPackage(packageInstaller, project);
+                });
             }
         }
 
