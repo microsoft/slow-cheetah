@@ -289,7 +289,7 @@ namespace SlowCheetah.VisualStudio
             if (selectedProjectItem != null)
             {
                 // Checks the SlowCheetah NuGet package installation
-                SlowCheetahNuGetManager scNugetManager = new SlowCheetahNuGetManager(this);
+                SlowCheetahNuGetManager scNugetManager = SlowCheetahNuGetManager.GetInstance(this);
                 scNugetManager.CheckSlowCheetahInstallation(hierarchy);
 
                 // need to enure that this item has metadata TransformOnBuild set to true
@@ -370,7 +370,7 @@ namespace SlowCheetah.VisualStudio
             }
 
             // Checks the SlowCheetah NuGet package installation
-            SlowCheetahNuGetManager scNugetManager = new SlowCheetahNuGetManager(this);
+            SlowCheetahNuGetManager scNugetManager = SlowCheetahNuGetManager.GetInstance(this);
             scNugetManager.CheckSlowCheetahInstallation(hierarchy);
 
             object parentIdObj;
