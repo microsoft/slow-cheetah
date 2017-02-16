@@ -127,29 +127,6 @@ namespace SlowCheetah.VisualStudio
             return false;
         }
 
-        private void InstallSlowCheetah(Project project)
-        {
-            if (this.HasUserAcceptedWarningMessage())
-            {
-                // Creates dialog informing the user to wait for the installation to finish
-                IVsThreadedWaitDialogFactory twdFactory = this.package.GetService(typeof(SVsThreadedWaitDialogFactory)) as IVsThreadedWaitDialogFactory;
-                IVsThreadedWaitDialog2 dialog = null;
-                twdFactory?.CreateInstance(out dialog);
-                string title = Resources.Resources.NugetInstall_WaitTitle;
-                string text = Resources.Resources.NugetInstall_WaitText;
-                dialog?.StartWaitDialog(title, text, null, null, null, InstallDialogDelay, false, true);
-
-                // Installs the latest version of the SlowCheetah NuGet package
-                var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
-                IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
-                packageInstaller.InstallLatestPackage(null, project, PackageName, false, false);
-
-                // Closes the wait dialog. If the dialog failed, does nothing
-                int canceled;
-                dialog?.EndWaitDialog(out canceled);
-            }
-        }
-
         private void BackgroundInstallSlowCheetah(Project project)
         {
             string projName = project.UniqueName;
@@ -175,13 +152,16 @@ namespace SlowCheetah.VisualStudio
                     {
                         Task outTask;
                         this.installTasks.TryRemove(projName, out outTask);
-                        if (t.IsCompleted)
+                        if (outputWindow != null)
                         {
-                            outputWindow.OutputString(string.Format("Finished installing SlowCheetah NuGet package to {0}.\n", project.Name));
-                        }
-                        else
-                        {
-                            outputWindow.OutputString(string.Format("Error installing SlowCheetah NuGet package to {0}.\n", project.Name));
+                            if (t.IsCompleted)
+                            {
+                                outputWindow.OutputString(string.Format("Finished installing SlowCheetah NuGet package to {0}.\n", project.Name));
+                            }
+                            else
+                            {
+                                outputWindow.OutputString(string.Format("Error installing SlowCheetah NuGet package to {0}.\n", project.Name));
+                            }
                         }
                     });
                     this.installTasks.TryAdd(projName, installTask);
