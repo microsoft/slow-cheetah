@@ -8,6 +8,7 @@ namespace SlowCheetah.VisualStudio
     using System.Linq;
     using System.Threading.Tasks;
     using EnvDTE;
+    using Microsoft.Build.Construction;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.ComponentModelHost;
     using Microsoft.VisualStudio.Shell.Interop;
@@ -66,7 +67,11 @@ namespace SlowCheetah.VisualStudio
             bool isOldScInstalled = this.IsOldSlowCheetahInstalled(hierarchy as IVsBuildPropertyStorage);
             if (isOldScInstalled || this.IsSlowCheetahInstalled(currentProject))
             {
-                if (isOldScInstalled || !this.IsSlowCheetahUpdated(currentProject))
+                if (isOldScInstalled)
+                {
+                    this.UpdateOldSlowCheetah(currentProject);
+                }
+                else if (!this.IsSlowCheetahUpdated(currentProject))
                 {
                     INugetPackageHandler nugetHandler = NugetHandlerFactory.GetHandler(this.package);
                     nugetHandler.ShowUpdateInfo();
@@ -129,7 +134,7 @@ namespace SlowCheetah.VisualStudio
 
         private void InstallSlowCheetah(Project project)
         {
-            if (this.HasUserAcceptedWarningMessage())
+            if (this.HasUserAcceptedWarningMessage(Resources.Resources.NugetInstall_Title, Resources.Resources.NugetInstall_Title))
             {
                 // Creates dialog informing the user to wait for the installation to finish
                 IVsThreadedWaitDialogFactory twdFactory = this.package.GetService(typeof(SVsThreadedWaitDialogFactory)) as IVsThreadedWaitDialogFactory;
@@ -156,7 +161,7 @@ namespace SlowCheetah.VisualStudio
             Task installTask;
             if (!this.installTasks.TryGetValue(projName, out installTask))
             {
-                if (this.HasUserAcceptedWarningMessage())
+                if (this.HasUserAcceptedWarningMessage(Resources.Resources.NugetInstall_Title, Resources.Resources.NugetInstall_Title))
                 {
                     // Installs the latest version of the SlowCheetah NuGet package
                     var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
@@ -174,14 +179,12 @@ namespace SlowCheetah.VisualStudio
             }
         }
 
-        private bool HasUserAcceptedWarningMessage()
+        private bool HasUserAcceptedWarningMessage(string title, string message)
         {
             IVsUIShell shell = this.package.GetService(typeof(SVsUIShell)) as IVsUIShell;
             if (shell != null)
             {
-                // Show a message box requesting the install of the SC package
-                string title = Resources.Resources.NugetInstall_Title;
-                string message = Resources.Resources.NugetInstall_Text;
+                // Show a yes or no message box with the given title and message
                 Guid compClass = Guid.Empty;
                 int result;
                 if (ErrorHandler.Succeeded(shell.ShowMessageBox(0, ref compClass, title, message, null, 0, OLEMSGBUTTON.OLEMSGBUTTON_YESNO, OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST, OLEMSGICON.OLEMSGICON_WARNING, 1, out result)))
@@ -191,6 +194,31 @@ namespace SlowCheetah.VisualStudio
             }
 
             return false;
+        }
+
+        private void UpdateOldSlowCheetah(Project project)
+        {
+            if (this.HasUserAcceptedWarningMessage("Update?", "This will edit your project file!!1!"))
+            {
+                ProjectRootElement projectRoot = ProjectRootElement.Open(project.FullName);
+                foreach (ProjectPropertyGroupElement propertyGroup in projectRoot.PropertyGroups.Where(pg => pg.Label.Equals("SlowCheetah")))
+                {
+                    projectRoot.RemoveChild(propertyGroup);
+                }
+
+                foreach (ProjectImportElement import in projectRoot.Imports.Where(i => i.Label == "SlowCheetah" || i.Project == "$(SlowCheetahTargets)"))
+                {
+                    projectRoot.RemoveChild(import);
+                }
+
+                // Installs the latest version of the SlowCheetah NuGet package
+                var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
+                IVsPackageUninstaller packageUninstaller = componentModel.GetService<IVsPackageUninstaller>();
+                IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
+
+                packageUninstaller.UninstallPackage(project, PackageName, true);
+                packageInstaller.InstallLatestPackage(null, project, PackageName, false, false);
+            }
         }
     }
 }
