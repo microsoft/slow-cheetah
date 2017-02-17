@@ -127,7 +127,9 @@ namespace SlowCheetah.VisualStudio
 
         private void BackgroundInstallSlowCheetah(Project project)
         {
-            if (this.HasUserAcceptedWarningMessage())
+            string projName = project.UniqueName;
+            bool needInstall = true;
+            lock (this.syncObject)
             {
                 needInstall = this.installTasks.Add(projName);
             }
@@ -138,10 +140,7 @@ namespace SlowCheetah.VisualStudio
                 {
                     // Gets the general output pane to inform user of installation
                     IVsOutputWindowPane outputWindow = (IVsOutputWindowPane)this.package.GetService(typeof(SVsGeneralOutputWindowPane));
-                    if (outputWindow != null)
-                    {
-                        outputWindow.OutputString(string.Format(Resources.Resources.NugetInstall_InstallingOutput, project.Name));
-                    }
+                    outputWindow?.OutputString(string.Format(Resources.Resources.NugetInstall_InstallingOutput, project.Name));
 
                     // Installs the latest version of the SlowCheetah NuGet package
                     var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
@@ -192,11 +191,20 @@ namespace SlowCheetah.VisualStudio
         private void UpdateOldSlowCheetah(Project project)
         {
             string projName = project.UniqueName;
-            Task updateTask;
-            if (!this.installTasks.TryGetValue(projName, out updateTask))
+            bool needInstall;
+            lock (this.syncObject)
+            {
+                needInstall = this.installTasks.Add(projName);
+            }
+
+            if (needInstall)
             {
                 if (this.HasUserAcceptedWarningMessage(Resources.Resources.NugetUpdate_Title, Resources.Resources.NugetUpdate_Text))
                 {
+                    // Gets the general output pane to inform user of installation
+                    IVsOutputWindowPane outputWindow = (IVsOutputWindowPane)this.package.GetService(typeof(SVsGeneralOutputWindowPane));
+                    outputWindow?.OutputString(string.Format(Resources.Resources.NugetInstall_InstallingOutput, project.Name));
+
                     ProjectRootElement projectRoot = ProjectRootElement.Open(project.FullName);
                     foreach (ProjectPropertyGroupElement propertyGroup in projectRoot.PropertyGroups.Where(pg => pg.Label.Equals("SlowCheetah")))
                     {
@@ -213,16 +221,29 @@ namespace SlowCheetah.VisualStudio
                     IVsPackageUninstaller packageUninstaller = componentModel.GetService<IVsPackageUninstaller>();
                     IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
 
-                    updateTask = Task.Run(() =>
+                    TPL.Task.Run(() =>
                     {
-                        packageUninstaller.UninstallPackage(project, PackageName, true);
-                        packageInstaller.InstallLatestPackage(null, project, PackageName, false, false);
-                    }).ContinueWith(t =>
-                    {
-                        Task outTask;
-                        this.installTasks.TryRemove(projName, out outTask);
+                        string message = Resources.Resources.NugetInstall_FinishedOutput;
+                        try
+                        {
+                            packageUninstaller.UninstallPackage(project, PackageName, true);
+                            packageInstaller.InstallLatestPackage(null, project, PackageName, false, false);
+                        }
+                        catch
+                        {
+                            message = Resources.Resources.NugetInstall_ErrorOutput;
+                            throw;
+                        }
+                        finally
+                        {
+                            lock (this.syncObject)
+                            {
+                                this.installTasks.Remove(projName);
+                            }
+
+                            ThreadHelper.Generic.BeginInvoke(() => outputWindow?.OutputString(string.Format(message, project.Name)));
+                        }
                     });
-                    this.installTasks.TryAdd(projName, updateTask);
                 }
             }
         }
