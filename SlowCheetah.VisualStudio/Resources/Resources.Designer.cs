@@ -169,6 +169,24 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It seems that you have an older version of the SlowCheetah package installed. In order to avoid conflicts, you should update you package. Doing so may cause changes to your project file. Do you wish to update now?.
+        /// </summary>
+        internal static string NugetUpdate_Text {
+            get {
+                return ResourceManager.GetString("NugetUpdate_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update SlowCheetah NuGet package.
+        /// </summary>
+        internal static string NugetUpdate_Title {
+            get {
+                return ResourceManager.GetString("NugetUpdate_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}.{1}{2}.
         /// </summary>
         internal static string String_FormatTransformFilename {
