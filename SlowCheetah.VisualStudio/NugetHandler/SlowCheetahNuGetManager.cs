@@ -4,15 +4,16 @@
 namespace SlowCheetah.VisualStudio
 {
     using System;
-    using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using EnvDTE;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.ComponentModelHost;
+    using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using NuGet.VisualStudio;
     using SlowCheetah.VisualStudio.Properties;
+    using TPL = System.Threading.Tasks;
 
     /// <summary>
     /// Manages installations of the SlowCheetah NuGet package in the project
@@ -20,38 +21,20 @@ namespace SlowCheetah.VisualStudio
     public class SlowCheetahNuGetManager
     {
         private static readonly string PackageName = Settings.Default.SlowCheetahNugetPkgName;
-        private static readonly int InstallDialogDelay = 1;
+        private static readonly Version LastUnsupportedVersion = new Version(2, 5, 15);
 
-        private static SlowCheetahNuGetManager instance = null;
+        private readonly IServiceProvider package;
 
-        private IServiceProvider package;
-
-        private ConcurrentDictionary<string, Task> installTasks;
+        private readonly HashSet<string> installTasks = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private readonly object syncObject = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlowCheetahNuGetManager"/> class.
         /// </summary>
         /// <param name="package">VS Package</param>
-        private SlowCheetahNuGetManager(IServiceProvider package)
+        public SlowCheetahNuGetManager(IServiceProvider package)
         {
             this.package = package;
-            this.installTasks = new ConcurrentDictionary<string, Task>();
-        }
-
-        /// <summary>
-        /// Gets the instance of <see cref="SlowCheetahNuGetManager"/>
-        /// </summary>
-        /// <param name="package">VS Package</param>
-        /// <returns>Singleton instance of this manager</returns>
-        public static SlowCheetahNuGetManager GetInstance(IServiceProvider package)
-        {
-            if (instance == null)
-            {
-                instance = new SlowCheetahNuGetManager(package);
-            }
-
-            instance.package = package;
-            return instance;
         }
 
         /// <summary>
@@ -62,15 +45,21 @@ namespace SlowCheetah.VisualStudio
         /// <param name="hierarchy">Hierarchy of the project to be verified</param>
         public void CheckSlowCheetahInstallation(IVsHierarchy hierarchy)
         {
-            Project currentProject = PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
-            bool isOldScInstalled = this.IsOldSlowCheetahInstalled(hierarchy as IVsBuildPropertyStorage);
-            if (isOldScInstalled || this.IsSlowCheetahInstalled(currentProject))
+            if (hierarchy == null)
             {
-                if (isOldScInstalled || !this.IsSlowCheetahUpdated(currentProject))
-                {
-                    INugetPackageHandler nugetHandler = NugetHandlerFactory.GetHandler(this.package);
-                    nugetHandler.ShowUpdateInfo();
-                }
+                throw new ArgumentNullException(nameof(hierarchy));
+            }
+
+            Project currentProject = PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
+
+            // Whether or not an even older version of SlowCheetah (before NuGet) is installed
+            bool isOldScInstalled = IsOldSlowCheetahInstalled(hierarchy as IVsBuildPropertyStorage);
+
+            // If an old version is installed or the nuget package is installed but not updated, show update information
+            if (isOldScInstalled || (this.IsSlowCheetahInstalled(currentProject) && !this.IsSlowCheetahUpdated(currentProject)))
+            {
+                INugetPackageHandler nugetHandler = NugetHandlerFactory.GetHandler(this.package);
+                nugetHandler.ShowUpdateInfo();
             }
             else
             {
@@ -83,7 +72,14 @@ namespace SlowCheetah.VisualStudio
             installer.InstallLatestPackage(null, project, PackageName, false, false);
         }
 
-        private bool IsOldSlowCheetahInstalled(IVsBuildPropertyStorage buildPropertyStorage)
+        private static IVsPackageInstallerServices GetInstallerServices(IServiceProvider package)
+        {
+            var componentModel = (IComponentModel)package.GetService(typeof(SComponentModel));
+            IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();
+            return installerServices;
+        }
+
+        private static bool IsOldSlowCheetahInstalled(IVsBuildPropertyStorage buildPropertyStorage)
         {
             string propertyValue;
             buildPropertyStorage.GetPropertyValue("SlowCheetahImport", null, (uint)_PersistStorageType.PST_PROJECT_FILE, out propertyValue);
@@ -103,16 +99,14 @@ namespace SlowCheetah.VisualStudio
 
         private bool IsSlowCheetahInstalled(Project project)
         {
-            var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
-            IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();
+            IVsPackageInstallerServices installerServices = GetInstallerServices(this.package);
             return installerServices.IsPackageInstalled(project, PackageName);
         }
 
         private bool IsSlowCheetahUpdated(Project project)
         {
             // Checks for older SC versions that require more complex update procedure
-            var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
-            IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();
+            IVsPackageInstallerServices installerServices = GetInstallerServices(this.package);
             IVsPackageMetadata scPackage =
                     installerServices.GetInstalledPackages().First(pkg => string.Equals(pkg.Id, PackageName, StringComparison.OrdinalIgnoreCase));
             if (scPackage != null)
@@ -120,7 +114,7 @@ namespace SlowCheetah.VisualStudio
                 Version ver;
                 if (Version.TryParse(scPackage.VersionString, out ver))
                 {
-                    return ver > new Version(2, 5, 15);
+                    return ver > LastUnsupportedVersion;
                 }
             }
 
@@ -130,8 +124,13 @@ namespace SlowCheetah.VisualStudio
         private void BackgroundInstallSlowCheetah(Project project)
         {
             string projName = project.UniqueName;
-            Task installTask;
-            if (!this.installTasks.TryGetValue(projName, out installTask))
+            bool needInstall = true;
+            lock (this.syncObject)
+            {
+                needInstall = this.installTasks.Add(projName);
+            }
+
+            if (needInstall)
             {
                 if (this.HasUserAcceptedWarningMessage())
                 {
@@ -145,26 +144,28 @@ namespace SlowCheetah.VisualStudio
                     // Installs the latest version of the SlowCheetah NuGet package
                     var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
                     IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
-                    installTask = Task.Run(() =>
+                    TPL.Task.Run(() =>
                     {
-                        InstallSlowCheetahPackage(packageInstaller, project);
-                    }).ContinueWith(t =>
-                    {
-                        Task outTask;
-                        this.installTasks.TryRemove(projName, out outTask);
-                        if (outputWindow != null)
+                        string message = "Finished installing SlowCheetah NuGet package to {0}.\n";
+                        try
                         {
-                            if (t.IsCompleted)
+                            InstallSlowCheetahPackage(packageInstaller, project);
+                        }
+                        catch
+                        {
+                            message = "Error installing SlowCheetah NuGet package to {0}.\n";
+                            throw;
+                        }
+                        finally
+                        {
+                            lock (this.syncObject)
                             {
-                                outputWindow.OutputString(string.Format("Finished installing SlowCheetah NuGet package to {0}.\n", project.Name));
+                                this.installTasks.Remove(projName);
                             }
-                            else
-                            {
-                                outputWindow.OutputString(string.Format("Error installing SlowCheetah NuGet package to {0}.\n", project.Name));
-                            }
+
+                            ThreadHelper.Generic.BeginInvoke(() => outputWindow?.OutputString(string.Format(message, project.Name)));
                         }
                     });
-                    this.installTasks.TryAdd(projName, installTask);
                 }
             }
         }
@@ -181,7 +182,7 @@ namespace SlowCheetah.VisualStudio
                 int result;
                 if (ErrorHandler.Succeeded(shell.ShowMessageBox(0, ref compClass, title, message, null, 0, OLEMSGBUTTON.OLEMSGBUTTON_YESNO, OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST, OLEMSGICON.OLEMSGICON_WARNING, 1, out result)))
                 {
-                    return result == 6; // IDYES
+                    return result == (int)VSConstants.MessageBoxResult.IDYES;
                 }
             }
 
