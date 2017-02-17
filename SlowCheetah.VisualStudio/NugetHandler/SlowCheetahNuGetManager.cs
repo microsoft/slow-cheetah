@@ -138,7 +138,7 @@ namespace SlowCheetah.VisualStudio
                     IVsOutputWindowPane outputWindow = (IVsOutputWindowPane)this.package.GetService(typeof(SVsGeneralOutputWindowPane));
                     if (outputWindow != null)
                     {
-                        outputWindow.OutputString(string.Format("Installing SlowCheetah NuGet package to {0} ...\n", project.Name));
+                        outputWindow.OutputString(string.Format(Resources.Resources.NugetInstall_InstallingOutput, project.Name));
                     }
 
                     // Installs the latest version of the SlowCheetah NuGet package
@@ -146,14 +146,14 @@ namespace SlowCheetah.VisualStudio
                     IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
                     TPL.Task.Run(() =>
                     {
-                        string message = "Finished installing SlowCheetah NuGet package to {0}.\n";
+                        string message = Resources.Resources.NugetInstall_FinishedOutput;
                         try
                         {
                             InstallSlowCheetahPackage(packageInstaller, project);
                         }
                         catch
                         {
-                            message = "Error installing SlowCheetah NuGet package to {0}.\n";
+                            message = Resources.Resources.NugetInstall_ErrorOutput;
                             throw;
                         }
                         finally
