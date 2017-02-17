@@ -67,6 +67,7 @@ namespace SlowCheetah.VisualStudio
             // initialization is the Initialize method.
             this.LogMessageWriteLineFormat("Entering constructor for: {0}", this.ToString());
             OurPackage = this;
+            this.NuGetManager = new SlowCheetahNuGetManager(this);
         }
 
         /// <summary>
@@ -75,6 +76,8 @@ namespace SlowCheetah.VisualStudio
         public static SlowCheetahPackage OurPackage { get; private set; }
 
         private IList<string> TempFilesCreated { get; } = new List<string>();
+
+        private SlowCheetahNuGetManager NuGetManager { get; }
 
         /// <summary>
         /// Gets the installation directory for the current instance of Visual Studio.
@@ -289,8 +292,7 @@ namespace SlowCheetah.VisualStudio
             if (selectedProjectItem != null)
             {
                 // Checks the SlowCheetah NuGet package installation
-                SlowCheetahNuGetManager scNugetManager = SlowCheetahNuGetManager.GetInstance(this);
-                scNugetManager.CheckSlowCheetahInstallation(hierarchy);
+                this.NuGetManager.CheckSlowCheetahInstallation(hierarchy);
 
                 // need to enure that this item has metadata TransformOnBuild set to true
                 if (buildPropertyStorage != null)
@@ -370,8 +372,7 @@ namespace SlowCheetah.VisualStudio
             }
 
             // Checks the SlowCheetah NuGet package installation
-            SlowCheetahNuGetManager scNugetManager = SlowCheetahNuGetManager.GetInstance(this);
-            scNugetManager.CheckSlowCheetahInstallation(hierarchy);
+            this.NuGetManager.CheckSlowCheetahInstallation(hierarchy);
 
             object parentIdObj;
             ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out parentIdObj));

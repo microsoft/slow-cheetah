@@ -106,6 +106,33 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error installing SlowCheetah NuGet package to {0}.\n.
+        /// </summary>
+        internal static string NugetInstall_ErrorOutput {
+            get {
+                return ResourceManager.GetString("NugetInstall_ErrorOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finished installing SlowCheetah NuGet package to {0}.\n.
+        /// </summary>
+        internal static string NugetInstall_FinishedOutput {
+            get {
+                return ResourceManager.GetString("NugetInstall_FinishedOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installing SlowCheetah NuGet package to {0} ...\n.
+        /// </summary>
+        internal static string NugetInstall_InstallingOutput {
+            get {
+                return ResourceManager.GetString("NugetInstall_InstallingOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In order to execute transform on build, you will need the SlowCheetah NuGet package. Do you want to install the package now?.
         /// </summary>
         internal static string NugetInstall_Text {
@@ -120,24 +147,6 @@ namespace SlowCheetah.VisualStudio.Resources {
         internal static string NugetInstall_Title {
             get {
                 return ResourceManager.GetString("NugetInstall_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Installing the SlowCheetah NuGet package, this may take a few seconds.
-        /// </summary>
-        internal static string NugetInstall_WaitText {
-            get {
-                return ResourceManager.GetString("NugetInstall_WaitText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SlowCheetah.
-        /// </summary>
-        internal static string NugetInstall_WaitTitle {
-            get {
-                return ResourceManager.GetString("NugetInstall_WaitTitle", resourceCulture);
             }
         }
         
