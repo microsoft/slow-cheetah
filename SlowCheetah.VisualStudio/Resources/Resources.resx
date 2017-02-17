@@ -171,9 +171,11 @@
   </data>
   <data name="NugetUpdate_Text" xml:space="preserve">
     <value>It seems that you have an older version of the SlowCheetah package installed. In order to avoid conflicts, you should update you package. Doing so may cause changes to your project file. Do you wish to update now?</value>
+    <comment>Text for the prompt to update the SlowCheetah NuGet package</comment>
   </data>
   <data name="NugetUpdate_Title" xml:space="preserve">
     <value>Update SlowCheetah NuGet package</value>
+    <comment>Title for the prompt to update the SlowCheetah NuGet package</comment>
   </data>
   <data name="String_FormatTransformFilename" xml:space="preserve">
     <value>{0}.{1}{2}</value>
