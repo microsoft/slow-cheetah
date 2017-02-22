@@ -138,15 +138,15 @@
     <comment>Error message</comment>
   </data>
   <data name="NugetInstall_ErrorOutput" xml:space="preserve">
-    <value>Error installing SlowCheetah NuGet package to {0}.\n</value>
+    <value>Error installing SlowCheetah NuGet package to {0}.</value>
     <comment>Text to be shown in the output window if there is an error with installing the SlowCheetah Nuget package</comment>
   </data>
   <data name="NugetInstall_FinishedOutput" xml:space="preserve">
-    <value>Finished installing SlowCheetah NuGet package to {0}.\n</value>
+    <value>Finished installing SlowCheetah NuGet package to {0}.</value>
     <comment>Text to be shown in the output window when the SlowCheetah Nuget package is done installing</comment>
   </data>
   <data name="NugetInstall_InstallingOutput" xml:space="preserve">
-    <value>Installing SlowCheetah NuGet package to {0} ...\n</value>
+    <value>Installing SlowCheetah NuGet package to {0} ...</value>
     <comment>Text to be shown in the output window as the SlowCheetah NuGet package is being installed</comment>
   </data>
   <data name="NugetInstall_Text" xml:space="preserve">

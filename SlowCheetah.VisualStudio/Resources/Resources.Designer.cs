@@ -106,7 +106,7 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error installing SlowCheetah NuGet package to {0}.\n.
+        ///   Looks up a localized string similar to Error installing SlowCheetah NuGet package to {0}..
         /// </summary>
         internal static string NugetInstall_ErrorOutput {
             get {
@@ -115,7 +115,7 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Finished installing SlowCheetah NuGet package to {0}.\n.
+        ///   Looks up a localized string similar to Finished installing SlowCheetah NuGet package to {0}..
         /// </summary>
         internal static string NugetInstall_FinishedOutput {
             get {
@@ -124,7 +124,7 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Installing SlowCheetah NuGet package to {0} ...\n.
+        ///   Looks up a localized string similar to Installing SlowCheetah NuGet package to {0} ....
         /// </summary>
         internal static string NugetInstall_InstallingOutput {
             get {
