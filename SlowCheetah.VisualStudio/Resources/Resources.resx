@@ -177,6 +177,14 @@
     <value>Update SlowCheetah NuGet package</value>
     <comment>Title for the prompt to update the SlowCheetah NuGet package</comment>
   </data>
+  <data name="NugetUpdate_WaitText" xml:space="preserve">
+    <value>Updating the SlowCheetah NuGet package, this may take a few seconds</value>
+    <comment>Text for the wait dialog on update of the NuGet package</comment>
+  </data>
+  <data name="NugetUpdate_WaitTitle" xml:space="preserve">
+    <value>SlowCheetah Update</value>
+    <comment>Title for the wait dialog on update of the NuGet package</comment>
+  </data>
   <data name="String_FormatTransformFilename" xml:space="preserve">
     <value>{0}.{1}{2}</value>
     <comment>This is the format string for the new transform file's filename.</comment>

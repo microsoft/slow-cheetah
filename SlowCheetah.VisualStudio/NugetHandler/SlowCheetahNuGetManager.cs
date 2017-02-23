@@ -58,12 +58,12 @@ namespace SlowCheetah.VisualStudio
 
             if (isOldScInstalled)
             {
-                this.BackgroundInstallSlowCheetah(currentProject, update: true);
+                this.UpdateSlowCheetah(currentProject);
             }
             else if (!this.IsSlowCheetahInstalled(currentProject))
             {
                 // If SlowCheetah is not installed at all
-                this.BackgroundInstallSlowCheetah(currentProject, update: false);
+                this.BackgroundInstallSlowCheetah(currentProject);
             }
             else if (!this.IsSlowCheetahUpdated(currentProject))
             {
@@ -142,7 +142,7 @@ namespace SlowCheetah.VisualStudio
             return false;
         }
 
-        private void BackgroundInstallSlowCheetah(Project project, bool update)
+        private void BackgroundInstallSlowCheetah(Project project)
         {
             string projName = project.UniqueName;
             bool needInstall = true;
@@ -153,38 +153,14 @@ namespace SlowCheetah.VisualStudio
 
             if (needInstall)
             {
-                string warningTitle = update ?
-                    Resources.Resources.NugetUpdate_Title :
-                    Resources.Resources.NugetInstall_Title;
-                string warningMessage = update ?
-                    Resources.Resources.NugetUpdate_Text :
-                    Resources.Resources.NugetInstall_Text;
-                if (this.HasUserAcceptedWarningMessage(warningTitle, warningMessage))
+                if (this.HasUserAcceptedWarningMessage(Resources.Resources.NugetInstall_Title, Resources.Resources.NugetInstall_Text))
                 {
-                    if (update)
-                    {
-                        project.Save();
-                        ProjectRootElement projectRoot = ProjectRootElement.Open(project.FullName);
-                        foreach (ProjectPropertyGroupElement propertyGroup in projectRoot.PropertyGroups.Where(pg => pg.Label.Equals("SlowCheetah")))
-                        {
-                            projectRoot.RemoveChild(propertyGroup);
-                        }
-
-                        foreach (ProjectImportElement import in projectRoot.Imports.Where(i => i.Label == "SlowCheetah" || i.Project == "$(SlowCheetahTargets)"))
-                        {
-                            projectRoot.RemoveChild(import);
-                        }
-
-                        projectRoot.Save();
-                    }
-
                     // Gets the general output pane to inform user of installation
                     IVsOutputWindowPane outputWindow = (IVsOutputWindowPane)this.package.GetService(typeof(SVsGeneralOutputWindowPane));
                     outputWindow?.OutputString(string.Format(Resources.Resources.NugetInstall_InstallingOutput, project.Name) + Environment.NewLine);
 
                     // Uninstalls the older version (if present) and installs latest package
                     var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
-                    IVsPackageUninstaller packageUninstaller = componentModel.GetService<IVsPackageUninstaller>();
                     IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
 
                     TPL.Task.Run(() =>
@@ -192,10 +168,6 @@ namespace SlowCheetah.VisualStudio
                         string outputMessage = Resources.Resources.NugetInstall_FinishedOutput;
                         try
                         {
-                            if (update)
-                            {
-                                packageUninstaller.UninstallPackage(project, PackageName, true);
-                            }
                             packageInstaller.InstallLatestPackage(null, project, PackageName, false, false);
                         }
                         catch
@@ -218,9 +190,57 @@ namespace SlowCheetah.VisualStudio
                 {
                     lock (this.syncObject)
                     {
-                        // If the user refuses to install, the task is not added
+                        // If the user refuses to install, the task should not added
                         this.installTasks.Remove(projName);
                     }
+                }
+            }
+        }
+
+        private void UpdateSlowCheetah(Project project)
+        {
+            if (this.HasUserAcceptedWarningMessage(Resources.Resources.NugetUpdate_Title, Resources.Resources.NugetUpdate_Text))
+            {
+                // Creates dialog informing the user to wait for the installation to finish
+                IVsThreadedWaitDialogFactory twdFactory = this.package.GetService(typeof(SVsThreadedWaitDialogFactory)) as IVsThreadedWaitDialogFactory;
+                IVsThreadedWaitDialog2 dialog = null;
+                twdFactory?.CreateInstance(out dialog);
+
+                string title = Resources.Resources.NugetUpdate_WaitTitle;
+                string text = Resources.Resources.NugetUpdate_WaitText;
+                dialog?.StartWaitDialog(title, text, null, null, null, 0, false, true);
+                try
+                {
+                    // Installs the latest version of the SlowCheetah NuGet package
+                    var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
+                    if (this.IsSlowCheetahInstalled(project))
+                    {
+                        IVsPackageUninstaller packageUninstaller = componentModel.GetService<IVsPackageUninstaller>();
+                        packageUninstaller.UninstallPackage(project, PackageName, true);
+                    }
+
+                    IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
+                    packageInstaller.InstallLatestPackage(null, project, PackageName, false, false);
+
+                    project.Save();
+                    ProjectRootElement projectRoot = ProjectRootElement.Open(project.FullName);
+                    foreach (ProjectPropertyGroupElement propertyGroup in projectRoot.PropertyGroups.Where(pg => pg.Label.Equals("SlowCheetah")))
+                    {
+                        projectRoot.RemoveChild(propertyGroup);
+                    }
+
+                    foreach (ProjectImportElement import in projectRoot.Imports.Where(i => i.Label == "SlowCheetah" || i.Project == "$(SlowCheetahTargets)"))
+                    {
+                        projectRoot.RemoveChild(import);
+                    }
+
+                    projectRoot.Save();
+                }
+                finally
+                {
+                    // Closes the wait dialog. If the dialog failed, does nothing
+                    int canceled;
+                    dialog?.EndWaitDialog(out canceled);
                 }
             }
         }

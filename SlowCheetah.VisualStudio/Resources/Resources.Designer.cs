@@ -196,6 +196,24 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Updating the SlowCheetah NuGet package, this may take a few seconds.
+        /// </summary>
+        internal static string NugetUpdate_WaitText {
+            get {
+                return ResourceManager.GetString("NugetUpdate_WaitText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SlowCheetah Update.
+        /// </summary>
+        internal static string NugetUpdate_WaitTitle {
+            get {
+                return ResourceManager.GetString("NugetUpdate_WaitTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}.{1}{2}.
         /// </summary>
         internal static string String_FormatTransformFilename {
