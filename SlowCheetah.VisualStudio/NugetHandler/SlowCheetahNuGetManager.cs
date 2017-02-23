@@ -199,9 +199,9 @@ namespace SlowCheetah.VisualStudio
 
         private void UpdateSlowCheetah(Project project)
         {
-            // This is done on the UI thread because changes are made to thre project file,
-            // Causing it to be reloaded. To avoid conflicts with NuGet installation,
-            // The update is done sequentially
+            // This is done on the UI thread because changes are made to the project file,
+            // causing it to be reloaded. To avoid conflicts with NuGet installation,
+            // the update is done sequentially
             if (this.HasUserAcceptedWarningMessage(Resources.Resources.NugetUpdate_Title, Resources.Resources.NugetUpdate_Text))
             {
                 // Creates dialog informing the user to wait for the installation to finish
