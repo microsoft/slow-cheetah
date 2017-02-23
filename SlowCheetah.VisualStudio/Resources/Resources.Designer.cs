@@ -106,7 +106,7 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error installing SlowCheetah NuGet package to {0}.\n.
+        ///   Looks up a localized string similar to Error installing SlowCheetah NuGet package to {0}..
         /// </summary>
         internal static string NugetInstall_ErrorOutput {
             get {
@@ -115,7 +115,7 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Finished installing SlowCheetah NuGet package to {0}.\n.
+        ///   Looks up a localized string similar to Finished installing SlowCheetah NuGet package to {0}..
         /// </summary>
         internal static string NugetInstall_FinishedOutput {
             get {
@@ -124,7 +124,7 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Installing SlowCheetah NuGet package to {0} ...\n.
+        ///   Looks up a localized string similar to Installing SlowCheetah NuGet package to {0} ....
         /// </summary>
         internal static string NugetInstall_InstallingOutput {
             get {
@@ -174,6 +174,42 @@ namespace SlowCheetah.VisualStudio.Resources {
         internal static string NugetUpdate_Link {
             get {
                 return ResourceManager.GetString("NugetUpdate_Link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It seems that you have an older version of the SlowCheetah package installed. In order to avoid conflicts, you should update you package. Doing so may cause changes to your project file. Do you wish to update now?.
+        /// </summary>
+        internal static string NugetUpdate_Text {
+            get {
+                return ResourceManager.GetString("NugetUpdate_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update SlowCheetah NuGet package.
+        /// </summary>
+        internal static string NugetUpdate_Title {
+            get {
+                return ResourceManager.GetString("NugetUpdate_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating the SlowCheetah NuGet package, this may take a few seconds.
+        /// </summary>
+        internal static string NugetUpdate_WaitText {
+            get {
+                return ResourceManager.GetString("NugetUpdate_WaitText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SlowCheetah Update.
+        /// </summary>
+        internal static string NugetUpdate_WaitTitle {
+            get {
+                return ResourceManager.GetString("NugetUpdate_WaitTitle", resourceCulture);
             }
         }
         
