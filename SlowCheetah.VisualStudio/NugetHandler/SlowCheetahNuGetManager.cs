@@ -109,7 +109,7 @@ namespace SlowCheetah.VisualStudio
 
         private bool IsSlowCheetahUpdated(Project project)
         {
-            // Checks for older SC versions that require more complex update procedure
+            // Checks for older SC versions that require more complex update procedure.
             IVsPackageInstallerServices installerServices = GetInstallerServices(this.package);
             IVsPackageMetadata scPackage =
                     installerServices.GetInstalledPackages().FirstOrDefault(pkg => string.Equals(pkg.Id, PackageName, StringComparison.OrdinalIgnoreCase));
@@ -190,7 +190,7 @@ namespace SlowCheetah.VisualStudio
                 {
                     lock (this.syncObject)
                     {
-                        // If the user refuses to install, the task should not added
+                        // If the user refuses to install, the task should not be added
                         this.installTasks.Remove(projName);
                     }
                 }
@@ -199,6 +199,9 @@ namespace SlowCheetah.VisualStudio
 
         private void UpdateSlowCheetah(Project project)
         {
+            // This is done on the UI thread because changes are made to thre project file,
+            // Causing it to be reloaded. To avoid conflicts with NuGet installation,
+            // The update is done sequentially
             if (this.HasUserAcceptedWarningMessage(Resources.Resources.NugetUpdate_Title, Resources.Resources.NugetUpdate_Text))
             {
                 // Creates dialog informing the user to wait for the installation to finish
