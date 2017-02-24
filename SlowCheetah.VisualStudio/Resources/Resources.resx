@@ -196,6 +196,10 @@
   <data name="TransformPreview_Caption" xml:space="preserve">
     <value>{0} Preview</value>
   </data>
+  <data name="TransformPreview_ErrorMessage" xml:space="preserve">
+    <value>There was an error transforming your file. See the error list for more details</value>
+    <comment>Error message to be shown upon failing Preview Transform</comment>
+  </data>
   <data name="TransformPreview_LeftLabel" xml:space="preserve">
     <value>Original {0}</value>
   </data>

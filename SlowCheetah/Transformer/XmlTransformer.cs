@@ -3,6 +3,7 @@
 
 namespace SlowCheetah
 {
+    using System;
     using System.Diagnostics.Contracts;
     using System.IO;
     using Microsoft.Web.XmlTransform;
@@ -13,15 +14,38 @@ namespace SlowCheetah
     /// </summary>
     public class XmlTransformer : ITransformer
     {
+        private IXmlTransformationLogger logger = null;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmlTransformer"/> class.
+        /// </summary>
+        public XmlTransformer()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmlTransformer"/> class with an external logger.
+        /// </summary>
+        /// <param name="logger">External logger. Passed into the transformation</param>
+        /// <param name="useSections">Wheter or not to use sections while logging</param>
+        public XmlTransformer(ITransformationLogger logger, bool useSections)
+        {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            this.logger = new XmlShimLogger(logger, useSections);
+        }
+
         /// <inheritdoc/>
-        public void Transform(string source, string transform, string destination)
+        public bool Transform(string source, string transform, string destination)
         {
             // Parameter validation
             Contract.Requires(!string.IsNullOrWhiteSpace(source));
             Contract.Requires(!string.IsNullOrWhiteSpace(transform));
             Contract.Requires(!string.IsNullOrWhiteSpace(destination));
 
-            // TO DO: Logging
             // File validation
             if (!File.Exists(source))
             {
@@ -34,19 +58,18 @@ namespace SlowCheetah
             }
 
             using (XmlTransformableDocument document = new XmlTransformableDocument())
-            using (XmlTransformation transformation = new XmlTransformation(transform))
+            using (XmlTransformation transformation = new XmlTransformation(transform, this.logger))
             {
                 document.PreserveWhitespace = true;
                 document.Load(source);
 
                 var success = transformation.Apply(document);
-                if (!success)
+                if (success)
                 {
-                    string message = $"There was an unknown error trying while trying to apply the transform. Source file='{source}',Transform='{transform}', Destination='{destination}'";
-                    throw new TransformFailedException(message);
+                    document.Save(destination);
                 }
 
-                document.Save(destination);
+                return success;
             }
         }
     }

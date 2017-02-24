@@ -244,6 +244,15 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There was an error transforming your file. See the error list for more details.
+        /// </summary>
+        internal static string TransformPreview_ErrorMessage {
+            get {
+                return ResourceManager.GetString("TransformPreview_ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Original {0}.
         /// </summary>
         internal static string TransformPreview_LeftLabel {

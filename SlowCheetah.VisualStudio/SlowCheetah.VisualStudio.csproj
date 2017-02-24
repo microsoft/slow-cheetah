@@ -55,6 +55,7 @@
     <Compile Include="OptionsDialogPage.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TransformationPreviewLogger.cs" />
     <Compile Include="Utilities\PackageUtilities.cs" />
     <Compile Include="Utilities\ProjectUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
