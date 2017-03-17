@@ -16,7 +16,7 @@
   </metadata>
   <files>
     <file src="..\bin\$configuration$\Microsoft.Web.XmlTransform.dll" target="tools" />
-    <file src="..\bin\$configuration$\Build\$id$.targets" target="build" />
+    <file src="..\bin\$configuration$\Build\$id$*.targets" target="build" />
     <file src="..\bin\$configuration$\Build\readme.txt" target="" />
   </files>
 </package>

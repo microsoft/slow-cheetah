@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+***********************************************************************************************
+SlowCheetah.Main.targets
+Main logic for defining transformations on build
+Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SlowCheetahTaskPath>$(MSBuildThisFileDirectory)..\tools\</SlowCheetahTaskPath>
+  </PropertyGroup>
+
+  <!--Main transformation task-->
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(SlowCheetahTaskPath)SlowCheetah.dll"/>
+
+  <ItemDefinitionGroup>
+    <!-- Default TransformOnBuild values for file types -->
+    <None>
+      <TransformOnBuild>false</TransformOnBuild>
+      <Link></Link>
+    </None>
+    <Content>
+      <TransformOnBuild>false</TransformOnBuild>
+      <Link></Link>
+    </Content>
+    <Resource>
+      <TransformOnBuild>false</TransformOnBuild>
+      <Link></Link>
+    </Resource>
+    <EmbeddedResource>
+      <TransformOnBuild>false</TransformOnBuild>
+      <Link></Link>
+    </EmbeddedResource>
+  </ItemDefinitionGroup>
+
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      ScApplyTransforms;
+    </BuildDependsOn>
+
+    <!-- References .dll.config files in referenced projects -->
+    <ScAllowCopyReferencedConfig Condition=" '$(ScAllowCopyReferencedConfig)'=='' ">true</ScAllowCopyReferencedConfig>
+    <AllowedReferenceRelatedFileExtensions Condition=" '$(ScAllowCopyReferencedConfig)'=='true' ">
+      $(AllowedReferenceRelatedFileExtensions);
+      .dll.config;
+    </AllowedReferenceRelatedFileExtensions>
+  </PropertyGroup>
+
+  <Target Name="ScCollectTransformFiles" BeforeTargets="ScApplyTransforms">
+
+    <Message Text="SlowCheetah: Collecting Transform files" Importance="low"/>
+
+    <ItemGroup>
+      <ScFilesToTransform Include="@(None);@(Content);@(Resource);@(EmbeddedResource)"
+                         Condition=" '%(TransformOnBuild)' == 'true' ">
+        <SourceFile>%(FullPath)</SourceFile>
+        <TransformFile>%(RelativeDir)%(Filename).$(Configuration)%(Extension)</TransformFile>
+        <DestinationFile>$(OutDir)%(RelativeDir)%(Filename)%(Extension)</DestinationFile>
+        <DestinationFile Condition="'%(Link)' != ''">$(OutDir)%(Link)</DestinationFile>
+      </ScFilesToTransform>
+    </ItemGroup>
+
+  </Target>
+
+  <Target Name="ScApplyTransforms" AfterTargets="CopyFilesToOutputDirectory">
+
+    <Message Text="SlowCheetah: Applying Transforms" Importance="low"/>
+
+    <!-- Get the directories that must be created -->
+    <ItemGroup>
+      <_ScDirsToCreate Include="@(ScFilesToTransform -> '%(DestinationFile)')" Condition="Exists('%(TransformFile)')"/>
+    </ItemGroup>
+
+    <MakeDir Directories="@(_ScDirsToCreate->'%(RelativeDir)')" Condition=" !Exists('%(RelativeDir)') " />
+
+    <SlowCheetah.TransformXml Source="@(ScFilesToTransform->'%(SourceFile)')"
+                              Transform="%(TransformFile)"
+                              Destination="%(DestinationFile)"
+                              Condition=" Exists('%(TransformFile)')"/>
+
+  </Target>
+
+  <!-- Import native SlowCheetah behaviour -->
+  <Import Project="$(MSBuildThisFileDirectory)SlowCheetah.*.targets"/>
+
+</Project>

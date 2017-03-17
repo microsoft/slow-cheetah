@@ -100,7 +100,7 @@
     </MSBuild>
     <ItemGroup>
       <_CopyTools Include="@(_DependentAssemblies);%(_DependentAssemblies.RelativeDir)Microsoft.Web.XmlTransform.dll" />
-      <_CopyBuild Include="%(_DependentAssemblies.RelativeDir)Build\SlowCheetah.targets" />
+      <_CopyBuild Include="%(_DependentAssemblies.RelativeDir)Build\SlowCheetah*.targets" />
     </ItemGroup>
     <Copy SourceFiles="@(_CopyTools)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\tools" />
     <Copy SourceFiles="@(_CopyBuild)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\build" />
