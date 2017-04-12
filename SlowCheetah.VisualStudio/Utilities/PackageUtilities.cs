@@ -156,8 +156,7 @@ namespace SlowCheetah.VisualStudio
         public static T GetAutomationFromHierarchy<T>(IVsHierarchy pHierarchy, uint itemID)
             where T : class
         {
-            object propertyValue;
-            ErrorHandler.ThrowOnFailure(pHierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_ExtObject, out propertyValue));
+            ErrorHandler.ThrowOnFailure(pHierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_ExtObject, out object propertyValue));
             T projectItem = propertyValue as T;
 
             return projectItem;

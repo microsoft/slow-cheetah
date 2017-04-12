@@ -77,19 +77,17 @@ namespace SlowCheetah.VisualStudio
             try
             {
                 this.InitializeDefaults();
-                string exePath, exeCmdLine;
-                int enablePreview;
-                if (ErrorHandler.Succeeded(reader.ReadSettingString(RegPreviewExe, out exePath)) && !string.IsNullOrEmpty(exePath))
+                if (ErrorHandler.Succeeded(reader.ReadSettingString(RegPreviewExe, out string exePath)) && !string.IsNullOrEmpty(exePath))
                 {
                     this.PreviewToolExecutablePath = exePath;
                 }
 
-                if (ErrorHandler.Succeeded(reader.ReadSettingString(RegPreviewCmdLine, out exeCmdLine)) && !string.IsNullOrEmpty(exeCmdLine))
+                if (ErrorHandler.Succeeded(reader.ReadSettingString(RegPreviewCmdLine, out string exeCmdLine)) && !string.IsNullOrEmpty(exeCmdLine))
                 {
                     this.PreviewToolCommandLine = exeCmdLine;
                 }
 
-                if (ErrorHandler.Succeeded(reader.ReadSettingBoolean(RegPreviewEnable, out enablePreview)))
+                if (ErrorHandler.Succeeded(reader.ReadSettingBoolean(RegPreviewEnable, out int enablePreview)))
                 {
                     this.EnablePreview = enablePreview == 1;
                 }
