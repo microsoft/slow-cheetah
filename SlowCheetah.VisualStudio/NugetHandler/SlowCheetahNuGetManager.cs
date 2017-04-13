@@ -85,8 +85,7 @@ namespace SlowCheetah.VisualStudio
 
         private static bool IsOldSlowCheetahInstalled(IVsBuildPropertyStorage buildPropertyStorage)
         {
-            string propertyValue;
-            buildPropertyStorage.GetPropertyValue("SlowCheetahImport", null, (uint)_PersistStorageType.PST_PROJECT_FILE, out propertyValue);
+            buildPropertyStorage.GetPropertyValue("SlowCheetahImport", null, (uint)_PersistStorageType.PST_PROJECT_FILE, out string propertyValue);
             if (!string.IsNullOrEmpty(propertyValue))
             {
                 return true;
@@ -115,8 +114,7 @@ namespace SlowCheetah.VisualStudio
                     installerServices.GetInstalledPackages().FirstOrDefault(pkg => string.Equals(pkg.Id, PackageName, StringComparison.OrdinalIgnoreCase));
             if (scPackage != null)
             {
-                Version ver;
-                if (Version.TryParse(scPackage.VersionString, out ver))
+                if (Version.TryParse(scPackage.VersionString, out Version ver))
                 {
                     return ver > LastUnsupportedVersion;
                 }
@@ -127,13 +125,11 @@ namespace SlowCheetah.VisualStudio
 
         private bool HasUserAcceptedWarningMessage(string title, string message)
         {
-            IVsUIShell shell = this.package.GetService(typeof(SVsUIShell)) as IVsUIShell;
-            if (shell != null)
+            if (this.package.GetService(typeof(SVsUIShell)) is IVsUIShell shell)
             {
                 // Show a yes or no message box with the given title and message
                 Guid compClass = Guid.Empty;
-                int result;
-                if (ErrorHandler.Succeeded(shell.ShowMessageBox(0, ref compClass, title, message, null, 0, OLEMSGBUTTON.OLEMSGBUTTON_YESNO, OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST, OLEMSGICON.OLEMSGICON_WARNING, 1, out result)))
+                if (ErrorHandler.Succeeded(shell.ShowMessageBox(0, ref compClass, title, message, null, 0, OLEMSGBUTTON.OLEMSGBUTTON_YESNO, OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST, OLEMSGICON.OLEMSGICON_WARNING, 1, out int result)))
                 {
                     return result == (int)VSConstants.MessageBoxResult.IDYES;
                 }
@@ -242,8 +238,7 @@ namespace SlowCheetah.VisualStudio
                 finally
                 {
                     // Closes the wait dialog. If the dialog failed, does nothing
-                    int canceled;
-                    dialog?.EndWaitDialog(out canceled);
+                    dialog?.EndWaitDialog(out int canceled);
                 }
             }
         }

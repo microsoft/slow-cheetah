@@ -47,11 +47,9 @@ namespace SlowCheetah.VisualStudio
                 },
                 image: KnownMonikers.StatusInformation);
 
-            IVsInfoBarUIElement uiElement;
-            if (!this.isInfoBarOpen && this.TryCreateInfoBarUI(model, out uiElement))
+            if (!this.isInfoBarOpen && this.TryCreateInfoBarUI(model, out IVsInfoBarUIElement uiElement))
             {
-                uint cookie;
-                uiElement.Advise(this, out cookie);
+                uiElement.Advise(this, out uint cookie);
                 this.AddInfoBar(uiElement);
                 this.uiCookie = cookie;
                 this.isInfoBarOpen = true;
@@ -76,8 +74,7 @@ namespace SlowCheetah.VisualStudio
 
         private void AddInfoBar(IVsUIElement uiElement)
         {
-            IVsInfoBarHost infoBarHost;
-            if (this.TryGetInfoBarHost(out infoBarHost))
+            if (this.TryGetInfoBarHost(out IVsInfoBarHost infoBarHost))
             {
                 infoBarHost.AddInfoBar(uiElement);
             }
@@ -86,8 +83,7 @@ namespace SlowCheetah.VisualStudio
         private bool TryGetInfoBarHost(out IVsInfoBarHost infoBarHost)
         {
             var shell = this.Package.GetService(typeof(SVsShell)) as IVsShell;
-            object infoBarHostObj;
-            if (ErrorHandler.Failed(shell.GetProperty((int)__VSSPROPID7.VSSPROPID_MainWindowInfoBarHost, out infoBarHostObj)))
+            if (ErrorHandler.Failed(shell.GetProperty((int)__VSSPROPID7.VSSPROPID_MainWindowInfoBarHost, out object infoBarHostObj)))
             {
                 infoBarHost = null;
                 return false;

@@ -28,12 +28,7 @@ namespace SlowCheetah
         /// <param name="useSections">Wheter or not to use sections</param>
         public XmlShimLogger(ITransformationLogger logger, bool useSections)
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            this.logger = logger;
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             this.useSections = useSections;
         }

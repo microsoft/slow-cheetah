@@ -179,11 +179,9 @@ namespace SlowCheetah.VisualStudio
         /// <returns>True if a subtype GUID matches the Web App Guid in Resources</returns>
         public static bool IsProjectWebApp(IVsProject project)
         {
-            IVsAggregatableProject aggregatableProject = project as IVsAggregatableProject;
-            if (aggregatableProject != null)
+            if (project is IVsAggregatableProject aggregatableProject)
             {
-                string projectTypeGuids;
-                aggregatableProject.GetAggregateProjectTypeGuids(out projectTypeGuids);
+                aggregatableProject.GetAggregateProjectTypeGuids(out string projectTypeGuids);
                 List<string> guids = new List<string>(projectTypeGuids.Split(';'));
                 return guids.Contains(Guids.GuidWebApplicationString);
             }
@@ -193,17 +191,14 @@ namespace SlowCheetah.VisualStudio
 
         private static IEnumerable<string> GetSupportedExtensions(IVsSettingsManager settingsManager, string rootKey)
         {
-            IVsSettingsStore settings;
-            uint count;
-            ErrorHandler.ThrowOnFailure(settingsManager.GetReadOnlySettingsStore((uint)__VsSettingsScope.SettingsScope_Configuration, out settings));
-            ErrorHandler.ThrowOnFailure(settings.GetSubCollectionCount(rootKey, out count));
+            ErrorHandler.ThrowOnFailure(settingsManager.GetReadOnlySettingsStore((uint)__VsSettingsScope.SettingsScope_Configuration, out IVsSettingsStore settings));
+            ErrorHandler.ThrowOnFailure(settings.GetSubCollectionCount(rootKey, out uint count));
 
             List<string> supportedExtensions = new List<string>();
 
             for (uint i = 0; i != count; ++i)
             {
-                string keyName;
-                ErrorHandler.ThrowOnFailure(settings.GetSubCollectionName(rootKey, i, out keyName));
+                ErrorHandler.ThrowOnFailure(settings.GetSubCollectionName(rootKey, i, out string keyName));
                 supportedExtensions.Add(keyName);
             }
 

@@ -23,8 +23,7 @@ namespace SlowCheetah.VisualStudio
             {
                 EnvDTE.DTE dte = ProjectUtilities.GetDTE();
                 bool showInfoBar = false;
-                Version vsVersion;
-                if (Version.TryParse(dte.Version, out vsVersion))
+                if (Version.TryParse(dte.Version, out Version vsVersion))
                 {
                     showInfoBar = vsVersion >= new Version(14, 0);
                 }
