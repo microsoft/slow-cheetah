@@ -52,6 +52,7 @@
     <Compile Include="NugetHandler\LegacyNugetMessageHandler.cs" />
     <Compile Include="NugetHandler\NugetInfoBarHandler.cs" />
     <Compile Include="NugetHandler\SlowCheetahNuGetManager.cs" />
+    <Compile Include="NugetHandler\VsProjectTypes.cs" />
     <Compile Include="OptionsDialogPage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -216,8 +217,8 @@
       <HintPath>..\packages\Microsoft.VisualStudio.Validation.14.1.111\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
       <Aliases>Shell14</Aliases>
     </Reference>
-    <Reference Include="NuGet.VisualStudio, Version=4.0.0.2188, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\NuGet.VisualStudio.4.0.0-rc3\lib\net45\NuGet.VisualStudio.dll</HintPath>
+    <Reference Include="NuGet.VisualStudio, Version=4.0.0.2323, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\NuGet.VisualStudio.4.0.0\lib\net45\NuGet.VisualStudio.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -232,6 +233,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />

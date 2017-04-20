@@ -586,22 +586,7 @@ namespace SlowCheetah.VisualStudio
         /// <returns>True if the project supports transformation</returns>
         private bool ProjectSupportsTransforms(IVsProject project)
         {
-            if (ErrorHandler.Failed(project.GetMkDocument(VSConstants.VSITEMID_ROOT, out string projectFullPath)))
-            {
-                return false;
-            }
-
-            string projectExtension = Path.GetExtension(projectFullPath);
-
-            foreach (string supportedExtension in ProjectUtilities.GetSupportedProjectExtensions((IVsSettingsManager)this.GetService(typeof(SVsSettingsManager))))
-            {
-                if (projectExtension.Equals(supportedExtension, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return this.NuGetManager.ProjectSupportsNuget(project as IVsHierarchy);
         }
 
         /// <summary>
