@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
     <Platform Condition="'$(Platform)'==''">AnyCPU</Platform>
-    <OutputPath>$(MSBuildThisFileDirectory)bin\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>$(MSBuildThisFileDirectory)obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <OutputPath>$(MSBuildThisFileDirectory)..\bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>$(MSBuildThisFileDirectory)..\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
   </PropertyGroup>
 </Project>

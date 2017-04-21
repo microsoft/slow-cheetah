@@ -28,7 +28,7 @@ namespace SlowCheetah.Tests.BuildTests
         /// </summary>
         public string SolutionDir
         {
-            get { return Path.Combine(Environment.CurrentDirectory, @"..\.."); }
+            get { return Path.Combine(Environment.CurrentDirectory, @"..\..\src"); }
         }
 
         /// <summary>

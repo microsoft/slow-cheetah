@@ -31,10 +31,10 @@ configuration: Release
 #---------------------------------#
 
 before_build:
-  nuget restore SlowCheetah.sln
+  nuget restore src
 
 build:
-  project: SlowCheetah.sln  # path to Visual Studio solution or project
+  project: src\SlowCheetah.sln  # path to Visual Studio solution or project
   verbosity: normal         # MSBuild verbosity level
 
 #---------------------------------#
