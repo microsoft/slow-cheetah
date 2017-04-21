@@ -166,7 +166,7 @@
     <comment>Text to be displayed on the update info bar</comment>
   </data>
   <data name="NugetUpdate_Link" xml:space="preserve">
-    <value>https://github.com/sayedihashimi/slow-cheetah/blob/master/doc/update.md</value>
+    <value>https://github.com/Microsoft/slow-cheetah/blob/master/doc/update.md</value>
     <comment>Link to the update info for the SlowCheetah Nuget package</comment>
   </data>
   <data name="NugetUpdate_Text" xml:space="preserve">

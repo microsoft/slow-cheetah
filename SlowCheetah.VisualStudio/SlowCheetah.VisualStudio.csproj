@@ -95,7 +95,8 @@
     <Content Include="Resources\Images\Cheetah-200.jpg" />
     <Content Include="Resources\Images\Cheetah-Medium.jpg" />
     <Content Include="Resources\Images\Images_32bit.png" />
-    <Content Include="Resources\License.txt">
+    <Content Include="..\LICENSE">
+      <Link>Resources\LICENSE</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

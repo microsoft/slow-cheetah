@@ -169,7 +169,7 @@ namespace SlowCheetah.VisualStudio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://github.com/sayedihashimi/slow-cheetah/blob/master/doc/update.md.
+        ///   Looks up a localized string similar to https://github.com/Microsoft/slow-cheetah/blob/master/doc/update.md.
         /// </summary>
         internal static string NugetUpdate_Link {
             get {

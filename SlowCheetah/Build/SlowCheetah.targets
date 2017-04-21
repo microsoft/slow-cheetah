@@ -6,6 +6,7 @@ WARNING:  DO NOT MODIFY this file, this file is added to your project automatica
           through the SlowCheetah NuGet package. If you modify this file it may
           get out of sync when you update the package at a later date.
 This file import
+Copyright (C) Microsoft Corporation. All rights reserved.
 Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserved.
 ***********************************************************************************************
 -->

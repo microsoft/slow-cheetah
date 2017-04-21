@@ -2,10 +2,10 @@
 
 We have made significant changes to the SlowCheetah extension and NuGet package. This is because the old version had the following limitations:
 - Installation methods were inconsistent throughout versions, mixing VS extensions with NuGet packages which led to issues such as
-  [#119](https://github.com/sayedihashimi/slow-cheetah/issues/119)
+  [#119](https://github.com/Microsoft/slow-cheetah/issues/119)
 - Build tools were installed directly to the local app data
-- Users' project files were manually edited to include SC files leading to [#183](https://github.com/sayedihashimi/slow-cheetah/issues/183),
-  [#91](https://github.com/sayedihashimi/slow-cheetah/issues/91), [#195](https://github.com/sayedihashimi/slow-cheetah/issues/195), etc.
+- Users' project files were manually edited to include SC files leading to [#183](https://github.com/Microsoft/slow-cheetah/issues/183),
+  [#91](https://github.com/Microsoft/slow-cheetah/issues/91), [#195](https://github.com/Microsoft/slow-cheetah/issues/195), etc.
 - Unnecessary files were imported into the project
 
 To fix these issues, the new version includes the following: 
@@ -50,4 +50,4 @@ Now, install or update to the latest SlowCheetah package through the NuGet packa
 
 Optionally, if you no longer plan on using the older version of SlowCheetah on any projects, you may safely delete the `%LocalAppData%\Microsoft\MSBuild\SlowCheetah` folder.
 
-We have plans to auto-migrate old SlowCheetah projects in the future. [#209](https://github.com/sayedihashimi/slow-cheetah/issues/209) has been opened to track this.
+We have plans to auto-migrate old SlowCheetah projects in the future. [#209](https://github.com/Microsoft/slow-cheetah/issues/209) has been opened to track this.
