@@ -43,7 +43,6 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       We need to get the full path to the files included in the Identiy metadata.
       This is required for Worker Roles. The target CopyWorkerRoleFiles attempts to copy but
       does not use the FullPath so it will not locate the files otherwise.
-      See https://github.com/Microsoft/slow-cheetah/issues/44.
     -->
     <ItemGroup>
       <ScFilesToTransform>
