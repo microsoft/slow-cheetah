@@ -5,7 +5,7 @@
     <version>$version$</version>
     <authors>Microsoft </authors>
     <owners>Microsoft</owners>
-    <licenseUrl>https://raw.githubusercontent.com/Microsoft/slow-cheetah/master/LICENSE.md</licenseUrl>
+    <licenseUrl>https://raw.githubusercontent.com/Microsoft/slow-cheetah/master/LICENSE</licenseUrl>
     <projectUrl>http://visualstudiogallery.msdn.microsoft.com/69023d00-a4f9-4a34-a6cd-7e854ba318b5/</projectUrl>
     <iconUrl>http://sedodream.com/content/binary/images/cheetah-120x120.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
