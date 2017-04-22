@@ -552,12 +552,12 @@ namespace SlowCheetah.VisualStudio
         {
             if (hierarchy == null)
             {
-                throw new ArgumentNullException("hierarchy");
+                throw new ArgumentNullException(nameof(hierarchy));
             }
 
             if (string.IsNullOrEmpty(projectPath))
             {
-                throw new ArgumentNullException("projectPath");
+                throw new ArgumentNullException(nameof(projectPath));
             }
 
             List<string> result = new List<string>();
@@ -740,12 +740,12 @@ namespace SlowCheetah.VisualStudio
         {
             if (string.IsNullOrWhiteSpace(sourceFile))
             {
-                throw new ArgumentNullException("sourceFile");
+                throw new ArgumentNullException(nameof(sourceFile));
             }
 
             if (string.IsNullOrWhiteSpace(transformFile))
             {
-                throw new ArgumentNullException("transformFile");
+                throw new ArgumentNullException(nameof(transformFile));
             }
 
             if (!File.Exists(sourceFile))

@@ -28,18 +28,8 @@ namespace SlowCheetah.VisualStudio
         /// <param name="hierachy">The current project hierarchy</param>
         public TransformationPreviewLogger(ErrorListProvider errorListProvider, IVsHierarchy hierachy)
         {
-            if (errorListProvider == null)
-            {
-                throw new ArgumentNullException(nameof(errorListProvider));
-            }
-
-            if (hierachy == null)
-            {
-                throw new ArgumentNullException(nameof(hierachy));
-            }
-
-            this.errorListProvider = errorListProvider;
-            this.hierachy = hierachy;
+            this.errorListProvider = errorListProvider ?? throw new ArgumentNullException(nameof(errorListProvider));
+            this.hierachy = hierachy ?? throw new ArgumentNullException(nameof(hierachy));
         }
 
         /// <inheritdoc/>

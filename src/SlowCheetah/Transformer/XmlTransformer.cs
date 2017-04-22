@@ -7,7 +7,6 @@ namespace SlowCheetah
     using System.Diagnostics.Contracts;
     using System.IO;
     using Microsoft.Web.XmlTransform;
-    using SlowCheetah.Exceptions;
 
     /// <summary>
     /// Transforms XML files utilizing Microsoft Web XmlTransform library
