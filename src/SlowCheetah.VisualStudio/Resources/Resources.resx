@@ -118,11 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Error_CantFindPreviewTool" xml:space="preserve">
-    <value>Cannot find the preview tool {0}. Verify the settings in the 'Config Transform' category of Tools\Options.</value>
+    <value>Cannot find the preview tool {0}. Verify the transform settings in Tools\Options.</value>
     <comment>Error message</comment>
   </data>
   <data name="Error_NoPreviewToolSpecified" xml:space="preserve">
-    <value>No preview tool specified. You can set a preview tool in the 'Config Transform' category of Tools\Options.</value>
+    <value>No preview tool specified. You can set a preview tool in the transform settings in Tools\Options.</value>
     <comment>Error message</comment>
   </data>
   <data name="Error_SavingProjectFile" xml:space="preserve">

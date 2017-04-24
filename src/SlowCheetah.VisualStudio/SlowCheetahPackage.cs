@@ -60,7 +60,6 @@ namespace SlowCheetah.VisualStudio
     {
         private static readonly string TransformOnBuild = "TransformOnBuild";
         private static readonly string IsTransformFile = "IsTransformFile";
-        private static readonly string DependentUpon = "DependentUpon";
 
         private static readonly string PkgName = Settings.Default.SlowCheetahNugetPkgName;
 
@@ -798,8 +797,13 @@ namespace SlowCheetah.VisualStudio
                 else
                 {
                     // If the diffmerge service is available (dev11) and no diff tool is specified, or diffmerge.exe is specifed we use the service
-                    if (this.GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath) || advancedOptionsPage.PreviewToolExecutablePath.EndsWith(@"\diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
+                    if (this.GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && !File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
                     {
+                        if (!string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath) && !File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
+                        {
+                            logger.LogWarning(string.Format(Resources.Resources.Error_CantFindPreviewTool, advancedOptionsPage.PreviewToolExecutablePath));
+                        }
+
                         string sourceName = Path.GetFileName(sourceFile);
                         string leftLabel = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_LeftLabel, sourceName);
                         string rightLabel = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_RightLabel, sourceName, Path.GetFileName(transformFile));

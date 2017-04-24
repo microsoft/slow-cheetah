@@ -1,5 +1,9 @@
-﻿namespace SlowCheetah.VisualStudio
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+
+namespace SlowCheetah.VisualStudio
 {
+    using System.IO;
     using System.Windows.Forms;
 
     /// <summary>
@@ -41,6 +45,23 @@
             if (this.advancedOptionsPage != null)
             {
                 this.advancedOptionsPage.PreviewToolCommandLine = this.PreviewToolCommandLineTextbox.Text;
+            }
+        }
+
+        private void OpenToolFileDialogButton_Click(object sender, System.EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(this.PreviewToolPathTextbox.Text) && File.Exists(this.PreviewToolPathTextbox.Text))
+            {
+                this.OpenToolFileDialog.InitialDirectory = Path.GetDirectoryName(this.PreviewToolPathTextbox.Text);
+            }
+
+            if (this.OpenToolFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.PreviewToolPathTextbox.Text = this.OpenToolFileDialog.FileName;
+                if (this.advancedOptionsPage != null)
+                {
+                    this.advancedOptionsPage.PreviewToolExecutablePath = this.PreviewToolPathTextbox.Text;
+                }
             }
         }
     }

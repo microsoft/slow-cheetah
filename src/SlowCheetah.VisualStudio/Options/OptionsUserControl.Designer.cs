@@ -57,12 +57,12 @@
             this.AddDepentUponCheckbox.UseVisualStyleBackColor = true;
             this.AddDepentUponCheckbox.CheckedChanged += new System.EventHandler(this.AddDepentUponCheckbox_CheckedChanged);
             // 
-            // OptionUserControl
+            // OptionsUserControl
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.GeneralGroupBox);
-            this.Name = "OptionUserControl";
+            this.Name = "OptionsUserControl";
             this.GeneralGroupBox.ResumeLayout(false);
             this.GeneralGroupBox.PerformLayout();
             this.ResumeLayout(false);

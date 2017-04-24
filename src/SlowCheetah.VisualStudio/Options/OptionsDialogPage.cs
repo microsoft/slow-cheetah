@@ -166,12 +166,6 @@ namespace SlowCheetah.VisualStudio
         /// </summary>
         private void InitializeDefaults()
         {
-            string diffToolPath = SlowCheetahPackage.OurPackage.GetVsInstallDirectory();
-            if (diffToolPath != null)
-            {
-                diffToolPath = Path.Combine(diffToolPath, "diffmerge.exe");
-            }
-
             this.EnablePreview = true;
             this.AddDependentUpon = true;
         }

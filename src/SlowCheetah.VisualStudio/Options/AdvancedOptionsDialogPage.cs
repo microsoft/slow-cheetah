@@ -97,13 +97,13 @@ namespace SlowCheetah.VisualStudio
                         if (cheetahKey != null)
                         {
                             object previewTool = cheetahKey.GetValue(RegPreviewExe);
-                            if (previewTool != null && (previewTool is string) && !string.IsNullOrEmpty((string)previewTool))
+                            if (previewTool != null && (previewTool is string))
                             {
                                 this.PreviewToolExecutablePath = (string)previewTool;
                             }
 
                             object previewCmdLine = cheetahKey.GetValue(RegPreviewCmdLine);
-                            if (previewCmdLine != null && (previewCmdLine is string) && !string.IsNullOrEmpty((string)previewCmdLine))
+                            if (previewCmdLine != null && (previewCmdLine is string))
                             {
                                 this.PreviewToolCommandLine = (string)previewCmdLine;
                             }
@@ -145,13 +145,7 @@ namespace SlowCheetah.VisualStudio
         /// </summary>
         private void InitializeDefaults()
         {
-            string diffToolPath = SlowCheetahPackage.OurPackage.GetVsInstallDirectory();
-            if (diffToolPath != null)
-            {
-                diffToolPath = Path.Combine(diffToolPath, "diffmerge.exe");
-                this.PreviewToolExecutablePath = diffToolPath;
-            }
-
+            this.PreviewToolExecutablePath = string.Empty;
             this.PreviewToolCommandLine = "{0} {1}";
         }
     }
