@@ -3,8 +3,6 @@
   <PropertyGroup>
     <OutputType>library</OutputType>
     <TargetFramework>net46</TargetFramework>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup>
