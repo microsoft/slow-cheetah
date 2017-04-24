@@ -28,7 +28,7 @@ namespace SlowCheetah.Tests.BuildTests
         /// </summary>
         public string SolutionDir
         {
-            get { return Path.Combine(Environment.CurrentDirectory, @"..\..\src"); }
+            get { return Path.Combine(Environment.CurrentDirectory, @"..\..\..\src"); }
         }
 
         /// <summary>
@@ -99,7 +99,10 @@ namespace SlowCheetah.Tests.BuildTests
         /// </summary>
         public void Dispose()
         {
-            Directory.Delete(this.OutputPath, true);
+            if (Directory.Exists(this.OutputPath))
+            {
+                Directory.Delete(this.OutputPath, true);
+            }
         }
     }
 }

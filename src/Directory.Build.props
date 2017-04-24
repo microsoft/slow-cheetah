@@ -1,9 +1,13 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!-- Setup the default output and intermediate paths -->
   <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
     <Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
     <Platform Condition="'$(Platform)'==''">AnyCPU</Platform>
-    <OutputPath>$(MSBuildThisFileDirectory)..\bin\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>$(MSBuildThisFileDirectory)..\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)..\bin\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
+    <OutputPath>$(BaseOutputPath)$(Configuration)\</OutputPath>
+    <DocumentationFile>$(OutputPath)$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 </Project>

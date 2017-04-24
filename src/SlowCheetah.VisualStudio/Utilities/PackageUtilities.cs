@@ -36,7 +36,7 @@ namespace SlowCheetah.VisualStudio
         {
             if (string.IsNullOrWhiteSpace(filepath))
             {
-                throw new ArgumentNullException("filepath");
+                throw new ArgumentNullException(nameof(filepath));
             }
 
             if (!File.Exists(filepath))
@@ -91,7 +91,7 @@ namespace SlowCheetah.VisualStudio
         {
             if (string.IsNullOrWhiteSpace(filepath))
             {
-                throw new ArgumentNullException("filepath");
+                throw new ArgumentNullException(nameof(filepath));
             }
 
             if (!File.Exists(filepath))

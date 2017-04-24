@@ -54,7 +54,7 @@ namespace SlowCheetah.Tests
         {
             if (string.IsNullOrEmpty(content))
             {
-                throw new ArgumentNullException("content");
+                throw new ArgumentNullException(nameof(content));
             }
 
             string tempFile = this.GetTempFilename(true);
