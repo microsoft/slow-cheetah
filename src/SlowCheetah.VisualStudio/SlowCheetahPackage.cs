@@ -377,13 +377,17 @@ namespace SlowCheetah.VisualStudio
                     transformsToCreate.AddRange(publishProfileTransforms);
                 }
 
-                foreach (string config in transformsToCreate)
+                using (OptionsDialogPage optionsPage = new OptionsDialogPage())
                 {
-                    string itemName = string.Format(Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
-                    this.AddXdtTransformFile(selectedProjectItem, content, itemName, itemFolder);
-                    hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out uint addedFileId);
-                    buildPropertyStorage.SetItemAttribute(addedFileId, IsTransformFile, "True");
-                    buildPropertyStorage.SetItemAttribute(addedFileId, DependentUpon, itemFilenameExtension);
+                    optionsPage.LoadSettingsFromStorage();
+
+                    foreach (string config in transformsToCreate)
+                    {
+                        string itemName = string.Format(Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
+                        this.AddXdtTransformFile(selectedProjectItem, content, itemName, itemFolder, optionsPage.AddDependentUpon);
+                        hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out uint addedFileId);
+                        buildPropertyStorage.SetItemAttribute(addedFileId, IsTransformFile, "True");
+                    }
                 }
             }
         }
@@ -631,7 +635,8 @@ namespace SlowCheetah.VisualStudio
         /// <param name="content">Contents to be written to the transformation file</param>
         /// <param name="itemName">Full name of the transformation file</param>
         /// <param name="projectPath">Full path to the current project</param>
-        private void AddXdtTransformFile(ProjectItem selectedProjectItem, string content, string itemName, string projectPath)
+        /// <param name="addDepentUpon">Wheter to add the new file dependent upon the source file</param>
+        private void AddXdtTransformFile(ProjectItem selectedProjectItem, string content, string itemName, string projectPath, bool addDepentUpon)
         {
             try
             {
@@ -645,8 +650,11 @@ namespace SlowCheetah.VisualStudio
                     }
                 }
 
-                // and add it to the project
-                ProjectItem addedItem = selectedProjectItem.ProjectItems.AddFromFile(itemPath);
+                // Add the file to the project
+                // If the DependentUpon metadata is required, add it under the original file
+                // If not, add it to the project
+                ProjectItem addedItem = addDepentUpon ? selectedProjectItem.ProjectItems.AddFromFile(itemPath)
+                                                      : selectedProjectItem.ContainingProject.ProjectItems.AddFromFile(itemPath);
 
                 // we need to set the Build Action to None to ensure that it doesn't get published for web projects
                 addedItem.Properties.Item("ItemType").Value = "None";
