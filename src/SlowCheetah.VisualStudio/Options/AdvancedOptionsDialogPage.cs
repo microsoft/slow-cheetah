@@ -4,33 +4,22 @@
 namespace SlowCheetah.VisualStudio
 {
     using System;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.IO;
+    using System.Windows.Forms;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.Win32;
 
     /// <summary>
-    /// Options page for SlowCheetah
+    /// Advanced Options Page for SlowCheetah
     /// </summary>
-    [System.Runtime.InteropServices.Guid("01B6BAC2-0BD6-4ead-95AE-6D6DE30A6286")]
-    internal class OptionsDialogPage : DialogPage
+    internal class AdvancedOptionsDialogPage : DialogPage
     {
         private const string RegOptionsKey = "ConfigTransform";
         private const string RegPreviewCmdLine = "PreviewCmdLine";
         private const string RegPreviewExe = "PreviewExe";
-        private const string RegPreviewEnable = "EnablePreview";
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OptionsDialogPage"/> class.
-        /// Constructor called by VSIP just in time when user wants to view this tools, options page
-        /// </summary>
-        public OptionsDialogPage()
-        {
-            this.InitializeDefaults();
-        }
 
         /// <summary>
         /// Gets or sets the exe path for the diff tool used to preview transformations
@@ -42,15 +31,18 @@ namespace SlowCheetah.VisualStudio
         /// </summary>
         public string PreviewToolCommandLine { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether preview is enabled or not
-        /// </summary>
-        public bool EnablePreview { get; set; }
+        /// <inheritdoc/>
+        protected override IWin32Window Window
+        {
+            get
+            {
+                var optionControl = new AdvancedOptionsUserControl();
+                optionControl.Initialize(this);
+                return optionControl;
+            }
+        }
 
-        /// <summary>
-        /// Save our settings to the specified XML writer so they can be exported
-        /// </summary>
-        /// <param name="writer">The VsSettings writer to write our values to</param>
+        /// <inheritdoc/>
         public override void SaveSettingsToXml(IVsSettingsWriter writer)
         {
             try
@@ -60,7 +52,6 @@ namespace SlowCheetah.VisualStudio
                 // Write settings to XML
                 writer.WriteSettingString(RegPreviewExe, this.PreviewToolExecutablePath);
                 writer.WriteSettingString(RegPreviewCmdLine, this.PreviewToolCommandLine);
-                writer.WriteSettingBoolean(RegPreviewEnable, this.EnablePreview ? 1 : 0);
             }
             catch (Exception e)
             {
@@ -68,10 +59,7 @@ namespace SlowCheetah.VisualStudio
             }
         }
 
-        /// <summary>
-        /// Loads our settings to the specified XML writer
-        /// </summary>
-        /// <param name="reader">The VsSettings reader we read ou values from</param>
+        /// <inheritdoc/>
         public override void LoadSettingsFromXml(IVsSettingsReader reader)
         {
             try
@@ -85,11 +73,6 @@ namespace SlowCheetah.VisualStudio
                 if (ErrorHandler.Succeeded(reader.ReadSettingString(RegPreviewCmdLine, out string exeCmdLine)) && !string.IsNullOrEmpty(exeCmdLine))
                 {
                     this.PreviewToolCommandLine = exeCmdLine;
-                }
-
-                if (ErrorHandler.Succeeded(reader.ReadSettingBoolean(RegPreviewEnable, out int enablePreview)))
-                {
-                    this.EnablePreview = enablePreview == 1;
                 }
             }
             catch (Exception e)
@@ -124,12 +107,6 @@ namespace SlowCheetah.VisualStudio
                             {
                                 this.PreviewToolCommandLine = (string)previewCmdLine;
                             }
-
-                            object enablePreview = cheetahKey.GetValue(RegPreviewEnable);
-                            if (enablePreview != null && (enablePreview is int))
-                            {
-                                this.EnablePreview = ((int)enablePreview) == 1;
-                            }
                         }
                     }
                 }
@@ -154,7 +131,6 @@ namespace SlowCheetah.VisualStudio
                     {
                         cheetahKey.SetValue(RegPreviewExe, this.PreviewToolExecutablePath);
                         cheetahKey.SetValue(RegPreviewCmdLine, this.PreviewToolCommandLine);
-                        cheetahKey.SetValue(RegPreviewEnable, this.EnablePreview ? 1 : 0);
                     }
                 }
             }
@@ -162,15 +138,6 @@ namespace SlowCheetah.VisualStudio
             {
                 Debug.Assert(false, "Error saving Slow Cheetah settings to the registry:" + e.Message);
             }
-        }
-
-        /// <summary>
-        /// This event is raised when VS wants to deactivate this page.
-        /// The page is deactivated unless the event is cancelled.
-        /// </summary>
-        /// <param name="e">Arguments for the event</param>
-        protected override void OnDeactivate(CancelEventArgs e)
-        {
         }
 
         /// <summary>
@@ -186,84 +153,6 @@ namespace SlowCheetah.VisualStudio
             }
 
             this.PreviewToolCommandLine = "{0} {1}";
-            this.EnablePreview = true;
-        }
-
-        /// <summary>
-        /// Attribute class allows us to loc the displayname for our properties. Property resource
-        /// is expected to be named PropName_[propertyname]
-        /// </summary>
-        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-        internal sealed class LocDisplayNameAttribute : DisplayNameAttribute
-        {
-            private string displayName;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="LocDisplayNameAttribute"/> class.
-            /// </summary>
-            /// <param name="name">Attribute name</param>
-            public LocDisplayNameAttribute(string name)
-            {
-                this.displayName = name;
-            }
-
-            /// <summary>
-            /// Gets the display name of the attribute
-            /// </summary>
-            public override string DisplayName
-            {
-                get
-                {
-                    string result = Resources.Resources.ResourceManager.GetString("PropName_" + this.displayName);
-                    if (result == null)
-                    {
-                        // Just return non-loc'd value
-                        Debug.Assert(false, "String resource '" + this.displayName + "' is missing");
-                        result = this.displayName;
-                    }
-
-                    return result;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Attribute class allows us to loc the description for our properties. Property resource
-        /// is expected to be named PropDesc_[propertyname]
-        /// </summary>
-        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-        internal sealed class LocDescriptionAttribute : DescriptionAttribute
-        {
-            private string descName;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="LocDescriptionAttribute"/> class.
-            /// </summary>
-            /// <param name="name">Attribute name</param>
-            public LocDescriptionAttribute(string name)
-            {
-                this.descName = name;
-            }
-
-            /// <summary>
-            /// Gets the description for the attribute
-            /// </summary>
-            public override string Description
-            {
-                get
-                {
-                    string result = Resources.Resources.ResourceManager.GetString("PropDesc_" + this.descName);
-
-                    if (result == null)
-                    {
-                        // Just return non-loc'd value
-                        Debug.Assert(false, "String resource '" + this.descName + "' is missing");
-                        result = this.descName;
-                    }
-
-                    return result;
-                }
-            }
         }
     }
 }

@@ -53,8 +53,8 @@ namespace SlowCheetah.VisualStudio
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(Guids.GuidSlowCheetahPkgString)]
     [ProvideAutoLoad("{f1536ef8-92ec-443c-9ed7-fdadf150da82}")]
-    [ProvideOptionPageAttribute(typeof(OptionsDialogPage), "Slow Cheetah", "General", 100, 101, true)]
-    [ProvideProfileAttribute(typeof(OptionsDialogPage), "Slow Cheetah", "General", 100, 101, true)]
+    [ProvideOptionPage(typeof(OptionsDialogPage), "Slow Cheetah", "General", 100, 101, true)]
+    [ProvideOptionPage(typeof(AdvancedOptionsDialogPage), "Slow Cheetah", "Advanced", 100, 101, true)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class SlowCheetahPackage : Package, IVsUpdateSolutionEvents
     {
@@ -760,8 +760,10 @@ namespace SlowCheetah.VisualStudio
 
             // Get our options
             using (OptionsDialogPage optionsPage = new OptionsDialogPage())
+            using (AdvancedOptionsDialogPage advancedOptionsPage = new AdvancedOptionsDialogPage())
             {
                 optionsPage.LoadSettingsFromStorage();
+                advancedOptionsPage.LoadSettingsFromStorage();
 
                 this.LogMessageWriteLineFormat("SlowCheetah PreviewTransform");
                 FileInfo sourceFileInfo = new FileInfo(sourceFile);
@@ -788,7 +790,7 @@ namespace SlowCheetah.VisualStudio
                 else
                 {
                     // If the diffmerge service is available (dev11) and no diff tool is specified, or diffmerge.exe is specifed we use the service
-                    if (this.GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath) || optionsPage.PreviewToolExecutablePath.EndsWith(@"\diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
+                    if (this.GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath) || advancedOptionsPage.PreviewToolExecutablePath.EndsWith(@"\diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
                     {
                         string sourceName = Path.GetFileName(sourceFile);
                         string leftLabel = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_LeftLabel, sourceName);
@@ -797,18 +799,18 @@ namespace SlowCheetah.VisualStudio
                         string tooltip = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_ToolTip, sourceName);
                         diffService.OpenComparisonWindow2(sourceFile, destFile, caption, tooltip, leftLabel, rightLabel, null, null, (uint)__VSDIFFSERVICEOPTIONS.VSDIFFOPT_RightFileIsTemporary);
                     }
-                    else if (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath))
+                    else if (string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath))
                     {
                         throw new FileNotFoundException(Resources.Resources.Error_NoPreviewToolSpecified);
                     }
-                    else if (!File.Exists(optionsPage.PreviewToolExecutablePath))
+                    else if (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
                     {
-                        throw new FileNotFoundException(string.Format(Resources.Resources.Error_CantFindPreviewTool, optionsPage.PreviewToolExecutablePath), optionsPage.PreviewToolExecutablePath);
+                        throw new FileNotFoundException(string.Format(Resources.Resources.Error_CantFindPreviewTool, advancedOptionsPage.PreviewToolExecutablePath), advancedOptionsPage.PreviewToolExecutablePath);
                     }
                     else
                     {
                         // Quote the filenames...
-                        ProcessStartInfo psi = new ProcessStartInfo(optionsPage.PreviewToolExecutablePath, string.Format(optionsPage.PreviewToolCommandLine, "\"" + sourceFile + "\"", "\"" + destFile + "\""))
+                        ProcessStartInfo psi = new ProcessStartInfo(advancedOptionsPage.PreviewToolExecutablePath, string.Format(advancedOptionsPage.PreviewToolCommandLine, "\"" + sourceFile + "\"", "\"" + destFile + "\""))
                         {
                             CreateNoWindow = true,
                             UseShellExecute = false
