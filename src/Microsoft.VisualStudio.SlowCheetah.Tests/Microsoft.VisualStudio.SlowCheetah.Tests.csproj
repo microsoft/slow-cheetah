@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="BuildTests\TestProjects\**" />
+    <EmbeddedResource Remove="BuildTests\TestProjects\**" />
+    <None Remove="BuildTests\TestProjects\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="xunit" Version="2.3.0-beta1-build3642" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta1-build1309" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.25" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.VisualStudio.SlowCheetah\Microsoft.VisualStudio.SlowCheetah.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.Build.Framework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+  <!--Copy SlowCheetah Output to test folder-->
+  <Target Name="CopySlowCheetahFiles" AfterTargets="Build">
+    <MSBuild Projects="@(ProjectReference)" Targets="GetTargetPath" BuildInParallel="true" Properties="Configuration=$(Configuration)" Condition="'%(Filename)'=='Microsoft.VisualStudio.SlowCheetah'">
+      <Output TaskParameter="TargetOutputs" ItemName="_DependentAssemblies" />
+    </MSBuild>
+    <ItemGroup>
+      <_CopyTools Include="@(_DependentAssemblies);%(_DependentAssemblies.RelativeDir)Microsoft.Web.XmlTransform.dll" />
+      <_CopyBuild Include="%(_DependentAssemblies.RelativeDir)Build\Microsoft.VisualStudio.SlowCheetah*.targets" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_CopyTools)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\tools" />
+    <Copy SourceFiles="@(_CopyBuild)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\build" />
+  </Target>
+
+</Project>
