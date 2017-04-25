@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,96 +117,109 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Error_CantFindPreviewTool" xml:space="preserve">
-    <value>Cannot find the preview tool {0}. Verify the transform settings in Tools\Options.</value>
-    <comment>Error message</comment>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="EnablePreviewCheckbox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="Error_NoPreviewToolSpecified" xml:space="preserve">
-    <value>No preview tool specified. You can set a preview tool in the transform settings in Tools\Options.</value>
-    <comment>Error message</comment>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="EnablePreviewCheckbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 20</value>
   </data>
-  <data name="Error_SavingProjectFile" xml:space="preserve">
-    <value>Unable to save the project file {0}. {1}</value>
-    <comment>Error message</comment>
+  <data name="EnablePreviewCheckbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 17</value>
   </data>
-  <data name="Error_SourceFileNotFound" xml:space="preserve">
-    <value>The source file for the transform {0} was not found.</value>
-    <comment>Error message</comment>
+  <data name="EnablePreviewCheckbox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="Error_TransformFileNotFound" xml:space="preserve">
-    <value>The transform file {0} was not found.</value>
-    <comment>Error message</comment>
+  <data name="EnablePreviewCheckbox.Text" xml:space="preserve">
+    <value>Show diff on transformation preview</value>
   </data>
-  <data name="NugetInstall_ErrorOutput" xml:space="preserve">
-    <value>Error installing SlowCheetah NuGet package to {0}.</value>
-    <comment>Text to be shown in the output window if there is an error with installing the SlowCheetah Nuget package</comment>
+  <data name="&gt;&gt;EnablePreviewCheckbox.Name" xml:space="preserve">
+    <value>EnablePreviewCheckbox</value>
   </data>
-  <data name="NugetInstall_FinishedOutput" xml:space="preserve">
-    <value>Finished installing SlowCheetah NuGet package to {0}.</value>
-    <comment>Text to be shown in the output window when the SlowCheetah Nuget package is done installing</comment>
+  <data name="&gt;&gt;EnablePreviewCheckbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="NugetInstall_InstallingOutput" xml:space="preserve">
-    <value>Installing SlowCheetah NuGet package to {0} ...</value>
-    <comment>Text to be shown in the output window as the SlowCheetah NuGet package is being installed</comment>
+  <data name="&gt;&gt;EnablePreviewCheckbox.Parent" xml:space="preserve">
+    <value>GeneralGroupBox</value>
   </data>
-  <data name="NugetInstall_Text" xml:space="preserve">
-    <value>In order to execute transform on build, you will need the SlowCheetah NuGet package. Do you want to install the package now?</value>
-    <comment>Text for the prompt to install the SlowCheetah NuGet package</comment>
+  <data name="&gt;&gt;EnablePreviewCheckbox.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="NugetInstall_Title" xml:space="preserve">
-    <value>Install SlowCheetah NuGet package</value>
-    <comment>Title for the prompt to install the SlowCheetah NuGet package</comment>
+  <data name="GeneralGroupBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="NugetUpdate_InfoBarLink" xml:space="preserve">
-    <value>here</value>
-    <comment>Text of the link in the update info bar</comment>
+  <data name="AddDepentUponCheckbox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="NugetUpdate_InfoBarText" xml:space="preserve">
-    <value>It seems that you do not have the correct version of the SlowCheetah Nuget package installed. Transforms on this project will not be executed. To learn about updating from an older version, click </value>
-    <comment>Text to be displayed on the update info bar</comment>
+  <data name="AddDepentUponCheckbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 43</value>
   </data>
-  <data name="NugetUpdate_Link" xml:space="preserve">
-    <value>https://github.com/Microsoft/slow-cheetah/blob/master/doc/update.md</value>
-    <comment>Link to the update info for the SlowCheetah Nuget package</comment>
+  <data name="AddDepentUponCheckbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 17</value>
   </data>
-  <data name="NugetUpdate_Text" xml:space="preserve">
-    <value>It seems that you have an older version of the SlowCheetah package installed. In order to avoid conflicts, you should update you package. Doing so may cause changes to your project file. Do you wish to update now?</value>
-    <comment>Text for the prompt to update the SlowCheetah NuGet package</comment>
+  <data name="AddDepentUponCheckbox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="NugetUpdate_Title" xml:space="preserve">
-    <value>Update SlowCheetah NuGet package</value>
-    <comment>Title for the prompt to update the SlowCheetah NuGet package</comment>
+  <data name="AddDepentUponCheckbox.Text" xml:space="preserve">
+    <value>Add DepentUpon metadata to transform files</value>
   </data>
-  <data name="NugetUpdate_WaitText" xml:space="preserve">
-    <value>Updating the SlowCheetah NuGet package, this may take a few seconds</value>
-    <comment>Text for the wait dialog on update of the NuGet package</comment>
+  <data name="&gt;&gt;AddDepentUponCheckbox.Name" xml:space="preserve">
+    <value>AddDepentUponCheckbox</value>
   </data>
-  <data name="NugetUpdate_WaitTitle" xml:space="preserve">
-    <value>SlowCheetah Update</value>
-    <comment>Title for the wait dialog on update of the NuGet package</comment>
+  <data name="&gt;&gt;AddDepentUponCheckbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="String_FormatTransformFilename" xml:space="preserve">
-    <value>{0}.{1}{2}</value>
-    <comment>This is the format string for the new transform file's filename.</comment>
+  <data name="&gt;&gt;AddDepentUponCheckbox.Parent" xml:space="preserve">
+    <value>GeneralGroupBox</value>
+  </data>
+  <data name="&gt;&gt;AddDepentUponCheckbox.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TransformContents" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TransformContents.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="GeneralGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
   </data>
-  <data name="TransformPreview_Caption" xml:space="preserve">
-    <value>{0} Preview</value>
+  <data name="GeneralGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="TransformPreview_ErrorMessage" xml:space="preserve">
-    <value>There was an error transforming your file. See the error list for more details</value>
-    <comment>Error message to be shown upon failing Preview Transform</comment>
+  <data name="GeneralGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>440, 79</value>
   </data>
-  <data name="TransformPreview_LeftLabel" xml:space="preserve">
-    <value>Original {0}</value>
+  <data name="GeneralGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="TransformPreview_RightLabel" xml:space="preserve">
-    <value>Transformed {0}   (by  {1} )</value>
+  <data name="GeneralGroupBox.Text" xml:space="preserve">
+    <value>General Settings</value>
   </data>
-  <data name="TransformPreview_ToolTip" xml:space="preserve">
-    <value>{0} Preview</value>
+  <data name="&gt;&gt;GeneralGroupBox.Name" xml:space="preserve">
+    <value>GeneralGroupBox</value>
+  </data>
+  <data name="&gt;&gt;GeneralGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GeneralGroupBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GeneralGroupBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>440, 190</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>OptionsUserControl</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

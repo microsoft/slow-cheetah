@@ -59,7 +59,7 @@
 
       <Button guid="guidSlowCheetahCmdSet" id="cmdidSlowCheetahAddTransform" priority="0x9100" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_PROJ_MISCADD" />
-        <Icon guid="guidImages" id="bmpPic1" />
+        <Icon guid="guidAddImage" id="1" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
@@ -70,7 +70,7 @@
       </Button>
       <Button guid="guidSlowCheetahCmdSet" id="cmdidSlowCheetahPreviewTransform" priority="0x9100" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_PROJ_MISCADD" />
-        <Icon guid="guidImages" id="bmpPicPreview" />
+        <Icon guid="guidPreviewImage" id="1" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
@@ -89,7 +89,8 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used 
             inside a button definition. An important aspect of this declaration is that the element id 
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\Images\Images_32bit.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicPreview"/>
+      <Bitmap guid="guidAddImage" href="Resources\Images\AddTransform_16x.png"/>
+      <Bitmap guid="guidPreviewImage" href="Resources\Images\PreviewTransform_16x.png"/>
 
     </Bitmaps>
   </Commands>
@@ -114,13 +115,8 @@
       <IDSymbol name="cmdidSlowCheetahPreviewTransform" value="0x0101" />
     </GuidSymbol>
 
-    <GuidSymbol name="guidImages" value="{2265dbbe-95c1-4ab7-bee5-9e3a7e69dc30}" >
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicPreview" value="6" />
-    </GuidSymbol>
+    <!-- Menu icons guids -->
+    <GuidSymbol name="guidAddImage" value="{0fd0ec5c-2f14-49b5-ba9a-6305981893a2}"/>
+    <GuidSymbol name="guidPreviewImage" value="{a814715d-dd37-404a-96da-ed9ba3418955}"/>
   </Symbols>
 </CommandTable>

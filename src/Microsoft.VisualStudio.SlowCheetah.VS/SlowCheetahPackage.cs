@@ -53,14 +53,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(Guids.GuidSlowCheetahPkgString)]
     [ProvideAutoLoad("{f1536ef8-92ec-443c-9ed7-fdadf150da82}")]
-    [ProvideOptionPageAttribute(typeof(OptionsDialogPage), "Slow Cheetah", "General", 100, 101, true)]
-    [ProvideProfileAttribute(typeof(OptionsDialogPage), "Slow Cheetah", "General", 100, 101, true)]
+    [ProvideOptionPage(typeof(OptionsDialogPage), "Slow Cheetah", "General", 100, 101, true)]
+    [ProvideOptionPage(typeof(AdvancedOptionsDialogPage), "Slow Cheetah", "Advanced", 100, 101, true)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class SlowCheetahPackage : Package, IVsUpdateSolutionEvents
     {
         private static readonly string TransformOnBuild = "TransformOnBuild";
         private static readonly string IsTransformFile = "IsTransformFile";
-        private static readonly string DependentUpon = "DependentUpon";
 
         private static readonly string PkgName = Settings.Default.SlowCheetahNugetPkgName;
 
@@ -77,7 +76,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
-            this.LogMessageWriteLineFormat("Entering constructor for: {0}", this.ToString());
             OurPackage = this;
             this.NuGetManager = new SlowCheetahNuGetManager(this);
         }
@@ -152,8 +150,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             this.LogMessageWriteLineFormat("SlowCheetah initalizing");
 
             // Initialization logic
-            this.LogMessageWriteLineFormat(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
-
             this.errorListProvider = new ErrorListProvider(this);
             IVsSolutionBuildManager solutionBuildManager = this.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager;
             solutionBuildManager.AdviseUpdateSolutionEvents(this, out this.solutionUpdateCookie);
@@ -377,13 +373,17 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     transformsToCreate.AddRange(publishProfileTransforms);
                 }
 
-                foreach (string config in transformsToCreate)
+                using (OptionsDialogPage optionsPage = new OptionsDialogPage())
                 {
-                    string itemName = string.Format(Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
-                    this.AddXdtTransformFile(selectedProjectItem, content, itemName, itemFolder);
-                    hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out uint addedFileId);
-                    buildPropertyStorage.SetItemAttribute(addedFileId, IsTransformFile, "True");
-                    buildPropertyStorage.SetItemAttribute(addedFileId, DependentUpon, itemFilenameExtension);
+                    optionsPage.LoadSettingsFromStorage();
+
+                    foreach (string config in transformsToCreate)
+                    {
+                        string itemName = string.Format(Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
+                        this.AddXdtTransformFile(selectedProjectItem, content, itemName, itemFolder, optionsPage.AddDependentUpon);
+                        hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out uint addedFileId);
+                        buildPropertyStorage.SetItemAttribute(addedFileId, IsTransformFile, "True");
+                    }
                 }
             }
         }
@@ -631,7 +631,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <param name="content">Contents to be written to the transformation file</param>
         /// <param name="itemName">Full name of the transformation file</param>
         /// <param name="projectPath">Full path to the current project</param>
-        private void AddXdtTransformFile(ProjectItem selectedProjectItem, string content, string itemName, string projectPath)
+        /// <param name="addDependentUpon">Wheter to add the new file dependent upon the source file</param>
+        private void AddXdtTransformFile(ProjectItem selectedProjectItem, string content, string itemName, string projectPath, bool addDependentUpon)
         {
             try
             {
@@ -645,8 +646,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     }
                 }
 
-                // and add it to the project
-                ProjectItem addedItem = selectedProjectItem.ProjectItems.AddFromFile(itemPath);
+                // Add the file to the project
+                // If the DependentUpon metadata is required, add it under the original file
+                // If not, add it to the project
+                ProjectItem addedItem = addDependentUpon ? selectedProjectItem.ProjectItems.AddFromFile(itemPath)
+                                                      : selectedProjectItem.ContainingProject.ProjectItems.AddFromFile(itemPath);
 
                 // we need to set the Build Action to None to ensure that it doesn't get published for web projects
                 addedItem.Properties.Item("ItemType").Value = "None";
@@ -760,8 +764,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
             // Get our options
             using (OptionsDialogPage optionsPage = new OptionsDialogPage())
+            using (AdvancedOptionsDialogPage advancedOptionsPage = new AdvancedOptionsDialogPage())
             {
                 optionsPage.LoadSettingsFromStorage();
+                advancedOptionsPage.LoadSettingsFromStorage();
 
                 this.LogMessageWriteLineFormat("SlowCheetah PreviewTransform");
                 FileInfo sourceFileInfo = new FileInfo(sourceFile);
@@ -788,8 +794,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 else
                 {
                     // If the diffmerge service is available (dev11) and no diff tool is specified, or diffmerge.exe is specifed we use the service
-                    if (this.GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath) || optionsPage.PreviewToolExecutablePath.EndsWith(@"\diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
+                    if (this.GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath) || advancedOptionsPage.PreviewToolExecutablePath.EndsWith("diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
                     {
+                        if (!string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath) && !File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
+                        {
+                            logger.LogWarning(string.Format(Resources.Resources.Error_CantFindPreviewTool, advancedOptionsPage.PreviewToolExecutablePath));
+                        }
+
                         string sourceName = Path.GetFileName(sourceFile);
                         string leftLabel = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_LeftLabel, sourceName);
                         string rightLabel = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_RightLabel, sourceName, Path.GetFileName(transformFile));
@@ -797,18 +808,18 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                         string tooltip = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_ToolTip, sourceName);
                         diffService.OpenComparisonWindow2(sourceFile, destFile, caption, tooltip, leftLabel, rightLabel, null, null, (uint)__VSDIFFSERVICEOPTIONS.VSDIFFOPT_RightFileIsTemporary);
                     }
-                    else if (string.IsNullOrEmpty(optionsPage.PreviewToolExecutablePath))
+                    else if (string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath))
                     {
                         throw new FileNotFoundException(Resources.Resources.Error_NoPreviewToolSpecified);
                     }
-                    else if (!File.Exists(optionsPage.PreviewToolExecutablePath))
+                    else if (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
                     {
-                        throw new FileNotFoundException(string.Format(Resources.Resources.Error_CantFindPreviewTool, optionsPage.PreviewToolExecutablePath), optionsPage.PreviewToolExecutablePath);
+                        throw new FileNotFoundException(string.Format(Resources.Resources.Error_CantFindPreviewTool, advancedOptionsPage.PreviewToolExecutablePath), advancedOptionsPage.PreviewToolExecutablePath);
                     }
                     else
                     {
                         // Quote the filenames...
-                        ProcessStartInfo psi = new ProcessStartInfo(optionsPage.PreviewToolExecutablePath, string.Format(optionsPage.PreviewToolCommandLine, "\"" + sourceFile + "\"", "\"" + destFile + "\""))
+                        ProcessStartInfo psi = new ProcessStartInfo(advancedOptionsPage.PreviewToolExecutablePath, string.Format(advancedOptionsPage.PreviewToolCommandLine, $"\"{sourceFile}\"", $"\"{destFile}\""))
                         {
                             CreateNoWindow = true,
                             UseShellExecute = false

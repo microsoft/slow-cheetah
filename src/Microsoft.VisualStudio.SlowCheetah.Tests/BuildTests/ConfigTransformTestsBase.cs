@@ -44,7 +44,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         /// </summary>
         public string TestProjectsDir
         {
-            get { return Path.Combine(this.SolutionDir, @"SlowCheetah.Tests\BuildTests\TestProjects"); }
+            get { return Path.Combine(this.SolutionDir, @"Microsoft.VisualStudio.SlowCheetah.Tests\BuildTests\TestProjects"); }
         }
 
         /// <summary>

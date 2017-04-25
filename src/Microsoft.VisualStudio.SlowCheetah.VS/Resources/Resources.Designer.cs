@@ -61,7 +61,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot find the preview tool {0}. Verify the settings in the &apos;Config Transform&apos; category of Tools\Options..
+        ///   Looks up a localized string similar to Cannot find the preview tool {0}. Verify the transform settings in Tools\Options..
         /// </summary>
         internal static string Error_CantFindPreviewTool {
             get {
@@ -70,7 +70,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No preview tool specified. You can set a preview tool in the &apos;Config Transform&apos; category of Tools\Options..
+        ///   Looks up a localized string similar to No preview tool specified. You can set a preview tool in the transform settings in Tools\Options..
         /// </summary>
         internal static string Error_NoPreviewToolSpecified {
             get {
