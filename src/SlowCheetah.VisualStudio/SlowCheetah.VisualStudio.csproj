@@ -65,6 +65,9 @@
     <Compile Include="Options\AdvancedOptionsUserControl.Designer.cs">
       <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Options\BaseOptionsDialogPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Options\OptionsDialogPage.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -6,10 +6,8 @@ namespace SlowCheetah.VisualStudio
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
-    using System.IO;
     using System.Windows.Forms;
     using Microsoft.VisualStudio;
-    using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.Win32;
 
@@ -17,9 +15,8 @@ namespace SlowCheetah.VisualStudio
     /// Options page for SlowCheetah
     /// </summary>
     [System.Runtime.InteropServices.Guid("01B6BAC2-0BD6-4ead-95AE-6D6DE30A6286")]
-    internal class OptionsDialogPage : DialogPage
+    internal class OptionsDialogPage : BaseOptionsDialogPage
     {
-        private const string RegOptionsKey = "ConfigTransform";
         private const string RegPreviewEnable = "EnablePreview";
         private const string RegDependentUpon = "EnableDependentUpon";
 
@@ -168,83 +165,6 @@ namespace SlowCheetah.VisualStudio
         {
             this.EnablePreview = true;
             this.AddDependentUpon = true;
-        }
-
-        /// <summary>
-        /// Attribute class allows us to loc the displayname for our properties. Property resource
-        /// is expected to be named PropName_[propertyname]
-        /// </summary>
-        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-        internal sealed class LocDisplayNameAttribute : DisplayNameAttribute
-        {
-            private string displayName;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="LocDisplayNameAttribute"/> class.
-            /// </summary>
-            /// <param name="name">Attribute name</param>
-            public LocDisplayNameAttribute(string name)
-            {
-                this.displayName = name;
-            }
-
-            /// <summary>
-            /// Gets the display name of the attribute
-            /// </summary>
-            public override string DisplayName
-            {
-                get
-                {
-                    string result = Resources.Resources.ResourceManager.GetString("PropName_" + this.displayName);
-                    if (result == null)
-                    {
-                        // Just return non-loc'd value
-                        Debug.Assert(false, "String resource '" + this.displayName + "' is missing");
-                        result = this.displayName;
-                    }
-
-                    return result;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Attribute class allows us to loc the description for our properties. Property resource
-        /// is expected to be named PropDesc_[propertyname]
-        /// </summary>
-        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-        internal sealed class LocDescriptionAttribute : DescriptionAttribute
-        {
-            private string descName;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="LocDescriptionAttribute"/> class.
-            /// </summary>
-            /// <param name="name">Attribute name</param>
-            public LocDescriptionAttribute(string name)
-            {
-                this.descName = name;
-            }
-
-            /// <summary>
-            /// Gets the description for the attribute
-            /// </summary>
-            public override string Description
-            {
-                get
-                {
-                    string result = Resources.Resources.ResourceManager.GetString("PropDesc_" + this.descName);
-
-                    if (result == null)
-                    {
-                        // Just return non-loc'd value
-                        Debug.Assert(false, "String resource '" + this.descName + "' is missing");
-                        result = this.descName;
-                    }
-
-                    return result;
-                }
-            }
         }
     }
 }

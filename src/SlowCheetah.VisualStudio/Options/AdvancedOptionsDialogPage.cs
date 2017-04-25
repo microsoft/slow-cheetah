@@ -5,19 +5,16 @@ namespace SlowCheetah.VisualStudio
 {
     using System;
     using System.Diagnostics;
-    using System.IO;
     using System.Windows.Forms;
     using Microsoft.VisualStudio;
-    using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.Win32;
 
     /// <summary>
     /// Advanced Options Page for SlowCheetah
     /// </summary>
-    internal class AdvancedOptionsDialogPage : DialogPage
+    internal class AdvancedOptionsDialogPage : BaseOptionsDialogPage
     {
-        private const string RegOptionsKey = "ConfigTransform";
         private const string RegPreviewCmdLine = "PreviewCmdLine";
         private const string RegPreviewExe = "PreviewExe";
 
