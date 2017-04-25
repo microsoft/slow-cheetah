@@ -19,10 +19,6 @@
      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
      <IsTool>true</IsTool>
   </PropertyGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
   
   <ItemGroup>
     <None Include="$(OutputPath)Microsoft.Web.XmlTransform.dll" Pack="true" PackagePath="tools" Visible="false" />

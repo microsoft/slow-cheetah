@@ -4,7 +4,7 @@
     <Identity Id="9eb9f150-fcc9-4db8-9e97-6aef2011017c" Version="|Microsoft.VisualStudio.SlowCheetah.VS;GetBuildVersion|" Language="en-US" Publisher="Microsoft Corporation" />
     <DisplayName>SlowCheetah - XML Transforms</DisplayName>
     <Description xml:space="preserve">This package enables you to transform your app.config or any other XML file based on the build configuration. It also adds additional tooling to help you create XML transforms.</Description>
-    <MoreInfo>http://sedodream.com/</MoreInfo>
+    <MoreInfo>https://github.com/Microsoft/slow-cheetah</MoreInfo>
     <License>Resources\LICENSE</License>
     <Icon>Resources\Images\Cheetah-120.png</Icon>
     <PreviewImage>Resources\Images\Cheetah-120.png</PreviewImage>
