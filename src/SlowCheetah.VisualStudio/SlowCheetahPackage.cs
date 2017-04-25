@@ -77,7 +77,6 @@ namespace SlowCheetah.VisualStudio
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
-            this.LogMessageWriteLineFormat("Entering constructor for: {0}", this.ToString());
             OurPackage = this;
             this.NuGetManager = new SlowCheetahNuGetManager(this);
         }
@@ -152,8 +151,6 @@ namespace SlowCheetah.VisualStudio
             this.LogMessageWriteLineFormat("SlowCheetah initalizing");
 
             // Initialization logic
-            this.LogMessageWriteLineFormat(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
-
             this.errorListProvider = new ErrorListProvider(this);
             IVsSolutionBuildManager solutionBuildManager = this.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager;
             solutionBuildManager.AdviseUpdateSolutionEvents(this, out this.solutionUpdateCookie);
