@@ -100,22 +100,20 @@ namespace SlowCheetah.VisualStudio
             {
                 this.InitializeDefaults();
                 using (RegistryKey userRootKey = SlowCheetahPackage.OurPackage.UserRegistryRoot)
+                using (RegistryKey cheetahKey = userRootKey.OpenSubKey(RegOptionsKey))
                 {
-                    using (RegistryKey cheetahKey = userRootKey.OpenSubKey(RegOptionsKey))
+                    if (cheetahKey != null)
                     {
-                        if (cheetahKey != null)
+                        object enablePreview = cheetahKey.GetValue(RegPreviewEnable);
+                        if (enablePreview != null && (enablePreview is int))
                         {
-                            object enablePreview = cheetahKey.GetValue(RegPreviewEnable);
-                            if (enablePreview != null && (enablePreview is int))
-                            {
-                                this.EnablePreview = ((int)enablePreview) == 1;
-                            }
+                            this.EnablePreview = ((int)enablePreview) == 1;
+                        }
 
-                            object addDependentUpon = cheetahKey.GetValue(RegDependentUpon);
-                            if (addDependentUpon != null && (addDependentUpon is int))
-                            {
-                                this.AddDependentUpon = ((int)addDependentUpon) == 1;
-                            }
+                        object addDependentUpon = cheetahKey.GetValue(RegDependentUpon);
+                        if (addDependentUpon != null && (addDependentUpon is int))
+                        {
+                            this.AddDependentUpon = ((int)addDependentUpon) == 1;
                         }
                     }
                 }
@@ -135,12 +133,10 @@ namespace SlowCheetah.VisualStudio
             {
                 base.SaveSettingsToStorage();
                 using (RegistryKey userRootKey = SlowCheetahPackage.OurPackage.UserRegistryRoot)
+                using (RegistryKey cheetahKey = userRootKey.CreateSubKey(RegOptionsKey))
                 {
-                    using (RegistryKey cheetahKey = userRootKey.CreateSubKey(RegOptionsKey))
-                    {
-                        cheetahKey.SetValue(RegPreviewEnable, this.EnablePreview ? 1 : 0);
-                        cheetahKey.SetValue(RegDependentUpon, this.AddDependentUpon ? 1 : 0);
-                    }
+                    cheetahKey.SetValue(RegPreviewEnable, this.EnablePreview ? 1 : 0);
+                    cheetahKey.SetValue(RegDependentUpon, this.AddDependentUpon ? 1 : 0);
                 }
             }
             catch (Exception e)
