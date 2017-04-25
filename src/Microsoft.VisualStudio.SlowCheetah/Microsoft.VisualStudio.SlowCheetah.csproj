@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>library</OutputType>
+    <TargetFramework>net46</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+     <Authors>Microsoft</Authors>
+     <Owners>Microsoft</Owners>
+     <Description>Allows for configuration based XML transformations at build time.</Description>
+     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+     <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
+     <PackageTags>SlowCheetah slow cheetah XML Transform XDT web.config app.config</PackageTags>
+     <PackageIconUrl>http://sedodream.com/content/binary/images/cheetah-120x120.png</PackageIconUrl>
+     <PackageLicenseUrl>https://raw.githubusercontent.com/Microsoft/slow-cheetah/master/LICENSE</PackageLicenseUrl>
+     <PackageProjectUrl>http://visualstudiogallery.msdn.microsoft.com/69023d00-a4f9-4a34-a6cd-7e854ba318b5/</PackageProjectUrl>
+     <RepositoryUrl>https://github.com/sayedihashimi/slow-cheetah</RepositoryUrl>
+     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+     <IsTool>true</IsTool>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="$(OutputPath)Microsoft.Web.XmlTransform.dll" Pack="true" PackagePath="tools" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Build\*.targets" Pack="true" PackagePath="build" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Build\readme.txt" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.Xdt" Version="2.1.1" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.25" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
