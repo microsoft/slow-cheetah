@@ -634,8 +634,8 @@ namespace SlowCheetah.VisualStudio
         /// <param name="content">Contents to be written to the transformation file</param>
         /// <param name="itemName">Full name of the transformation file</param>
         /// <param name="projectPath">Full path to the current project</param>
-        /// <param name="addDepentUpon">Wheter to add the new file dependent upon the source file</param>
-        private void AddXdtTransformFile(ProjectItem selectedProjectItem, string content, string itemName, string projectPath, bool addDepentUpon)
+        /// <param name="addDependentUpon">Wheter to add the new file dependent upon the source file</param>
+        private void AddXdtTransformFile(ProjectItem selectedProjectItem, string content, string itemName, string projectPath, bool addDependentUpon)
         {
             try
             {
@@ -652,7 +652,7 @@ namespace SlowCheetah.VisualStudio
                 // Add the file to the project
                 // If the DependentUpon metadata is required, add it under the original file
                 // If not, add it to the project
-                ProjectItem addedItem = addDepentUpon ? selectedProjectItem.ProjectItems.AddFromFile(itemPath)
+                ProjectItem addedItem = addDependentUpon ? selectedProjectItem.ProjectItems.AddFromFile(itemPath)
                                                       : selectedProjectItem.ContainingProject.ProjectItems.AddFromFile(itemPath);
 
                 // we need to set the Build Action to None to ensure that it doesn't get published for web projects
@@ -822,7 +822,7 @@ namespace SlowCheetah.VisualStudio
                     else
                     {
                         // Quote the filenames...
-                        ProcessStartInfo psi = new ProcessStartInfo(advancedOptionsPage.PreviewToolExecutablePath, string.Format(advancedOptionsPage.PreviewToolCommandLine, "\"" + sourceFile + "\"", "\"" + destFile + "\""))
+                        ProcessStartInfo psi = new ProcessStartInfo(advancedOptionsPage.PreviewToolExecutablePath, string.Format(advancedOptionsPage.PreviewToolCommandLine, $"\"{sourceFile}\"", $"\"{destFile}\""))
                         {
                             CreateNoWindow = true,
                             UseShellExecute = false
