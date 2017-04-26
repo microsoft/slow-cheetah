@@ -33,8 +33,6 @@
     <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
     <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
     <OutputPath>$(OutputPath)$(TargetFramework)\</OutputPath>
-    <TargetVsixContainerName>$(MSBuildProjectName).vsix</TargetVsixContainerName>
-    <TargetVsixContainer>$(OutputPath)..\$(TargetVsixContainerName)</TargetVsixContainer>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="NugetHandler\INugetPackageHandler.cs" />
