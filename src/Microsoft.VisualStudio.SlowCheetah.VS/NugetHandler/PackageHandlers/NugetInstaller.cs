@@ -36,7 +36,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
             var componentModel = (IComponentModel)this.Package.GetService(typeof(SComponentModel));
             IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
-            packageInstaller.InstallLatestPackage(null, project, SlowCheetahNuGetManager.PackageName, true, false);
+            packageInstaller.InstallLatestPackage(null, project, SlowCheetahNuGetManager.PackageName, false, false);
 
             this.Successor.Execute(project);
         }

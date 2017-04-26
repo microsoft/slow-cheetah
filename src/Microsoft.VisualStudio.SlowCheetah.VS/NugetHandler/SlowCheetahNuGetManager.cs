@@ -144,7 +144,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 plan = new NuGetUninstaller(plan);
             }
 
-            if (isOldScPackageInstalled)
+            if (isOldScInstalled)
             {
                 // If the older targets are installed, they need to be removed
                 // This needs to be done through a wait dialog since the project file will be altered

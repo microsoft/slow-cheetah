@@ -53,10 +53,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="NugetHandler\INugetInfoHandler.cs" />
-    <Compile Include="NugetHandler\NugetHandlerFactory.cs" />
-    <Compile Include="NugetHandler\LegacyNugetMessageHandler.cs" />
-    <Compile Include="NugetHandler\NugetInfoBarHandler.cs" />
     <Compile Include="NugetHandler\PackageHandlers\BackgroundInstallationHandler.cs" />
     <Compile Include="NugetHandler\PackageHandlers\DialogInstallationHandler.cs" />
     <Compile Include="NugetHandler\PackageHandlers\EmptyHandler.cs" />
