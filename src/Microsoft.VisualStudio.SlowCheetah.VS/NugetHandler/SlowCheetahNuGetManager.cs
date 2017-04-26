@@ -20,7 +20,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// </summary>
     public class SlowCheetahNuGetManager
     {
-        private static readonly string PackageName = "SlowCheetah";
+        private static readonly string PackageName = "Microsoft.VisualStudio.SlowCheetah";
+        private static readonly string OldPackageName = "SlowCheetah";
         private static readonly Version LastUnsupportedVersion = new Version(2, 5, 15);
 
         // Fields for checking NuGet support
@@ -118,25 +119,32 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             Project currentProject = PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
 
             // Whether or not an even older version of SlowCheetah (before NuGet) is installed
+            // or some old code is still present in the project file
             bool isOldScInstalled = IsOldSlowCheetahInstalled(hierarchy as IVsBuildPropertyStorage);
-
             if (isOldScInstalled)
             {
+                // Delete the older code and install the latest NuGet package
                 this.UpdateSlowCheetah(currentProject);
             }
-            else if (!this.IsSlowCheetahInstalled(currentProject))
+            else
             {
-                // If SlowCheetah is not installed at all
-                this.BackgroundInstallSlowCheetah(currentProject);
-            }
-            else if (!this.IsSlowCheetahUpdated(currentProject))
-            {
-                // In this case, an older NuGet package is installed,
-                // but traces of old SlowCheetah installation were not found
-                // This means the user may have manually edited their project file.
-                // In this case, show the update information so that they know the proper way to uninstall
-                INugetPackageHandler nugetHandler = NugetHandlerFactory.GetHandler(this.package);
-                nugetHandler.ShowUpdateInfo();
+                // If there's no old code, update the package if it is still SlowCheetah
+                // and not Microsoft.VisualStudio.SlowCheetah
+                if (!this.IsMicrosoftPackageInstalled(currentProject))
+                {
+                    if (!this.IsSlowCheetahUpdated(currentProject))
+                    {
+                        // If the package is 2.5.15 or earlier, the user's project file
+                        // probably contains older targets, so show info on removing these
+                        INugetPackageHandler nugetHandler = NugetHandlerFactory.GetHandler(this.package);
+                        nugetHandler.ShowUpdateInfo();
+                    }
+
+                    // Install the newest SlowCheetah package
+                    // If the older package (SlowCheetah) is installed,
+                    // uninstall it to make way for Microsoft.VisualStudio.SlowCheetah
+                    this.BackgroundInstallSlowCheetah(currentProject, this.IsOldSlowCheetahPackageInstalled(currentProject));
+                }
             }
         }
 
@@ -187,18 +195,36 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
         }
 
-        private bool IsSlowCheetahInstalled(Project project)
+        private bool IsMicrosoftPackageInstalled(Project project)
         {
             IVsPackageInstallerServices installerServices = GetInstallerServices(this.package);
             return installerServices.IsPackageInstalled(project, PackageName);
+        }
+
+        /// <summary>
+        /// Checks if the SlowCheetah package is installed, <see cref="OldPackageName"/>
+        /// The newest version of the package is given by <see cref="PackageName"/>
+        /// </summary>
+        /// <param name="project">The current project</param>
+        /// <returns>true if the older SlowCheetah package is installed</returns>
+        private bool IsOldSlowCheetahPackageInstalled(Project project)
+        {
+            IVsPackageInstallerServices installerServices = GetInstallerServices(this.package);
+            return installerServices.IsPackageInstalled(project, OldPackageName);
         }
 
         private bool IsSlowCheetahUpdated(Project project)
         {
             // Checks for older SC versions that require more complex update procedure.
             IVsPackageInstallerServices installerServices = GetInstallerServices(this.package);
+
+            if (installerServices.IsPackageInstalled(project, PackageName))
+            {
+                return true;
+            }
+
             IVsPackageMetadata scPackage =
-                    installerServices.GetInstalledPackages().FirstOrDefault(pkg => string.Equals(pkg.Id, PackageName, StringComparison.OrdinalIgnoreCase));
+                    installerServices.GetInstalledPackages().FirstOrDefault(pkg => string.Equals(pkg.Id, OldPackageName, StringComparison.OrdinalIgnoreCase));
             if (scPackage != null)
             {
                 if (Version.TryParse(scPackage.VersionString, out Version ver))
@@ -225,7 +251,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             return false;
         }
 
-        private void BackgroundInstallSlowCheetah(Project project)
+        private void BackgroundInstallSlowCheetah(Project project, bool uninstallOldPackage)
         {
             string projName = project.UniqueName;
             bool needInstall = true;
@@ -245,12 +271,18 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     // Uninstalls the older version (if present) and installs latest package
                     var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
                     IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
+                    IVsPackageUninstaller packageUninstaller = componentModel.GetService<IVsPackageUninstaller>();
 
                     TPL.Task.Run(() =>
                     {
                         string outputMessage = Resources.Resources.NugetInstall_FinishedOutput;
                         try
                         {
+                            if (uninstallOldPackage)
+                            {
+                                packageUninstaller.UninstallPackage(project, OldPackageName, true);
+                            }
+
                             packageInstaller.InstallLatestPackage(null, project, PackageName, false, false);
                         }
                         catch
@@ -299,10 +331,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 {
                     // Installs the latest version of the SlowCheetah NuGet package
                     var componentModel = (IComponentModel)this.package.GetService(typeof(SComponentModel));
-                    if (this.IsSlowCheetahInstalled(project))
+                    if (this.IsOldSlowCheetahPackageInstalled(project))
                     {
                         IVsPackageUninstaller packageUninstaller = componentModel.GetService<IVsPackageUninstaller>();
-                        packageUninstaller.UninstallPackage(project, PackageName, true);
+                        packageUninstaller.UninstallPackage(project, OldPackageName, true);
                     }
 
                     IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
