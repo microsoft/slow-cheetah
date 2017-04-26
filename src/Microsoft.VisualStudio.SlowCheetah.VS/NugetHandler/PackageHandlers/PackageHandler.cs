@@ -11,19 +11,42 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// </summary>
     internal abstract class PackageHandler
     {
+        private PackageHandler successor;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageHandler"/> class.
         /// </summary>
         /// <param name="package">VS package</param>
         protected PackageHandler(IServiceProvider package)
         {
-            this.Package = package;
+            this.Package = package ?? throw new ArgumentNullException(nameof(package));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PackageHandler"/> class.
+        /// </summary>
+        /// <param name="successor">The successor with the same package</param>
+        protected PackageHandler(PackageHandler successor)
+        {
+            this.Successor = successor ?? throw new ArgumentNullException(nameof(successor));
+            this.Package = this.Successor.Package;
         }
 
         /// <summary>
         /// Gets or sets the successor handler
         /// </summary>
-        internal PackageHandler Successor { get; set; } = null;
+        internal PackageHandler Successor
+        {
+            get
+            {
+                return this.successor ?? new EmptyHandler(this.Package);
+            }
+
+            set
+            {
+                this.successor = value;
+            }
+        }
 
         /// <summary>
         /// Gets the VS package

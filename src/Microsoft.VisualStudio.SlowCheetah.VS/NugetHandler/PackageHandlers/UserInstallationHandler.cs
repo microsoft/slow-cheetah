@@ -22,6 +22,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="UserInstallationHandler"/> class.
+        /// </summary>
+        /// <param name="successor">The successor with the same package</param>
+        public UserInstallationHandler(PackageHandler successor)
+            : base(successor)
+        {
+        }
+
+        /// <summary>
         ///  Shows a warning message that the user must accept to continue
         /// </summary>
         /// <param name="title">The title of the message box</param>

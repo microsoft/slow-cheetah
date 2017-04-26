@@ -25,14 +25,20 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TargetsUninstaller"/> class.
+        /// </summary>
+        /// <param name="successor">The successor with the same package</param>
+        public TargetsUninstaller(PackageHandler successor)
+            : base(successor)
+        {
+        }
+
         /// <inheritdoc/>
         internal override void Execute(Project project)
         {
             // We handle any NuGet package logic before editing the project file
-            if (this.Successor != null)
-            {
-                this.Successor.Execute(project);
-            }
+            this.Successor.Execute(project);
 
             project.Save();
             ProjectRootElement projectRoot = ProjectRootElement.Open(project.FullName);

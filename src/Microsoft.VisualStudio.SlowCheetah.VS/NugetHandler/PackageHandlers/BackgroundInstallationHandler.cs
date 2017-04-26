@@ -15,8 +15,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// </summary>
     internal class BackgroundInstallationHandler : UserInstallationHandler
     {
-        private readonly HashSet<string> installTasks = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        private readonly object syncObject = new object();
+        private static readonly HashSet<string> InstallTasks = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private static readonly object SyncObject = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BackgroundInstallationHandler"/> class.
@@ -24,6 +24,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <param name="package">VS package</param>
         public BackgroundInstallationHandler(IServiceProvider package)
             : base(package)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BackgroundInstallationHandler"/> class.
+        /// </summary>
+        /// <param name="successor">The successor with the same package</param>
+        public BackgroundInstallationHandler(PackageHandler successor)
+            : base(successor)
         {
         }
 
@@ -37,9 +46,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
             string projName = project.UniqueName;
             bool needInstall = true;
-            lock (this.syncObject)
+            lock (SyncObject)
             {
-                needInstall = this.installTasks.Add(projName);
+                needInstall = InstallTasks.Add(projName);
             }
 
             if (needInstall)
@@ -57,10 +66,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                         string outputMessage = Resources.Resources.NugetInstall_FinishedOutput;
                         try
                         {
-                            if (this.Successor != null)
-                            {
-                                this.Successor.Execute(project);
-                            }
+                            this.Successor.Execute(project);
                         }
                         catch
                         {
@@ -69,9 +75,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                         }
                         finally
                         {
-                            lock (this.syncObject)
+                            lock (SyncObject)
                             {
-                                this.installTasks.Remove(projName);
+                                InstallTasks.Remove(projName);
                             }
 
                             ThreadHelper.Generic.BeginInvoke(() => outputWindow?.OutputString(string.Format(outputMessage, project.Name) + Environment.NewLine));
@@ -80,10 +86,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 }
                 else
                 {
-                    lock (this.syncObject)
+                    lock (SyncObject)
                     {
                         // If the user refuses to install, the task should not be added
-                        this.installTasks.Remove(projName);
+                        InstallTasks.Remove(projName);
                     }
                 }
             }

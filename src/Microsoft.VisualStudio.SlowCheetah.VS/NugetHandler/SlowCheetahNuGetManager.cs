@@ -5,15 +5,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using EnvDTE;
-    using Microsoft.Build.Construction;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.ComponentModelHost;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using NuGet.VisualStudio;
-    using TPL = System.Threading.Tasks;
 
     /// <summary>
     /// Manages installations of the SlowCheetah NuGet package in the project
@@ -57,9 +54,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         private readonly IServiceProvider package;
 
-        private readonly BackgroundInstallationHandler backgroundInstallationHandler;
-        private readonly DialogInstallationHandler dialogInstallationHandler;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SlowCheetahNuGetManager"/> class.
         /// </summary>
@@ -67,8 +61,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public SlowCheetahNuGetManager(IServiceProvider package)
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
-            this.backgroundInstallationHandler = new BackgroundInstallationHandler(this.package);
-            this.dialogInstallationHandler = new DialogInstallationHandler(this.package);
         }
 
         /// <summary>
@@ -138,44 +130,39 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             // Wether the newest NuGet package is installed
             bool isNewScPackageInstalled = this.IsPackageInstalled(currentProject, OldPackageName);
 
-            PackageHandler nugetPackageHandler;
-            if (isOldScPackageInstalled)
+            PackageHandler plan = new EmptyHandler(this.package);
+
+            if (!isNewScPackageInstalled)
             {
-                // If the old package is installed,
-                // we will uninstall it before installing the newer one
-                nugetPackageHandler = new NuGetUninstaller(this.package)
-                {
-                    // Perfore uninstall followed by install
-                    Successor = new NugetInstaller(this.package)
-                };
-            }
-            else
-            {
-                // If the older package is not present,
-                // we simply install the new package
-                nugetPackageHandler = new NugetInstaller(this.package);
+                // If the new package is not present, it will need to be installed
+                plan = new NugetInstaller(plan);
             }
 
-            if (isOldScInstalled)
+            if (isOldScPackageInstalled)
             {
-                // If old SlowCheetah is installed, we need to show the wait dialog
-                // and uninstall the targets from the user's project file
-                this.dialogInstallationHandler.Successor = new TargetsUninstaller(this.package)
+                // If the old package is present, it will need to be uninstalled
+                plan = new NuGetUninstaller(plan);
+            }
+
+            if (isOldScPackageInstalled)
+            {
+                // If the older targets are installed, they need to be removed
+                // This needs to be done through a wait dialog since the project file will be altered
+                plan = new TargetsUninstaller(plan);
+                plan = new DialogInstallationHandler(plan);
+            }
+            else if (!(plan is EmptyHandler))
+            {
+                // If there are actions to execute and no targets are found,
+                // perform these actions in the background
+                plan = new BackgroundInstallationHandler(plan)
                 {
-                    // After removing the targets, install the nuget package
-                    Successor = nugetPackageHandler
+                    // If the old package is installed, this is an update operation
+                    IsUpdate = isOldScPackageInstalled
                 };
-                this.dialogInstallationHandler.Execute(currentProject);
             }
-            else if (isOldScPackageInstalled || !isNewScPackageInstalled)
-            {
-                // If the old SlowCheetah is not present but the old NuGet package is installed
-                // or if the new package is not installed, we must install the newest package
-                // If the old package is installed, we are updating, if not, just installing
-                this.backgroundInstallationHandler.Successor = nugetPackageHandler;
-                this.backgroundInstallationHandler.IsUpdate = isOldScPackageInstalled;
-                this.backgroundInstallationHandler.Execute(currentProject);
-            }
+
+            plan.Execute(currentProject);
         }
 
         private static IVsPackageInstallerServices GetInstallerServices(IServiceProvider package)

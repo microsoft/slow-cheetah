@@ -22,6 +22,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NuGetUninstaller"/> class.
+        /// </summary>
+        /// <param name="successor">The successor with the same package</param>
+        public NuGetUninstaller(PackageHandler successor)
+            : base(successor)
+        {
+        }
+
         /// <inheritdoc/>
         internal override void Execute(Project project)
         {
@@ -29,10 +38,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             IVsPackageUninstaller packageUninstaller = componentModel.GetService<IVsPackageUninstaller>();
             packageUninstaller.UninstallPackage(project, SlowCheetahNuGetManager.OldPackageName, true);
 
-            if (this.Successor != null)
-            {
-                this.Successor.Execute(project);
-            }
+            this.Successor.Execute(project);
         }
     }
 }

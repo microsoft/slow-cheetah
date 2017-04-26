@@ -59,6 +59,7 @@
     <Compile Include="NugetHandler\NugetInfoBarHandler.cs" />
     <Compile Include="NugetHandler\PackageHandlers\BackgroundInstallationHandler.cs" />
     <Compile Include="NugetHandler\PackageHandlers\DialogInstallationHandler.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\EmptyHandler.cs" />
     <Compile Include="NugetHandler\PackageHandlers\NugetInstaller.cs" />
     <Compile Include="NugetHandler\PackageHandlers\NuGetUninstaller.cs" />
     <Compile Include="NugetHandler\PackageHandlers\PackageHandler.cs" />

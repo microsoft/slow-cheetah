@@ -16,8 +16,17 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// Initializes a new instance of the <see cref="DialogInstallationHandler"/> class.
         /// </summary>
         /// <param name="package">VS Package</param>
-        internal DialogInstallationHandler(IServiceProvider package)
+        public DialogInstallationHandler(IServiceProvider package)
             : base(package)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DialogInstallationHandler"/> class.
+        /// </summary>
+        /// <param name="successor">The successor with the same package</param>
+        public DialogInstallationHandler(PackageHandler successor)
+            : base(successor)
         {
         }
 
@@ -37,10 +46,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
                 try
                 {
-                    if (this.Successor != null)
-                    {
-                        this.Successor.Execute(project);
-                    }
+                    this.Successor.Execute(project);
                 }
                 finally
                 {

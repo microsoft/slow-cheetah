@@ -22,6 +22,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NugetInstaller"/> class.
+        /// </summary>
+        /// <param name="successor">The successor with the same package</param>
+        public NugetInstaller(PackageHandler successor)
+            : base(successor)
+        {
+        }
+
         /// <inheritdoc/>
         internal override void Execute(Project project)
         {
@@ -29,10 +38,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
             packageInstaller.InstallLatestPackage(null, project, SlowCheetahNuGetManager.PackageName, true, false);
 
-            if (this.Successor != null)
-            {
-                this.Successor.Execute(project);
-            }
+            this.Successor.Execute(project);
         }
     }
 }
