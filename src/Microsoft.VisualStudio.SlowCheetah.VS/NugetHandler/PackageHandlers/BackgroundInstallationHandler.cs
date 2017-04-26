@@ -27,6 +27,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the operation is an update or a new installation
+        /// </summary>
+        public bool IsUpdate { get; set; } = false;
+
         /// <inheritdoc/>
         internal override void Execute(Project project)
         {
@@ -39,7 +44,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
             if (needInstall)
             {
-                if (this.HasUserAcceptedWarningMessage(Resources.Resources.NugetInstall_Title, Resources.Resources.NugetInstall_Text))
+                string warningTitle = this.IsUpdate ? Resources.Resources.NugetUpdate_Title : Resources.Resources.NugetInstall_Title;
+                string warningMessage = this.IsUpdate ? Resources.Resources.NugetUpdate_Text : Resources.Resources.NugetInstall_Text;
+                if (this.HasUserAcceptedWarningMessage(warningTitle, warningMessage))
                 {
                     // Gets the general output pane to inform user of installation
                     IVsOutputWindowPane outputWindow = (IVsOutputWindowPane)this.Package.GetService(typeof(SVsGeneralOutputWindowPane));

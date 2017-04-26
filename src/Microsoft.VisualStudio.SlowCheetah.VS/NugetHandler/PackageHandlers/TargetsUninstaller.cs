@@ -28,6 +28,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <inheritdoc/>
         internal override void Execute(Project project)
         {
+            // We handle any NuGet package logic before editing the project file
+            if (this.Successor != null)
+            {
+                this.Successor.Execute(project);
+            }
+
             project.Save();
             ProjectRootElement projectRoot = ProjectRootElement.Open(project.FullName);
             foreach (ProjectPropertyGroupElement propertyGroup in projectRoot.PropertyGroups.Where(pg => pg.Label.Equals("SlowCheetah")))
@@ -41,11 +47,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             projectRoot.Save();
-
-            if (this.Successor != null)
-            {
-                this.Successor.Execute(project);
-            }
         }
     }
 }

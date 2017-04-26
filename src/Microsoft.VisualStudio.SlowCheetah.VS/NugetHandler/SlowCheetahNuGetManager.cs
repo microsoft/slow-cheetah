@@ -171,7 +171,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             {
                 // If the old SlowCheetah is not present but the old NuGet package is installed
                 // or if the new package is not installed, we must install the newest package
+                // If the old package is installed, we are updating, if not, just installing
                 this.backgroundInstallationHandler.Successor = nugetPackageHandler;
+                this.backgroundInstallationHandler.IsUpdate = isOldScPackageInstalled;
                 this.backgroundInstallationHandler.Execute(currentProject);
             }
         }
