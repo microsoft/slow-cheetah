@@ -3,7 +3,6 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
-    using System;
     using EnvDTE;
     using Microsoft.VisualStudio.Shell.Interop;
 
@@ -15,23 +14,14 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Initializes a new instance of the <see cref="DialogInstallationHandler"/> class.
         /// </summary>
-        /// <param name="package">VS Package</param>
-        public DialogInstallationHandler(IServiceProvider package)
-            : base(package)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DialogInstallationHandler"/> class.
-        /// </summary>
         /// <param name="successor">The successor with the same package</param>
-        public DialogInstallationHandler(PackageHandler successor)
+        public DialogInstallationHandler(IPackageHandler successor)
             : base(successor)
         {
         }
 
         /// <inheritdoc/>
-        internal override void Execute(Project project)
+        public override void Execute(Project project)
         {
             if (this.HasUserAcceptedWarningMessage(Resources.Resources.NugetUpdate_Title, Resources.Resources.NugetUpdate_Text))
             {

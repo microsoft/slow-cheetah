@@ -56,9 +56,10 @@
     <Compile Include="NugetHandler\PackageHandlers\BackgroundInstallationHandler.cs" />
     <Compile Include="NugetHandler\PackageHandlers\DialogInstallationHandler.cs" />
     <Compile Include="NugetHandler\PackageHandlers\EmptyHandler.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\IPackageHandler.cs" />
     <Compile Include="NugetHandler\PackageHandlers\NugetInstaller.cs" />
     <Compile Include="NugetHandler\PackageHandlers\NuGetUninstaller.cs" />
-    <Compile Include="NugetHandler\PackageHandlers\PackageHandler.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\BasePackageHandler.cs" />
     <Compile Include="NugetHandler\PackageHandlers\UserInstallationHandler.cs" />
     <Compile Include="NugetHandler\SlowCheetahNuGetManager.cs" />
     <Compile Include="NugetHandler\PackageHandlers\TargetsUninstaller.cs" />

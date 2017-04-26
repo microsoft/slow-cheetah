@@ -3,7 +3,6 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
-    using System;
     using EnvDTE;
     using Microsoft.VisualStudio.ComponentModelHost;
     using NuGet.VisualStudio;
@@ -11,28 +10,19 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// <summary>
     /// Uninstalls older versions of the SlowCheetah NuGet package
     /// </summary>
-    internal class NuGetUninstaller : PackageHandler
+    internal class NuGetUninstaller : BasePackageHandler
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NuGetUninstaller"/> class.
         /// </summary>
-        /// <param name="package">VS package</param>
-        public NuGetUninstaller(IServiceProvider package)
-            : base(package)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NuGetUninstaller"/> class.
-        /// </summary>
         /// <param name="successor">The successor with the same package</param>
-        public NuGetUninstaller(PackageHandler successor)
+        public NuGetUninstaller(IPackageHandler successor)
             : base(successor)
         {
         }
 
         /// <inheritdoc/>
-        internal override void Execute(Project project)
+        public override void Execute(Project project)
         {
             var componentModel = (IComponentModel)this.Package.GetService(typeof(SComponentModel));
             IVsPackageUninstaller packageUninstaller = componentModel.GetService<IVsPackageUninstaller>();

@@ -11,28 +11,19 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// <summary>
     /// Installs the latest SlowCheetah NuGet package
     /// </summary>
-    internal class NugetInstaller : PackageHandler
+    internal class NugetInstaller : BasePackageHandler
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NugetInstaller"/> class.
         /// </summary>
-        /// <param name="package">Vs package</param>
-        public NugetInstaller(IServiceProvider package)
-            : base(package)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NugetInstaller"/> class.
-        /// </summary>
         /// <param name="successor">The successor with the same package</param>
-        public NugetInstaller(PackageHandler successor)
+        public NugetInstaller(IPackageHandler successor)
             : base(successor)
         {
         }
 
         /// <inheritdoc/>
-        internal override void Execute(Project project)
+        public override void Execute(Project project)
         {
             var componentModel = (IComponentModel)this.Package.GetService(typeof(SComponentModel));
             IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();

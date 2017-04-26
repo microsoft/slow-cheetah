@@ -21,17 +21,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Initializes a new instance of the <see cref="BackgroundInstallationHandler"/> class.
         /// </summary>
-        /// <param name="package">VS package</param>
-        public BackgroundInstallationHandler(IServiceProvider package)
-            : base(package)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BackgroundInstallationHandler"/> class.
-        /// </summary>
         /// <param name="successor">The successor with the same package</param>
-        public BackgroundInstallationHandler(PackageHandler successor)
+        public BackgroundInstallationHandler(IPackageHandler successor)
             : base(successor)
         {
         }
@@ -42,7 +33,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public bool IsUpdate { get; set; } = false;
 
         /// <inheritdoc/>
-        internal override void Execute(Project project)
+        public override void Execute(Project project)
         {
             string projName = project.UniqueName;
             bool needInstall = true;

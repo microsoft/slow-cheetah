@@ -130,7 +130,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             // Wether the newest NuGet package is installed
             bool isNewScPackageInstalled = this.IsPackageInstalled(currentProject, OldPackageName);
 
-            PackageHandler plan = new EmptyHandler(this.package);
+            IPackageHandler plan = new EmptyHandler(this.package);
 
             if (!isNewScPackageInstalled)
             {

@@ -10,22 +10,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// <summary>
     /// Represents a handler that requires user input to install/uninstall packages
     /// </summary>
-    internal abstract class UserInstallationHandler : PackageHandler
+    internal abstract class UserInstallationHandler : BasePackageHandler
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInstallationHandler"/> class.
         /// </summary>
-        /// <param name="package">VS package</param>
-        public UserInstallationHandler(IServiceProvider package)
-            : base(package)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserInstallationHandler"/> class.
-        /// </summary>
         /// <param name="successor">The successor with the same package</param>
-        public UserInstallationHandler(PackageHandler successor)
+        public UserInstallationHandler(IPackageHandler successor)
             : base(successor)
         {
         }

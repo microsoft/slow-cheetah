@@ -9,19 +9,22 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// <summary>
     /// An empty handler that performs no actions
     /// </summary>
-    internal class EmptyHandler : PackageHandler
+    internal class EmptyHandler : IPackageHandler
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EmptyHandler"/> class.
         /// </summary>
         /// <param name="package">VS package</param>
         public EmptyHandler(IServiceProvider package)
-            : base(package)
         {
+            this.Package = package ?? throw new ArgumentNullException(nameof(package));
         }
 
         /// <inheritdoc/>
-        internal override void Execute(Project project)
+        public IServiceProvider Package { get; }
+
+        /// <inheritdoc/>
+        public void Execute(Project project)
         {
             // Do nothing
         }

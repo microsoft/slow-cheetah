@@ -3,39 +3,26 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using EnvDTE;
     using Microsoft.Build.Construction;
 
     /// <summary>
     /// Uninstalls old SlowCheetah targets from the user's project file
     /// </summary>
-    internal class TargetsUninstaller : PackageHandler
+    internal class TargetsUninstaller : BasePackageHandler
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TargetsUninstaller"/> class.
         /// </summary>
-        /// <param name="package">VS package</param>
-        public TargetsUninstaller(IServiceProvider package)
-            : base(package)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TargetsUninstaller"/> class.
-        /// </summary>
         /// <param name="successor">The successor with the same package</param>
-        public TargetsUninstaller(PackageHandler successor)
+        public TargetsUninstaller(IPackageHandler successor)
             : base(successor)
         {
         }
 
         /// <inheritdoc/>
-        internal override void Execute(Project project)
+        public override void Execute(Project project)
         {
             // We handle any NuGet package logic before editing the project file
             this.Successor.Execute(project);
