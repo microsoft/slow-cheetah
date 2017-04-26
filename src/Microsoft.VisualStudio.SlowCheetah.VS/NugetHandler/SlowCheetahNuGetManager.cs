@@ -13,7 +13,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using NuGet.VisualStudio;
-    using Microsoft.VisualStudio.SlowCheetah.VS.Properties;
     using TPL = System.Threading.Tasks;
 
     /// <summary>
@@ -21,7 +20,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// </summary>
     public class SlowCheetahNuGetManager
     {
-        private static readonly string PackageName = Settings.Default.SlowCheetahNugetPkgName;
+        private static readonly string PackageName = "SlowCheetah";
         private static readonly Version LastUnsupportedVersion = new Version(2, 5, 15);
 
         // Fields for checking NuGet support

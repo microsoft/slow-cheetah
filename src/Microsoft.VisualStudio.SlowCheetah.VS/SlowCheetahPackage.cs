@@ -23,7 +23,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.SlowCheetah.Exceptions;
-    using Microsoft.VisualStudio.SlowCheetah.VS.Properties;
 
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -60,8 +59,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     {
         private static readonly string TransformOnBuild = "TransformOnBuild";
         private static readonly string IsTransformFile = "IsTransformFile";
-
-        private static readonly string PkgName = Settings.Default.SlowCheetahNugetPkgName;
 
         private ErrorListProvider errorListProvider;
 
