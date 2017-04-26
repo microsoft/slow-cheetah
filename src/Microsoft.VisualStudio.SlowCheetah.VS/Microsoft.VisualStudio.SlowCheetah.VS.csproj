@@ -23,8 +23,8 @@
     <ProjectGuid>{93A62D50-111D-4D2D-BA41-E5522AE08DAA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SlowCheetah.VisualStudio</RootNamespace>
-    <AssemblyName>SlowCheetah.VisualStudio</AssemblyName>
+    <RootNamespace>Microsoft.VisualStudio.SlowCheetah.VS</RootNamespace>
+    <AssemblyName>Microsoft.VisualStudio.SlowCheetah.VS</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
