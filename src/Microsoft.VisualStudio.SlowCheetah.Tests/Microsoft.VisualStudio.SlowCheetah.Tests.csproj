@@ -11,10 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MicroBuild.NonShipping" Version="2.0.40" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
     <PackageReference Include="xunit" Version="2.3.0-beta1-build3642" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta1-build1309" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.25" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
   </ItemGroup>
 
