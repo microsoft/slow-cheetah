@@ -7,7 +7,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// Interface for handling how to show the user information on updating SlowCheetah depending on his version of Visual Studio.
     /// Required so that incorrect assemblies are not loaded on runtime.
     /// </summary>
-    public interface INugetPackageHandler
+    public interface INugetInfoHandler
     {
         /// <summary>
         /// Shows the update info depending on what version of Visual Studio is present

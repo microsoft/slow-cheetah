@@ -14,7 +14,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// <summary>
     /// Displays an info bar with update information for the SlowCheetah NuGet package
     /// </summary>
-    public class NugetInfoBarHandler : INugetPackageHandler, IVsInfoBarUIEvents
+    public class NugetInfoBarHandler : INugetInfoHandler, IVsInfoBarUIEvents
     {
         private const string UpdateLink = "SLOWCHEETAH_UPDATE_LINK";
 

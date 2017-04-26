@@ -6,18 +6,18 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System;
 
     /// <summary>
-    /// Factory that determines the user's version of Visual Studio and return the correct <see cref="INugetPackageHandler"/>
+    /// Factory that determines the user's version of Visual Studio and return the correct <see cref="INugetInfoHandler"/>
     /// </summary>
     public static class NugetHandlerFactory
     {
-        private static INugetPackageHandler handler;
+        private static INugetInfoHandler handler;
 
         /// <summary>
-        /// Gets the appropriate <see cref="INugetPackageHandler"/> depending on the user's Visual Stuido version
+        /// Gets the appropriate <see cref="INugetInfoHandler"/> depending on the user's Visual Stuido version
         /// </summary>
         /// <param name="package">Visual Studio Package</param>
         /// <returns>The correct handler</returns>
-        public static INugetPackageHandler GetHandler(IServiceProvider package)
+        public static INugetInfoHandler GetHandler(IServiceProvider package)
         {
             if (handler == null)
             {

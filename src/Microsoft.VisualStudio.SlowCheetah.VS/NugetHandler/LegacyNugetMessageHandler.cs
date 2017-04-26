@@ -9,7 +9,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// Displays information on updating the SlowCheetah NuGet package.
     /// Opens the default web browser with the github documentation.
     /// </summary>
-    public class LegacyNugetMessageHandler : INugetPackageHandler
+    public class LegacyNugetMessageHandler : INugetInfoHandler
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LegacyNugetMessageHandler"/> class.
