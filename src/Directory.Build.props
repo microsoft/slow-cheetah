@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
   <!-- Setup the default output and intermediate paths -->
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>

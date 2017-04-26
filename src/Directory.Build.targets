@@ -1,0 +1,3 @@
+<Project>
+  <Import Project="MultilingualAppToolkit.targets" Condition="'$(XliffLocalizeResourceDir)' != ''" />
+</Project>
