@@ -13,8 +13,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// </summary>
     internal class NuGetUninstaller : PackageHandler
     {
-        private string packageName = null;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NuGetUninstaller"/> class.
         /// </summary>

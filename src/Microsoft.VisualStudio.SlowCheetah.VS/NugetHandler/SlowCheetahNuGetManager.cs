@@ -128,7 +128,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
             Project currentProject = PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
 
-            // Whether an older version of SlowCheetah is installed 
+            // Whether an older version of SlowCheetah is installed
             // through manual imports in the user's project file
             bool isOldScInstalled = IsOldSlowCheetahInstalled(hierarchy as IVsBuildPropertyStorage);
 
