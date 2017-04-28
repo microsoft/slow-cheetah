@@ -18,13 +18,18 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         protected BasePackageHandler(IPackageHandler successor)
         {
             this.Successor = successor ?? throw new ArgumentNullException(nameof(successor));
+            if (successor.Package == null)
+            {
+                throw new ArgumentException("successor.Package must not be null");
+            }
+
             this.Package = this.Successor.Package;
         }
 
         /// <summary>
         /// Gets the VS package
         /// </summary>
-        public IServiceProvider Package { get; private set; }
+        public IServiceProvider Package { get; }
 
         /// <summary>
         /// Gets the successor handler
