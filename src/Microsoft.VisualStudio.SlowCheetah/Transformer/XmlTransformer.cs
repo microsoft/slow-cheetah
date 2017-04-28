@@ -48,12 +48,12 @@ namespace Microsoft.VisualStudio.SlowCheetah
             // File validation
             if (!File.Exists(source))
             {
-                throw new FileNotFoundException(Resources.ErrorMessage_SourceFileNotFound, source);
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, source);
             }
 
             if (!File.Exists(transform))
             {
-                throw new FileNotFoundException(Resources.ErrorMessage_TransformFileNotFound, transform);
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_TransformFileNotFound, transform);
             }
 
             using (XmlTransformableDocument document = new XmlTransformableDocument())

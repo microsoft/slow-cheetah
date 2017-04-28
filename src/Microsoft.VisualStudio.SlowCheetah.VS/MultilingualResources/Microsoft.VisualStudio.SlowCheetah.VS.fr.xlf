@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="fr" original="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/OPTIONS/ADVANCEDOPTIONSUSERCONTROL.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6799.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/OPTIONS/ADVANCEDOPTIONSUSERCONTROL.RESX" datatype="resx">
+        <trans-unit id="OpenToolFileDialog.TrayLocation" translate="yes" extype="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" extradata="metadata" xml:space="preserve">
+          <source>17, 17</source>
+          <target state="needs-review-translation">17, 17</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en-US" target-language="fr" original="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/VSPACKAGE.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6799.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/VSPACKAGE.RESX" datatype="resx">
+        <trans-unit id="110" translate="yes" xml:space="preserve">
+          <source>SlowCheetah - XML config transforms</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">SlowCheetah - config XML se transforme</target>
+        </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve">
+          <source>This package enables you to transform your app.config or any other XML file based on the build configuration. It also adds additional tooling to help you create XML transforms.</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ce paquet vous permet de transformer votre app.config ou tout autre fichier XML basé sur la configuration de génération. Il ajoute également des outils supplémentaires pour vous aider à créer les transformations XML.</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en-US" target-language="fr" original="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/OPTIONS/OPTIONSUSERCONTROL.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6799.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/OPTIONS/OPTIONSUSERCONTROL.RESX" datatype="resx">
+        <trans-unit id="EnablePreviewCheckbox.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
+          <source>True</source>
+          <target state="needs-review-translation">True</target>
+        </trans-unit>
+        <trans-unit id="EnablePreviewCheckbox.Location" translate="yes" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
+          <source>6, 20</source>
+          <target state="needs-review-translation">6, 20</target>
+        </trans-unit>
+        <trans-unit id="EnablePreviewCheckbox.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
+          <source>194, 17</source>
+          <target state="needs-review-translation">194, 17</target>
+        </trans-unit>
+        <trans-unit id="EnablePreviewCheckbox.TabIndex" translate="yes" extype="System.Int32, mscorlib" xml:space="preserve">
+          <source>0</source>
+          <target state="needs-review-translation">0</target>
+        </trans-unit>
+        <trans-unit id="EnablePreviewCheckbox.Text" translate="yes" xml:space="preserve">
+          <source>Show diff on transformation preview</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Voir la diff sur Aperçu de la transformation</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
+          <source>True</source>
+          <target state="needs-review-translation">True</target>
+        </trans-unit>
+        <trans-unit id="AddDepentUponCheckbox.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
+          <source>True</source>
+          <target state="needs-review-translation">True</target>
+        </trans-unit>
+        <trans-unit id="AddDepentUponCheckbox.Location" translate="yes" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
+          <source>6, 43</source>
+          <target state="needs-review-translation">6, 43</target>
+        </trans-unit>
+        <trans-unit id="AddDepentUponCheckbox.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
+          <source>235, 17</source>
+          <target state="needs-review-translation">235, 17</target>
+        </trans-unit>
+        <trans-unit id="AddDepentUponCheckbox.TabIndex" translate="yes" extype="System.Int32, mscorlib" xml:space="preserve">
+          <source>1</source>
+          <target state="needs-review-translation">1</target>
+        </trans-unit>
+        <trans-unit id="AddDepentUponCheckbox.Text" translate="yes" xml:space="preserve">
+          <source>Add DepentUpon metadata to transform files</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ajouter des métadonnées de DepentUpon pour transformer des fichiers</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.Dock" translate="yes" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
+          <source>Top</source>
+          <target state="needs-review-translation">Top</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.Location" translate="yes" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
+          <source>0, 0</source>
+          <target state="needs-review-translation">0, 0</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
+          <source>440, 79</source>
+          <target state="needs-review-translation">440, 79</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.TabIndex" translate="yes" extype="System.Int32, mscorlib" xml:space="preserve">
+          <source>1</source>
+          <target state="needs-review-translation">1</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.Text" translate="yes" xml:space="preserve">
+          <source>General Settings</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Paramètres généraux</target>
+        </trans-unit>
+        <trans-unit id="$this.AutoScaleDimensions" translate="yes" extype="System.Drawing.SizeF, System.Drawing" xml:space="preserve">
+          <source>6, 13</source>
+          <target state="needs-review-translation">6, 13</target>
+        </trans-unit>
+        <trans-unit id="$this.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
+          <source>True</source>
+          <target state="needs-review-translation">True</target>
+        </trans-unit>
+        <trans-unit id="$this.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
+          <source>440, 190</source>
+          <target state="needs-review-translation">440, 190</target>
+        </trans-unit>
+        <trans-unit id="$this.Localizable" translate="yes" extype="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" extradata="metadata" xml:space="preserve">
+          <source>True</source>
+          <target state="needs-review-translation">True</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en-US" target-language="fr" original="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/RESOURCES/RESOURCES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6799.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/RESOURCES/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="Error_CantFindPreviewTool" translate="yes" xml:space="preserve">
+          <source>Cannot find the preview tool {0}. Verify the transform settings in Tools\Options.</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Impossible de trouver l’outil de prévisualisation {0}. Vérifiez les paramètres de transformation dans Outils\Options.</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
+        </trans-unit>
+        <trans-unit id="Error_NoPreviewToolSpecified" translate="yes" xml:space="preserve">
+          <source>No preview tool specified. You can set a preview tool in the transform settings in Tools\Options.</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Aucun outil de prévisualisation spécifié. Vous pouvez définir un outil de prévisualisation dans les paramètres de transformation dans Outils\Options.</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
+        </trans-unit>
+        <trans-unit id="Error_SavingProjectFile" translate="yes" xml:space="preserve">
+          <source>Unable to save the project file {0}. {1}</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Impossible d’enregistrer le fichier projet {0}. {1}</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
+        </trans-unit>
+        <trans-unit id="Error_SourceFileNotFound" translate="yes" xml:space="preserve">
+          <source>The source file for the transform {0} was not found.</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Le fichier source de la transformation {0} n’a pas été trouvé.</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
+        </trans-unit>
+        <trans-unit id="Error_TransformFileNotFound" translate="yes" xml:space="preserve">
+          <source>The transform file {0} was not found.</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Le fichier de transformation {0} n’a pas été trouvée.</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
+        </trans-unit>
+        <trans-unit id="NugetInstall_ErrorOutput" translate="yes" xml:space="preserve">
+          <source>Error installing SlowCheetah NuGet package to {0}.</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Erreur installation package SlowCheetah NuGet à {0}.</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Text to be shown in the output window if there is an error with installing the SlowCheetah Nuget package</note>
+        </trans-unit>
+        <trans-unit id="NugetInstall_FinishedOutput" translate="yes" xml:space="preserve">
+          <source>Finished installing SlowCheetah NuGet package to {0}.</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Fini d’installer le package SlowCheetah NuGet à {0}.</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Text to be shown in the output window when the SlowCheetah Nuget package is done installing</note>
+        </trans-unit>
+        <trans-unit id="NugetInstall_InstallingOutput" translate="yes" xml:space="preserve">
+          <source>Installing SlowCheetah NuGet package to {0} ...</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Installation du package SlowCheetah NuGet à {0}...</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Text to be shown in the output window as the SlowCheetah NuGet package is being installed</note>
+        </trans-unit>
+        <trans-unit id="NugetInstall_Text" translate="yes" xml:space="preserve">
+          <source>In order to execute transform on build, you will need the SlowCheetah NuGet package. Do you want to install the package now?</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Afin d’exécuter transform sur la construction, vous aurez besoin du paquet de SlowCheetah NuGet. Vous voulez installer le paquet maintenant ?</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Text for the prompt to install the SlowCheetah NuGet package</note>
+        </trans-unit>
+        <trans-unit id="NugetInstall_Title" translate="yes" xml:space="preserve">
+          <source>Install SlowCheetah NuGet package</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Installer le package SlowCheetah NuGet</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Title for the prompt to install the SlowCheetah NuGet package</note>
+        </trans-unit>
+        <trans-unit id="NugetUpdate_InfoBarLink" translate="yes" xml:space="preserve">
+          <source>here</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ici</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Text of the link in the update info bar</note>
+        </trans-unit>
+        <trans-unit id="NugetUpdate_InfoBarText" translate="yes" xml:space="preserve">
+          <source>It seems that you do not have the correct version of the SlowCheetah Nuget package installed. Transforms on this project will not be executed. To learn about updating from an older version, click </source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Il semble que vous n’avez pas la bonne version du package SlowCheetah Nuget installé. Transformations sur ce projet ne seront pas exécutées. Pour en savoir sur la mise à jour depuis une version antérieure, cliquez sur </target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Text to be displayed on the update info bar</note>
+        </trans-unit>
+        <trans-unit id="NugetUpdate_Link" translate="yes" xml:space="preserve">
+          <source>https://github.com/Microsoft/slow-cheetah/blob/master/doc/update.md</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">https://github.com/Microsoft/Slow-Cheetah/BLOB/Master/doc/Update.MD</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Link to the update info for the SlowCheetah Nuget package</note>
+        </trans-unit>
+        <trans-unit id="NugetUpdate_Text" translate="yes" xml:space="preserve">
+          <source>It seems that you have an older version of the SlowCheetah package installed. In order to avoid conflicts, you should update you package. Doing so may cause changes to your project file. Do you wish to update now?</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Il semble que vous avez une ancienne version du package SlowCheetah installé. Afin d’éviter les conflits, vous devez mettre à jour le paquet vous. Ce faisant peut-être provoquer des changements à votre fichier projet. Vous souhaitez mettre à jour maintenant ?</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Text for the prompt to update the SlowCheetah NuGet package</note>
+        </trans-unit>
+        <trans-unit id="NugetUpdate_Title" translate="yes" xml:space="preserve">
+          <source>Update SlowCheetah NuGet package</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Package de mise à jour SlowCheetah NuGet</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Title for the prompt to update the SlowCheetah NuGet package</note>
+        </trans-unit>
+        <trans-unit id="NugetUpdate_WaitText" translate="yes" xml:space="preserve">
+          <source>Updating the SlowCheetah NuGet package, this may take a few seconds</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mise à jour le package SlowCheetah NuGet, cela peut prendre quelques secondes</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Text for the wait dialog on update of the NuGet package</note>
+        </trans-unit>
+        <trans-unit id="NugetUpdate_WaitTitle" translate="yes" xml:space="preserve">
+          <source>SlowCheetah Update</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mise à jour SlowCheetah</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Title for the wait dialog on update of the NuGet package</note>
+        </trans-unit>
+        <trans-unit id="String_FormatTransformFilename" translate="yes" xml:space="preserve">
+          <source>{0}.{1}{2}</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0}. {1} {2}</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">This is the format string for the new transform file's filename.</note>
+        </trans-unit>
+        <trans-unit id="TransformContents" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>TransformContents.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</source>
+          <target state="needs-review-translation">TransformContents.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</target>
+        </trans-unit>
+        <trans-unit id="TransformPreview_Caption" translate="yes" xml:space="preserve">
+          <source>{0} Preview</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Aperçu de {0}</target>
+        </trans-unit>
+        <trans-unit id="TransformPreview_ErrorMessage" translate="yes" xml:space="preserve">
+          <source>There was an error transforming your file. See the error list for more details</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Il y avait une erreur de transformer votre fichier. Voir la liste d’erreurs pour plus de détails</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Error message to be shown upon failing Preview Transform</note>
+        </trans-unit>
+        <trans-unit id="TransformPreview_LeftLabel" translate="yes" xml:space="preserve">
+          <source>Original {0}</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Original {0}</target>
+        </trans-unit>
+        <trans-unit id="TransformPreview_RightLabel" translate="yes" xml:space="preserve">
+          <source>Transformed {0}   (by  {1} )</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} transformé (par {1})</target>
+        </trans-unit>
+        <trans-unit id="TransformPreview_ToolTip" translate="yes" xml:space="preserve">
+          <source>{0} Preview</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Aperçu de {0}</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
