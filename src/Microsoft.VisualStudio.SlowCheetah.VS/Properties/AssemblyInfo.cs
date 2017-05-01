@@ -8,11 +8,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SlowCheetah.VisualStudio")]
+[assembly: AssemblyTitle("Microsoft.VisualStudio.SlowCheetah.VS")]
 [assembly: AssemblyDescription("Visual Studio Extension for working with SlowCheetah")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SlowCheetah.VisualStudio")]
+[assembly: AssemblyProduct("Microsoft.VisualStudio.SlowCheetah.VS")]
 [assembly: AssemblyCopyright("Copyright © Microsoft Corporation. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -35,11 +35,16 @@
     <OutputPath>$(OutputPath)$(TargetFramework)\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="NugetHandler\INugetPackageHandler.cs" />
-    <Compile Include="NugetHandler\NugetHandlerFactory.cs" />
-    <Compile Include="NugetHandler\LegacyNugetMessageHandler.cs" />
-    <Compile Include="NugetHandler\NugetInfoBarHandler.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\BackgroundInstallationHandler.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\DialogInstallationHandler.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\EmptyHandler.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\IPackageHandler.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\NugetInstaller.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\NuGetUninstaller.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\BasePackageHandler.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\UserInstallationHandler.cs" />
     <Compile Include="NugetHandler\SlowCheetahNuGetManager.cs" />
+    <Compile Include="NugetHandler\PackageHandlers\TargetsUninstaller.cs" />
     <Compile Include="NugetHandler\VsProjectTypes.cs" />
     <Compile Include="Options\AdvancedOptionsDialogPage.cs">
       <SubType>Component</SubType>
