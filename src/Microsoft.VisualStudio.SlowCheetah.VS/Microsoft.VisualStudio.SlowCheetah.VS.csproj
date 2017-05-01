@@ -31,24 +31,6 @@
     <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
     <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
     <OutputPath>$(OutputPath)$(TargetFramework)\</OutputPath>
-    <TargetVsixContainerName>$(MSBuildProjectName).vsix</TargetVsixContainerName>
-    <TargetVsixContainer>$(OutputPath)..\$(TargetVsixContainerName)</TargetVsixContainer>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Label="MultilingualAppToolkit">
     <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
@@ -167,7 +149,6 @@
       <Aliases>Shell14</Aliases>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
       <Aliases>Shell14</Aliases>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -434,7 +415,6 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\Microsoft.VSSDK.BuildTools.15.0.26201\build\Microsoft.VSSDK.BuildTools.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.VSSDK.BuildTools.15.0.26201\build\Microsoft.VSSDK.BuildTools.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.VSSDK.BuildTools.15.0.26201\build\Microsoft.VSSDK.BuildTools.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.VSSDK.BuildTools.15.0.26201\build\Microsoft.VSSDK.BuildTools.targets'))" />
-    <Error Condition="!Exists('..\..\packages\Nerdbank.GitVersioning.1.6.25\build\Nerdbank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Nerdbank.GitVersioning.1.6.25\build\Nerdbank.GitVersioning.targets'))" />
     <Error Condition="!Exists('..\..\packages\MicroBuild.Core.0.2.0\build\MicroBuild.Core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MicroBuild.Core.0.2.0\build\MicroBuild.Core.props'))" />
     <Error Condition="!Exists('..\..\packages\MicroBuild.Core.0.2.0\build\MicroBuild.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MicroBuild.Core.0.2.0\build\MicroBuild.Core.targets'))" />
     <Error Condition="!Exists('..\..\packages\NuGet4698Workaround.1.0.3\build\NuGet4698Workaround.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NuGet4698Workaround.1.0.3\build\NuGet4698Workaround.targets'))" />
@@ -442,13 +422,14 @@
     <Error Condition="!Exists('..\..\packages\MicroBuild.2.0.40\build\dotnet\MicroBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MicroBuild.2.0.40\build\dotnet\MicroBuild.targets'))" />
     <Error Condition="!Exists('..\..\packages\MicroBuild.VisualStudio.2.0.40\build\dotnet\MicroBuild.VisualStudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MicroBuild.VisualStudio.2.0.40\build\dotnet\MicroBuild.VisualStudio.props'))" />
     <Error Condition="!Exists('..\..\packages\MicroBuild.VisualStudio.2.0.40\build\dotnet\MicroBuild.VisualStudio.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MicroBuild.VisualStudio.2.0.40\build\dotnet\MicroBuild.VisualStudio.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Nerdbank.GitVersioning.1.6.30\build\Nerdbank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Nerdbank.GitVersioning.1.6.30\build\Nerdbank.GitVersioning.targets'))" />
   </Target>
   <Import Project="..\..\packages\Microsoft.VSSDK.BuildTools.15.0.26201\build\Microsoft.VSSDK.BuildTools.targets" Condition="Exists('..\..\packages\Microsoft.VSSDK.BuildTools.15.0.26201\build\Microsoft.VSSDK.BuildTools.targets')" />
-  <Import Project="..\..\packages\Nerdbank.GitVersioning.1.6.25\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\..\packages\Nerdbank.GitVersioning.1.6.25\build\Nerdbank.GitVersioning.targets')" />
   <Import Project="..\..\packages\MicroBuild.Core.0.2.0\build\MicroBuild.Core.targets" Condition="Exists('..\..\packages\MicroBuild.Core.0.2.0\build\MicroBuild.Core.targets')" />
   <Import Project="..\..\packages\NuGet4698Workaround.1.0.3\build\NuGet4698Workaround.targets" Condition="Exists('..\..\packages\NuGet4698Workaround.1.0.3\build\NuGet4698Workaround.targets')" />
   <Import Project="..\..\packages\MicroBuild.2.0.40\build\dotnet\MicroBuild.targets" Condition="Exists('..\..\packages\MicroBuild.2.0.40\build\dotnet\MicroBuild.targets')" />
   <Import Project="..\..\packages\MicroBuild.VisualStudio.2.0.40\build\dotnet\MicroBuild.VisualStudio.targets" Condition="Exists('..\..\packages\MicroBuild.VisualStudio.2.0.40\build\dotnet\MicroBuild.VisualStudio.targets')" />
+  <Import Project="..\..\packages\Nerdbank.GitVersioning.1.6.30\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\..\packages\Nerdbank.GitVersioning.1.6.30\build\Nerdbank.GitVersioning.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
