@@ -27,8 +27,11 @@
     <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
   </PropertyGroup>
   
+  <!-- Additional files for the nupkg -->
   <ItemGroup>
     <None Include="$(OutputPath)Microsoft.Web.XmlTransform.dll" Pack="true" PackagePath="tools" Visible="false" />
+    <!-- tools\%(RecursiveDir) puts the files in tools\loc\loc\.dll and just tools\ puts them in tools\.dll -->
+    <None Include="$(OutputPath)**\$(AssemblyName).resources.dll" Pack="true" PackagePath="tools\%(RecursiveDir)\.." Visible="false" />
   </ItemGroup>
 
   <ItemGroup>
