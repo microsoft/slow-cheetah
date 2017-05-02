@@ -1,6 +1,6 @@
 # slow-cheetah
 [![NuGet package](https://img.shields.io/nuget/v/SlowCheetah.svg)](https://nuget.org/packages/SlowCheetah)
-[![Build status](https://ci.appveyor.com/api/projects/status/qqvu367widkayo05/branch/master?svg=true)](https://ci.appveyor.com/project/sayedihashimi/slow-cheetah/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/qqvu367widkayo05/branch/master?svg=true)](https://ci.appveyor.com/project/jviau/slow-cheetah/branch/master)
 
 XML Transforms for app.config and other XML files.
 
