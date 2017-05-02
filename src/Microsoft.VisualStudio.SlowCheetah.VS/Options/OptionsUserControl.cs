@@ -28,15 +28,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         internal void Initialize(OptionsDialogPage optionsPage)
         {
             this.optionsPage = optionsPage ?? throw new ArgumentNullException(nameof(optionsPage));
-            this.AEnablePreviewCheckbox.Checked = optionsPage.EnablePreview;
-            this.BAddDepentUponCheckbox.Checked = optionsPage.AddDependentUpon;
+            this.EnablePreviewCheckbox.Checked = optionsPage.EnablePreview;
+            this.AddDepentUponCheckbox.Checked = optionsPage.AddDependentUpon;
         }
 
         private void EnablePreviewCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             if (this.optionsPage != null)
             {
-                this.optionsPage.EnablePreview = this.AEnablePreviewCheckbox.Checked;
+                this.optionsPage.EnablePreview = this.EnablePreviewCheckbox.Checked;
             }
         }
 
@@ -44,7 +44,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
             if (this.optionsPage != null)
             {
-                this.optionsPage.AddDependentUpon = this.BAddDepentUponCheckbox.Checked;
+                this.optionsPage.AddDependentUpon = this.AddDepentUponCheckbox.Checked;
             }
         }
     }

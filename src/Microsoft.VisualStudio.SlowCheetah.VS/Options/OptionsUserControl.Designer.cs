@@ -29,33 +29,33 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionsUserControl));
-            this.AEnablePreviewCheckbox = new System.Windows.Forms.CheckBox();
+            this.EnablePreviewCheckbox = new System.Windows.Forms.CheckBox();
             this.GeneralGroupBox = new System.Windows.Forms.GroupBox();
-            this.BAddDepentUponCheckbox = new System.Windows.Forms.CheckBox();
+            this.AddDepentUponCheckbox = new System.Windows.Forms.CheckBox();
             this.GeneralGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
-            // AEnablePreviewCheckbox
+            // EnablePreviewCheckbox
             // 
-            resources.ApplyResources(this.AEnablePreviewCheckbox, "AEnablePreviewCheckbox");
-            this.AEnablePreviewCheckbox.Name = "AEnablePreviewCheckbox";
-            this.AEnablePreviewCheckbox.UseVisualStyleBackColor = true;
-            this.AEnablePreviewCheckbox.CheckedChanged += new System.EventHandler(this.EnablePreviewCheckbox_CheckedChanged);
+            resources.ApplyResources(this.EnablePreviewCheckbox, "EnablePreviewCheckbox");
+            this.EnablePreviewCheckbox.Name = "EnablePreviewCheckbox";
+            this.EnablePreviewCheckbox.UseVisualStyleBackColor = true;
+            this.EnablePreviewCheckbox.CheckedChanged += new System.EventHandler(this.EnablePreviewCheckbox_CheckedChanged);
             // 
             // GeneralGroupBox
             // 
             resources.ApplyResources(this.GeneralGroupBox, "GeneralGroupBox");
-            this.GeneralGroupBox.Controls.Add(this.AEnablePreviewCheckbox);
-            this.GeneralGroupBox.Controls.Add(this.BAddDepentUponCheckbox);
+            this.GeneralGroupBox.Controls.Add(this.EnablePreviewCheckbox);
+            this.GeneralGroupBox.Controls.Add(this.AddDepentUponCheckbox);
             this.GeneralGroupBox.Name = "GeneralGroupBox";
             this.GeneralGroupBox.TabStop = false;
             // 
-            // BAddDepentUponCheckbox
+            // AddDepentUponCheckbox
             // 
-            resources.ApplyResources(this.BAddDepentUponCheckbox, "BAddDepentUponCheckbox");
-            this.BAddDepentUponCheckbox.Name = "BAddDepentUponCheckbox";
-            this.BAddDepentUponCheckbox.UseVisualStyleBackColor = true;
-            this.BAddDepentUponCheckbox.CheckedChanged += new System.EventHandler(this.AddDepentUponCheckbox_CheckedChanged);
+            resources.ApplyResources(this.AddDepentUponCheckbox, "AddDepentUponCheckbox");
+            this.AddDepentUponCheckbox.Name = "AddDepentUponCheckbox";
+            this.AddDepentUponCheckbox.UseVisualStyleBackColor = true;
+            this.AddDepentUponCheckbox.CheckedChanged += new System.EventHandler(this.AddDepentUponCheckbox_CheckedChanged);
             // 
             // OptionsUserControl
             // 
@@ -72,8 +72,8 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckBox AEnablePreviewCheckbox;
+        private System.Windows.Forms.CheckBox EnablePreviewCheckbox;
         private System.Windows.Forms.GroupBox GeneralGroupBox;
-        private System.Windows.Forms.CheckBox BAddDepentUponCheckbox;
+        private System.Windows.Forms.CheckBox AddDepentUponCheckbox;
     }
 }

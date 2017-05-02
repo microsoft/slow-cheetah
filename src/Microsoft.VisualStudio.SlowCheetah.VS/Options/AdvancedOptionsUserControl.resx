@@ -117,7 +117,227 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AdvancedGroupBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="PreviewToolNameLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="PreviewToolNameLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt</value>
+  </data>
+  <data name="PreviewToolNameLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 16</value>
+  </data>
+  <data name="PreviewToolNameLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 13</value>
+  </data>
+  <data name="PreviewToolNameLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="PreviewToolNameLabel.Text" xml:space="preserve">
+    <value>Preview Tool P&amp;ath: </value>
+  </data>
+  <data name="&gt;&gt;PreviewToolNameLabel.Name" xml:space="preserve">
+    <value>PreviewToolNameLabel</value>
+  </data>
+  <data name="&gt;&gt;PreviewToolNameLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PreviewToolNameLabel.Parent" xml:space="preserve">
+    <value>AdvancedGroupBox</value>
+  </data>
+  <data name="&gt;&gt;PreviewToolNameLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="PreviewToolPathTextbox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="PreviewToolPathTextbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 32</value>
+  </data>
+  <data name="PreviewToolPathTextbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>336, 20</value>
+  </data>
+  <data name="PreviewToolPathTextbox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;PreviewToolPathTextbox.Name" xml:space="preserve">
+    <value>PreviewToolPathTextbox</value>
+  </data>
+  <data name="&gt;&gt;PreviewToolPathTextbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PreviewToolPathTextbox.Parent" xml:space="preserve">
+    <value>AdvancedGroupBox</value>
+  </data>
+  <data name="&gt;&gt;PreviewToolPathTextbox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="OpenToolFileDialogButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="OpenToolFileDialogButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="OpenToolFileDialogButton.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="OpenToolFileDialogButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>348, 30</value>
+  </data>
+  <data name="OpenToolFileDialogButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 23</value>
+  </data>
+  <data name="OpenToolFileDialogButton.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="OpenToolFileDialogButton.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="&gt;&gt;OpenToolFileDialogButton.Name" xml:space="preserve">
+    <value>OpenToolFileDialogButton</value>
+  </data>
+  <data name="&gt;&gt;OpenToolFileDialogButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OpenToolFileDialogButton.Parent" xml:space="preserve">
+    <value>AdvancedGroupBox</value>
+  </data>
+  <data name="&gt;&gt;OpenToolFileDialogButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="PreviewCommandLineLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="PreviewCommandLineLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt</value>
+  </data>
+  <data name="PreviewCommandLineLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 55</value>
+  </data>
+  <data name="PreviewCommandLineLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 13</value>
+  </data>
+  <data name="PreviewCommandLineLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="PreviewCommandLineLabel.Text" xml:space="preserve">
+    <value>Preview Tool C&amp;ommand Line: </value>
+  </data>
+  <data name="&gt;&gt;PreviewCommandLineLabel.Name" xml:space="preserve">
+    <value>PreviewCommandLineLabel</value>
+  </data>
+  <data name="&gt;&gt;PreviewCommandLineLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PreviewCommandLineLabel.Parent" xml:space="preserve">
+    <value>AdvancedGroupBox</value>
+  </data>
+  <data name="&gt;&gt;PreviewCommandLineLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="PreviewToolCommandLineTextbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 71</value>
+  </data>
+  <data name="PreviewToolCommandLineTextbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>239, 20</value>
+  </data>
+  <data name="PreviewToolCommandLineTextbox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;PreviewToolCommandLineTextbox.Name" xml:space="preserve">
+    <value>PreviewToolCommandLineTextbox</value>
+  </data>
+  <data name="&gt;&gt;PreviewToolCommandLineTextbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PreviewToolCommandLineTextbox.Parent" xml:space="preserve">
+    <value>AdvancedGroupBox</value>
+  </data>
+  <data name="&gt;&gt;PreviewToolCommandLineTextbox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="CommandLineExplanationLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CommandLineExplanationLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 94</value>
+  </data>
+  <data name="CommandLineExplanationLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 26</value>
+  </data>
+  <data name="CommandLineExplanationLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="CommandLineExplanationLabel.Text" xml:space="preserve">
+    <value>The command line arguments for the preview tool.
+{0} is the source file, {1} is the transformed file.</value>
+  </data>
+  <data name="&gt;&gt;CommandLineExplanationLabel.Name" xml:space="preserve">
+    <value>CommandLineExplanationLabel</value>
+  </data>
+  <data name="&gt;&gt;CommandLineExplanationLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CommandLineExplanationLabel.Parent" xml:space="preserve">
+    <value>AdvancedGroupBox</value>
+  </data>
+  <data name="&gt;&gt;CommandLineExplanationLabel.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="AdvancedGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="AdvancedGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="AdvancedGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>380, 136</value>
+  </data>
+  <data name="AdvancedGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="AdvancedGroupBox.Text" xml:space="preserve">
+    <value>Preview Transform Tool</value>
+  </data>
+  <data name="&gt;&gt;AdvancedGroupBox.Name" xml:space="preserve">
+    <value>AdvancedGroupBox</value>
+  </data>
+  <data name="&gt;&gt;AdvancedGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AdvancedGroupBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;AdvancedGroupBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="OpenToolFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>380, 190</value>
+  </data>
+  <data name="&gt;&gt;OpenToolFileDialog.Name" xml:space="preserve">
+    <value>OpenToolFileDialog</value>
+  </data>
+  <data name="&gt;&gt;OpenToolFileDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>AdvancedOptionsUserControl</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
