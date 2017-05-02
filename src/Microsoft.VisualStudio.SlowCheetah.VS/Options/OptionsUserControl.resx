@@ -118,63 +118,63 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="EnablePreviewCheckbox.AutoSize" type="System.Boolean, mscorlib">
+  <data name="AEnablePreviewCheckbox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="EnablePreviewCheckbox.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="AEnablePreviewCheckbox.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 20</value>
   </data>
-  <data name="EnablePreviewCheckbox.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="AEnablePreviewCheckbox.Size" type="System.Drawing.Size, System.Drawing">
     <value>194, 17</value>
   </data>
-  <data name="EnablePreviewCheckbox.TabIndex" type="System.Int32, mscorlib">
+  <data name="AEnablePreviewCheckbox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="EnablePreviewCheckbox.Text" xml:space="preserve">
-    <value>Show diff on transformation preview</value>
+  <data name="AEnablePreviewCheckbox.Text" xml:space="preserve">
+    <value>&amp;Show diff on transformation preview</value>
   </data>
-  <data name="&gt;&gt;EnablePreviewCheckbox.Name" xml:space="preserve">
-    <value>EnablePreviewCheckbox</value>
+  <data name="&gt;&gt;AEnablePreviewCheckbox.Name" xml:space="preserve">
+    <value>AEnablePreviewCheckbox</value>
   </data>
-  <data name="&gt;&gt;EnablePreviewCheckbox.Type" xml:space="preserve">
+  <data name="&gt;&gt;AEnablePreviewCheckbox.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;EnablePreviewCheckbox.Parent" xml:space="preserve">
+  <data name="&gt;&gt;AEnablePreviewCheckbox.Parent" xml:space="preserve">
     <value>GeneralGroupBox</value>
   </data>
-  <data name="&gt;&gt;EnablePreviewCheckbox.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;AEnablePreviewCheckbox.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="GeneralGroupBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="AddDepentUponCheckbox.AutoSize" type="System.Boolean, mscorlib">
+  <data name="BAddDepentUponCheckbox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="AddDepentUponCheckbox.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="BAddDepentUponCheckbox.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 43</value>
   </data>
-  <data name="AddDepentUponCheckbox.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="BAddDepentUponCheckbox.Size" type="System.Drawing.Size, System.Drawing">
     <value>235, 17</value>
   </data>
-  <data name="AddDepentUponCheckbox.TabIndex" type="System.Int32, mscorlib">
+  <data name="BAddDepentUponCheckbox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="AddDepentUponCheckbox.Text" xml:space="preserve">
-    <value>Add DepentUpon metadata to transform files</value>
+  <data name="BAddDepentUponCheckbox.Text" xml:space="preserve">
+    <value>&amp;Add DepentUpon metadata to transform files</value>
   </data>
-  <data name="&gt;&gt;AddDepentUponCheckbox.Name" xml:space="preserve">
-    <value>AddDepentUponCheckbox</value>
+  <data name="&gt;&gt;BAddDepentUponCheckbox.Name" xml:space="preserve">
+    <value>BAddDepentUponCheckbox</value>
   </data>
-  <data name="&gt;&gt;AddDepentUponCheckbox.Type" xml:space="preserve">
+  <data name="&gt;&gt;BAddDepentUponCheckbox.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;AddDepentUponCheckbox.Parent" xml:space="preserve">
+  <data name="&gt;&gt;BAddDepentUponCheckbox.Parent" xml:space="preserve">
     <value>GeneralGroupBox</value>
   </data>
-  <data name="&gt;&gt;AddDepentUponCheckbox.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;BAddDepentUponCheckbox.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="GeneralGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">

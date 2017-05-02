@@ -42,12 +42,12 @@
             // AdvancedGroupBox
             // 
             this.AdvancedGroupBox.AutoSize = true;
-            this.AdvancedGroupBox.Controls.Add(this.OpenToolFileDialogButton);
-            this.AdvancedGroupBox.Controls.Add(this.CommandLineExplanationLabel);
-            this.AdvancedGroupBox.Controls.Add(this.PreviewToolCommandLineTextbox);
-            this.AdvancedGroupBox.Controls.Add(this.PreviewCommandLineLabel);
-            this.AdvancedGroupBox.Controls.Add(this.PreviewToolPathTextbox);
             this.AdvancedGroupBox.Controls.Add(this.PreviewToolNameLabel);
+            this.AdvancedGroupBox.Controls.Add(this.PreviewToolPathTextbox);
+            this.AdvancedGroupBox.Controls.Add(this.OpenToolFileDialogButton);
+            this.AdvancedGroupBox.Controls.Add(this.PreviewCommandLineLabel);
+            this.AdvancedGroupBox.Controls.Add(this.PreviewToolCommandLineTextbox);
+            this.AdvancedGroupBox.Controls.Add(this.CommandLineExplanationLabel);
             this.AdvancedGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.AdvancedGroupBox.Location = new System.Drawing.Point(0, 0);
             this.AdvancedGroupBox.Name = "AdvancedGroupBox";
@@ -64,7 +64,7 @@
             this.OpenToolFileDialogButton.Location = new System.Drawing.Point(348, 30);
             this.OpenToolFileDialogButton.Name = "OpenToolFileDialogButton";
             this.OpenToolFileDialogButton.Size = new System.Drawing.Size(26, 23);
-            this.OpenToolFileDialogButton.TabIndex = 1;
+            this.OpenToolFileDialogButton.TabIndex = 2;
             this.OpenToolFileDialogButton.Text = "...";
             this.OpenToolFileDialogButton.UseVisualStyleBackColor = true;
             this.OpenToolFileDialogButton.Click += new System.EventHandler(this.OpenToolFileDialogButton_Click);
@@ -75,7 +75,7 @@
             this.CommandLineExplanationLabel.Location = new System.Drawing.Point(6, 94);
             this.CommandLineExplanationLabel.Name = "CommandLineExplanationLabel";
             this.CommandLineExplanationLabel.Size = new System.Drawing.Size(242, 26);
-            this.CommandLineExplanationLabel.TabIndex = 4;
+            this.CommandLineExplanationLabel.TabIndex = 5;
             this.CommandLineExplanationLabel.Text = "The command line arguments for the preview tool.\r\n{0} is the source file, {1} is " +
     "the transformed file.";
             // 
@@ -84,7 +84,7 @@
             this.PreviewToolCommandLineTextbox.Location = new System.Drawing.Point(6, 71);
             this.PreviewToolCommandLineTextbox.Name = "PreviewToolCommandLineTextbox";
             this.PreviewToolCommandLineTextbox.Size = new System.Drawing.Size(239, 20);
-            this.PreviewToolCommandLineTextbox.TabIndex = 3;
+            this.PreviewToolCommandLineTextbox.TabIndex = 4;
             this.PreviewToolCommandLineTextbox.Leave += new System.EventHandler(this.PreviewToolCommandLineTextbox_Leave);
             // 
             // PreviewCommandLineLabel
@@ -94,8 +94,8 @@
             this.PreviewCommandLineLabel.Location = new System.Drawing.Point(6, 55);
             this.PreviewCommandLineLabel.Name = "PreviewCommandLineLabel";
             this.PreviewCommandLineLabel.Size = new System.Drawing.Size(148, 13);
-            this.PreviewCommandLineLabel.TabIndex = 2;
-            this.PreviewCommandLineLabel.Text = "Preview Tool Command Line: ";
+            this.PreviewCommandLineLabel.TabIndex = 3;
+            this.PreviewCommandLineLabel.Text = "Preview Tool C&ommand Line: ";
             // 
             // PreviewToolPathTextbox
             // 
@@ -115,7 +115,7 @@
             this.PreviewToolNameLabel.Name = "PreviewToolNameLabel";
             this.PreviewToolNameLabel.Size = new System.Drawing.Size(100, 13);
             this.PreviewToolNameLabel.TabIndex = 0;
-            this.PreviewToolNameLabel.Text = "Preview Tool Path: ";
+            this.PreviewToolNameLabel.Text = "Preview Tool P&ath: ";
             // 
             // AdvancedOptionsUserControl
             // 
