@@ -52,8 +52,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(Guids.GuidSlowCheetahPkgString)]
     [ProvideAutoLoad("{f1536ef8-92ec-443c-9ed7-fdadf150da82}")]
-    [ProvideOptionPage(typeof(OptionsDialogPage), "SlowCheetah", "General", 100, 101, true)]
-    [ProvideOptionPage(typeof(AdvancedOptionsDialogPage), "SlowCheetah", "Advanced", 100, 101, true)]
+    [ProvideOptionPage(typeof(OptionsDialogPage), "Slow Cheetah", "General", 100, 101, true)]
+    [ProvideOptionPage(typeof(AdvancedOptionsDialogPage), "Slow Cheetah", "Advanced", 100, 101, true)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class SlowCheetahPackage : Package, IVsUpdateSolutionEvents
     {
