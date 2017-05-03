@@ -52,6 +52,3 @@ test:
 artifacts:
   - path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.nupkg'
   - path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.vsix'
-  - path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.dll'
-  - path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.pdb'
-  - path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.targets'
