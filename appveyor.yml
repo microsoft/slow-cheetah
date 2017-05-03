@@ -17,12 +17,17 @@ version: 1.0.{build}
 # Build worker image (VM template)
 image: Visual Studio 2017
 
+skip_tags: true
+branches:
+  only:
+  - master
+
 environment:
   DeployExtension: false
   Package: true
 
 cache:
-  - packages -> **\packages.config
+- packages -> **\packages.config
 
 configuration: Release
 
@@ -43,15 +48,14 @@ build:
 
 test:
   assemblies:
-    - '**\*tests.dll'
+  - '**\*tests.dll'
 
 #---------------------------------#
 #     artifact configuration      #
 #---------------------------------#
 
 artifacts:
-  - path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.nupkg'
-  - path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.vsix'
-  - path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.dll'
-  - path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.pdb'
-  - path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.targets'
+- path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.nupkg'
+  name: Nuget Package
+- path: 'bin\**\Microsoft.VisualStudio.SlowCheetah*.vsix'
+  name: VSIX Package
