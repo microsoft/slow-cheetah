@@ -7,15 +7,16 @@
 
   <PropertyGroup>
      <Authors>Microsoft</Authors>
-     <Owners>Microsoft</Owners>
+     <Owners>Microsoft, VisualStudioExtensibility</Owners>
      <Description>Allows for configuration based XML transformations at build time.</Description>
      <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
      <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
      <PackageTags>SlowCheetah slow cheetah XML Transform XDT web.config app.config</PackageTags>
-     <PackageIconUrl>http://sedodream.com/content/binary/images/cheetah-120x120.png</PackageIconUrl>
+     <PackageIconUrl>https://aka.ms/VsExtensibilityIcon</PackageIconUrl>
+     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
      <PackageLicenseUrl>https://raw.githubusercontent.com/Microsoft/slow-cheetah/master/LICENSE</PackageLicenseUrl>
-     <PackageProjectUrl>http://visualstudiogallery.msdn.microsoft.com/69023d00-a4f9-4a34-a6cd-7e854ba318b5/</PackageProjectUrl>
-     <RepositoryUrl>https://github.com/sayedihashimi/slow-cheetah</RepositoryUrl>
+     <PackageProjectUrl>https://github.com/Microsoft/slow-cheetah</PackageProjectUrl>
+     <RepositoryUrl>https://github.com/Microsoft/slow-cheetah</RepositoryUrl>
      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
      <IsTool>true</IsTool>
   </PropertyGroup>
