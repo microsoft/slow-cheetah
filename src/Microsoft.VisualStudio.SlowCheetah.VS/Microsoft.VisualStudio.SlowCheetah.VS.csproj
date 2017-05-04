@@ -95,12 +95,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Images\AddTransform_16x.png" />
-    <Content Include="Resources\Images\Cheetah-120.png">
+    <Content Include="Resources\Images\VSExtensibility.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Resources\Images\Cheetah-200.jpg" />
-    <Content Include="Resources\Images\Cheetah-Medium.jpg" />
     <Content Include="..\..\LICENSE">
       <Link>Resources\LICENSE</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
