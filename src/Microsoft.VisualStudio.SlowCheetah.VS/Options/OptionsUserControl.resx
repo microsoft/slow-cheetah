@@ -132,7 +132,7 @@
     <value>0</value>
   </data>
   <data name="EnablePreviewCheckbox.Text" xml:space="preserve">
-    <value>Show diff on transformation preview</value>
+    <value>&amp;Show diff on transformation preview</value>
   </data>
   <data name="&gt;&gt;EnablePreviewCheckbox.Name" xml:space="preserve">
     <value>EnablePreviewCheckbox</value>
@@ -144,7 +144,7 @@
     <value>GeneralGroupBox</value>
   </data>
   <data name="&gt;&gt;EnablePreviewCheckbox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="GeneralGroupBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -162,7 +162,7 @@
     <value>1</value>
   </data>
   <data name="AddDepentUponCheckbox.Text" xml:space="preserve">
-    <value>Add DepentUpon metadata to transform files</value>
+    <value>&amp;Add DepentUpon metadata to transform files</value>
   </data>
   <data name="&gt;&gt;AddDepentUponCheckbox.Name" xml:space="preserve">
     <value>AddDepentUponCheckbox</value>
@@ -174,7 +174,7 @@
     <value>GeneralGroupBox</value>
   </data>
   <data name="&gt;&gt;AddDepentUponCheckbox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="GeneralGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">

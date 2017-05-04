@@ -45,8 +45,8 @@
             // GeneralGroupBox
             // 
             resources.ApplyResources(this.GeneralGroupBox, "GeneralGroupBox");
-            this.GeneralGroupBox.Controls.Add(this.AddDepentUponCheckbox);
             this.GeneralGroupBox.Controls.Add(this.EnablePreviewCheckbox);
+            this.GeneralGroupBox.Controls.Add(this.AddDepentUponCheckbox);
             this.GeneralGroupBox.Name = "GeneralGroupBox";
             this.GeneralGroupBox.TabStop = false;
             // 
