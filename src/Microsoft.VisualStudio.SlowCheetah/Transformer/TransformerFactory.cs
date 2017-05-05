@@ -35,5 +35,4 @@ namespace Microsoft.VisualStudio.SlowCheetah
             return Path.GetExtension(filePath).Equals(".json", StringComparison.OrdinalIgnoreCase);
         }
     }
-
 }
