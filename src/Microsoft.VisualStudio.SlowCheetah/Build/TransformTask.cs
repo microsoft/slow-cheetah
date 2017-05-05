@@ -9,7 +9,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     /// <summary>
     /// Task that performs the transformation of the XML file
     /// </summary>
-    public class TransformXml : Microsoft.Build.Utilities.Task
+    public class TransformTask : Microsoft.Build.Utilities.Task
     {
         /// <summary>
         /// Gets or sets the source file path for the transformation

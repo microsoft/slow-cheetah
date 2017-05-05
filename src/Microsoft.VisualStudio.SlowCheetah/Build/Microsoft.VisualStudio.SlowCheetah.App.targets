@@ -60,11 +60,11 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <Message Text="Applying app transformations: $(_ScHasAppConfigTransform)" Importance="low"/>
 
     <!-- Specific transformations for the app.config file -->
-    <SlowCheetah.TransformXml Source="$(ScIntermediateAppConfig)"
+    <SlowCheetah.TransformTask Source="$(ScIntermediateAppConfig)"
                   Transform="@(ScAppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')"
                   Destination="$(ScIntermediateAppConfig)"
                   Condition="'$(_ScHasAppConfigConfigurationTransform)' == 'true'"/>
-    <SlowCheetah.TransformXml Source="$(ScIntermediateAppConfig)"
+    <SlowCheetah.TransformTask Source="$(ScIntermediateAppConfig)"
                     Transform="@(ScAppConfigToTransform->'%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')"
                     Destination="$(ScIntermediateAppConfig)"
                     Condition="'$(_ScHasAppConfigPublishProfileTransform)'=='true'"/>
