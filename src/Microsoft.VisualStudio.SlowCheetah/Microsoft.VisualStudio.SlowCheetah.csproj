@@ -9,7 +9,6 @@
      <Authors>Microsoft</Authors>
      <Owners>Microsoft, VisualStudioExtensibility</Owners>
      <Description>Allows for configuration based XML transformations at build time.</Description>
-     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
      <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
      <PackageTags>SlowCheetah slow cheetah XML Transform XDT web.config app.config</PackageTags>
      <PackageIconUrl>https://aka.ms/VsExtensibilityIcon</PackageIconUrl>
