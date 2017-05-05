@@ -75,7 +75,7 @@
         </trans-unit>
         <trans-unit id="NugetUpdate_InfoBarLink" translate="yes" xml:space="preserve">
           <source>here</source>
-          <target state="new">here</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">aquí</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text of the link in the update info bar</note>
         </trans-unit>
         <trans-unit id="NugetUpdate_InfoBarText" translate="yes" xml:space="preserve">
@@ -110,7 +110,7 @@
         </trans-unit>
         <trans-unit id="String_FormatTransformFilename" translate="yes" xml:space="preserve">
           <source>{0}.{1}{2}</source>
-          <target state="new">{0}.{1}{2}</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">[{0}] = {1} ({2})</target>
           <note from="MultilingualBuild" annotates="source" priority="2">This is the format string for the new transform file's filename.</note>
         </trans-unit>
         <trans-unit id="TransformContents" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
@@ -119,7 +119,7 @@
         </trans-unit>
         <trans-unit id="TransformPreview_Caption" translate="yes" xml:space="preserve">
           <source>{0} Preview</source>
-          <target state="new">{0} Preview</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} Vista previa</target>
         </trans-unit>
         <trans-unit id="TransformPreview_ErrorMessage" translate="yes" xml:space="preserve">
           <source>There was an error transforming your file. See the error list for more details</source>
@@ -136,7 +136,7 @@
         </trans-unit>
         <trans-unit id="TransformPreview_ToolTip" translate="yes" xml:space="preserve">
           <source>{0} Preview</source>
-          <target state="new">{0} Preview</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} Vista previa</target>
         </trans-unit>
       </group>
     </body>
@@ -209,7 +209,7 @@
         </trans-unit>
         <trans-unit id="GeneralGroupBox.Text" translate="yes" xml:space="preserve">
           <source>General Settings</source>
-          <target state="new">General Settings</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Configuración general</target>
         </trans-unit>
         <trans-unit id="$this.AutoScaleDimensions" translate="yes" extype="System.Drawing.SizeF, System.Drawing" xml:space="preserve">
           <source>6, 13</source>

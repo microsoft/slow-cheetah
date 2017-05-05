@@ -106,6 +106,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to { }.
+        /// </summary>
+        internal static string JsonTransformContents {
+            get {
+                return ResourceManager.GetString("JsonTransformContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error installing SlowCheetah NuGet package to {0}..
         /// </summary>
         internal static string NugetInstall_ErrorOutput {
@@ -223,18 +232,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;!-- For more information on using transformations 
-        ///     see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. --&gt;
-        ///.
-        /// </summary>
-        internal static string TransformContents {
-            get {
-                return ResourceManager.GetString("TransformContents", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} Preview.
         /// </summary>
         internal static string TransformPreview_Caption {
@@ -276,6 +273,18 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         internal static string TransformPreview_ToolTip {
             get {
                 return ResourceManager.GetString("TransformPreview_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;!-- For more information on using transformations 
+        ///     see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. --&gt;
+        ///.
+        /// </summary>
+        internal static string XmlTransformContents {
+            get {
+                return ResourceManager.GetString("XmlTransformContents", resourceCulture);
             }
         }
     }

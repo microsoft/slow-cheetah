@@ -137,6 +137,10 @@
     <value>The transform file {0} was not found.</value>
     <comment>Error message</comment>
   </data>
+  <data name="JsonTransformContents" xml:space="preserve">
+    <value>{ }</value>
+    <comment>Contents of a newly created JSON transform file</comment>
+  </data>
   <data name="NugetInstall_ErrorOutput" xml:space="preserve">
     <value>Error installing SlowCheetah NuGet package to {0}.</value>
     <comment>Text to be shown in the output window if there is an error with installing the SlowCheetah Nuget package</comment>
@@ -189,10 +193,6 @@
     <value>{0}.{1}{2}</value>
     <comment>This is the format string for the new transform file's filename.</comment>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TransformContents" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TransformContents.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="TransformPreview_Caption" xml:space="preserve">
     <value>{0} Preview</value>
   </data>
@@ -208,5 +208,9 @@
   </data>
   <data name="TransformPreview_ToolTip" xml:space="preserve">
     <value>{0} Preview</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="XmlTransformContents" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TransformContents.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

@@ -4,14 +4,12 @@
 namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
-    using System.Diagnostics.Contracts;
-    using System.IO;
     using Microsoft.Web.XmlTransform;
 
     /// <summary>
     /// Transforms XML files utilizing Microsoft Web XmlTransform library
     /// </summary>
-    public class XmlTransformer : ITransformer
+    public class XmlTransformer : TransformerBase
     {
         private IXmlTransformationLogger logger = null;
 
@@ -38,23 +36,9 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <inheritdoc/>
-        public bool Transform(string source, string transform, string destination)
+        public override bool Transform(string source, string transform, string destination)
         {
-            // Parameter validation
-            Contract.Requires(!string.IsNullOrWhiteSpace(source));
-            Contract.Requires(!string.IsNullOrWhiteSpace(transform));
-            Contract.Requires(!string.IsNullOrWhiteSpace(destination));
-
-            // File validation
-            if (!File.Exists(source))
-            {
-                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, source);
-            }
-
-            if (!File.Exists(transform))
-            {
-                throw new FileNotFoundException(Resources.Resources.ErrorMessage_TransformFileNotFound, transform);
-            }
+            this.ValidateArguments(source, transform, destination);
 
             using (XmlTransformableDocument document = new XmlTransformableDocument())
             using (XmlTransformation transformation = new XmlTransformation(transform, this.logger))

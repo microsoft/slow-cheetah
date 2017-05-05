@@ -85,7 +85,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// Verifies if a file is in XML format.
         /// Attempts to open a file using an XML Reader.
         /// </summary>
-        /// <param name="filepath">Full path to the </param>
+        /// <param name="filepath">Full path to the file</param>
         /// <returns>True is the file is XML</returns>
         public static bool IsXmlFile(string filepath)
         {
@@ -115,6 +115,28 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             return isXmlFile;
+        }
+
+        /// <summary>
+        /// Verifies if a file is in JSON format.
+        /// Checks for the appropriate extension
+        /// </summary>
+        /// <param name="filepath">Full path to the file</param>
+        /// <returns>True is the file is JSON</returns>
+        public static bool IsJsonFile(string filepath)
+        {
+            return Path.GetExtension(filepath).Equals(".json", StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Verifies if a file is of a supported format.
+        /// JSON or XML
+        /// </summary>
+        /// <param name="filepath">Full path to the file</param>
+        /// <returns>True is the file type is supported</returns>
+        public static bool IsSupportedFile(string filepath)
+        {
+            return IsJsonFile(filepath) || IsXmlFile(filepath);
         }
 
         /// <summary>

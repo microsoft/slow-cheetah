@@ -349,7 +349,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 string itemExtension = Path.GetExtension(itemFullPath);
                 string itemFilenameExtension = Path.GetFileName(itemFullPath);
 
-                string content = this.BuildXdtContent(itemFullPath);
+                string content = this.BuildTransformContent(itemFullPath);
                 IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(selectedProjectItem.ContainingProject);
 
                 List<string> transformsToCreate = null;
@@ -377,7 +377,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     foreach (string config in transformsToCreate)
                     {
                         string itemName = string.Format(Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
-                        this.AddXdtTransformFile(selectedProjectItem, content, itemName, itemFolder, optionsPage.AddDependentUpon);
+                        this.AddTransformFile(selectedProjectItem, content, itemName, itemFolder, optionsPage.AddDependentUpon);
                         hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out uint addedFileId);
                         buildPropertyStorage.SetItemAttribute(addedFileId, IsTransformFile, "True");
                     }
@@ -611,9 +611,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             bool isWebConfig = string.Compare("web.config", transformFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0;
             bool isTransformFile = this.IsItemTransformItem(project, itemid);
             bool isExtensionSupportedForFile = PackageUtilities.IsExtensionSupportedForFile(itemFullPath);
-            bool isXmlFile = PackageUtilities.IsXmlFile(itemFullPath);
+            bool isSupportedFile = PackageUtilities.IsSupportedFile(itemFullPath);
 
-            if (!isWebConfig && !isTransformFile && isExtensionSupportedForFile && isXmlFile)
+            if (!isWebConfig && !isTransformFile && isExtensionSupportedForFile && isSupportedFile)
             {
                 itemSupportsTransforms = true;
             }
@@ -622,21 +622,21 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Creates a new XML transformation file and adds it to the project.
+        /// Creates a new transformation file and adds it to the project.
         /// </summary>
         /// <param name="selectedProjectItem">The selected item to be transformed</param>
         /// <param name="content">Contents to be written to the transformation file</param>
         /// <param name="itemName">Full name of the transformation file</param>
         /// <param name="projectPath">Full path to the current project</param>
         /// <param name="addDependentUpon">Wheter to add the new file dependent upon the source file</param>
-        private void AddXdtTransformFile(ProjectItem selectedProjectItem, string content, string itemName, string projectPath, bool addDependentUpon)
+        private void AddTransformFile(ProjectItem selectedProjectItem, string content, string itemName, string projectPath, bool addDependentUpon)
         {
             try
             {
                 string itemPath = Path.Combine(projectPath, itemName);
                 if (!File.Exists(itemPath))
                 {
-                    // create the new XDT file
+                    // create the new transform file
                     using (StreamWriter writer = new StreamWriter(itemPath))
                     {
                         writer.Write(content);
@@ -667,13 +667,34 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Builds the contents of a transformation file for a given source file.
+        /// Builds the contents of a transformation file for a given source file
         /// </summary>
-        /// <param name="sourceItemPath">Full path to the file to be transformed.</param>
+        /// <param name="sourceItemPath">Full path to the file to be transformed</param>
+        /// <returns>Contents of the transform file</returns>
+        private string BuildTransformContent(string sourceItemPath)
+        {
+            if (PackageUtilities.IsJsonFile(sourceItemPath))
+            {
+                return Resources.Resources.JsonTransformContents;
+            }
+            else if (PackageUtilities.IsXmlFile(sourceItemPath))
+            {
+                return this.BuildXdtContent(sourceItemPath);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Builds the contents of an XDT transformation file for a given XML source file
+        /// </summary>
+        /// <param name="sourceItemPath">Full path to the file to be transformed</param>
         /// <returns>Contents of the XML transform file.</returns>
         private string BuildXdtContent(string sourceItemPath)
         {
-            string content = Resources.Resources.TransformContents;
+            string content = Resources.Resources.XmlTransformContents;
 
             try
             {
