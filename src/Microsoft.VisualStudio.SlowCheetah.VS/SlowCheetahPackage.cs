@@ -798,7 +798,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 // If for some reason we can't find it, we just open it in an editor window
                 this.errorListProvider.Tasks.Clear();
                 ITransformationLogger logger = new TransformationPreviewLogger(this.errorListProvider, hier);
-                ITransformer transformer = new XmlTransformer(logger, false);
+                ITransformer transformer = TransformerFactory.GetTransformer(sourceFile, logger, false);
                 if (!transformer.Transform(sourceFile, transformFile, destFile))
                 {
                     throw new TransformFailedException(Resources.Resources.TransformPreview_ErrorMessage);
