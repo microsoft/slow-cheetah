@@ -3,11 +3,17 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah
 {
+    using System;
+    using System.IO;
+    using Microsoft.VisualStudio.Jdt;
+
     /// <summary>
     /// Transforms JSON files using JSON Document Transformations
     /// </summary>
     public class JsonTransformer : TransformerBase
     {
+        private readonly IJsonTransformationLogger logger;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonTransformer"/> class.
         /// </summary>
@@ -15,12 +21,45 @@ namespace Microsoft.VisualStudio.SlowCheetah
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonTransformer"/> class with a logger
+        /// </summary>
+        /// <param name="logger">The logger to use</param>
+        public JsonTransformer(ITransformationLogger logger)
+        {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            this.logger = new JsonShimLogger(logger);
+        }
+
         /// <inheritdoc/>
         public override bool Transform(string source, string transform, string destination)
         {
             this.ValidateArguments(source, transform, destination);
 
-            return false;
+            JsonTransformation transformation = new JsonTransformation(transform, this.logger);
+
+            bool success = false;
+
+            try
+            {
+                using (Stream result = transformation.Apply(source))
+                {
+                    using (Stream destinationStream = File.Create(destination))
+                    {
+                        result.CopyTo(destinationStream);
+                    }
+                }
+            }
+            catch
+            {
+                success = false;
+            }
+
+            return success;
         }
     }
 }
