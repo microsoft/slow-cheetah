@@ -32,12 +32,6 @@
     <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
     <OutputPath>$(OutputPath)$(TargetFramework)\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Label="MultilingualAppToolkit">
-    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
-    <MultilingualFallbackLanguage>en-US</MultilingualFallbackLanguage>
-    <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
-    <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="NugetHandler\PackageHandlers\BackgroundInstallationHandler.cs" />
     <Compile Include="NugetHandler\PackageHandlers\DialogInstallationHandler.cs" />
@@ -247,127 +241,23 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.cs.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.de.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.es.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.fr.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.it.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.ja.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.ko.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.pl.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.pt-BR.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Options\AdvancedOptionsUserControl.resx">
       <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.ru.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.tr.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.zh-Hans.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\AdvancedOptionsUserControl.zh-Hant.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.cs.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.de.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.es.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.fr.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.it.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.ja.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.ko.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.pl.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.pt-BR.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Options\OptionsUserControl.resx">
       <DependentUpon>OptionsUserControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.ru.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.tr.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.zh-Hans.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options\OptionsUserControl.zh-Hant.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Resources.cs.resx" />
-    <EmbeddedResource Include="Resources\Resources.de.resx" />
-    <EmbeddedResource Include="Resources\Resources.es.resx" />
-    <EmbeddedResource Include="Resources\Resources.fr.resx" />
-    <EmbeddedResource Include="Resources\Resources.it.resx" />
-    <EmbeddedResource Include="Resources\Resources.ja.resx" />
-    <EmbeddedResource Include="Resources\Resources.ko.resx" />
-    <EmbeddedResource Include="Resources\Resources.pl.resx" />
-    <EmbeddedResource Include="Resources\Resources.pt-BR.resx" />
     <EmbeddedResource Include="Resources\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Resources.ru.resx" />
-    <EmbeddedResource Include="Resources\Resources.tr.resx" />
-    <EmbeddedResource Include="Resources\Resources.zh-Hans.resx" />
-    <EmbeddedResource Include="Resources\Resources.zh-Hant.resx" />
-    <EmbeddedResource Include="VSPackage.cs.resx" />
-    <EmbeddedResource Include="VSPackage.de.resx" />
-    <EmbeddedResource Include="VSPackage.es.resx" />
-    <EmbeddedResource Include="VSPackage.fr.resx" />
-    <EmbeddedResource Include="VSPackage.it.resx" />
-    <EmbeddedResource Include="VSPackage.ja.resx" />
-    <EmbeddedResource Include="VSPackage.ko.resx" />
-    <EmbeddedResource Include="VSPackage.pl.resx" />
-    <EmbeddedResource Include="VSPackage.pt-BR.resx" />
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="VSPackage.ru.resx" />
-    <EmbeddedResource Include="VSPackage.tr.resx" />
-    <EmbeddedResource Include="VSPackage.zh-Hans.resx" />
-    <EmbeddedResource Include="VSPackage.zh-Hant.resx" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="SlowCheetah.vsct">
@@ -389,21 +279,6 @@
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.cs.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.de.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.es.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.fr.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.it.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.ja.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.ko.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.pl.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.pt-BR.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.ru.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.tr.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.zh-Hans.xlf" />
-    <XliffResource Include="MultilingualResources\Microsoft.VisualStudio.SlowCheetah.VS.zh-Hant.xlf" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
