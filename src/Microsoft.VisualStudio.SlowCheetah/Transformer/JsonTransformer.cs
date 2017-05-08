@@ -42,7 +42,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
 
             JsonTransformation transformation = new JsonTransformation(transform, this.logger);
 
-            bool success = false;
+            bool success = true;
 
             try
             {
