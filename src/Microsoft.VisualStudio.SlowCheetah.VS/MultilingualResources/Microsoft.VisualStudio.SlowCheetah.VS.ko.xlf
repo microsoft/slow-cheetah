@@ -17,6 +17,95 @@
       </group>
     </body>
   </file>
+  <file datatype="xml" source-language="en-US" target-language="ko" original="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/OPTIONS/OPTIONSUSERCONTROL.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6799.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/OPTIONS/OPTIONSUSERCONTROL.RESX" datatype="resx">
+        <trans-unit id="EnablePreviewCheckbox.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
+          <source>True</source>
+          <target state="needs-review-translation">True</target>
+        </trans-unit>
+        <trans-unit id="EnablePreviewCheckbox.Location" translate="yes" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
+          <source>6, 20</source>
+          <target state="needs-review-translation">6, 20</target>
+        </trans-unit>
+        <trans-unit id="EnablePreviewCheckbox.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
+          <source>194, 17</source>
+          <target state="needs-review-translation">194, 17</target>
+        </trans-unit>
+        <trans-unit id="EnablePreviewCheckbox.TabIndex" translate="yes" extype="System.Int32, mscorlib" xml:space="preserve">
+          <source>0</source>
+          <target state="needs-review-translation">0</target>
+        </trans-unit>
+        <trans-unit id="EnablePreviewCheckbox.Text" translate="yes" xml:space="preserve">
+          <source>&amp;Show diff on transformation preview</source>
+          <target state="new">&amp;Show diff on transformation preview</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
+          <source>True</source>
+          <target state="needs-review-translation">True</target>
+        </trans-unit>
+        <trans-unit id="AddDepentUponCheckbox.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
+          <source>True</source>
+          <target state="needs-review-translation">True</target>
+        </trans-unit>
+        <trans-unit id="AddDepentUponCheckbox.Location" translate="yes" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
+          <source>6, 43</source>
+          <target state="needs-review-translation">6, 43</target>
+        </trans-unit>
+        <trans-unit id="AddDepentUponCheckbox.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
+          <source>235, 17</source>
+          <target state="needs-review-translation">235, 17</target>
+        </trans-unit>
+        <trans-unit id="AddDepentUponCheckbox.TabIndex" translate="yes" extype="System.Int32, mscorlib" xml:space="preserve">
+          <source>1</source>
+          <target state="needs-review-translation">1</target>
+        </trans-unit>
+        <trans-unit id="AddDepentUponCheckbox.Text" translate="yes" xml:space="preserve">
+          <source>&amp;Add DepentUpon metadata to transform files</source>
+          <target state="new">&amp;Add DepentUpon metadata to transform files</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.Dock" translate="yes" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
+          <source>Top</source>
+          <target state="needs-review-translation">Top</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.Location" translate="yes" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
+          <source>0, 0</source>
+          <target state="needs-review-translation">0, 0</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
+          <source>440, 79</source>
+          <target state="needs-review-translation">440, 79</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.TabIndex" translate="yes" extype="System.Int32, mscorlib" xml:space="preserve">
+          <source>1</source>
+          <target state="needs-review-translation">1</target>
+        </trans-unit>
+        <trans-unit id="GeneralGroupBox.Text" translate="yes" xml:space="preserve">
+          <source>General Settings</source>
+          <target state="new">General Settings</target>
+        </trans-unit>
+        <trans-unit id="$this.AutoScaleDimensions" translate="yes" extype="System.Drawing.SizeF, System.Drawing" xml:space="preserve">
+          <source>6, 13</source>
+          <target state="needs-review-translation">6, 13</target>
+        </trans-unit>
+        <trans-unit id="$this.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
+          <source>True</source>
+          <target state="needs-review-translation">True</target>
+        </trans-unit>
+        <trans-unit id="$this.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
+          <source>440, 190</source>
+          <target state="needs-review-translation">440, 190</target>
+        </trans-unit>
+        <trans-unit id="$this.Localizable" translate="yes" extype="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" extradata="metadata" xml:space="preserve">
+          <source>True</source>
+          <target state="needs-review-translation">True</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
   <file datatype="xml" source-language="en-US" target-language="ko" original="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/RESOURCES/RESOURCES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6799.0" tool-company="Microsoft" />
@@ -137,95 +226,6 @@
         <trans-unit id="TransformPreview_ToolTip" translate="yes" xml:space="preserve">
           <source>{0} Preview</source>
           <target state="new">{0} Preview</target>
-        </trans-unit>
-      </group>
-    </body>
-  </file>
-  <file datatype="xml" source-language="en-US" target-language="ko" original="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/OPTIONS/OPTIONSUSERCONTROL.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
-    <header>
-      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6799.0" tool-company="Microsoft" />
-    </header>
-    <body>
-      <group id="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/OPTIONS/OPTIONSUSERCONTROL.RESX" datatype="resx">
-        <trans-unit id="EnablePreviewCheckbox.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
-          <source>True</source>
-          <target state="needs-review-translation">True</target>
-        </trans-unit>
-        <trans-unit id="EnablePreviewCheckbox.Location" translate="yes" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
-          <source>6, 20</source>
-          <target state="needs-review-translation">6, 20</target>
-        </trans-unit>
-        <trans-unit id="EnablePreviewCheckbox.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
-          <source>194, 17</source>
-          <target state="needs-review-translation">194, 17</target>
-        </trans-unit>
-        <trans-unit id="EnablePreviewCheckbox.TabIndex" translate="yes" extype="System.Int32, mscorlib" xml:space="preserve">
-          <source>0</source>
-          <target state="needs-review-translation">0</target>
-        </trans-unit>
-        <trans-unit id="EnablePreviewCheckbox.Text" translate="yes" xml:space="preserve">
-          <source>&amp;Show diff on transformation preview</source>
-          <target state="new">&amp;Show diff on transformation preview</target>
-        </trans-unit>
-        <trans-unit id="GeneralGroupBox.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
-          <source>True</source>
-          <target state="needs-review-translation">True</target>
-        </trans-unit>
-        <trans-unit id="AddDepentUponCheckbox.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
-          <source>True</source>
-          <target state="needs-review-translation">True</target>
-        </trans-unit>
-        <trans-unit id="AddDepentUponCheckbox.Location" translate="yes" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
-          <source>6, 43</source>
-          <target state="needs-review-translation">6, 43</target>
-        </trans-unit>
-        <trans-unit id="AddDepentUponCheckbox.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
-          <source>235, 17</source>
-          <target state="needs-review-translation">235, 17</target>
-        </trans-unit>
-        <trans-unit id="AddDepentUponCheckbox.TabIndex" translate="yes" extype="System.Int32, mscorlib" xml:space="preserve">
-          <source>1</source>
-          <target state="needs-review-translation">1</target>
-        </trans-unit>
-        <trans-unit id="AddDepentUponCheckbox.Text" translate="yes" xml:space="preserve">
-          <source>&amp;Add DepentUpon metadata to transform files</source>
-          <target state="new">&amp;Add DepentUpon metadata to transform files</target>
-        </trans-unit>
-        <trans-unit id="GeneralGroupBox.Dock" translate="yes" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
-          <source>Top</source>
-          <target state="needs-review-translation">Top</target>
-        </trans-unit>
-        <trans-unit id="GeneralGroupBox.Location" translate="yes" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
-          <source>0, 0</source>
-          <target state="needs-review-translation">0, 0</target>
-        </trans-unit>
-        <trans-unit id="GeneralGroupBox.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
-          <source>440, 79</source>
-          <target state="needs-review-translation">440, 79</target>
-        </trans-unit>
-        <trans-unit id="GeneralGroupBox.TabIndex" translate="yes" extype="System.Int32, mscorlib" xml:space="preserve">
-          <source>1</source>
-          <target state="needs-review-translation">1</target>
-        </trans-unit>
-        <trans-unit id="GeneralGroupBox.Text" translate="yes" xml:space="preserve">
-          <source>General Settings</source>
-          <target state="new">General Settings</target>
-        </trans-unit>
-        <trans-unit id="$this.AutoScaleDimensions" translate="yes" extype="System.Drawing.SizeF, System.Drawing" xml:space="preserve">
-          <source>6, 13</source>
-          <target state="needs-review-translation">6, 13</target>
-        </trans-unit>
-        <trans-unit id="$this.AutoSize" translate="yes" extype="System.Boolean, mscorlib" xml:space="preserve">
-          <source>True</source>
-          <target state="needs-review-translation">True</target>
-        </trans-unit>
-        <trans-unit id="$this.Size" translate="yes" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
-          <source>440, 190</source>
-          <target state="needs-review-translation">440, 190</target>
-        </trans-unit>
-        <trans-unit id="$this.Localizable" translate="yes" extype="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" extradata="metadata" xml:space="preserve">
-          <source>True</source>
-          <target state="needs-review-translation">True</target>
         </trans-unit>
       </group>
     </body>
