@@ -107,6 +107,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to {
+        ///    &quot;$schema&quot;: &quot;http://json.schemastore.org/jdt&quot;
         ///}
         ///.
         /// </summary>

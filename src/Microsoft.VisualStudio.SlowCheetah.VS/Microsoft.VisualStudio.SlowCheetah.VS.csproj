@@ -65,7 +65,8 @@
     <Compile Include="Options\OptionsUserControl.Designer.cs">
       <DependentUpon>OptionsUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransformationPreviewLogger.cs" />
+    <Compile Include="Transform\PackageTransformerFactory.cs" />
+    <Compile Include="Transform\TransformationPreviewLogger.cs" />
     <Compile Include="Utilities\PackageUtilities.cs" />
     <Compile Include="Utilities\ProjectUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

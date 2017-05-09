@@ -69,7 +69,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
             {
                 using (Stream result = transformation.Apply(source))
                 {
-                    return this.SaveToFile(result, destination);
+                    return this.TrySaveToFile(result, destination);
                 }
             }
             catch
@@ -79,7 +79,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
             }
         }
 
-        private bool SaveToFile(Stream result, string destinationFile)
+        private bool TrySaveToFile(Stream result, string destinationFile)
         {
             try
             {
@@ -87,11 +87,13 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 string contents;
                 using (StreamReader reader = new StreamReader(result, true))
                 {
+                    // Get the contents and the encoding of the result stram
                     reader.Peek();
                     encoding = reader.CurrentEncoding;
                     contents = reader.ReadToEnd();
                 }
 
+                // Make sure to save it in the encoding of the result stream
                 File.WriteAllText(destinationFile, contents, encoding);
 
                 return true;

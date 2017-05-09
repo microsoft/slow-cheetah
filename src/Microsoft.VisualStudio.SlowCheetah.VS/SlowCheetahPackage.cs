@@ -17,7 +17,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices;
-    using System.Xml;
     using EnvDTE;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell;
@@ -349,7 +348,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 string itemExtension = Path.GetExtension(itemFullPath);
                 string itemFilenameExtension = Path.GetFileName(itemFullPath);
 
-                string content = this.BuildTransformContent(itemFullPath);
+                string content = PackageTransformerFactory.BuildTransformContent(itemFullPath);
                 IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(selectedProjectItem.ContainingProject);
 
                 List<string> transformsToCreate = null;
@@ -611,7 +610,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             bool isWebConfig = string.Compare("web.config", transformFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0;
             bool isTransformFile = this.IsItemTransformItem(project, itemid);
             bool isExtensionSupportedForFile = PackageUtilities.IsExtensionSupportedForFile(itemFullPath);
-            bool isSupportedFile = PackageUtilities.IsSupportedFile(itemFullPath);
+            bool isSupportedFile = PackageTransformerFactory.IsSupportedFile(itemFullPath);
 
             if (!isWebConfig && !isTransformFile && isExtensionSupportedForFile && isSupportedFile)
             {
@@ -668,96 +667,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Builds the contents of a transformation file for a given source file
-        /// </summary>
-        /// <param name="sourceItemPath">Full path to the file to be transformed</param>
-        /// <returns>Contents of the transform file</returns>
-        private string BuildTransformContent(string sourceItemPath)
-        {
-            if (PackageUtilities.IsJsonFile(sourceItemPath))
-            {
-                return Resources.Resources.JsonTransformContents;
-            }
-            else if (PackageUtilities.IsXmlFile(sourceItemPath))
-            {
-                return this.BuildXdtContent(sourceItemPath);
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Builds the contents of an XDT transformation file for a given XML source file
-        /// </summary>
-        /// <param name="sourceItemPath">Full path to the file to be transformed</param>
-        /// <returns>Contents of the XML transform file.</returns>
-        private string BuildXdtContent(string sourceItemPath)
-        {
-            string content = Resources.Resources.XmlTransformContents;
-
-            try
-            {
-                using (MemoryStream contentStream = new MemoryStream())
-                {
-                    XmlWriterSettings settings = new XmlWriterSettings()
-                    {
-                        OmitXmlDeclaration = true,
-                        NewLineOnAttributes = true
-                    };
-
-                    XmlWriter contentWriter = XmlWriter.Create(contentStream, settings);
-
-                    using (XmlReader reader = XmlReader.Create(sourceItemPath))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.NodeType == XmlNodeType.Element)
-                            {
-                                contentWriter.WriteStartElement(reader.Name, reader.NamespaceURI);
-                                for (int index = 0; index < reader.AttributeCount; index++)
-                                {
-                                    reader.MoveToAttribute(index);
-                                    if (reader.Prefix == "xmlns" && reader.Name != "xmlns:xdt")
-                                    {
-                                        string nsName = reader.LocalName;
-                                        string nsValue = reader.GetAttribute(index);
-                                        contentWriter.WriteAttributeString("xmlns", nsName, null, nsValue);
-                                    }
-                                }
-
-                                contentWriter.WriteAttributeString("xmlns", "xdt", null, "http://schemas.microsoft.com/XML-Document-Transform");
-                                contentWriter.WriteWhitespace(Environment.NewLine);
-                                contentWriter.WriteEndElement();
-                                contentWriter.WriteEndDocument();
-                                break;
-                            }
-                        }
-
-                        contentWriter.Flush();
-
-                        contentStream.Seek(0, SeekOrigin.Begin);
-                        using (StreamReader contentReader = new StreamReader(contentStream))
-                        {
-                            content += contentReader.ReadToEnd();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.LogMessageWriteLineFormat("Exception> " + ex.Message);
-            }
-
-            return content;
-        }
-
-        /// <summary>
         /// Shows a preview of the transformation in a temporary file.
         /// </summary>
         /// <param name="hier">Current IVsHierarchy</param>
-        /// <param name="sourceFile">Full path to the file to be trasnformed</param>
+        /// <param name="sourceFile">Full path to the file to be transformed</param>
         /// <param name="transformFile">Full path to the transformation file</param>
         private void PreviewTransform(IVsHierarchy hier, string sourceFile, string transformFile)
         {
@@ -799,7 +712,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 // If for some reason we can't find it, we just open it in an editor window
                 this.errorListProvider.Tasks.Clear();
                 ITransformationLogger logger = new TransformationPreviewLogger(this.errorListProvider, hier);
-                ITransformer transformer = TransformerFactory.GetTransformer(sourceFile, logger, false);
+                ITransformer transformer = PackageTransformerFactory.GetTransformer(sourceFile, logger, false);
                 if (!transformer.Transform(sourceFile, transformFile, destFile))
                 {
                     throw new TransformFailedException(Resources.Resources.TransformPreview_ErrorMessage);

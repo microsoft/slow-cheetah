@@ -13,7 +13,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using System.Xml;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
 
@@ -79,64 +78,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             return path;
-        }
-
-        /// <summary>
-        /// Verifies if a file is in XML format.
-        /// Attempts to open a file using an XML Reader.
-        /// </summary>
-        /// <param name="filepath">Full path to the file</param>
-        /// <returns>True is the file is XML</returns>
-        public static bool IsXmlFile(string filepath)
-        {
-            if (string.IsNullOrWhiteSpace(filepath))
-            {
-                throw new ArgumentNullException(nameof(filepath));
-            }
-
-            if (!File.Exists(filepath))
-            {
-                throw new FileNotFoundException("File not found", filepath);
-            }
-
-            bool isXmlFile = true;
-            try
-            {
-                using (XmlTextReader xmlTextReader = new XmlTextReader(filepath))
-                {
-                    // This is required because if the XML file has a DTD then it will try and download the DTD!
-                    xmlTextReader.DtdProcessing = DtdProcessing.Ignore;
-                    xmlTextReader.Read();
-                }
-            }
-            catch (XmlException)
-            {
-                isXmlFile = false;
-            }
-
-            return isXmlFile;
-        }
-
-        /// <summary>
-        /// Verifies if a file is in JSON format.
-        /// Checks for the appropriate extension
-        /// </summary>
-        /// <param name="filepath">Full path to the file</param>
-        /// <returns>True is the file is JSON</returns>
-        public static bool IsJsonFile(string filepath)
-        {
-            return TransformerFactory.IsJsonFile(filepath);
-        }
-
-        /// <summary>
-        /// Verifies if a file is of a supported format.
-        /// JSON or XML
-        /// </summary>
-        /// <param name="filepath">Full path to the file</param>
-        /// <returns>True is the file type is supported</returns>
-        public static bool IsSupportedFile(string filepath)
-        {
-            return IsJsonFile(filepath) || IsXmlFile(filepath);
         }
 
         /// <summary>
