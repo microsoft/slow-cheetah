@@ -39,17 +39,17 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <inheritdoc/>
         public bool Transform(string source, string transform, string destination)
         {
-            if (!string.IsNullOrWhiteSpace(source))
+            if (string.IsNullOrWhiteSpace(source))
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (!string.IsNullOrWhiteSpace(source))
+            if (string.IsNullOrWhiteSpace(source))
             {
                 throw new ArgumentNullException(nameof(transform));
             }
 
-            if (!string.IsNullOrWhiteSpace(source))
+            if (string.IsNullOrWhiteSpace(source))
             {
                 throw new ArgumentNullException(nameof(destination));
             }
