@@ -106,7 +106,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to { }.
+        ///   Looks up a localized string similar to {
+        ///}
+        ///.
         /// </summary>
         internal static string JsonTransformContents {
             get {

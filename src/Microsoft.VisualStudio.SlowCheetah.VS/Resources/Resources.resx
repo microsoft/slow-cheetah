@@ -138,7 +138,9 @@
     <comment>Error message</comment>
   </data>
   <data name="JsonTransformContents" xml:space="preserve">
-    <value>{ }</value>
+    <value>{
+}
+</value>
     <comment>Contents of a newly created JSON transform file</comment>
   </data>
   <data name="NugetInstall_ErrorOutput" xml:space="preserve">
