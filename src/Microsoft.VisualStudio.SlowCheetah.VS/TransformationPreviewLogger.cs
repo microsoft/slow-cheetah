@@ -84,7 +84,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         private void AddError(Exception ex, TaskErrorCategory errorCategory, string file, int lineNumber, int linePosition)
         {
-            this.ShowError(new ErrorTask(ex), errorCategory, null, file, lineNumber, linePosition);
+            this.ShowError(new ErrorTask(ex), errorCategory, ex.Message, file, lineNumber, linePosition);
         }
 
         private void ShowError(ErrorTask newError, TaskErrorCategory errorCategory, string text, string file, int lineNumber, int linePosition)

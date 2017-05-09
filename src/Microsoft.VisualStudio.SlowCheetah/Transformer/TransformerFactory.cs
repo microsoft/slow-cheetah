@@ -22,7 +22,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         {
             if (IsJsonFile(source))
             {
-                return new JsonTransformer();
+                return new JsonTransformer(logger);
             }
             else
             {
