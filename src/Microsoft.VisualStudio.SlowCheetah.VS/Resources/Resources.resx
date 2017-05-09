@@ -139,7 +139,6 @@
   </data>
   <data name="JsonTransformContents" xml:space="preserve">
     <value>{
-    "$schema": "http://json.schemastore.org/jdt"
 }
 </value>
     <comment>Contents of a newly created JSON transform file</comment>
