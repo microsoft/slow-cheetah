@@ -636,10 +636,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 string itemPath = Path.Combine(projectPath, itemName);
                 if (!File.Exists(itemPath))
                 {
-                    // create the new transform file
-                    using (StreamWriter writer = new StreamWriter(itemPath))
+                    using (StreamReader reader = new StreamReader(selectedProjectItem.FileNames[1], true))
                     {
-                        writer.Write(content);
+                        reader.Peek();
+                        var encoding = reader.CurrentEncoding;
+                        File.WriteAllText(itemPath, content, encoding);
                     }
                 }
 

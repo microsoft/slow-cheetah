@@ -40,17 +40,17 @@ namespace Microsoft.VisualStudio.SlowCheetah
         {
             if (string.IsNullOrWhiteSpace(source))
             {
-                throw new ArgumentNullException(nameof(source));
+                throw new ArgumentException($"{nameof(source)} cannot be null or whitespace");
             }
 
             if (string.IsNullOrWhiteSpace(transform))
             {
-                throw new ArgumentNullException(nameof(transform));
+                throw new ArgumentException($"{nameof(transform)} cannot be null or whitespace");
             }
 
             if (string.IsNullOrWhiteSpace(destination))
             {
-                throw new ArgumentNullException(nameof(destination));
+                throw new ArgumentException($"{nameof(destination)} cannot be null or whitespace");
             }
 
             if (!File.Exists(source))
@@ -63,49 +63,44 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 throw new FileNotFoundException(Resources.Resources.ErrorMessage_TransformFileNotFound, transform);
             }
 
-            JsonTransformation transformation = new JsonTransformation(transform, this.logger);
+            var transformation = new JsonTransformation(transform, this.logger);
 
-            bool success = true;
-
-            using (Stream result = GetResultStream(transformation, source))
-            {
-                if (result != null)
-                {
-                    try
-                    {
-                        using (Stream destinationStream = File.Create(destination))
-                        {
-                            result.CopyTo(destinationStream);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        this.logger.LogErrorFromException(ex);
-                        success = false;
-                    }
-                }
-                else
-                {
-                    success = false;
-                }
-            }
-
-            return success;
-        }
-
-        private static Stream GetResultStream(JsonTransformation transformation, string sourceFile)
-        {
-            Stream result = null;
             try
             {
-                result = transformation.Apply(sourceFile);
+                using (Stream result = transformation.Apply(source))
+                {
+                    return this.SaveToFile(result, destination);
+                }
             }
             catch
             {
                 // JDT exceptions are handled by it's own logger
+                return false;
             }
+        }
 
-            return result;
+        private bool SaveToFile(Stream result, string destinationFile)
+        {
+            try
+            {
+                System.Text.Encoding encoding;
+                string contents;
+                using (StreamReader reader = new StreamReader(result, true))
+                {
+                    reader.Peek();
+                    encoding = reader.CurrentEncoding;
+                    contents = reader.ReadToEnd();
+                }
+
+                File.WriteAllText(destinationFile, contents, encoding);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogErrorFromException(ex);
+                return false;
+            }
         }
     }
 }
