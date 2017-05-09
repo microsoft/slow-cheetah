@@ -4,13 +4,14 @@
 namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using Microsoft.VisualStudio.Jdt;
 
     /// <summary>
     /// Transforms JSON files using JSON Document Transformations
     /// </summary>
-    public class JsonTransformer : TransformerBase
+    public class JsonTransformer : ITransformer
     {
         private readonly IJsonTransformationLogger logger;
 
@@ -36,9 +37,32 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <inheritdoc/>
-        public override bool Transform(string source, string transform, string destination)
+        public bool Transform(string source, string transform, string destination)
         {
-            this.ValidateArguments(source, transform, destination);
+            if (!string.IsNullOrWhiteSpace(source))
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (!string.IsNullOrWhiteSpace(source))
+            {
+                throw new ArgumentNullException(nameof(transform));
+            }
+
+            if (!string.IsNullOrWhiteSpace(source))
+            {
+                throw new ArgumentNullException(nameof(destination));
+            }
+
+            if (!File.Exists(source))
+            {
+                throw new FileNotFoundException("File to transform not found", source);
+            }
+
+            if (!File.Exists(transform))
+            {
+                throw new FileNotFoundException("Transform file not found", transform);
+            }
 
             JsonTransformation transformation = new JsonTransformation(transform, this.logger);
 

@@ -4,12 +4,13 @@
 namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
+    using System.IO;
     using Microsoft.Web.XmlTransform;
 
     /// <summary>
     /// Transforms XML files utilizing Microsoft Web XmlTransform library
     /// </summary>
-    public class XmlTransformer : TransformerBase
+    public class XmlTransformer : ITransformer
     {
         private IXmlTransformationLogger logger = null;
 
@@ -36,9 +37,32 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <inheritdoc/>
-        public override bool Transform(string source, string transform, string destination)
+        public bool Transform(string source, string transform, string destination)
         {
-            this.ValidateArguments(source, transform, destination);
+            if (!string.IsNullOrWhiteSpace(source))
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (!string.IsNullOrWhiteSpace(source))
+            {
+                throw new ArgumentNullException(nameof(transform));
+            }
+
+            if (!string.IsNullOrWhiteSpace(source))
+            {
+                throw new ArgumentNullException(nameof(destination));
+            }
+
+            if (!File.Exists(source))
+            {
+                throw new FileNotFoundException("File to transform not found", source);
+            }
+
+            if (!File.Exists(transform))
+            {
+                throw new FileNotFoundException("Transform file not found", transform);
+            }
 
             using (XmlTransformableDocument document = new XmlTransformableDocument())
             using (XmlTransformation transformation = new XmlTransformation(transform, this.logger))
