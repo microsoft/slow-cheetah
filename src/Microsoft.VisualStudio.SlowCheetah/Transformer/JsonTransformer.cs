@@ -67,22 +67,45 @@ namespace Microsoft.VisualStudio.SlowCheetah
 
             bool success = true;
 
-            try
+            using (Stream result = GetResultStream(transformation, source))
             {
-                using (Stream result = transformation.Apply(source))
+                if (result != null)
                 {
-                    using (Stream destinationStream = File.Create(destination))
+                    try
                     {
-                        result.CopyTo(destinationStream);
+                        using (Stream destinationStream = File.Create(destination))
+                        {
+                            result.CopyTo(destinationStream);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        this.logger.LogErrorFromException(ex);
+                        success = false;
                     }
                 }
-            }
-            catch
-            {
-                success = false;
+                else
+                {
+                    success = false;
+                }
             }
 
             return success;
+        }
+
+        private static Stream GetResultStream(JsonTransformation transformation, string sourceFile)
+        {
+            Stream result = null;
+            try
+            {
+                result = transformation.Apply(sourceFile);
+            }
+            catch
+            {
+                // JDT exceptions are handled by it's own logger
+            }
+
+            return result;
         }
     }
 }
