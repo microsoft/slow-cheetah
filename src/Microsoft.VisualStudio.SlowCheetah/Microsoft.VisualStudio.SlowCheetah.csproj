@@ -23,6 +23,8 @@
   <!-- Additional files for the nupkg -->
   <ItemGroup>
     <None Include="$(OutputPath)Microsoft.Web.XmlTransform.dll" Pack="true" PackagePath="tools" Visible="false" />
+    <None Include="$(OutputPath)Microsoft.VisualStudio.Jdt.dll" Pack="true" PackagePath="tools" Visible="false" />
+    <None Include="$(OutputPath)Newtonsoft.Json.dll" Pack="true" PackagePath="tools" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>
