@@ -55,12 +55,12 @@ namespace Microsoft.VisualStudio.SlowCheetah
 
             if (!File.Exists(source))
             {
-                throw new FileNotFoundException("File to transform not found", source);
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, source);
             }
 
             if (!File.Exists(transform))
             {
-                throw new FileNotFoundException("Transform file not found", transform);
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_TransformFileNotFound, transform);
             }
 
             JsonTransformation transformation = new JsonTransformation(transform, this.logger);
