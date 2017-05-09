@@ -4,7 +4,6 @@
 namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
-    using System.Diagnostics.Contracts;
     using System.IO;
     using Microsoft.VisualStudio.Jdt;
 
