@@ -3,13 +3,12 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah
 {
-    using System;
     using Microsoft.Build.Framework;
 
     /// <summary>
     /// Task that performs the transformation of the XML file
     /// </summary>
-    public class TransformXml : Microsoft.Build.Utilities.Task
+    public class TransformTask : Microsoft.Build.Utilities.Task
     {
         /// <summary>
         /// Gets or sets the source file path for the transformation
@@ -32,9 +31,9 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <inheritdoc/>
         public override bool Execute()
         {
-            XmlTransformationTaskLogger logger = new XmlTransformationTaskLogger(this.Log);
+            TransformationTaskLogger logger = new TransformationTaskLogger(this.Log);
 
-            ITransformer transformer = new XmlTransformer(logger, true);
+            ITransformer transformer = TransformerFactory.GetTransformer(this.Source, logger, true);
 
             this.Log.LogMessage("Beginning transformation.");
 

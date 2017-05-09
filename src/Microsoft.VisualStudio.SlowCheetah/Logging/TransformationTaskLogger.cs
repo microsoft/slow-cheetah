@@ -5,24 +5,21 @@ namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
     using System.Diagnostics;
-    using System.Linq;
-    using System.Text;
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
-    using Microsoft.Web.XmlTransform;
 
     /// <summary>
-    /// Shim for using MSBuild logger in <see cref="XmlTransformation"/>
+    /// Shim for using MSBuild logger in <see cref="ITransformer"/>
     /// </summary>
-    public class XmlTransformationTaskLogger : ITransformationLogger
+    public class TransformationTaskLogger : ITransformationLogger
     {
         private readonly TaskLoggingHelper loggingHelper;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XmlTransformationTaskLogger"/> class.
+        /// Initializes a new instance of the <see cref="TransformationTaskLogger"/> class.
         /// </summary>
         /// <param name="logger">The MSBuild logger</param>
-        public XmlTransformationTaskLogger(TaskLoggingHelper logger)
+        public TransformationTaskLogger(TaskLoggingHelper logger)
         {
             this.loggingHelper = logger ?? throw new ArgumentNullException(nameof(logger));
         }

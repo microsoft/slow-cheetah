@@ -4,7 +4,6 @@
 namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
-    using System.Diagnostics.Contracts;
     using System.IO;
     using Microsoft.Web.XmlTransform;
 
@@ -40,12 +39,21 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <inheritdoc/>
         public bool Transform(string source, string transform, string destination)
         {
-            // Parameter validation
-            Contract.Requires(!string.IsNullOrWhiteSpace(source));
-            Contract.Requires(!string.IsNullOrWhiteSpace(transform));
-            Contract.Requires(!string.IsNullOrWhiteSpace(destination));
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
 
-            // File validation
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                throw new ArgumentNullException(nameof(transform));
+            }
+
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                throw new ArgumentNullException(nameof(destination));
+            }
+
             if (!File.Exists(source))
             {
                 throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, source);

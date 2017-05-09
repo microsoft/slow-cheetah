@@ -14,7 +14,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
   </PropertyGroup>
 
   <!--Main transformation task-->
-  <UsingTask TaskName="TransformXml" AssemblyFile="$(SlowCheetahTaskPath)Microsoft.VisualStudio.SlowCheetah.dll"/>
+  <UsingTask TaskName="TransformTask" AssemblyFile="$(SlowCheetahTaskPath)Microsoft.VisualStudio.SlowCheetah.dll"/>
 
   <ItemDefinitionGroup>
     <!-- Default TransformOnBuild values for file types -->
@@ -77,7 +77,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 
     <MakeDir Directories="@(_ScDirsToCreate->'%(RelativeDir)')" Condition=" !Exists('%(RelativeDir)') " />
 
-    <SlowCheetah.TransformXml Source="@(ScFilesToTransform->'%(SourceFile)')"
+    <SlowCheetah.TransformTask Source="@(ScFilesToTransform->'%(SourceFile)')"
                               Transform="%(TransformFile)"
                               Destination="%(DestinationFile)"
                               Condition=" Exists('%(TransformFile)')"/>

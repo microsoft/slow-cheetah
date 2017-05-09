@@ -87,12 +87,12 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 
     <MakeDir Directories="@(_ScPublishDirsToCreate->'%(RelativeDir)')" Condition=" !Exists('%(RelativeDir)') " />
 
-    <SlowCheetah.TransformXml Source="@(ScFilesToTransform->'%(SourceFile)')"
+    <SlowCheetah.TransformTask Source="@(ScFilesToTransform->'%(SourceFile)')"
                               Transform="%(TransformFile)"
                               Destination="%(PublishDestinationFile)"
                               Condition="Exists('%(TransformFile)')"/>
 
-    <SlowCheetah.TransformXml Source="@(ScFilesToTransform->'%(PublishDestinationFile)')"
+    <SlowCheetah.TransformTask Source="@(ScFilesToTransform->'%(PublishDestinationFile)')"
                               Transform="%(PublishTransformFile)"
                               Destination="%(PublishDestinationFile)"
                               Condition=" Exists('%(PublishTransformFile)') and '$(ScPubProfile)'!='' and '$(ScPubProfile)' != '$(Configuration)'"/>
