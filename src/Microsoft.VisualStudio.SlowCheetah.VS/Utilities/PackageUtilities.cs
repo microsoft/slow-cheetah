@@ -125,7 +125,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True is the file is JSON</returns>
         public static bool IsJsonFile(string filepath)
         {
-            return Path.GetExtension(filepath).Equals(".json", StringComparison.OrdinalIgnoreCase);
+            return TransformerFactory.IsJsonFile(filepath);
         }
 
         /// <summary>

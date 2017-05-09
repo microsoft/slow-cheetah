@@ -30,7 +30,12 @@ namespace Microsoft.VisualStudio.SlowCheetah
             }
         }
 
-        private static bool IsJsonFile(string filePath)
+        /// <summary>
+        /// Verifies if the given file is JSON
+        /// </summary>
+        /// <param name="filePath">The path to the file</param>
+        /// <returns>True if the file is JSON</returns>
+        public static bool IsJsonFile(string filePath)
         {
             return Path.GetExtension(filePath).Equals(".json", StringComparison.OrdinalIgnoreCase);
         }
