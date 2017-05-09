@@ -19,13 +19,6 @@
      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
      <IsTool>true</IsTool>
   </PropertyGroup>
-
-  <PropertyGroup Label="MultilingualAppToolkit">
-    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
-    <MultilingualFallbackLanguage>en-US</MultilingualFallbackLanguage>
-    <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
-    <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
-  </PropertyGroup>
   
   <!-- Additional files for the nupkg -->
   <ItemGroup>
@@ -51,10 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <XliffResource Include="MultilingualResources\*.xlf" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Resources\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -71,19 +60,5 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
-
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />
-  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
-    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
-  </Target>
-
-  <Target Name="WorkaroundNuGet4698Workaround" BeforeTargets="_WalkEachTargetPerFramework" DependsOnTargets="PackSatelliteAssemblies">
-    <!-- NuGet4698Workaround puts resources in lib/TFM, we want them in tools/ -->
-    <ItemGroup>
-      <Content Update="$(OutputPath)**\*.resources.dll" Condition=" '%(Culture)' != '' ">
-        <PackagePath>tools\%(TargetPath)</PackagePath>
-      </Content>
-    </ItemGroup>
-  </Target>
 
 </Project>
