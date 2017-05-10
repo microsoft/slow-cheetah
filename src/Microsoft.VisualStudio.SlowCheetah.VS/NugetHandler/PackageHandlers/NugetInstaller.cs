@@ -26,8 +26,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public override void Execute(Project project)
         {
             var componentModel = (IComponentModel)this.Package.GetService(typeof(SComponentModel));
-            IVsPackageInstaller2 packageInstaller = componentModel.GetService<IVsPackageInstaller2>();
-            packageInstaller.InstallLatestPackage(null, project, SlowCheetahNuGetManager.PackageName, false, false);
+            IVsPackageInstaller packageInstaller = componentModel.GetService<IVsPackageInstaller>();
+            packageInstaller.InstallPackage(
+                null,
+                project,
+                SlowCheetahNuGetManager.PackageName,
+                version: (string)null, // install latest stable version
+                ignoreDependencies: false);
 
             this.Successor.Execute(project);
         }

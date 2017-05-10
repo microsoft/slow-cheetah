@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="9eb9f150-fcc9-4db8-9e97-6aef2011017c" Version="|Microsoft.VisualStudio.SlowCheetah.VS;GetBuildVersion|" Language="en-US" Publisher="Microsoft Corporation" />
-    <DisplayName>SlowCheetah - XML Transforms</DisplayName>
+    <Identity Id="9eb9f150-fcc9-4db8-9e97-6aef2011017c" Version="|%CurrentProject%;GetBuildVersion|" Language="en-US" Publisher="Microsoft Corporation" />
+    <DisplayName>SlowCheetah</DisplayName>
     <Description xml:space="preserve">Transform xml and json files at build time based on configuration. Contains tooling to assist in the creation and previewing of transform files.</Description>
     <MoreInfo>https://github.com/Microsoft/slow-cheetah</MoreInfo>
     <License>Resources\LICENSE</License>
@@ -21,6 +21,6 @@
     <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />
   </Prerequisites>
   <Assets>
-    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.VsPackage" Path="Microsoft.VisualStudio.SlowCheetah.VS.pkgdef" />
   </Assets>
 </PackageManifest>
