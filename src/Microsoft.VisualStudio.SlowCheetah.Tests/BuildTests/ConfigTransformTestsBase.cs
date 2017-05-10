@@ -60,11 +60,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
                { "OutputPath", this.OutputPath },
                { "VSToolsPath", string.Empty }
             };
+
             var project = new Project(Path.Combine(this.TestProjectsDir, projectName, projectName + ".csproj"), globalProperties, "4.0");
             var logger = new ConsoleLogger(LoggerVerbosity.Quiet);
             bool buildSuccess = project.Build(logger);
             Assert.True(buildSuccess);
-            ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
         }
 
         /// <summary>
@@ -99,6 +99,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         /// </summary>
         public void Dispose()
         {
+            ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
             if (Directory.Exists(this.OutputPath))
             {
                 Directory.Delete(this.OutputPath, true);
