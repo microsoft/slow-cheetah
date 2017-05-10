@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net452</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -42,6 +42,7 @@
       <_CopyTools Include="@(_DependentAssemblies);%(_DependentAssemblies.RelativeDir)Microsoft.Web.XmlTransform.dll" />
       <_CopyBuild Include="%(_DependentAssemblies.RelativeDir)Build\Microsoft.VisualStudio.SlowCheetah*.targets" />
     </ItemGroup>
+    <RemoveDir Directories="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\" />
     <Copy SourceFiles="@(_CopyTools)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\tools" />
     <Copy SourceFiles="@(_CopyBuild)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\build" />
   </Target>

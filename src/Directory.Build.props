@@ -1,7 +1,6 @@
 <Project>
   <!-- Setup the default output and intermediate paths -->
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
     <Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
     <Platform Condition="'$(Platform)'==''">AnyCPU</Platform>
     <BaseOutputPath>$(MSBuildThisFileDirectory)..\bin\</BaseOutputPath>
