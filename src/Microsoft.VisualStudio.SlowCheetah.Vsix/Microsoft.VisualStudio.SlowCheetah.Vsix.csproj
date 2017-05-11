@@ -41,12 +41,6 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="$(OutputPath)Microsoft.VisualStudio.SlowCheetah.VS.pkgdef">
-      <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-      <Link>Microsoft.VisualStudio.SlowCheetah.VS.pkgdef</Link>
-      <Visible>false</Visible>
-    </Content>
     <Content Include="$(OutputPath)Microsoft.Web.XmlTransform.dll">
       <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -67,11 +61,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\LICENSE" Link="Resources\LICENSE">
+    <Content Include="..\..\LICENSE" Link="LICENSE">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Resources\VSExtensibility.png">
+    <Content Include="VSExtensibility.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

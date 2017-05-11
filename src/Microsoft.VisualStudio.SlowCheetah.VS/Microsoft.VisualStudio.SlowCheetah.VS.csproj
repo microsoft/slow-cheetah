@@ -96,9 +96,6 @@
     <None Update="Microsoft.VisualStudio.SlowCheetah.VS.pkgdef">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="XDTSupportedExtensions.pkgdef">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <Target Name="LinkNugetEmbeddableAssemblies" DependsOnTargets="ResolveReferences" AfterTargets="ResolveReferences">
