@@ -28,6 +28,7 @@
     <IsPackable>false</IsPackable>
     <TargetFramework>net45</TargetFramework>
     <OutputPath>$(OutputPath)$(TargetFramework)\</OutputPath>
+    <TargetName>Microsoft.VisualStudio.SlowCheetah</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +41,12 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="$(OutputPath)Microsoft.VisualStudio.SlowCheetah.VS.pkgdef">
+      <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <Link>Microsoft.VisualStudio.SlowCheetah.VS.pkgdef</Link>
+      <Visible>false</Visible>
+    </Content>
     <Content Include="$(OutputPath)Microsoft.Web.XmlTransform.dll">
       <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -60,6 +67,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\LICENSE" Link="Resources\LICENSE">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\VSExtensibility.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

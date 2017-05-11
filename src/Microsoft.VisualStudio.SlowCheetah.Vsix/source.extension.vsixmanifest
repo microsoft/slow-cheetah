@@ -6,8 +6,8 @@
     <Description xml:space="preserve">Transform xml and json files at build time based on configuration. Contains tooling to assist in the creation and previewing of transform files.</Description>
     <MoreInfo>https://github.com/Microsoft/slow-cheetah</MoreInfo>
     <License>Resources\LICENSE</License>
-    <Icon>Resources\Images\VSExtensibility.png</Icon>
-    <PreviewImage>Resources\Images\VSExtensibility.png</PreviewImage>
+    <Icon>Resources\VSExtensibility.png</Icon>
+    <PreviewImage>Resources\VSExtensibility.png</PreviewImage>
     <Tags>Transformations Transforms XML XDT JSON JDT</Tags>
   </Metadata>
   <Installation>

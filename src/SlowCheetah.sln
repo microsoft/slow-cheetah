@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.VisualStudio.SlowCheetah.VS.Tests", "Microsoft.VisualStudio.SlowCheetah.VS.Tests\Microsoft.VisualStudio.SlowCheetah.VS.Tests.csproj", "{CF485485-48C5-4EEF-A552-7CE8A7A360E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowCheetah", "SlowCheetah\SlowCheetah.csproj", "{CD2AF93D-5714-404B-9D42-61477BE8F3CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.VisualStudio.SlowCheetah.Vsix", "Microsoft.VisualStudio.SlowCheetah.Vsix\Microsoft.VisualStudio.SlowCheetah.Vsix.csproj", "{CD2AF93D-5714-404B-9D42-61477BE8F3CF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.VisualStudio.SlowCheetah.VS", "Microsoft.VisualStudio.SlowCheetah.VS\Microsoft.VisualStudio.SlowCheetah.VS.csproj", "{80A712EE-7B5C-44D3-A2AD-F918B893B6DF}"
 EndProject

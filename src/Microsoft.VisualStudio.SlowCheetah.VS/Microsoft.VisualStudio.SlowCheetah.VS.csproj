@@ -9,13 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE" Link="Resources\LICENSE">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="EnvDTE" Version="8.0.1" />
     <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.40" />
     <PackageReference Include="Microsoft.VisualStudio.ComponentModelHost" Version="14.0.25424" />
@@ -102,10 +95,6 @@
   <ItemGroup>
     <None Update="Microsoft.VisualStudio.SlowCheetah.VS.pkgdef">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Images\VSExtensibility.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
     </None>
     <None Update="XDTSupportedExtensions.pkgdef">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
