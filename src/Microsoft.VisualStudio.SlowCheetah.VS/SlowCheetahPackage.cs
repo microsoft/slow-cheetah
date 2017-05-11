@@ -22,7 +22,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.SlowCheetah.Exceptions;
-    using System.Text;
 
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -621,8 +620,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             return itemSupportsTransforms;
         }
 
-        
-
         /// <summary>
         /// Creates a new transformation file and adds it to the project.
         /// </summary>
@@ -639,7 +636,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 if (!File.Exists(itemPath))
                 {
                     string fileName = selectedProjectItem.FileNames[1];
-                    var encoding = PackageUtilities.GetEncoding(fileName);
+                    var encoding = TransformUtilities.GetEncoding(fileName);
                     File.WriteAllText(itemPath, content, encoding);
                 }
 

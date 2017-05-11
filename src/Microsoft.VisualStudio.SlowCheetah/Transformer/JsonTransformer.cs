@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
     using System.IO;
+    using System.Text;
     using Microsoft.VisualStudio.Jdt;
 
     /// <summary>
@@ -83,14 +84,13 @@ namespace Microsoft.VisualStudio.SlowCheetah
         {
             try
             {
-                System.Text.Encoding encoding;
+                Encoding encoding;
                 string contents;
                 using (StreamReader reader = new StreamReader(result, true))
                 {
-                    // Get the contents and the encoding of the result stram
-                    reader.Peek();
-                    encoding = reader.CurrentEncoding;
+                    // Get the contents of the result stram
                     contents = reader.ReadToEnd();
+                    encoding = TransformUtilities.GetEncoding(result);
                 }
 
                 // Make sure to save it in the encoding of the result stream
