@@ -22,6 +22,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.SlowCheetah.Exceptions;
+    using System.Text;
 
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -620,6 +621,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             return itemSupportsTransforms;
         }
 
+        
+
         /// <summary>
         /// Creates a new transformation file and adds it to the project.
         /// </summary>
@@ -635,12 +638,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 string itemPath = Path.Combine(projectPath, itemName);
                 if (!File.Exists(itemPath))
                 {
-                    using (StreamReader reader = new StreamReader(selectedProjectItem.FileNames[1], true))
-                    {
-                        reader.Peek();
-                        var encoding = reader.CurrentEncoding;
-                        File.WriteAllText(itemPath, content, encoding);
-                    }
+                    string fileName = selectedProjectItem.FileNames[1];
+                    var encoding = PackageUtilities.GetEncoding(fileName);
+                    File.WriteAllText(itemPath, content, encoding);
                 }
 
                 // Add the file to the project
