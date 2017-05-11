@@ -2,7 +2,7 @@
 [![NuGet package](https://img.shields.io/nuget/v/SlowCheetah.svg)](https://nuget.org/packages/SlowCheetah)
 [![Build status](https://ci.appveyor.com/api/projects/status/qqvu367widkayo05/branch/master?svg=true)](https://ci.appveyor.com/project/jviau/slow-cheetah/branch/master)
 
-XML Transforms for app.config and other XML files.
+Transformations for XML files (such as app.config) and JSON files.
 
 Includes two primary components:
 1. NuGet package that adds an msbuild task to perform tansforms on build.
@@ -20,11 +20,11 @@ with any additional questions or comments.
 
 ## Supported File Types
 
-SlowCheetah supports transformations for XML files, specified by [XDT](https://msdn.microsoft.com/en-us/library/dd465326(v=vs.110).aspx). Transform file created by the extension follow this format.
+SlowCheetah supports transformations for XML files, specified by [XDT](https://msdn.microsoft.com/en-us/library/dd465326(v=vs.110).aspx) and for JSON files, specified by [JDT](https://github.com/Microsoft/json-document-transforms). Transform files created by the extension follow these formats.
 
 ## Features
 
-Perform transformations of XML files on build per configuration and publish profiles.
+Perform transformations of XML and JSON files on build per configuration and publish profiles.
 
 Quickly add and preview transformations to a file in the project. 
 
