@@ -119,6 +119,7 @@
   </resheader>
   <data name="ErrorMessage_FileNotFound" xml:space="preserve">
     <value>File not found</value>
+    <comment>Error message for missing file</comment>
   </data>
   <data name="ErrorMessage_SourceFileNotFound" xml:space="preserve">
     <value>File to transform not found</value>
@@ -128,13 +129,24 @@
     <value>Transform file not found</value>
     <comment>Message to be shown when the transform file is not found</comment>
   </data>
+  <data name="ErrorMessage_UnsupportedFile" xml:space="preserve">
+    <value>{0} is not a supported file type for transformation</value>
+  </data>
+  <data name="JsonTransform_TransformFileContents" xml:space="preserve">
+    <value>{
+}
+</value>
+  </data>
   <data name="XmlTransform_ContentInfo" xml:space="preserve">
     <value>For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. </value>
+    <comment>Info on XDT transforms, to be added as a comment in the transform file</comment>
   </data>
   <data name="XmlTransform_XdtAttributeName" xml:space="preserve">
     <value>xmlns:xdt</value>
+    <comment>Name of the XDT attribute to be added in the transform file</comment>
   </data>
   <data name="XmlTransform_XdtAttributeValue" xml:space="preserve">
     <value>http://schemas.microsoft.com/XML-Document-Transform</value>
+    <comment>Value of the XDT attribute to be added in the transform file</comment>
   </data>
 </root>

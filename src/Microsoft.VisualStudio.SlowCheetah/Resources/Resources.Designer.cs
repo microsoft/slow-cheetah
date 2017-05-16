@@ -88,6 +88,26 @@ namespace Microsoft.VisualStudio.SlowCheetah.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is not a supported file type for transformation.
+        /// </summary>
+        internal static string ErrorMessage_UnsupportedFile {
+            get {
+                return ResourceManager.GetString("ErrorMessage_UnsupportedFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///}
+        ///.
+        /// </summary>
+        internal static string JsonTransform_TransformFileContents {
+            get {
+                return ResourceManager.GetString("JsonTransform_TransformFileContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. .
         /// </summary>
         internal static string XmlTransform_ContentInfo {

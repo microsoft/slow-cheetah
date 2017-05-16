@@ -4,6 +4,7 @@
 namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Xml;
 
@@ -12,73 +13,34 @@ namespace Microsoft.VisualStudio.SlowCheetah
     /// </summary>
     public static class TransformerFactory
     {
+        private static readonly List<ITransformer> TransformerCatalog = new List<ITransformer>()
+        {
+            new JsonTransformer(),
+            new XmlTransformer(),
+        };
+
         /// <summary>
         /// Gets the appropriate <see cref="ITransformer"/> for the given transformation
         /// </summary>
         /// <param name="source">Path to the file to be transformed</param>
         /// <param name="logger">Logger to be used in the transformer</param>
-        /// <param name="useSections">Wheter or not to use sections while logging</param>
         /// <returns>The appropriate transformer for the given file</returns>
-        public static ITransformer GetTransformer(string source, ITransformationLogger logger, bool useSections)
+        public static ITransformer GetTransformer(string source, ITransformationLogger logger)
         {
-            if (IsJsonFile(source))
+            foreach (ITransformer transformer in TransformerCatalog)
             {
-                return new JsonTransformer(logger);
-            }
-            else if (IsXmlFile(source))
-            {
-                return new XmlTransformer(logger, useSections);
-            }
-            else
-            {
-                throw new NotSupportedException($"{source} is not a supported file type for transformation");
-            }
-        }
-
-        /// <summary>
-        /// Verifies if a file is in XML format.
-        /// Attempts to open a file using an XML Reader.
-        /// </summary>
-        /// <param name="filepath">Full path to the file</param>
-        /// <returns>True is the file is XML</returns>
-        public static bool IsXmlFile(string filepath)
-        {
-            if (string.IsNullOrWhiteSpace(filepath))
-            {
-                throw new ArgumentNullException(nameof(filepath));
-            }
-
-            if (!File.Exists(filepath))
-            {
-                throw new FileNotFoundException("File not found", filepath);
-            }
-
-            bool isXmlFile = true;
-            try
-            {
-                using (XmlTextReader xmlTextReader = new XmlTextReader(filepath))
+                if (transformer.IsFileSupported(source))
                 {
-                    // This is required because if the XML file has a DTD then it will try and download the DTD!
-                    xmlTextReader.DtdProcessing = DtdProcessing.Ignore;
-                    xmlTextReader.Read();
+                    if (logger != null)
+                    {
+                        transformer.SetLogger(logger);
+                    }
+
+                    return transformer;
                 }
             }
-            catch (XmlException)
-            {
-                isXmlFile = false;
-            }
 
-            return isXmlFile;
-        }
-
-        /// <summary>
-        /// Verifies if the given file is JSON
-        /// </summary>
-        /// <param name="filePath">The path to the file</param>
-        /// <returns>True if the file is JSON</returns>
-        public static bool IsJsonFile(string filePath)
-        {
-            return Path.GetExtension(filePath).Equals(".json", StringComparison.OrdinalIgnoreCase);
+            throw new NotSupportedException(string.Format(Resources.Resources.ErrorMessage_UnsupportedFile, source));
         }
 
         /// <summary>
@@ -89,7 +51,15 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <returns>True is the file type is supported</returns>
         public static bool IsSupportedFile(string filepath)
         {
-            return IsJsonFile(filepath) || IsXmlFile(filepath);
+            foreach (ITransformer transformer in TransformerCatalog)
+            {
+                if (transformer.IsFileSupported(filepath))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

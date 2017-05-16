@@ -13,7 +13,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     /// </summary>
     public class JsonTransformer : ITransformer
     {
-        private readonly IJsonTransformationLogger logger;
+        private IJsonTransformationLogger logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonTransformer"/> class.
@@ -28,12 +28,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <param name="logger">The logger to use</param>
         public JsonTransformer(ITransformationLogger logger)
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            this.logger = new JsonShimLogger(logger);
+            this.SetLogger(logger);
         }
 
         /// <inheritdoc/>
@@ -57,12 +52,8 @@ namespace Microsoft.VisualStudio.SlowCheetah
             // If the file should be overwritten or if it doesn't exist, we create it
             if (overwrite || !File.Exists(transformPath))
             {
-                // First, copy the original file to preserve encoding and header
-                File.Copy(sourcePath, transformPath, true);
-
-                using (FileStream transformStream = File.OpenWrite(transformPath))
-                {
-                }
+                var encoding = TransformUtilities.GetEncoding(sourcePath);
+                File.WriteAllText(transformPath, Resources.Resources.JsonTransform_TransformFileContents, encoding);
             }
         }
 
@@ -76,10 +67,21 @@ namespace Microsoft.VisualStudio.SlowCheetah
 
             if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException("File not found", filePath);
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_FileNotFound, filePath);
             }
 
             return Path.GetExtension(filePath).Equals(".json", StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <inheritdoc/>
+        public void SetLogger(ITransformationLogger logger)
+        {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            this.logger = new JsonShimLogger(logger);
         }
 
         /// <inheritdoc/>

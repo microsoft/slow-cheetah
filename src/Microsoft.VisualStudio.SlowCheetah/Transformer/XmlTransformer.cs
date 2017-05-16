@@ -29,12 +29,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <param name="useSections">Wheter or not to use sections while logging</param>
         public XmlTransformer(ITransformationLogger logger, bool useSections)
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            this.logger = new XmlShimLogger(logger, useSections);
+            this.SetLogger(logger);
         }
 
         /// <inheritdoc/>
@@ -101,6 +96,17 @@ namespace Microsoft.VisualStudio.SlowCheetah
             }
 
             return isXmlFile;
+        }
+
+        /// <inheritdoc/>
+        public void SetLogger(ITransformationLogger logger)
+        {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            this.logger = new XmlShimLogger(logger, false);
         }
 
         /// <inheritdoc/>

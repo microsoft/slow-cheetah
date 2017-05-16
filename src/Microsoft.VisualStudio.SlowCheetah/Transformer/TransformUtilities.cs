@@ -63,7 +63,10 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 return Encoding.UTF32;
             }
 
-            return Encoding.ASCII;
+            using (StreamReader reader = new StreamReader(stream, true))
+            {
+                return reader.CurrentEncoding;
+            }
         }
     }
 }
