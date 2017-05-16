@@ -61,6 +61,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File not found.
+        /// </summary>
+        internal static string ErrorMessage_FileNotFound {
+            get {
+                return ResourceManager.GetString("ErrorMessage_FileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File to transform not found.
         /// </summary>
         internal static string ErrorMessage_SourceFileNotFound {
@@ -84,6 +93,24 @@ namespace Microsoft.VisualStudio.SlowCheetah.Resources {
         internal static string XmlTransform_ContentInfo {
             get {
                 return ResourceManager.GetString("XmlTransform_ContentInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to xmlns:xdt.
+        /// </summary>
+        internal static string XmlTransform_XdtAttributeName {
+            get {
+                return ResourceManager.GetString("XmlTransform_XdtAttributeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://schemas.microsoft.com/XML-Document-Transform.
+        /// </summary>
+        internal static string XmlTransform_XdtAttributeValue {
+            get {
+                return ResourceManager.GetString("XmlTransform_XdtAttributeValue", resourceCulture);
             }
         }
     }

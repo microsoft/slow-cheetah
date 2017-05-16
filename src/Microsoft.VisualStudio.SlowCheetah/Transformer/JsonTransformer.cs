@@ -37,9 +37,33 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <inheritdoc/>
-        public void CreateTransformFile(string sourcePath, string transformPath)
+        public void CreateTransformFile(string sourcePath, string transformPath, bool overwrite)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(sourcePath))
+            {
+                throw new ArgumentNullException(nameof(sourcePath));
+            }
+
+            if (string.IsNullOrWhiteSpace(transformPath))
+            {
+                throw new ArgumentNullException(nameof(transformPath));
+            }
+
+            if (!File.Exists(sourcePath))
+            {
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, sourcePath);
+            }
+
+            // If the file should be overwritten or if it doesn't exist, we create it
+            if (overwrite || !File.Exists(transformPath))
+            {
+                // First, copy the original file to preserve encoding and header
+                File.Copy(sourcePath, transformPath, true);
+
+                using (FileStream transformStream = File.OpenWrite(transformPath))
+                {
+                }
+            }
         }
 
         /// <inheritdoc/>

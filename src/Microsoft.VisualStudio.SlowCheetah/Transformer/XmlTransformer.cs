@@ -5,8 +5,8 @@ namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
     using System.IO;
-    using Microsoft.Web.XmlTransform;
     using System.Xml;
+    using Microsoft.Web.XmlTransform;
 
     /// <summary>
     /// Transforms XML files utilizing Microsoft Web XmlTransform library
@@ -38,7 +38,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <inheritdoc/>
-        public void CreateTransformFile(string sourcePath, string transformPath)
+        public void CreateTransformFile(string sourcePath, string transformPath, bool overwrite)
         {
             if (string.IsNullOrWhiteSpace(sourcePath))
             {
@@ -52,7 +52,23 @@ namespace Microsoft.VisualStudio.SlowCheetah
 
             if (!File.Exists(sourcePath))
             {
-                throw new FileNotFoundException("File not found", sourcePath);
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, sourcePath);
+            }
+
+            // If the file should be overwritten or if it doesn't exist, we create it
+            if (overwrite || !File.Exists(transformPath))
+            {
+                // First, copy the original file to preserve encoding and header
+                File.Copy(sourcePath, transformPath, true);
+
+                XmlDocument transformDoc = new XmlDocument();
+                transformDoc.Load(transformPath);
+                XmlComment xdtInfo = transformDoc.CreateComment(Resources.Resources.XmlTransform_ContentInfo);
+                XmlElement root = transformDoc.DocumentElement;
+                transformDoc.InsertBefore(xdtInfo, root);
+                root.SetAttribute(Resources.Resources.XmlTransform_XdtAttributeName, Resources.Resources.XmlTransform_XdtAttributeValue);
+                root.InnerXml = string.Empty;
+                transformDoc.Save(transformPath);
             }
         }
 
@@ -66,7 +82,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
 
             if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException("File not found", filePath);
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_FileNotFound, filePath);
             }
 
             bool isXmlFile = true;

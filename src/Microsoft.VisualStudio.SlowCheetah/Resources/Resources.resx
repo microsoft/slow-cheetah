@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrorMessage_FileNotFound" xml:space="preserve">
+    <value>File not found</value>
+  </data>
   <data name="ErrorMessage_SourceFileNotFound" xml:space="preserve">
     <value>File to transform not found</value>
     <comment>Message to be shown when the source file is not found</comment>
@@ -127,5 +130,11 @@
   </data>
   <data name="XmlTransform_ContentInfo" xml:space="preserve">
     <value>For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. </value>
+  </data>
+  <data name="XmlTransform_XdtAttributeName" xml:space="preserve">
+    <value>xmlns:xdt</value>
+  </data>
+  <data name="XmlTransform_XdtAttributeValue" xml:space="preserve">
+    <value>http://schemas.microsoft.com/XML-Document-Transform</value>
   </data>
 </root>

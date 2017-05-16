@@ -29,6 +29,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// </summary>
         /// <param name="sourcePath">Path to the source file</param>
         /// <param name="transformPath">Path to the transform file to be created</param>
-        void CreateTransformFile(string sourcePath, string transformPath);
+        /// <param name="overwrite">Wether an an existing transform file should be overwritten</param>
+        void CreateTransformFile(string sourcePath, string transformPath, bool overwrite);
     }
 }
