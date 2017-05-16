@@ -37,40 +37,62 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <inheritdoc/>
-        public bool Transform(string source, string transform, string destination)
+        public void CreateTransformFile(string sourcePath, string transformPath)
         {
-            if (string.IsNullOrWhiteSpace(source))
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public bool IsFileSupported(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
             {
-                throw new ArgumentException($"{nameof(source)} cannot be null or whitespace");
+                throw new ArgumentNullException(nameof(filePath));
             }
 
-            if (string.IsNullOrWhiteSpace(transform))
+            if (!File.Exists(filePath))
             {
-                throw new ArgumentException($"{nameof(transform)} cannot be null or whitespace");
+                throw new FileNotFoundException("File not found", filePath);
             }
 
-            if (string.IsNullOrWhiteSpace(destination))
+            return Path.GetExtension(filePath).Equals(".json", StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <inheritdoc/>
+        public bool Transform(string sourcePath, string transformPath, string destinationPath)
+        {
+            if (string.IsNullOrWhiteSpace(sourcePath))
             {
-                throw new ArgumentException($"{nameof(destination)} cannot be null or whitespace");
+                throw new ArgumentException($"{nameof(sourcePath)} cannot be null or whitespace");
             }
 
-            if (!File.Exists(source))
+            if (string.IsNullOrWhiteSpace(transformPath))
             {
-                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, source);
+                throw new ArgumentException($"{nameof(transformPath)} cannot be null or whitespace");
             }
 
-            if (!File.Exists(transform))
+            if (string.IsNullOrWhiteSpace(destinationPath))
             {
-                throw new FileNotFoundException(Resources.Resources.ErrorMessage_TransformFileNotFound, transform);
+                throw new ArgumentException($"{nameof(destinationPath)} cannot be null or whitespace");
             }
 
-            var transformation = new JsonTransformation(transform, this.logger);
+            if (!File.Exists(sourcePath))
+            {
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, sourcePath);
+            }
+
+            if (!File.Exists(transformPath))
+            {
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_TransformFileNotFound, transformPath);
+            }
+
+            var transformation = new JsonTransformation(transformPath, this.logger);
 
             try
             {
-                using (Stream result = transformation.Apply(source))
+                using (Stream result = transformation.Apply(sourcePath))
                 {
-                    return this.TrySaveToFile(result, destination);
+                    return this.TrySaveToFile(result, sourcePath, destinationPath);
                 }
             }
             catch
@@ -80,21 +102,21 @@ namespace Microsoft.VisualStudio.SlowCheetah
             }
         }
 
-        private bool TrySaveToFile(Stream result, string destinationFile)
+        private bool TrySaveToFile(Stream result, string sourceFile, string destinationFile)
         {
             try
             {
-                Encoding encoding;
+                // Copy over the source file to guarantee encoding consistency
+                File.Copy(sourceFile, destinationFile, overwrite: true);
                 string contents;
                 using (StreamReader reader = new StreamReader(result, true))
                 {
                     // Get the contents of the result stram
                     contents = reader.ReadToEnd();
-                    encoding = TransformUtilities.GetEncoding(result);
                 }
 
                 // Make sure to save it in the encoding of the result stream
-                File.WriteAllText(destinationFile, contents, encoding);
+                File.WriteAllText(destinationFile, contents);
 
                 return true;
             }

@@ -85,13 +85,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>Contents of the XML transform file.</returns>
         private static string BuildXdtContent(string sourceItemPath)
         {
-            string content = Resources.Resources.XmlTransformContents;
+            string content = string.Empty;
 
             using (MemoryStream contentStream = new MemoryStream())
             {
                 XmlWriterSettings settings = new XmlWriterSettings()
                 {
-                    OmitXmlDeclaration = true,
+                    OmitXmlDeclaration = false,
                     NewLineOnAttributes = true
                 };
 
@@ -101,7 +101,14 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 {
                     while (reader.Read())
                     {
-                        if (reader.NodeType == XmlNodeType.Element)
+                        if (reader.NodeType == XmlNodeType.XmlDeclaration)
+                        {
+                            contentWriter.WriteNode(reader, false);
+                            contentWriter.WriteWhitespace(Environment.NewLine);
+                            contentWriter.WriteComment(Resources.Resources.XmlTransform_ContentInfo);
+                            contentWriter.WriteWhitespace(Environment.NewLine);
+                        }
+                        else if (reader.NodeType == XmlNodeType.Element)
                         {
                             contentWriter.WriteStartElement(reader.Name, reader.NamespaceURI);
                             for (int index = 0; index < reader.AttributeCount; index++)

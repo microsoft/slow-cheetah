@@ -215,4 +215,7 @@
   <data name="XmlTransformContents" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>TransformContents.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="XmlTransform_ContentInfo" xml:space="preserve">
+    <value>For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. </value>
+  </data>
 </root>

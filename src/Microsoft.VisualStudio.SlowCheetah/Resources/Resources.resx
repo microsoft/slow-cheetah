@@ -125,4 +125,7 @@
     <value>Transform file not found</value>
     <comment>Message to be shown when the transform file is not found</comment>
   </data>
+  <data name="XmlTransform_ContentInfo" xml:space="preserve">
+    <value>For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. </value>
+  </data>
 </root>

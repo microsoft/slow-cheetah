@@ -6,6 +6,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     using System;
     using System.IO;
     using Microsoft.Web.XmlTransform;
+    using System.Xml;
 
     /// <summary>
     /// Transforms XML files utilizing Microsoft Web XmlTransform library
@@ -37,43 +38,93 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <inheritdoc/>
-        public bool Transform(string source, string transform, string destination)
+        public void CreateTransformFile(string sourcePath, string transformPath)
         {
-            if (string.IsNullOrWhiteSpace(source))
+            if (string.IsNullOrWhiteSpace(sourcePath))
             {
-                throw new ArgumentNullException(nameof(source));
+                throw new ArgumentNullException(nameof(sourcePath));
             }
 
-            if (string.IsNullOrWhiteSpace(source))
+            if (string.IsNullOrWhiteSpace(transformPath))
             {
-                throw new ArgumentNullException(nameof(transform));
+                throw new ArgumentNullException(nameof(transformPath));
             }
 
-            if (string.IsNullOrWhiteSpace(source))
+            if (!File.Exists(sourcePath))
             {
-                throw new ArgumentNullException(nameof(destination));
+                throw new FileNotFoundException("File not found", sourcePath);
+            }
+        }
+
+        /// <inheritdoc/>
+        public bool IsFileSupported(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
             }
 
-            if (!File.Exists(source))
+            if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, source);
+                throw new FileNotFoundException("File not found", filePath);
             }
 
-            if (!File.Exists(transform))
+            bool isXmlFile = true;
+            try
             {
-                throw new FileNotFoundException(Resources.Resources.ErrorMessage_TransformFileNotFound, transform);
+                using (XmlTextReader xmlTextReader = new XmlTextReader(filePath))
+                {
+                    // This is required because if the XML file has a DTD then it will try and download the DTD!
+                    xmlTextReader.DtdProcessing = DtdProcessing.Ignore;
+                    xmlTextReader.Read();
+                }
+            }
+            catch (XmlException)
+            {
+                isXmlFile = false;
+            }
+
+            return isXmlFile;
+        }
+
+        /// <inheritdoc/>
+        public bool Transform(string sourcePath, string transformPath, string destinationPath)
+        {
+            if (string.IsNullOrWhiteSpace(sourcePath))
+            {
+                throw new ArgumentNullException(nameof(sourcePath));
+            }
+
+            if (string.IsNullOrWhiteSpace(sourcePath))
+            {
+                throw new ArgumentNullException(nameof(transformPath));
+            }
+
+            if (string.IsNullOrWhiteSpace(sourcePath))
+            {
+                throw new ArgumentNullException(nameof(destinationPath));
+            }
+
+            if (!File.Exists(sourcePath))
+            {
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, sourcePath);
+            }
+
+            if (!File.Exists(transformPath))
+            {
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_TransformFileNotFound, transformPath);
             }
 
             using (XmlTransformableDocument document = new XmlTransformableDocument())
-            using (XmlTransformation transformation = new XmlTransformation(transform, this.logger))
+            using (XmlTransformation transformation = new XmlTransformation(transformPath, this.logger))
             {
                 document.PreserveWhitespace = true;
-                document.Load(source);
+                document.Load(sourcePath);
 
                 var success = transformation.Apply(document);
                 if (success)
                 {
-                    document.Save(destination);
+                    document.Save(destinationPath);
                 }
 
                 return success;

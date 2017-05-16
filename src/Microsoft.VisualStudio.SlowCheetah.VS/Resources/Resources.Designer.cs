@@ -279,6 +279,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. .
+        /// </summary>
+        internal static string XmlTransform_ContentInfo {
+            get {
+                return ResourceManager.GetString("XmlTransform_ContentInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;!-- For more information on using transformations 
         ///     see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. --&gt;
