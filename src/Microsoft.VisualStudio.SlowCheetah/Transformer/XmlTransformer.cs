@@ -22,16 +22,6 @@ namespace Microsoft.VisualStudio.SlowCheetah
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="XmlTransformer"/> class with an external logger.
-        /// </summary>
-        /// <param name="logger">External logger. Passed into the transformation</param>
-        /// <param name="useSections">Wheter or not to use sections while logging</param>
-        public XmlTransformer(ITransformationLogger logger, bool useSections)
-        {
-            this.SetLogger(logger);
-        }
-
         /// <inheritdoc/>
         public void CreateTransformFile(string sourcePath, string transformPath, bool overwrite)
         {

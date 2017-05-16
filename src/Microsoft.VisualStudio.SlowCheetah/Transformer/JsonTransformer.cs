@@ -22,15 +22,6 @@ namespace Microsoft.VisualStudio.SlowCheetah
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="JsonTransformer"/> class with a logger
-        /// </summary>
-        /// <param name="logger">The logger to use</param>
-        public JsonTransformer(ITransformationLogger logger)
-        {
-            this.SetLogger(logger);
-        }
-
         /// <inheritdoc/>
         public void CreateTransformFile(string sourcePath, string transformPath, bool overwrite)
         {
