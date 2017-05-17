@@ -106,17 +106,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {
-        ///}
-        ///.
-        /// </summary>
-        internal static string JsonTransformContents {
-            get {
-                return ResourceManager.GetString("JsonTransformContents", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Error installing SlowCheetah NuGet package to {0}..
         /// </summary>
         internal static string NugetInstall_ErrorOutput {
@@ -158,24 +147,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         internal static string NugetInstall_Title {
             get {
                 return ResourceManager.GetString("NugetInstall_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to here.
-        /// </summary>
-        internal static string NugetUpdate_InfoBarLink {
-            get {
-                return ResourceManager.GetString("NugetUpdate_InfoBarLink", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to It seems that you do not have the correct version of the SlowCheetah Nuget package installed. Transforms on this project will not be executed. To learn about updating from an older version, click .
-        /// </summary>
-        internal static string NugetUpdate_InfoBarText {
-            get {
-                return ResourceManager.GetString("NugetUpdate_InfoBarText", resourceCulture);
             }
         }
         
@@ -275,27 +246,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         internal static string TransformPreview_ToolTip {
             get {
                 return ResourceManager.GetString("TransformPreview_ToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. .
-        /// </summary>
-        internal static string XmlTransform_ContentInfo {
-            get {
-                return ResourceManager.GetString("XmlTransform_ContentInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;!-- For more information on using transformations 
-        ///     see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. --&gt;
-        ///.
-        /// </summary>
-        internal static string XmlTransformContents {
-            get {
-                return ResourceManager.GetString("XmlTransformContents", resourceCulture);
             }
         }
     }

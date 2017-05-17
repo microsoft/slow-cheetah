@@ -98,10 +98,6 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Transform\" />
-  </ItemGroup>
-
   <Target Name="LinkNugetEmbeddableAssemblies" DependsOnTargets="ResolveReferences" AfterTargets="ResolveReferences">
     <ItemGroup>
       <ReferencePath Condition="'%(FileName)' == 'Nuget.VisualStudio'">
