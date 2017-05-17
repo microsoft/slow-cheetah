@@ -39,7 +39,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <returns>The detected encoding.</returns>
         public static Encoding GetEncoding(Stream stream)
         {
-            if(stream == null)
+            if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
