@@ -27,19 +27,28 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <returns>The appropriate transformer for the given file</returns>
         public static ITransformer GetTransformer(string source, ITransformationLogger logger)
         {
-            return TransformerCatalog.FirstOrDefault()?.WithLogger(logger)
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                throw new ArgumentException(nameof(source));
+            }
+
+            return TransformerCatalog.FirstOrDefault(tr => tr.IsFileSupported(source))?.WithLogger(logger)
                 ?? throw new NotSupportedException(string.Format(Resources.Resources.ErrorMessage_UnsupportedFile, source));
         }
 
         /// <summary>
         /// Verifies if a file is of a supported format.
-        /// JSON or XML
         /// </summary>
-        /// <param name="filepath">Full path to the file</param>
+        /// <param name="filePath">Full path to the file</param>
         /// <returns>True is the file type is supported</returns>
-        public static bool IsSupportedFile(string filepath)
+        public static bool IsSupportedFile(string filePath)
         {
-            return TransformerCatalog.Any(tr => tr.IsFileSupported(filepath));
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentException(nameof(filePath));
+            }
+
+            return TransformerCatalog.Any(tr => tr.IsFileSupported(filePath));
         }
     }
 }

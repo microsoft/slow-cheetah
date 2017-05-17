@@ -3,6 +3,7 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah
 {
+    using System;
     using System.IO;
     using System.Text;
 
@@ -19,6 +20,11 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <returns>The detected encoding.</returns>
         public static Encoding GetEncoding(string filename)
         {
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                throw new ArgumentException(nameof(filename));
+            }
+
             using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
                 return GetEncoding(file);
@@ -65,6 +71,8 @@ namespace Microsoft.VisualStudio.SlowCheetah
 
             using (StreamReader reader = new StreamReader(stream, true))
             {
+                stream.Position = 0;
+                reader.Peek();
                 return reader.CurrentEncoding;
             }
         }

@@ -11,7 +11,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <summary>
         /// Returns an instance of the <see cref="ITransformer"/> with the given logger
         /// </summary>
-        /// <param name="logger">The external logger</param>
+        /// <param name="logger">The external logger. Can be null</param>
         /// <returns>A new instance of the transformer</returns>
         ITransformer WithLogger(ITransformationLogger logger);
 

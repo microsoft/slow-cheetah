@@ -36,7 +36,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 throw new ArgumentNullException(nameof(logger));
             }
 
-            this.logger = new XmlShimLogger(logger, false);
+            this.logger = new XmlShimLogger(logger, useSections: false);
         }
 
         /// <inheritdoc/>
@@ -61,14 +61,14 @@ namespace Microsoft.VisualStudio.SlowCheetah
             if (overwrite || !File.Exists(transformPath))
             {
                 // First, copy the original file to preserve encoding and header
-                File.Copy(sourcePath, transformPath, true);
+                File.Copy(sourcePath, transformPath, overwrite);
 
                 XmlDocument transformDoc = new XmlDocument();
                 transformDoc.Load(transformPath);
                 XmlComment xdtInfo = transformDoc.CreateComment(Resources.Resources.XmlTransform_ContentInfo);
                 XmlElement root = transformDoc.DocumentElement;
                 transformDoc.InsertBefore(xdtInfo, root);
-                root.SetAttribute(Resources.Resources.XmlTransform_XdtAttributeName, Resources.Resources.XmlTransform_XdtAttributeValue);
+                root.SetAttribute(XdtAttributeName, XdtAttributeValue);
                 root.InnerXml = string.Empty;
                 transformDoc.Save(transformPath);
             }
@@ -87,7 +87,6 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 throw new FileNotFoundException(Resources.Resources.ErrorMessage_FileNotFound, filePath);
             }
 
-            bool isXmlFile = true;
             try
             {
                 using (XmlTextReader xmlTextReader = new XmlTextReader(filePath))
@@ -95,14 +94,14 @@ namespace Microsoft.VisualStudio.SlowCheetah
                     // This is required because if the XML file has a DTD then it will try and download the DTD!
                     xmlTextReader.DtdProcessing = DtdProcessing.Ignore;
                     xmlTextReader.Read();
+                    return true;
                 }
             }
             catch (XmlException)
             {
-                isXmlFile = false;
             }
 
-            return isXmlFile;
+            return false;
         }
 
         /// <inheritdoc/>
@@ -152,7 +151,18 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <inheritdoc/>
         public ITransformer WithLogger(ITransformationLogger logger)
         {
-            return new XmlTransformer(logger);
+            if (logger == this.logger)
+            {
+                return this;
+            }
+            else if (logger == null)
+            {
+                return new XmlTransformer();
+            }
+            else
+            {
+                return new XmlTransformer(logger);
+            }
         }
     }
 }

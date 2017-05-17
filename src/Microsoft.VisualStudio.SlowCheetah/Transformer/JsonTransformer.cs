@@ -12,6 +12,9 @@ namespace Microsoft.VisualStudio.SlowCheetah
     /// </summary>
     public class JsonTransformer : ITransformer
     {
+        // Contents of a newly created transform file
+        private static readonly string TransformFileContents = "{" + Environment.NewLine + "}" + Environment.NewLine;
+
         private IJsonTransformationLogger logger;
 
         /// <summary>
@@ -124,7 +127,18 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <inheritdoc/>
         public ITransformer WithLogger(ITransformationLogger logger)
         {
-            return new JsonTransformer(logger);
+            if (logger == this.logger)
+            {
+                return this;
+            }
+            else if (logger == null)
+            {
+                return new JsonTransformer();
+            }
+            else
+            {
+                return new JsonTransformer(logger);
+            }
         }
 
         private bool TrySaveToFile(Stream result, string sourceFile, string destinationFile)
