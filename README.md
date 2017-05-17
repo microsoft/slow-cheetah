@@ -1,5 +1,5 @@
 # slow-cheetah
-[![NuGet package](https://img.shields.io/nuget/v/SlowCheetah.svg)](https://nuget.org/packages/SlowCheetah)
+[![NuGet package](https://img.shields.io/nuget/v/Microsoft.VisualStudio.SlowCheetah.svg)](https://nuget.org/packages/Microsoft.VisualStudio.SlowCheetah)
 [![Build status](https://ci.appveyor.com/api/projects/status/qqvu367widkayo05/branch/master?svg=true)](https://ci.appveyor.com/project/jviau/slow-cheetah/branch/master)
 
 Transformations for XML files (such as app.config) and JSON files.
