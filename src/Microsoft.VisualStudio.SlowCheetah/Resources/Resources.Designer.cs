@@ -115,23 +115,5 @@ namespace Microsoft.VisualStudio.SlowCheetah.Resources {
                 return ResourceManager.GetString("XmlTransform_ContentInfo", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to xmlns:xdt.
-        /// </summary>
-        internal static string XmlTransform_XdtAttributeName {
-            get {
-                return ResourceManager.GetString("XmlTransform_XdtAttributeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://schemas.microsoft.com/XML-Document-Transform.
-        /// </summary>
-        internal static string XmlTransform_XdtAttributeValue {
-            get {
-                return ResourceManager.GetString("XmlTransform_XdtAttributeValue", resourceCulture);
-            }
-        }
     }
 }

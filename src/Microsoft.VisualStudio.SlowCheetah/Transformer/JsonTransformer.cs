@@ -5,7 +5,6 @@ namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
     using System.IO;
-    using System.Text;
     using Microsoft.VisualStudio.Jdt;
 
     /// <summary>
@@ -123,9 +122,8 @@ namespace Microsoft.VisualStudio.SlowCheetah
         {
             try
             {
-                // Copy over the source file to guarantee encoding consistency
-                File.Copy(sourceFile, destinationFile, overwrite: true);
                 string contents;
+                var encoding = TransformUtilities.GetEncoding(sourceFile);
                 using (StreamReader reader = new StreamReader(result, true))
                 {
                     // Get the contents of the result stram
@@ -133,7 +131,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 }
 
                 // Make sure to save it in the encoding of the result stream
-                File.WriteAllText(destinationFile, contents);
+                File.WriteAllText(destinationFile, contents, encoding);
 
                 return true;
             }

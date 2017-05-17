@@ -13,6 +13,9 @@ namespace Microsoft.VisualStudio.SlowCheetah
     /// </summary>
     public class XmlTransformer : ITransformer
     {
+        private const string XdtAttributeName = "xmlns:xdt";
+        private const string XdtAttributeValue = "http://schemas.microsoft.com/XML-Document-Transform";
+
         private IXmlTransformationLogger logger = null;
 
         /// <summary>
