@@ -21,6 +21,20 @@ namespace Microsoft.VisualStudio.SlowCheetah
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonTransformer"/> class with an external logger
+        /// </summary>
+        /// <param name="logger">The external logger</param>
+        public JsonTransformer(ITransformationLogger logger)
+        {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            this.logger = new JsonShimLogger(logger);
+        }
+
         /// <inheritdoc/>
         public void CreateTransformFile(string sourcePath, string transformPath, bool overwrite)
         {
@@ -61,17 +75,6 @@ namespace Microsoft.VisualStudio.SlowCheetah
             }
 
             return Path.GetExtension(filePath).Equals(".json", StringComparison.OrdinalIgnoreCase);
-        }
-
-        /// <inheritdoc/>
-        public void SetLogger(ITransformationLogger logger)
-        {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            this.logger = new JsonShimLogger(logger);
         }
 
         /// <inheritdoc/>
@@ -116,6 +119,12 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 // JDT exceptions are handled by it's own logger
                 return false;
             }
+        }
+
+        /// <inheritdoc/>
+        public ITransformer WithLogger(ITransformationLogger logger)
+        {
+            return new JsonTransformer(logger);
         }
 
         private bool TrySaveToFile(Stream result, string sourceFile, string destinationFile)

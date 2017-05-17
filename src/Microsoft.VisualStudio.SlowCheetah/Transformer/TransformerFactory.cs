@@ -6,7 +6,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Xml;
+    using System.Linq;
 
     /// <summary>
     /// Factory for <see cref="ITransformer"/>
@@ -27,20 +27,8 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <returns>The appropriate transformer for the given file</returns>
         public static ITransformer GetTransformer(string source, ITransformationLogger logger)
         {
-            foreach (ITransformer transformer in TransformerCatalog)
-            {
-                if (transformer.IsFileSupported(source))
-                {
-                    if (logger != null)
-                    {
-                        transformer.SetLogger(logger);
-                    }
-
-                    return transformer;
-                }
-            }
-
-            throw new NotSupportedException(string.Format(Resources.Resources.ErrorMessage_UnsupportedFile, source));
+            return TransformerCatalog.FirstOrDefault()?.WithLogger(logger)
+                ?? throw new NotSupportedException(string.Format(Resources.Resources.ErrorMessage_UnsupportedFile, source));
         }
 
         /// <summary>
@@ -51,15 +39,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <returns>True is the file type is supported</returns>
         public static bool IsSupportedFile(string filepath)
         {
-            foreach (ITransformer transformer in TransformerCatalog)
-            {
-                if (transformer.IsFileSupported(filepath))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return TransformerCatalog.Any(tr => tr.IsFileSupported(filepath));
         }
     }
 }

@@ -25,6 +25,20 @@ namespace Microsoft.VisualStudio.SlowCheetah
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmlTransformer"/> class with an external logger
+        /// </summary>
+        /// <param name="logger">The external logger</param>
+        public XmlTransformer(ITransformationLogger logger)
+        {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            this.logger = new XmlShimLogger(logger, false);
+        }
+
         /// <inheritdoc/>
         public void CreateTransformFile(string sourcePath, string transformPath, bool overwrite)
         {
@@ -92,17 +106,6 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <inheritdoc/>
-        public void SetLogger(ITransformationLogger logger)
-        {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            this.logger = new XmlShimLogger(logger, false);
-        }
-
-        /// <inheritdoc/>
         public bool Transform(string sourcePath, string transformPath, string destinationPath)
         {
             if (string.IsNullOrWhiteSpace(sourcePath))
@@ -144,6 +147,12 @@ namespace Microsoft.VisualStudio.SlowCheetah
 
                 return success;
             }
+        }
+
+        /// <inheritdoc/>
+        public ITransformer WithLogger(ITransformationLogger logger)
+        {
+            return new XmlTransformer(logger);
         }
     }
 }

@@ -9,10 +9,11 @@ namespace Microsoft.VisualStudio.SlowCheetah
     public interface ITransformer
     {
         /// <summary>
-        /// Sets the logger to be used by the transformation
+        /// Returns an instance of the <see cref="ITransformer"/> with the given logger
         /// </summary>
         /// <param name="logger">The external logger</param>
-        void SetLogger(ITransformationLogger logger);
+        /// <returns>A new instance of the transformer</returns>
+        ITransformer WithLogger(ITransformationLogger logger);
 
         /// <summary>
         /// Main method that tranforms a source file accoring to a transformation file and puts it in a destination file
