@@ -39,6 +39,11 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <returns>The detected encoding.</returns>
         public static Encoding GetEncoding(Stream stream)
         {
+            if(stream == null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
             // Read the BOM
             var bom = new byte[4];
             stream.Read(bom, 0, 4);
