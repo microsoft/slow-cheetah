@@ -54,7 +54,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     [ProvideOptionPage(typeof(OptionsDialogPage), "Slow Cheetah", "General", 100, 101, true)]
     [ProvideOptionPage(typeof(AdvancedOptionsDialogPage), "Slow Cheetah", "Advanced", 100, 101, true)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    public sealed class SlowCheetahPackage : Package, IVsUpdateSolutionEvents
+    public sealed partial class SlowCheetahPackage : Package, IVsUpdateSolutionEvents
     {
         private static readonly string TransformOnBuild = "TransformOnBuild";
         private static readonly string IsTransformFile = "IsTransformFile";
@@ -102,38 +102,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             return installDirectory;
-        }
-
-        /// <inheritdoc/>
-        public int UpdateSolution_Begin(ref int pfCancelUpdate)
-        {
-            return VSConstants.S_OK;
-        }
-
-        /// <inheritdoc/>
-        public int UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
-        {
-            return VSConstants.S_OK;
-        }
-
-        /// <inheritdoc/>
-        public int UpdateSolution_StartUpdate(ref int pfCancelUpdate)
-        {
-            // On solution update, clear all errors generated
-            this.errorListProvider.Tasks.Clear();
-            return VSConstants.S_OK;
-        }
-
-        /// <inheritdoc/>
-        public int UpdateSolution_Cancel()
-        {
-            return VSConstants.S_OK;
-        }
-
-        /// <inheritdoc/>
-        public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy)
-        {
-            return VSConstants.S_OK;
         }
 
         /// <summary>
