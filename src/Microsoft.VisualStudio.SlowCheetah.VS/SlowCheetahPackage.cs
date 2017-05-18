@@ -13,15 +13,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System.ComponentModel.Design;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
     using System.IO;
-    using System.Linq;
     using System.Runtime.InteropServices;
-    using EnvDTE;
-    using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
-    using Microsoft.VisualStudio.SlowCheetah.Exceptions;
 
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.

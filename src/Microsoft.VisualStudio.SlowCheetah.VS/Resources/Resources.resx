@@ -121,6 +121,10 @@
     <value>Cannot find the preview tool {0}. Verify the transform settings in Tools\Options.</value>
     <comment>Error message</comment>
   </data>
+  <data name="Error_FileToTransformNotFound" xml:space="preserve">
+    <value>Unable to preview transform. No source file found for {0}. Check to see if the file is still part of your project.</value>
+    <comment>Error message for when a transform file has no corresponding source file.</comment>
+  </data>
   <data name="Error_NoPreviewToolSpecified" xml:space="preserve">
     <value>No preview tool specified. You can set a preview tool in the transform settings in Tools\Options.</value>
     <comment>Error message</comment>

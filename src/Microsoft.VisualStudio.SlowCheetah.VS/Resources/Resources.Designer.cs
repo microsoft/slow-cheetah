@@ -19,7 +19,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -66,6 +66,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         internal static string Error_CantFindPreviewTool {
             get {
                 return ResourceManager.GetString("Error_CantFindPreviewTool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to preview transform. No source file found for {0}. Check to see if the file is still part of your project..
+        /// </summary>
+        internal static string Error_FileToTransformNotFound {
+            get {
+                return ResourceManager.GetString("Error_FileToTransformNotFound", resourceCulture);
             }
         }
         

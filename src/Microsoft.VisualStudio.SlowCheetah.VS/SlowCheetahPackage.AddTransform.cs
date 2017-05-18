@@ -1,6 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 
+#pragma warning disable SA1512 // Single-line comments must not be followed by blank line
+
+// Copyright (C) Sayed Ibrahim Hashimi
+#pragma warning restore SA1512 // Single-line comments must not be followed by blank line
+
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
