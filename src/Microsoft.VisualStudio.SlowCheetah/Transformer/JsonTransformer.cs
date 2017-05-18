@@ -12,7 +12,10 @@ namespace Microsoft.VisualStudio.SlowCheetah
     /// </summary>
     public class JsonTransformer : ITransformer
     {
-        private readonly IJsonTransformationLogger logger;
+        // Contents of a newly created transform file
+        private static readonly string TransformFileContents = "{" + Environment.NewLine + "}" + Environment.NewLine;
+
+        private IJsonTransformationLogger logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonTransformer"/> class.
@@ -22,9 +25,9 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JsonTransformer"/> class with a logger
+        /// Initializes a new instance of the <see cref="JsonTransformer"/> class with an external logger
         /// </summary>
-        /// <param name="logger">The logger to use</param>
+        /// <param name="logger">The external logger</param>
         public JsonTransformer(ITransformationLogger logger)
         {
             if (logger == null)
@@ -36,40 +39,82 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <inheritdoc/>
-        public bool Transform(string source, string transform, string destination)
+        public void CreateTransformFile(string sourcePath, string transformPath, bool overwrite)
         {
-            if (string.IsNullOrWhiteSpace(source))
+            if (string.IsNullOrWhiteSpace(sourcePath))
             {
-                throw new ArgumentException($"{nameof(source)} cannot be null or whitespace");
+                throw new ArgumentNullException(nameof(sourcePath));
             }
 
-            if (string.IsNullOrWhiteSpace(transform))
+            if (string.IsNullOrWhiteSpace(transformPath))
             {
-                throw new ArgumentException($"{nameof(transform)} cannot be null or whitespace");
+                throw new ArgumentNullException(nameof(transformPath));
             }
 
-            if (string.IsNullOrWhiteSpace(destination))
+            if (!File.Exists(sourcePath))
             {
-                throw new ArgumentException($"{nameof(destination)} cannot be null or whitespace");
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, sourcePath);
             }
 
-            if (!File.Exists(source))
+            // If the file should be overwritten or if it doesn't exist, we create it
+            if (overwrite || !File.Exists(transformPath))
             {
-                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, source);
+                var encoding = TransformUtilities.GetEncoding(sourcePath);
+                File.WriteAllText(transformPath, Resources.Resources.JsonTransform_TransformFileContents, encoding);
+            }
+        }
+
+        /// <inheritdoc/>
+        public bool IsFileSupported(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
             }
 
-            if (!File.Exists(transform))
+            if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException(Resources.Resources.ErrorMessage_TransformFileNotFound, transform);
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_FileNotFound, filePath);
             }
 
-            var transformation = new JsonTransformation(transform, this.logger);
+            return Path.GetExtension(filePath).Equals(".json", StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <inheritdoc/>
+        public bool Transform(string sourcePath, string transformPath, string destinationPath)
+        {
+            if (string.IsNullOrWhiteSpace(sourcePath))
+            {
+                throw new ArgumentException($"{nameof(sourcePath)} cannot be null or whitespace");
+            }
+
+            if (string.IsNullOrWhiteSpace(transformPath))
+            {
+                throw new ArgumentException($"{nameof(transformPath)} cannot be null or whitespace");
+            }
+
+            if (string.IsNullOrWhiteSpace(destinationPath))
+            {
+                throw new ArgumentException($"{nameof(destinationPath)} cannot be null or whitespace");
+            }
+
+            if (!File.Exists(sourcePath))
+            {
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_SourceFileNotFound, sourcePath);
+            }
+
+            if (!File.Exists(transformPath))
+            {
+                throw new FileNotFoundException(Resources.Resources.ErrorMessage_TransformFileNotFound, transformPath);
+            }
+
+            var transformation = new JsonTransformation(transformPath, this.logger);
 
             try
             {
-                using (Stream result = transformation.Apply(source))
+                using (Stream result = transformation.Apply(sourcePath))
                 {
-                    return this.TrySaveToFile(result, destination);
+                    return this.TrySaveToFile(result, sourcePath, destinationPath);
                 }
             }
             catch
@@ -79,17 +124,32 @@ namespace Microsoft.VisualStudio.SlowCheetah
             }
         }
 
-        private bool TrySaveToFile(Stream result, string destinationFile)
+        /// <inheritdoc/>
+        public ITransformer WithLogger(ITransformationLogger logger)
+        {
+            if (logger == this.logger)
+            {
+                return this;
+            }
+            else if (logger == null)
+            {
+                return new JsonTransformer();
+            }
+            else
+            {
+                return new JsonTransformer(logger);
+            }
+        }
+
+        private bool TrySaveToFile(Stream result, string sourceFile, string destinationFile)
         {
             try
             {
-                System.Text.Encoding encoding;
                 string contents;
+                var encoding = TransformUtilities.GetEncoding(sourceFile);
                 using (StreamReader reader = new StreamReader(result, true))
                 {
-                    // Get the contents and the encoding of the result stram
-                    reader.Peek();
-                    encoding = reader.CurrentEncoding;
+                    // Get the contents of the result stram
                     contents = reader.ReadToEnd();
                 }
 

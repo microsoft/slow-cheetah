@@ -348,7 +348,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 string itemExtension = Path.GetExtension(itemFullPath);
                 string itemFilenameExtension = Path.GetFileName(itemFullPath);
 
-                string content = PackageTransformerFactory.BuildTransformContent(itemFullPath);
                 IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(selectedProjectItem.ContainingProject);
 
                 List<string> transformsToCreate = null;
@@ -376,7 +375,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     foreach (string config in transformsToCreate)
                     {
                         string itemName = string.Format(Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
-                        this.AddTransformFile(selectedProjectItem, content, itemName, itemFolder, optionsPage.AddDependentUpon);
+                        this.AddTransformFile(selectedProjectItem, itemName, itemFolder, optionsPage.AddDependentUpon);
                         hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out uint addedFileId);
                         buildPropertyStorage.SetItemAttribute(addedFileId, IsTransformFile, "True");
                     }
@@ -610,7 +609,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             bool isWebConfig = string.Compare("web.config", transformFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0;
             bool isTransformFile = this.IsItemTransformItem(project, itemid);
             bool isExtensionSupportedForFile = PackageUtilities.IsExtensionSupportedForFile(itemFullPath);
-            bool isSupportedFile = PackageTransformerFactory.IsSupportedFile(itemFullPath);
+            bool isSupportedFile = TransformerFactory.IsSupportedFile(itemFullPath);
 
             if (!isWebConfig && !isTransformFile && isExtensionSupportedForFile && isSupportedFile)
             {
@@ -624,30 +623,25 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// Creates a new transformation file and adds it to the project.
         /// </summary>
         /// <param name="selectedProjectItem">The selected item to be transformed</param>
-        /// <param name="content">Contents to be written to the transformation file</param>
         /// <param name="itemName">Full name of the transformation file</param>
         /// <param name="projectPath">Full path to the current project</param>
         /// <param name="addDependentUpon">Wheter to add the new file dependent upon the source file</param>
-        private void AddTransformFile(ProjectItem selectedProjectItem, string content, string itemName, string projectPath, bool addDependentUpon)
+        private void AddTransformFile(ProjectItem selectedProjectItem, string itemName, string projectPath, bool addDependentUpon)
         {
             try
             {
-                string itemPath = Path.Combine(projectPath, itemName);
-                if (!File.Exists(itemPath))
-                {
-                    using (StreamReader reader = new StreamReader(selectedProjectItem.FileNames[1], true))
-                    {
-                        reader.Peek();
-                        var encoding = reader.CurrentEncoding;
-                        File.WriteAllText(itemPath, content, encoding);
-                    }
-                }
+                string transformPath = Path.Combine(projectPath, itemName);
+                string sourceFileName = selectedProjectItem.FileNames[1];
+
+                ITransformer transformer = TransformerFactory.GetTransformer(sourceFileName, null);
+
+                transformer.CreateTransformFile(sourceFileName, transformPath, false);
 
                 // Add the file to the project
                 // If the DependentUpon metadata is required, add it under the original file
                 // If not, add it to the project
-                ProjectItem addedItem = addDependentUpon ? selectedProjectItem.ProjectItems.AddFromFile(itemPath)
-                                                      : selectedProjectItem.ContainingProject.ProjectItems.AddFromFile(itemPath);
+                ProjectItem addedItem = addDependentUpon ? selectedProjectItem.ProjectItems.AddFromFile(transformPath)
+                                                      : selectedProjectItem.ContainingProject.ProjectItems.AddFromFile(transformPath);
 
                 // we need to set the Build Action to None to ensure that it doesn't get published for web projects
                 addedItem.Properties.Item("ItemType").Value = "None";
@@ -712,7 +706,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 // If for some reason we can't find it, we just open it in an editor window
                 this.errorListProvider.Tasks.Clear();
                 ITransformationLogger logger = new TransformationPreviewLogger(this.errorListProvider, hier);
-                ITransformer transformer = PackageTransformerFactory.GetTransformer(sourceFile, logger, false);
+                ITransformer transformer = TransformerFactory.GetTransformer(sourceFile, logger);
                 if (!transformer.Transform(sourceFile, transformFile, destFile))
                 {
                     throw new TransformFailedException(Resources.Resources.TransformPreview_ErrorMessage);

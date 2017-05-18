@@ -33,7 +33,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         {
             TransformationTaskLogger logger = new TransformationTaskLogger(this.Log);
 
-            ITransformer transformer = TransformerFactory.GetTransformer(this.Source, logger, true);
+            ITransformer transformer = TransformerFactory.GetTransformer(this.Source, logger);
 
             this.Log.LogMessage("Beginning transformation.");
 

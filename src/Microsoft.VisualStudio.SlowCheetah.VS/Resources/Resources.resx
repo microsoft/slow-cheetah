@@ -137,12 +137,6 @@
     <value>The transform file {0} was not found.</value>
     <comment>Error message</comment>
   </data>
-  <data name="JsonTransformContents" xml:space="preserve">
-    <value>{
-}
-</value>
-    <comment>Contents of a newly created JSON transform file</comment>
-  </data>
   <data name="NugetInstall_ErrorOutput" xml:space="preserve">
     <value>Error installing SlowCheetah NuGet package to {0}.</value>
     <comment>Text to be shown in the output window if there is an error with installing the SlowCheetah Nuget package</comment>
@@ -162,14 +156,6 @@
   <data name="NugetInstall_Title" xml:space="preserve">
     <value>Install SlowCheetah NuGet package</value>
     <comment>Title for the prompt to install the SlowCheetah NuGet package</comment>
-  </data>
-  <data name="NugetUpdate_InfoBarLink" xml:space="preserve">
-    <value>here</value>
-    <comment>Text of the link in the update info bar</comment>
-  </data>
-  <data name="NugetUpdate_InfoBarText" xml:space="preserve">
-    <value>It seems that you do not have the correct version of the SlowCheetah Nuget package installed. Transforms on this project will not be executed. To learn about updating from an older version, click </value>
-    <comment>Text to be displayed on the update info bar</comment>
   </data>
   <data name="NugetUpdate_Link" xml:space="preserve">
     <value>https://github.com/Microsoft/slow-cheetah/blob/master/doc/update.md</value>
@@ -210,9 +196,5 @@
   </data>
   <data name="TransformPreview_ToolTip" xml:space="preserve">
     <value>{0} Preview</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="XmlTransformContents" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TransformContents.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

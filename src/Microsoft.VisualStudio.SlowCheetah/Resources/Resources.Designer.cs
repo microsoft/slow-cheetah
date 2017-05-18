@@ -19,7 +19,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,6 +61,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File not found.
+        /// </summary>
+        internal static string ErrorMessage_FileNotFound {
+            get {
+                return ResourceManager.GetString("ErrorMessage_FileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File to transform not found.
         /// </summary>
         internal static string ErrorMessage_SourceFileNotFound {
@@ -75,6 +84,35 @@ namespace Microsoft.VisualStudio.SlowCheetah.Resources {
         internal static string ErrorMessage_TransformFileNotFound {
             get {
                 return ResourceManager.GetString("ErrorMessage_TransformFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is not a supported file type for transformation.
+        /// </summary>
+        internal static string ErrorMessage_UnsupportedFile {
+            get {
+                return ResourceManager.GetString("ErrorMessage_UnsupportedFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///}
+        ///.
+        /// </summary>
+        internal static string JsonTransform_TransformFileContents {
+            get {
+                return ResourceManager.GetString("JsonTransform_TransformFileContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. .
+        /// </summary>
+        internal static string XmlTransform_ContentInfo {
+            get {
+                return ResourceManager.GetString("XmlTransform_ContentInfo", resourceCulture);
             }
         }
     }
