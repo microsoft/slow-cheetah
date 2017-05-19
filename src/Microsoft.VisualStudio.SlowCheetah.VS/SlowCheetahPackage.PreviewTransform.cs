@@ -36,10 +36,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <param name="e">Not used.</param>
         private void OnBeforeQueryStatusPreviewTransformCommand(object sender, EventArgs e)
         {
-            // get the menu that fired the event
+            // Get the menu that fired the event
             if (sender is OleMenuCommand menuCommand)
             {
-                // start by assuming that the menu will not be shown
+                // Start by assuming that the menu will not be shown
                 menuCommand.Visible = false;
                 menuCommand.Enabled = false;
                 uint itemid = VSConstants.VSITEMID_NIL;
@@ -55,6 +55,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     return;
                 }
 
+                // The file need to be a transform item to preview
                 if (!this.IsItemTransformItem(vsProject, itemid))
                 {
                     return;
@@ -76,20 +77,20 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
             uint itemId = VSConstants.VSITEMID_NIL;
 
-            // verify only one item is selected
+            // Verify only one item is selected
             if (!ProjectUtilities.IsSingleProjectItemSelection(out IVsHierarchy hierarchy, out itemId))
             {
                 return;
             }
 
-            // make sure that the SlowCheetah project support has been added
+            // Make sure that the project supports transformations
             IVsProject project = (IVsProject)hierarchy;
             if (!this.ProjectSupportsTransforms(project))
             {
                 return;
             }
 
-            // get the full path of the configuration xdt
+            // Get the full path of the selected file
             if (ErrorHandler.Failed(project.GetMkDocument(itemId, out string transformPath)))
             {
                 return;
@@ -98,6 +99,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             // Checks the SlowCheetah NuGet package installation
             this.NuGetManager.CheckSlowCheetahInstallation(hierarchy);
 
+            // Get the parent of the file to start searching for the source file
             ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out object parentIdObj));
             uint parentId = (uint)(int)parentIdObj;
             if (parentId == (uint)VSConstants.VSITEMID.Nil)
@@ -112,6 +114,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
             try
             {
+                // Save the source and transform files before previewing
                 PackageUtilities.GetAutomationFromHierarchy<ProjectItem>(hierarchy, docId).Save();
                 PackageUtilities.GetAutomationFromHierarchy<ProjectItem>(hierarchy, itemId).Save();
             }
@@ -162,12 +165,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 this.LogMessageWriteLineFormat("SlowCheetah PreviewTransform");
                 FileInfo sourceFileInfo = new FileInfo(sourceFile);
 
-                // dest file
+                // Destination file
+                // This should be kept as a temp file in case a custom diff tool is being used
                 string destFile = PackageUtilities.GetTempFilename(true, sourceFileInfo.Extension);
                 this.TempFilesCreated.Add(destFile);
 
-                // perform the transform and then display the result into the diffmerge tool that comes with VS.
-                // If for some reason we can't find it, we just open it in an editor window
+                // Perform the transform and then display the result into the diffmerge tool that comes with VS.
                 this.errorListProvider.Tasks.Clear();
                 ITransformationLogger logger = new TransformationPreviewLogger(this.errorListProvider, hier);
                 ITransformer transformer = TransformerFactory.GetTransformer(sourceFile, logger);
@@ -176,31 +179,34 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     throw new TransformFailedException(Resources.Resources.TransformPreview_ErrorMessage);
                 }
 
-                // Does the customer want a preview?
+                // Does the customer want a preview? If not, just open an editor window
                 if (optionsPage.EnablePreview == false)
                 {
                     ProjectUtilities.GetDTE().ItemOperations.OpenFile(destFile);
                 }
                 else
                 {
-                    // If the diffmerge service is available (dev11) and no diff tool is specified, or diffmerge.exe is specifed we use the service
+                    // If the diffmerge service is available and no diff tool is specified, or diffmerge.exe is specifed we use the service
                     if (this.GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath) || advancedOptionsPage.PreviewToolExecutablePath.EndsWith("diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
                     {
                         if (!string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath) && !File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
                         {
+                            // If the user specified a preview tool, but it doesn't exist, log a warning
                             logger.LogWarning(string.Format(Resources.Resources.Error_CantFindPreviewTool, advancedOptionsPage.PreviewToolExecutablePath));
                         }
 
+                        // Write all the labels for the diff tool
                         string sourceName = Path.GetFileName(sourceFile);
                         string leftLabel = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_LeftLabel, sourceName);
                         string rightLabel = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_RightLabel, sourceName, Path.GetFileName(transformFile));
                         string caption = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_Caption, sourceName);
                         string tooltip = string.Format(CultureInfo.CurrentCulture, Resources.Resources.TransformPreview_ToolTip, sourceName);
+
                         diffService.OpenComparisonWindow2(sourceFile, destFile, caption, tooltip, leftLabel, rightLabel, null, null, (uint)__VSDIFFSERVICEOPTIONS.VSDIFFOPT_RightFileIsTemporary);
                     }
                     else if (string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath))
                     {
-                        throw new FileNotFoundException(Resources.Resources.Error_NoPreviewToolSpecified);
+                        throw new ArgumentException(Resources.Resources.Error_NoPreviewToolSpecified);
                     }
                     else if (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
                     {
@@ -208,7 +214,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     }
                     else
                     {
-                        // Quote the filenames...
+                        // Open a process with the specified diff tool
+                        // Add quotes to the file names
                         ProcessStartInfo psi = new ProcessStartInfo(advancedOptionsPage.PreviewToolExecutablePath, string.Format(advancedOptionsPage.PreviewToolCommandLine, $"\"{sourceFile}\"", $"\"{destFile}\""))
                         {
                             CreateNoWindow = true,
@@ -218,10 +225,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     }
                 }
             }
-
-            // TODO: Instead of creating a file and then deleting it later we could instead do this
-            //          http://matthewmanela.com/blog/the-problem-with-the-envdte-itemoperations-newfile-method/
-            //          http://social.msdn.microsoft.com/Forums/en/vsx/thread/eb032063-eb4d-42e0-84e8-dec64bf42abf
         }
 
         /// <summary>
@@ -238,6 +241,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
             IVsProject project = (IVsProject)hierarchy;
 
+            // Get the project configurations to use in comparing the name
             IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(hierarchy);
 
             if (ErrorHandler.Failed(project.GetMkDocument(parentId, out documentPath)))
@@ -246,6 +250,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 return false;
             }
 
+            // Start by checking if the parent is the source file
             if (PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
             {
                 docId = parentId;
@@ -253,6 +258,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
             else
             {
+                // If the parent is no the file to transform, look at all of the original file's siblings
+                // Starting with the parent's first visible child
                 hierarchy.GetProperty(parentId, (int)__VSHPROPID.VSHPROPID_FirstVisibleChild, out object childIdObj);
                 docId = (uint)(int)childIdObj;
                 if (ErrorHandler.Failed(project.GetMkDocument(docId, out documentPath)))
@@ -268,6 +275,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 }
                 else
                 {
+                    // Continue on to the the next visible siblings until there are no more files to analyze
                     while (docId != VSConstants.VSITEMID_NIL)
                     {
                         hierarchy.GetProperty(docId, (int)__VSHPROPID.VSHPROPID_NextVisibleSibling, out childIdObj);
@@ -283,6 +291,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 }
             }
 
+            // If we run out of files, the source file has not been found
             docId = 0;
             documentPath = null;
             return false;

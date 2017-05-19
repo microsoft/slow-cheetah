@@ -195,7 +195,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 ProjectItem addedItem = addDependentUpon ? selectedProjectItem.ProjectItems.AddFromFile(transformPath)
                                                       : selectedProjectItem.ContainingProject.ProjectItems.AddFromFile(transformPath);
 
-                // we need to set the Build Action to None to ensure that it doesn't get published for web projects
+                // We need to set the Build Action to None to ensure that it doesn't get published for web projects
                 addedItem.Properties.Item("ItemType").Value = "None";
 
                 IVsHierarchy hierarchy = null;
@@ -228,7 +228,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             bool itemSupportsTransforms = false;
             FileInfo transformFileInfo = new FileInfo(itemFullPath);
 
-            // make sure its not a transform file itself
+            // Make sure its not a transform file itself as well as it supports transforms
             bool isWebConfig = string.Compare("web.config", transformFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0;
             bool isTransformFile = this.IsItemTransformItem(project, itemid);
             bool isExtensionSupportedForFile = PackageUtilities.IsExtensionSupportedForFile(itemFullPath);

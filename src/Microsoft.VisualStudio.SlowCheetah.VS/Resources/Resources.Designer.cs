@@ -70,7 +70,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to preview transform. No source file found for {0}. Check to see if the file is still part of your project..
+        ///   Looks up a localized string similar to Unable to preview transform. No source file found for {0}. Check to see if the file has not been renamed or removed from the project..
         /// </summary>
         internal static string Error_FileToTransformNotFound {
             get {

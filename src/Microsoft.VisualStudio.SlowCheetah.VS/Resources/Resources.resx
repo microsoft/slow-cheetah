@@ -122,7 +122,7 @@
     <comment>Error message</comment>
   </data>
   <data name="Error_FileToTransformNotFound" xml:space="preserve">
-    <value>Unable to preview transform. No source file found for {0}. Check to see if the file is still part of your project.</value>
+    <value>Unable to preview transform. No source file found for {0}. Check to see if the file has not been renamed or removed from the project.</value>
     <comment>Error message for when a transform file has no corresponding source file.</comment>
   </data>
   <data name="Error_NoPreviewToolSpecified" xml:space="preserve">
