@@ -10,7 +10,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.Design;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
@@ -51,10 +50,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed partial class SlowCheetahPackage : Package, IVsUpdateSolutionEvents
     {
-        private static readonly string TransformOnBuild = "TransformOnBuild";
-        private static readonly string IsTransformFile = "IsTransformFile";
+        /// <summary>
+        /// The TransformOnBuild metadata
+        /// </summary>
+        public static readonly string TransformOnBuild = "TransformOnBuild";
 
-        private ErrorListProvider errorListProvider;
+        /// <summary>
+        /// The IsTransformFile metadata
+        /// </summary>
+        public static readonly string IsTransformFile = "IsTransformFile";
 
         private uint solutionUpdateCookie = 0;
 
@@ -69,6 +73,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             // initialization is the Initialize method.
             OurPackage = this;
             this.NuGetManager = new SlowCheetahNuGetManager(this);
+            this.PackageLogger = new SlowCheetahPackageLogger(this);
+            this.ErrorListProvider = new ErrorListProvider(this);
+            this.AddCommand = new AddTransformCommand(this, this.NuGetManager, this.PackageLogger);
+            this.PreviewCommand = new PreviewTransformCommand(this, this.NuGetManager, this.PackageLogger, this.ErrorListProvider, this.TempFilesCreated);
         }
 
         /// <summary>
@@ -80,6 +88,53 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         private SlowCheetahNuGetManager NuGetManager { get; }
 
+        private SlowCheetahPackageLogger PackageLogger { get; }
+
+        private ErrorListProvider ErrorListProvider { get; }
+
+        private AddTransformCommand AddCommand { get; }
+
+        private PreviewTransformCommand PreviewCommand { get; }
+
+        /// <summary>
+        /// Verifies if the current project supports transformations.
+        /// </summary>
+        /// <param name="project">Current IVsProject</param>
+        /// <returns>True if the project supports transformation</returns>
+        public bool ProjectSupportsTransforms(IVsProject project)
+        {
+            return this.NuGetManager.ProjectSupportsNuget(project as IVsHierarchy);
+        }
+
+        /// <summary>
+        /// Verifies if the item has a trasform configured already
+        /// </summary>
+        /// <param name="vsProject">The current project</param>
+        /// <param name="itemid">The id of the selected item inside the project</param>
+        /// <returns>True if the item has a transform</returns>
+        public bool IsItemTransformItem(IVsProject vsProject, uint itemid)
+        {
+            IVsBuildPropertyStorage buildPropertyStorage = vsProject as IVsBuildPropertyStorage;
+            if (buildPropertyStorage == null)
+            {
+                this.LogMessageWriteLineFormat("Error obtaining IVsBuildPropertyStorage from hierarcy.");
+                return false;
+            }
+
+            buildPropertyStorage.GetItemAttribute(itemid, IsTransformFile, out string value);
+            if (bool.TryParse(value, out bool valueAsBool) && valueAsBool)
+            {
+                return true;
+            }
+
+            // we need to special case web.config transform files
+            buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out string filePath);
+            IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(vsProject as IVsHierarchy);
+
+            // If the project is a web app, check for the Web.config files added by default
+            return ProjectUtilities.IsProjectWebApp(vsProject) && PackageUtilities.IsFileTransform("web.config", Path.GetFileName(filePath), configs);
+        }
+
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
@@ -90,23 +145,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             this.LogMessageWriteLineFormat("SlowCheetah initalizing");
 
             // Initialization logic
-            this.errorListProvider = new ErrorListProvider(this);
             IVsSolutionBuildManager solutionBuildManager = this.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager;
             solutionBuildManager.AdviseUpdateSolutionEvents(this, out this.solutionUpdateCookie);
 
-            // Add our command handlers for menu (commands must exist in the .vsct file)
-            if (this.GetService(typeof(IMenuCommandService)) is OleMenuCommandService mcs)
-            {
-                // create the command for the "Add Transform" query status menu item
-                CommandID menuContextCommandID = new CommandID(Guids.GuidSlowCheetahCmdSet, (int)PkgCmdID.CmdIdAddTransform);
-                OleMenuCommand menuCommand = new OleMenuCommand(this.OnAddTransformCommand, this.OnChangeAddTransformMenu, this.OnBeforeQueryStatusAddTransformCommand, menuContextCommandID);
-                mcs.AddCommand(menuCommand);
-
-                // create the command for the Preview Transform menu item
-                menuContextCommandID = new CommandID(Guids.GuidSlowCheetahCmdSet, (int)PkgCmdID.CmdIdPreviewTransform);
-                menuCommand = new OleMenuCommand(this.OnPreviewTransformCommand, this.OnChangePreviewTransformMenu, this.OnBeforeQueryStatusPreviewTransformCommand, menuContextCommandID);
-                mcs.AddCommand(menuCommand);
-            }
+            this.AddCommand.RegisterCommand();
+            this.PreviewCommand.RegisterCommand();
         }
 
         /// <inheritdoc/>
@@ -134,66 +177,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// Verifies if the item has a trasform configured already
-        /// </summary>
-        /// <param name="vsProject">The current project</param>
-        /// <param name="itemid">The id of the selected item inside the project</param>
-        /// <returns>True if the item has a transform</returns>
-        private bool IsItemTransformItem(IVsProject vsProject, uint itemid)
-        {
-            IVsBuildPropertyStorage buildPropertyStorage = vsProject as IVsBuildPropertyStorage;
-            if (buildPropertyStorage == null)
-            {
-                this.LogMessageWriteLineFormat("Error obtaining IVsBuildPropertyStorage from hierarcy.");
-                return false;
-            }
-
-            buildPropertyStorage.GetItemAttribute(itemid, IsTransformFile, out string value);
-            if (bool.TryParse(value, out bool valueAsBool) && valueAsBool)
-            {
-                return true;
-            }
-
-            // we need to special case web.config transform files
-            buildPropertyStorage.GetItemAttribute(itemid, "FullPath", out string filePath);
-            IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(vsProject as IVsHierarchy);
-
-            // If the project is a web app, check for the Web.config files added by default
-            return ProjectUtilities.IsProjectWebApp(vsProject) && PackageUtilities.IsFileTransform("web.config", Path.GetFileName(filePath), configs);
-        }
-
-        /// <summary>
-        /// Verifies if the current project supports transformations.
-        /// </summary>
-        /// <param name="project">Current IVsProject</param>
-        /// <returns>True if the project supports transformation</returns>
-        private bool ProjectSupportsTransforms(IVsProject project)
-        {
-            return this.NuGetManager.ProjectSupportsNuget(project as IVsHierarchy);
-        }
-
-        /// <summary>
-        /// Gets the error info set on the thread. Returns empty string is none set (not null)
-        /// </summary>
-        /// <returns>Error info</returns>
-        private string GetErrorInfo()
-        {
-            string errText = null;
-            IVsUIShell uiShell = (IVsUIShell)Package.GetGlobalService(typeof(IVsUIShell));
-            if (uiShell != null)
-            {
-                uiShell.GetErrorInfo(out errText);
-            }
-
-            if (errText == null)
-            {
-                return string.Empty;
-            }
-
-            return errText;
         }
 
         private void LogMessageWriteLineFormat(string message, params object[] args)

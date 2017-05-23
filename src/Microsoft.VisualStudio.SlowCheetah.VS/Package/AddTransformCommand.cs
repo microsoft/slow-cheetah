@@ -12,28 +12,49 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using EnvDTE;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
-    /// Contains logic for Add Transform command
+    /// Add Transform command
     /// </summary>
-    public sealed partial class SlowCheetahPackage : Package, IVsUpdateSolutionEvents
+    public class AddTransformCommand : BaseCommand
     {
-        private void OnChangeAddTransformMenu(object sender, EventArgs e)
+        private readonly SlowCheetahPackage package;
+        private readonly SlowCheetahNuGetManager nuGetManager;
+        private readonly SlowCheetahPackageLogger logger;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddTransformCommand"/> class.
+        /// </summary>
+        /// <param name="package">The VSPackage</param>
+        /// <param name="nuGetManager">The nuget manager for the VSPackage</param>
+        /// <param name="logger">VSPackage logger</param>
+        public AddTransformCommand(SlowCheetahPackage package, SlowCheetahNuGetManager nuGetManager, SlowCheetahPackageLogger logger)
+            : base(package)
+        {
+            this.package = package ?? throw new ArgumentNullException(nameof(package));
+            this.nuGetManager = nuGetManager ?? throw new ArgumentNullException(nameof(nuGetManager));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        /// <inheritdoc/>
+        public override int CommandId { get; } = 0x100;
+
+        /// <inheritdoc/>
+        public override void OnChange(object sender, EventArgs e)
         {
         }
 
         /// <summary>
         /// This event is fired when a user right-clicks on a menu, but prior to the menu showing. This function is used to set the visibility
         /// of the "Add Transform" menu. It checks to see if the project is one of the supported types, and if the extension of the project item
-        /// that was right-clicked on is one of the valid item types.
+        /// that was right-clicked on is one of the valid item types
         /// </summary>
-        /// <param name="sender">The menu that fired the event.</param>
-        /// <param name="e">Not used.</param>
-        private void OnBeforeQueryStatusAddTransformCommand(object sender, EventArgs e)
+        /// <param name="sender">The object that fired the event</param>
+        /// <param name="e">Event arguments</param>
+        public override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
             // get the menu that fired the event
             if (sender is OleMenuCommand menuCommand)
@@ -49,7 +70,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 }
 
                 IVsProject vsProject = (IVsProject)hierarchy;
-                if (!this.ProjectSupportsTransforms(vsProject))
+                if (!this.package.ProjectSupportsTransforms(vsProject))
                 {
                     return;
                 }
@@ -71,7 +92,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// </summary>
         /// <param name="sender">The object that fired the event</param>
         /// <param name="e">Event arguments</param>
-        private void OnAddTransformCommand(object sender, EventArgs e)
+        public override void OnInvoke(object sender, EventArgs e)
         {
             uint itemid = VSConstants.VSITEMID_NIL;
 
@@ -81,7 +102,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             IVsProject vsProject = (IVsProject)hierarchy;
-            if (!this.ProjectSupportsTransforms(vsProject))
+            if (!this.package.ProjectSupportsTransforms(vsProject))
             {
                 return;
             }
@@ -94,7 +115,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             IVsBuildPropertyStorage buildPropertyStorage = vsProject as IVsBuildPropertyStorage;
             if (buildPropertyStorage == null)
             {
-                this.LogMessageWriteLineFormat("Error obtaining IVsBuildPropertyStorage from hierarchy.");
+                this.logger.LogMessage("Error obtaining IVsBuildPropertyStorage from hierarchy.");
                 return;
             }
 
@@ -107,10 +128,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             // Save the project file
             IVsSolution solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
             int hr = solution.SaveSolutionElement((uint)__VSSLNSAVEOPTIONS.SLNSAVEOPT_SaveIfDirty, hierarchy, 0);
-            if (ErrorHandler.Failed(hr))
-            {
-                throw new COMException(string.Format(Resources.Resources.Error_SavingProjectFile, itemFullPath, this.GetErrorInfo()), hr);
-            }
+            ErrorHandler.ThrowOnFailure(hr);
 
             ProjectItem selectedProjectItem = PackageUtilities.GetAutomationFromHierarchy<ProjectItem>(hierarchy, itemid);
             if (selectedProjectItem != null)
@@ -126,10 +144,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 }
 
                 // Checks the SlowCheetah NuGet package installation
-                this.NuGetManager.CheckSlowCheetahInstallation(hierarchy);
+                this.nuGetManager.CheckSlowCheetahInstallation(hierarchy);
 
                 // need to enure that this item has metadata TransformOnBuild set to true
-                buildPropertyStorage.SetItemAttribute(itemid, TransformOnBuild, "true");
+                buildPropertyStorage.SetItemAttribute(itemid, SlowCheetahPackage.TransformOnBuild, "true");
 
                 string itemFolder = Path.GetDirectoryName(itemFullPath);
                 string itemFilename = Path.GetFileNameWithoutExtension(itemFullPath);
@@ -165,7 +183,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                         string itemName = string.Format(Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
                         this.AddTransformFile(selectedProjectItem, itemName, itemFolder, optionsPage.AddDependentUpon);
                         hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out uint addedFileId);
-                        buildPropertyStorage.SetItemAttribute(addedFileId, IsTransformFile, "True");
+                        buildPropertyStorage.SetItemAttribute(addedFileId, SlowCheetahPackage.IsTransformFile, "True");
                     }
                 }
             }
@@ -203,12 +221,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 IVsBuildPropertyStorage buildPropertyStorage = vsProject as IVsBuildPropertyStorage;
                 if (buildPropertyStorage == null)
                 {
-                    this.LogMessageWriteLineFormat("Error obtaining IVsBuildPropertyStorage from hierarcy.");
+                    this.logger.LogMessage("Error obtaining IVsBuildPropertyStorage from hierarcy.");
                 }
             }
             catch (Exception ex)
             {
-                this.LogMessageWriteLineFormat("AddTransformFile: Exception> " + ex.Message);
+                this.logger.LogMessage("AddTransformFile: Exception> " + ex.Message);
             }
         }
 
@@ -230,7 +248,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
             // Make sure its not a transform file itself as well as it supports transforms
             bool isWebConfig = string.Compare("web.config", transformFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0;
-            bool isTransformFile = this.IsItemTransformItem(project, itemid);
+            bool isTransformFile = this.package.IsItemTransformItem(project, itemid);
             bool isExtensionSupportedForFile = PackageUtilities.IsExtensionSupportedForFile(itemFullPath);
             bool isSupportedFile = TransformerFactory.IsSupportedFile(itemFullPath);
 
@@ -264,7 +282,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             IVsProjectSpecialFiles specialFiles = hierarchy as IVsProjectSpecialFiles;
             if (ErrorHandler.Failed(specialFiles.GetFile((int)__PSFFILEID2.PSFFILEID_AppDesigner, (uint)__PSFFLAGS.PSFF_FullPath, out uint itemid, out string propertiesFolder)))
             {
-                this.LogMessageWriteLineFormat("Exception trying to create IVsProjectSpecialFiles");
+                this.logger.LogMessage("Exception trying to create IVsProjectSpecialFiles");
             }
 
             if (!string.IsNullOrEmpty(propertiesFolder))

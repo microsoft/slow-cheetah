@@ -19,22 +19,49 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.SlowCheetah.Exceptions;
 
     /// <summary>
-    /// Contains logic for Preview Transform command
+    /// Preview Transform command
     /// </summary>
-    public sealed partial class SlowCheetahPackage : Package, IVsUpdateSolutionEvents
+    public class PreviewTransformCommand : BaseCommand
     {
-        private void OnChangePreviewTransformMenu(object sender, EventArgs e)
+        private readonly SlowCheetahNuGetManager nuGetManager;
+        private readonly SlowCheetahPackage package;
+        private readonly SlowCheetahPackageLogger logger;
+        private readonly ErrorListProvider errorListProvider;
+        private readonly IList<string> tempFilesCreated;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PreviewTransformCommand"/> class.
+        /// </summary>
+        /// <param name="package">The VSPackage</param>
+        /// <param name="nuGetManager">The nuget manager for the VSPackage</param>
+        /// <param name="logger">VSPackage logger</param>
+        /// <param name="errorListProvider">The VS error list provider</param>
+        /// <param name="tempFilesCreated">List of temporary files created by the package</param>
+        public PreviewTransformCommand(
+            SlowCheetahPackage package,
+            SlowCheetahNuGetManager nuGetManager,
+            SlowCheetahPackageLogger logger,
+            ErrorListProvider errorListProvider,
+            IList<string> tempFilesCreated)
+            : base(package)
+        {
+            this.package = package ?? throw new ArgumentNullException(nameof(package));
+            this.nuGetManager = nuGetManager ?? throw new ArgumentNullException(nameof(nuGetManager));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.errorListProvider = errorListProvider ?? throw new ArgumentNullException(nameof(errorListProvider));
+            this.tempFilesCreated = tempFilesCreated ?? throw new ArgumentNullException(nameof(tempFilesCreated));
+        }
+
+        /// <inheritdoc/>
+        public override int CommandId { get; } = 0x101;
+
+        /// <inheritdoc/>
+        public override void OnChange(object sender, EventArgs e)
         {
         }
 
-        /// <summary>
-        /// This event is fired when a user right-clicks on a menu, but prior to the menu showing. This function is used to set the visibility
-        /// of the "Add Transform" menu. It checks to see if the project is one of the supported types, and if the extension of the project item
-        /// that was right-clicked on is one of the valid item types.
-        /// </summary>
-        /// <param name="sender">The menu that fired the event.</param>
-        /// <param name="e">Not used.</param>
-        private void OnBeforeQueryStatusPreviewTransformCommand(object sender, EventArgs e)
+        /// <inheritdoc/>
+        public override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
             // Get the menu that fired the event
             if (sender is OleMenuCommand menuCommand)
@@ -50,13 +77,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 }
 
                 IVsProject vsProject = (IVsProject)hierarchy;
-                if (!this.ProjectSupportsTransforms(vsProject))
+                if (!this.package.ProjectSupportsTransforms(vsProject))
                 {
                     return;
                 }
 
                 // The file need to be a transform item to preview
-                if (!this.IsItemTransformItem(vsProject, itemid))
+                if (!this.package.IsItemTransformItem(vsProject, itemid))
                 {
                     return;
                 }
@@ -66,14 +93,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
         }
 
-        /// <summary>
-        /// This function is the callback used to execute a command when the a menu item is clicked.
-        /// See the Initialize method to see how the menu item is associated to this function using
-        /// the OleMenuCommandService service and the MenuCommand class.
-        /// </summary>
-        /// <param name="sender">>The object that fired the event</param>
-        /// <param name="e">Event arguments</param>
-        private void OnPreviewTransformCommand(object sender, EventArgs e)
+        /// <inheritdoc/>
+        public override void OnInvoke(object sender, EventArgs e)
         {
             uint itemId = VSConstants.VSITEMID_NIL;
 
@@ -85,7 +106,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
             // Make sure that the project supports transformations
             IVsProject project = (IVsProject)hierarchy;
-            if (!this.ProjectSupportsTransforms(project))
+            if (!this.package.ProjectSupportsTransforms(project))
             {
                 return;
             }
@@ -97,7 +118,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             // Checks the SlowCheetah NuGet package installation
-            this.NuGetManager.CheckSlowCheetahInstallation(hierarchy);
+            this.nuGetManager.CheckSlowCheetahInstallation(hierarchy);
 
             // Get the parent of the file to start searching for the source file
             ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out object parentIdObj));
@@ -147,12 +168,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
             if (!File.Exists(sourceFile))
             {
-                throw new FileNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.Resources.Error_SourceFileNotFound, sourceFile), sourceFile);
+                throw new FileNotFoundException(string.Format(Resources.Resources.Error_SourceFileNotFound, sourceFile), sourceFile);
             }
 
             if (!File.Exists(transformFile))
             {
-                throw new FileNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.Resources.Error_TransformFileNotFound, transformFile), transformFile);
+                throw new FileNotFoundException(string.Format(Resources.Resources.Error_TransformFileNotFound, transformFile), transformFile);
             }
 
             // Get our options
@@ -162,13 +183,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 optionsPage.LoadSettingsFromStorage();
                 advancedOptionsPage.LoadSettingsFromStorage();
 
-                this.LogMessageWriteLineFormat("SlowCheetah PreviewTransform");
+                this.logger.LogMessage("SlowCheetah PreviewTransform");
                 FileInfo sourceFileInfo = new FileInfo(sourceFile);
 
                 // Destination file
                 // This should be kept as a temp file in case a custom diff tool is being used
                 string destFile = PackageUtilities.GetTempFilename(true, sourceFileInfo.Extension);
-                this.TempFilesCreated.Add(destFile);
+                this.tempFilesCreated.Add(destFile);
 
                 // Perform the transform and then display the result into the diffmerge tool that comes with VS.
                 this.errorListProvider.Tasks.Clear();
@@ -187,7 +208,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 else
                 {
                     // If the diffmerge service is available and no diff tool is specified, or diffmerge.exe is specifed we use the service
-                    if (this.GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath) || advancedOptionsPage.PreviewToolExecutablePath.EndsWith("diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
+                    if (((IServiceProvider)this.package).GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath) || advancedOptionsPage.PreviewToolExecutablePath.EndsWith("diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
                     {
                         if (!string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath) && !File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
                         {

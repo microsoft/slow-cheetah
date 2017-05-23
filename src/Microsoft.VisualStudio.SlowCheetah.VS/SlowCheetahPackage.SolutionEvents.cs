@@ -27,7 +27,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public int UpdateSolution_StartUpdate(ref int pfCancelUpdate)
         {
             // On solution update, clear all errors generated
-            this.errorListProvider.Tasks.Clear();
+            this.ErrorListProvider.Tasks.Clear();
             return VSConstants.S_OK;
         }
 
