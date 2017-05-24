@@ -43,18 +43,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public override int CommandId { get; } = 0x100;
 
         /// <inheritdoc/>
-        public override void OnChange(object sender, EventArgs e)
+        protected override void OnChange(object sender, EventArgs e)
         {
         }
 
-        /// <summary>
-        /// This event is fired when a user right-clicks on a menu, but prior to the menu showing. This function is used to set the visibility
-        /// of the "Add Transform" menu. It checks to see if the project is one of the supported types, and if the extension of the project item
-        /// that was right-clicked on is one of the valid item types
-        /// </summary>
-        /// <param name="sender">The object that fired the event</param>
-        /// <param name="e">Event arguments</param>
-        public override void OnBeforeQueryStatus(object sender, EventArgs e)
+        /// <inheritdoc/>
+        protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
             // get the menu that fired the event
             if (sender is OleMenuCommand menuCommand)
@@ -85,14 +79,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
         }
 
-        /// <summary>
-        /// This function is the callback used to execute a command when the a menu item is clicked.
-        /// See the Initialize method to see how the menu item is associated to this function using
-        /// the OleMenuCommandService service and the MenuCommand class.
-        /// </summary>
-        /// <param name="sender">The object that fired the event</param>
-        /// <param name="e">Event arguments</param>
-        public override void OnInvoke(object sender, EventArgs e)
+        /// <inheritdoc/>
+        protected override void OnInvoke(object sender, EventArgs e)
         {
             uint itemid = VSConstants.VSITEMID_NIL;
 

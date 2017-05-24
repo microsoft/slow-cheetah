@@ -72,11 +72,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
             OurPackage = this;
-            this.NuGetManager = new SlowCheetahNuGetManager(this);
-            this.PackageLogger = new SlowCheetahPackageLogger(this);
-            this.ErrorListProvider = new ErrorListProvider(this);
-            this.AddCommand = new AddTransformCommand(this, this.NuGetManager, this.PackageLogger);
-            this.PreviewCommand = new PreviewTransformCommand(this, this.NuGetManager, this.PackageLogger, this.ErrorListProvider, this.TempFilesCreated);
         }
 
         /// <summary>
@@ -86,15 +81,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         private IList<string> TempFilesCreated { get; } = new List<string>();
 
-        private SlowCheetahNuGetManager NuGetManager { get; }
+        private SlowCheetahNuGetManager NuGetManager { get; set; }
 
-        private SlowCheetahPackageLogger PackageLogger { get; }
+        private SlowCheetahPackageLogger PackageLogger { get; set; }
 
-        private ErrorListProvider ErrorListProvider { get; }
+        private ErrorListProvider ErrorListProvider { get; set; }
 
-        private AddTransformCommand AddCommand { get; }
+        private AddTransformCommand AddCommand { get; set; }
 
-        private PreviewTransformCommand PreviewCommand { get; }
+        private PreviewTransformCommand PreviewCommand { get; set; }
 
         /// <summary>
         /// Verifies if the current project supports transformations.
@@ -144,12 +139,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             base.Initialize();
             this.LogMessageWriteLineFormat("SlowCheetah initalizing");
 
+            this.NuGetManager = new SlowCheetahNuGetManager(this);
+            this.PackageLogger = new SlowCheetahPackageLogger(this);
+            this.ErrorListProvider = new ErrorListProvider(this);
+            this.AddCommand = new AddTransformCommand(this, this.NuGetManager, this.PackageLogger);
+            this.PreviewCommand = new PreviewTransformCommand(this, this.NuGetManager, this.PackageLogger, this.ErrorListProvider, this.TempFilesCreated);
+
             // Initialization logic
             IVsSolutionBuildManager solutionBuildManager = this.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager;
             solutionBuildManager.AdviseUpdateSolutionEvents(this, out this.solutionUpdateCookie);
-
-            this.AddCommand.RegisterCommand();
-            this.PreviewCommand.RegisterCommand();
         }
 
         /// <inheritdoc/>

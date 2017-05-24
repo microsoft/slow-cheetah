@@ -3,9 +3,9 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
-    using Microsoft.VisualStudio.Shell;
     using System;
     using System.ComponentModel.Design;
+    using Microsoft.VisualStudio.Shell;
 
     /// <summary>
     /// Base class for package commands
@@ -19,6 +19,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public BaseCommand(IServiceProvider package)
         {
             this.ServiceProvider = package ?? throw new ArgumentNullException(nameof(package));
+
+            this.RegisterCommand();
         }
 
         /// <summary>
@@ -32,9 +34,31 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         protected IServiceProvider ServiceProvider { get; }
 
         /// <summary>
+        /// This event is called when the command status has changed
+        /// </summary>
+        /// <param name="sender">The object that fired the event</param>
+        /// <param name="e">Event arguments</param>
+        protected abstract void OnChange(object sender, EventArgs e);
+
+        /// <summary>
+        /// This event is fired when a user right-clicks on a menu, but prior to the menu showing.
+        /// This function is used to set the visibility of the menu.
+        /// </summary>
+        /// <param name="sender">The object that fired the event</param>
+        /// <param name="e">Event arguments</param>
+        protected abstract void OnBeforeQueryStatus(object sender, EventArgs e);
+
+        /// <summary>
+        /// This function is the callback used to execute a command when the a menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The object that fired the event</param>
+        /// <param name="e">Event arguments</param>
+        protected abstract void OnInvoke(object sender, EventArgs e);
+
+        /// <summary>
         /// Registers the command in the command service
         /// </summary>
-        public void RegisterCommand()
+        private void RegisterCommand()
         {
             // Add our command handlers for menu (commands must exist in the .vsct file)
             if (this.ServiceProvider.GetService(typeof(IMenuCommandService)) is OleMenuCommandService mcs)
@@ -45,27 +69,5 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 mcs.AddCommand(menuCommand);
             }
         }
-
-        /// <summary>
-        /// This event is called when the command status has changed
-        /// </summary>
-        /// <param name="sender">The object that fired the event</param>
-        /// <param name="e">Event arguments</param>
-        public abstract void OnChange(object sender, EventArgs e);
-
-        /// <summary>
-        /// This event is fired when a user right-clicks on a menu, but prior to the menu showing.
-        /// This function is used to set the visibility of the menu.
-        /// </summary>
-        /// <param name="sender">The object that fired the event</param>
-        /// <param name="e">Event arguments</param>
-        public abstract void OnBeforeQueryStatus(object sender, EventArgs e);
-
-        /// <summary>
-        /// This function is the callback used to execute a command when the a menu item is clicked.
-        /// </summary>
-        /// <param name="sender">The object that fired the event</param>
-        /// <param name="e">Event arguments</param>
-        public abstract void OnInvoke(object sender, EventArgs e);
     }
 }

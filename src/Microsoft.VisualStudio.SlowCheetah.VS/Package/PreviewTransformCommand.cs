@@ -56,12 +56,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public override int CommandId { get; } = 0x101;
 
         /// <inheritdoc/>
-        public override void OnChange(object sender, EventArgs e)
+        protected override void OnChange(object sender, EventArgs e)
         {
         }
 
         /// <inheritdoc/>
-        public override void OnBeforeQueryStatus(object sender, EventArgs e)
+        protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
             // Get the menu that fired the event
             if (sender is OleMenuCommand menuCommand)
@@ -94,7 +94,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <inheritdoc/>
-        public override void OnInvoke(object sender, EventArgs e)
+        protected override void OnInvoke(object sender, EventArgs e)
         {
             uint itemId = VSConstants.VSITEMID_NIL;
 
