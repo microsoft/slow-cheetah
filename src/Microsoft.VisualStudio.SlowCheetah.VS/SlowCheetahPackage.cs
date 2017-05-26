@@ -10,7 +10,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Runtime.InteropServices;
@@ -79,8 +78,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// </summary>
         public static SlowCheetahPackage OurPackage { get; private set; }
 
-        private IList<string> TempFilesCreated { get; } = new List<string>();
-
         private SlowCheetahNuGetManager NuGetManager { get; set; }
 
         private SlowCheetahPackageLogger PackageLogger { get; set; }
@@ -90,6 +87,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         private AddTransformCommand AddCommand { get; set; }
 
         private PreviewTransformCommand PreviewCommand { get; set; }
+
+        private PackageSolutionEvents SolutionEvents { get; set; }
 
         /// <summary>
         /// Verifies if the current project supports transformations.
@@ -112,7 +111,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             IVsBuildPropertyStorage buildPropertyStorage = vsProject as IVsBuildPropertyStorage;
             if (buildPropertyStorage == null)
             {
-                this.LogMessageWriteLineFormat("Error obtaining IVsBuildPropertyStorage from hierarcy.");
+                this.PackageLogger.LogMessage("Error obtaining IVsBuildPropertyStorage from hierarcy.");
                 return false;
             }
 
@@ -137,13 +136,14 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         protected override void Initialize()
         {
             base.Initialize();
-            this.LogMessageWriteLineFormat("SlowCheetah initalizing");
+            this.PackageLogger.LogMessage("SlowCheetah initalizing");
 
             this.NuGetManager = new SlowCheetahNuGetManager(this);
             this.PackageLogger = new SlowCheetahPackageLogger(this);
             this.ErrorListProvider = new ErrorListProvider(this);
             this.AddCommand = new AddTransformCommand(this, this.NuGetManager, this.PackageLogger);
-            this.PreviewCommand = new PreviewTransformCommand(this, this.NuGetManager, this.PackageLogger, this.ErrorListProvider, this.TempFilesCreated);
+            this.PreviewCommand = new PreviewTransformCommand(this, this.NuGetManager, this.PackageLogger, this.ErrorListProvider);
+            this.SolutionEvents = new PackageSolutionEvents(this);
 
             // Initialization logic
             IVsSolutionBuildManager solutionBuildManager = this.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager;
@@ -153,51 +153,14 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
-            foreach (string file in this.TempFilesCreated)
+            if (disposing)
             {
-                try
-                {
-                    File.Delete(file);
-                }
-                catch (Exception ex)
-                {
-                    this.LogMessageWriteLineFormat(
-                        "There was an error deleting a temp file [{0}], error: [{1}]",
-                        file,
-                        ex.Message);
-                }
+                this.SolutionEvents.Dispose();
+
+                this.PreviewCommand.Dispose();
+
+                base.Dispose(disposing);
             }
-
-            if (this.solutionUpdateCookie > 0)
-            {
-                IVsSolutionBuildManager solutionBuildManager = this.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager;
-                solutionBuildManager.UnadviseUpdateSolutionEvents(this.solutionUpdateCookie);
-            }
-
-            base.Dispose(disposing);
-        }
-
-        private void LogMessageWriteLineFormat(string message, params object[] args)
-        {
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                return;
-            }
-
-            string fullMessage = string.Format(message, args);
-            Trace.WriteLine(fullMessage);
-            Debug.WriteLine(fullMessage);
-
-            IVsActivityLog log = this.GetService(typeof(SVsActivityLog)) as IVsActivityLog;
-            if (log == null)
-            {
-                return;
-            }
-
-            int hr = log.LogEntry(
-                (uint)__ACTIVITYLOG_ENTRYTYPE.ALE_INFORMATION,
-                this.ToString(),
-                fullMessage);
         }
     }
 }

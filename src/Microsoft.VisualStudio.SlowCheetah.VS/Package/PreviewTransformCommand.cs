@@ -21,14 +21,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// <summary>
     /// Preview Transform command
     /// </summary>
-    public class PreviewTransformCommand : BaseCommand
+    public class PreviewTransformCommand : BaseCommand, IDisposable
     {
-        private readonly SlowCheetahNuGetManager nuGetManager;
-        private readonly SlowCheetahPackage package;
-        private readonly SlowCheetahPackageLogger logger;
-        private readonly ErrorListProvider errorListProvider;
-        private readonly IList<string> tempFilesCreated;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PreviewTransformCommand"/> class.
         /// </summary>
@@ -36,24 +30,51 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <param name="nuGetManager">The nuget manager for the VSPackage</param>
         /// <param name="logger">VSPackage logger</param>
         /// <param name="errorListProvider">The VS error list provider</param>
-        /// <param name="tempFilesCreated">List of temporary files created by the package</param>
         public PreviewTransformCommand(
             SlowCheetahPackage package,
             SlowCheetahNuGetManager nuGetManager,
             SlowCheetahPackageLogger logger,
-            ErrorListProvider errorListProvider,
-            IList<string> tempFilesCreated)
+            ErrorListProvider errorListProvider)
             : base(package)
         {
-            this.package = package ?? throw new ArgumentNullException(nameof(package));
-            this.nuGetManager = nuGetManager ?? throw new ArgumentNullException(nameof(nuGetManager));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.errorListProvider = errorListProvider ?? throw new ArgumentNullException(nameof(errorListProvider));
-            this.tempFilesCreated = tempFilesCreated ?? throw new ArgumentNullException(nameof(tempFilesCreated));
+            this.Package = package ?? throw new ArgumentNullException(nameof(package));
+            this.NuGetManager = nuGetManager ?? throw new ArgumentNullException(nameof(nuGetManager));
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.ErrorListProvider = errorListProvider ?? throw new ArgumentNullException(nameof(errorListProvider));
+            this.TempFilesCreated = new List<string>();
         }
 
         /// <inheritdoc/>
         public override int CommandId { get; } = 0x101;
+
+        private SlowCheetahNuGetManager NuGetManager { get; }
+
+        private SlowCheetahPackage Package { get; }
+
+        private SlowCheetahPackageLogger Logger { get; }
+
+        private ErrorListProvider ErrorListProvider { get; }
+
+        private List<string> TempFilesCreated { get; }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            foreach (string file in this.TempFilesCreated)
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch (Exception ex)
+                {
+                    this.Logger.LogMessage(
+                        "There was an error deleting a temp file [{0}], error: [{1}]",
+                        file,
+                        ex.Message);
+                }
+            }
+        }
 
         /// <inheritdoc/>
         protected override void OnChange(object sender, EventArgs e)
@@ -77,13 +98,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 }
 
                 IVsProject vsProject = (IVsProject)hierarchy;
-                if (!this.package.ProjectSupportsTransforms(vsProject))
+                if (!this.Package.ProjectSupportsTransforms(vsProject))
                 {
                     return;
                 }
 
                 // The file need to be a transform item to preview
-                if (!this.package.IsItemTransformItem(vsProject, itemid))
+                if (!this.Package.IsItemTransformItem(vsProject, itemid))
                 {
                     return;
                 }
@@ -106,7 +127,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
             // Make sure that the project supports transformations
             IVsProject project = (IVsProject)hierarchy;
-            if (!this.package.ProjectSupportsTransforms(project))
+            if (!this.Package.ProjectSupportsTransforms(project))
             {
                 return;
             }
@@ -118,7 +139,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             // Checks the SlowCheetah NuGet package installation
-            this.nuGetManager.CheckSlowCheetahInstallation(hierarchy);
+            this.NuGetManager.CheckSlowCheetahInstallation(hierarchy);
 
             // Get the parent of the file to start searching for the source file
             ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out object parentIdObj));
@@ -183,17 +204,17 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 optionsPage.LoadSettingsFromStorage();
                 advancedOptionsPage.LoadSettingsFromStorage();
 
-                this.logger.LogMessage("SlowCheetah PreviewTransform");
+                this.Logger.LogMessage("SlowCheetah PreviewTransform");
                 FileInfo sourceFileInfo = new FileInfo(sourceFile);
 
                 // Destination file
                 // This should be kept as a temp file in case a custom diff tool is being used
                 string destFile = PackageUtilities.GetTempFilename(true, sourceFileInfo.Extension);
-                this.tempFilesCreated.Add(destFile);
+                this.TempFilesCreated.Add(destFile);
 
                 // Perform the transform and then display the result into the diffmerge tool that comes with VS.
-                this.errorListProvider.Tasks.Clear();
-                ITransformationLogger logger = new TransformationPreviewLogger(this.errorListProvider, hier);
+                this.ErrorListProvider.Tasks.Clear();
+                ITransformationLogger logger = new TransformationPreviewLogger(this.ErrorListProvider, hier);
                 ITransformer transformer = TransformerFactory.GetTransformer(sourceFile, logger);
                 if (!transformer.Transform(sourceFile, transformFile, destFile))
                 {
@@ -208,7 +229,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 else
                 {
                     // If the diffmerge service is available and no diff tool is specified, or diffmerge.exe is specifed we use the service
-                    if (((IServiceProvider)this.package).GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath) || advancedOptionsPage.PreviewToolExecutablePath.EndsWith("diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
+                    if (((IServiceProvider)this.Package).GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath) || advancedOptionsPage.PreviewToolExecutablePath.EndsWith("diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
                     {
                         if (!string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath) && !File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
                         {

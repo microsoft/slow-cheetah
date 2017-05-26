@@ -114,7 +114,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             // Save the project file
-            IVsSolution solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
+            IVsSolution solution = (IVsSolution)Shell.Package.GetGlobalService(typeof(SVsSolution));
             int hr = solution.SaveSolutionElement((uint)__VSSLNSAVEOPTIONS.SLNSAVEOPT_SaveIfDirty, hierarchy, 0);
             ErrorHandler.ThrowOnFailure(hr);
 

@@ -15,10 +15,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseCommand"/> class.
         /// </summary>
-        /// <param name="package">The VSPackage</param>
-        public BaseCommand(IServiceProvider package)
+        /// <param name="serviceProvider">The VSPackage as a servide provider</param>
+        public BaseCommand(IServiceProvider serviceProvider)
         {
-            this.ServiceProvider = package ?? throw new ArgumentNullException(nameof(package));
+            this.ServiceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
             this.RegisterCommand();
         }
