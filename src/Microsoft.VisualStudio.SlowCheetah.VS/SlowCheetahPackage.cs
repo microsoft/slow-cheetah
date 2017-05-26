@@ -47,7 +47,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     [ProvideOptionPage(typeof(OptionsDialogPage), "Slow Cheetah", "General", 100, 101, true)]
     [ProvideOptionPage(typeof(AdvancedOptionsDialogPage), "Slow Cheetah", "Advanced", 100, 101, true)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    public sealed partial class SlowCheetahPackage : Package, IVsUpdateSolutionEvents
+    public sealed partial class SlowCheetahPackage : Package
     {
         /// <summary>
         /// The TransformOnBuild metadata
@@ -144,10 +144,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             this.AddCommand = new AddTransformCommand(this, this.NuGetManager, this.PackageLogger);
             this.PreviewCommand = new PreviewTransformCommand(this, this.NuGetManager, this.PackageLogger, this.ErrorListProvider);
             this.SolutionEvents = new PackageSolutionEvents(this);
-
-            // Initialization logic
-            IVsSolutionBuildManager solutionBuildManager = this.GetService(typeof(SVsSolutionBuildManager)) as IVsSolutionBuildManager;
-            solutionBuildManager.AdviseUpdateSolutionEvents(this, out this.solutionUpdateCookie);
         }
 
         /// <inheritdoc/>
