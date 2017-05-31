@@ -11,6 +11,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <!-- Include packages for build -->
     <PackageReference Include="MicroBuild.Core" Version="0.2.0"/>
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.35"/>
   </ItemGroup>
@@ -28,6 +29,6 @@
     </PropertyGroup>
   </Target>
 
-  <!--<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.targets\ImportAfter\Microsoft.NuGet.ImportAfter.targets"/>-->
+  <!-- Import common targets to enable restore -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>

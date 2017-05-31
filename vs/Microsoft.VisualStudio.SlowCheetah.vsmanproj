@@ -5,7 +5,8 @@
  <PropertyGroup>
    <FinalizeManifest>true</FinalizeManifest>
    <FinalizeSkipLayout>true</FinalizeSkipLayout>
-   <TargetExt>.vsman</TargetExt>
+   <!-- Set the TargetType now so that the Common targets don't use the default values -->
+   <TargetType>build-manifest</TargetType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,11 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- SlowCheetah Vsix -->
+    <!-- Swix project manifest -->
     <MergeManifest Include="$(OutputPath)Microsoft.VisualStudio.SlowCheetah.Full.json" />
+    <!-- SlowCheetah Vsix manifest -->
     <MergeManifest Include="$(OutputPath)..\net45\9eb9f150-fcc9-4db8-9e97-6aef2011017c.json" />
   </ItemGroup>
 
+  <!-- Ony the setup\ folder gets published, so we need to copy the necessary components -->
   <Target Name="CopyVsix" AfterTargets="Build">
     <Copy SourceFiles="$(OutputPath)\..\net45\Microsoft.VisualStudio.SlowCheetah.vsix" DestinationFolder="$(OutputPath)" />
     <Copy SourceFiles="$(OutputPath)\..\net45\9eb9f150-fcc9-4db8-9e97-6aef2011017c.json" DestinationFolder="$(OutputPath)" />
