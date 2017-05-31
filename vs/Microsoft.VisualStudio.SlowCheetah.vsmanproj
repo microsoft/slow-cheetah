@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"/>
 
  <PropertyGroup>
    <FinalizeManifest>true</FinalizeManifest>
    <FinalizeSkipLayout>true</FinalizeSkipLayout>
+   <TargetExt>.vsman</TargetExt>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MicroBuild.Core" Version="0.2.0"/>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.35"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="Microsoft.VisualStudio.SlowCheetah.swixproj" />
+    <ProjectReference Include="Microsoft.VisualStudio.SlowCheetah.Full.swixproj" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- SlowCheetah Vsix -->
-    <MergeManifest Include="$(OutputPath)Microsoft.VisualStudio.SlowCheetah.json" />
+    <MergeManifest Include="$(OutputPath)Microsoft.VisualStudio.SlowCheetah.Full.json" />
     <MergeManifest Include="$(OutputPath)..\net45\9eb9f150-fcc9-4db8-9e97-6aef2011017c.json" />
   </ItemGroup>
+
+  <Target Name="CopyVsix" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)\..\net45\Microsoft.VisualStudio.SlowCheetah.vsix" DestinationFolder="$(OutputPath)" />
+    <Copy SourceFiles="$(OutputPath)\..\net45\9eb9f150-fcc9-4db8-9e97-6aef2011017c.json" DestinationFolder="$(OutputPath)" />
+  </Target>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>

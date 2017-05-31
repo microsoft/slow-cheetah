@@ -4,7 +4,7 @@
     <Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
     <Platform Condition="'$(Platform)'==''">AnyCPU</Platform>
     <BaseOutputPath>$(MSBuildThisFileDirectory)..\bin\</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\obj\setup\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)$(Configuration)\setup\</OutputPath>
     <OutDir>$(OutputPath)</OutDir>

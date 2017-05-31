@@ -1,6 +1,6 @@
 use vs
 
-package name=Microsoft.VisualStudio.SlowCheetah
+package name=Microsoft.VisualStudio.SlowCheetah.Full
         version=$(Version)
 
 vs.dependencies
