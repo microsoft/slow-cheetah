@@ -1,7 +1,8 @@
-WHERE /q msbuild
+@echo off
+WHERE /q blah
 IF ERRORLEVEL 1 (
-    ECHO Could not find msbuild
-    EXIT /B
+    ECHO Error: Could not find msbuild. Make sure msbuild is in the PATH and try again.
+    EXIT /B %ERRORLEVEL%
 )
 msbuild /t:restore %~dp0\src\SlowCheetah.sln
 msbuild /t:restore %~dp0\vs\Microsoft.VisualStudio.SlowCheetah.Full.swixproj
