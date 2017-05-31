@@ -1,0 +1,8 @@
+use vs
+
+package name=Microsoft.VisualStudio.SlowCheetah.Full
+        version=$(Version)
+
+vs.dependencies
+  vs.dependency id=9eb9f150-fcc9-4db8-9e97-6aef2011017c
+  vs.dependency id=Microsoft.VisualStudio.MinShell

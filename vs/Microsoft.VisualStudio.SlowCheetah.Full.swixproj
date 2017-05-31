@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"/>
+
+  <PropertyGroup>
+    <OutputArchitecture>neutral</OutputArchitecture>
+    <OutputLocalized>false</OutputLocalized>
+    <OutputName>Microsoft.VisualStudio.SlowCheetah.Full</OutputName>
+    <OutputType>vsix</OutputType>
+    <IsPackage>true</IsPackage>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <!-- Include packages for build -->
+    <PackageReference Include="MicroBuild.Core" Version="0.2.0"/>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.35"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Package Include="package.swr" />
+  </ItemGroup>
+
+  <Target Name="SetVsixProperties" BeforeTargets="Build" DependsOnTargets="GetBuildVersion">
+    <PropertyGroup>
+      <!-- Variables added here will be usable in the swr file.  This is a semi colon delimited
+           list of name=value items.  Use $(name) in the swr file to reference the variable.
+      -->
+      <PackagePreprocessorDefinitions>$(PackagePreprocessorDefinitions);Version=$(BuildVersion)</PackagePreprocessorDefinitions>
+    </PropertyGroup>
+  </Target>
+
+  <!-- Import common targets to enable restore -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

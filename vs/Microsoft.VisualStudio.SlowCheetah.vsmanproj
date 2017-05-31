@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"/>
+
+ <PropertyGroup>
+   <FinalizeManifest>true</FinalizeManifest>
+   <FinalizeSkipLayout>true</FinalizeSkipLayout>
+   <!-- Set the TargetType now so that the Common targets don't use the default values -->
+   <TargetType>build-manifest</TargetType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MicroBuild.Core" Version="0.2.0"/>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.35"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Microsoft.VisualStudio.SlowCheetah.Full.swixproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Swix project manifest -->
+    <MergeManifest Include="$(OutputPath)Microsoft.VisualStudio.SlowCheetah.Full.json" />
+    <!-- SlowCheetah Vsix manifest -->
+    <MergeManifest Include="$(OutputPath)..\net45\9eb9f150-fcc9-4db8-9e97-6aef2011017c.json" />
+  </ItemGroup>
+
+  <!-- Ony the setup\ folder gets published, so we need to copy the necessary components -->
+  <Target Name="CopyVsix" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)\..\net45\Microsoft.VisualStudio.SlowCheetah.vsix" DestinationFolder="$(OutputPath)" />
+    <Copy SourceFiles="$(OutputPath)\..\net45\9eb9f150-fcc9-4db8-9e97-6aef2011017c.json" DestinationFolder="$(OutputPath)" />
+  </Target>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>
