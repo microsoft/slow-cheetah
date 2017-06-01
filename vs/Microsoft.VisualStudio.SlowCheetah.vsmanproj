@@ -7,7 +7,7 @@
    <FinalizeSkipLayout>true</FinalizeSkipLayout>
    <!-- Set the TargetType now so that the Common targets don't use the default values -->
    <TargetType>build-manifest</TargetType>
-   <!-- Set the TargetType now so that the Common targets don't use the default values -->
+   <!-- Set the TargetExt now since microbuild sets it after the Common targets -->
    <TargetExt>.vsman</TargetExt>
   </PropertyGroup>
 
