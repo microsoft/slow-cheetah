@@ -59,8 +59,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// </summary>
         public static readonly string IsTransformFile = "IsTransformFile";
 
-        private uint solutionUpdateCookie = 0;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SlowCheetahPackage"/> class.
         /// </summary>
