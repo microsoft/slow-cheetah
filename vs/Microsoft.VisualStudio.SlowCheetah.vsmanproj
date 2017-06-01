@@ -7,10 +7,12 @@
    <FinalizeSkipLayout>true</FinalizeSkipLayout>
    <!-- Set the TargetType now so that the Common targets don't use the default values -->
    <TargetType>build-manifest</TargetType>
+   <!-- Set the TargetType now so that the Common targets don't use the default values -->
+   <TargetExt>.vsman</TargetExt>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MicroBuild.Core" Version="0.2.0"/>
+     <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.40"/>
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.35"/>
   </ItemGroup>
 
