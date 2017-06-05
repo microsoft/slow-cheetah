@@ -30,6 +30,8 @@
     </PropertyGroup>
   </Target>
 
+  <Target Name="CreateManifestResourceNames"/>
+
   <!-- Import common targets to enable restore -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>
