@@ -13,8 +13,15 @@
   <ItemGroup>
     <!-- Include packages for build -->
     <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.40"/>
-    <!--<PackageReference Include="MicroBuild.Core" Version="0.2.0"/>-->
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.35"/>
+  </ItemGroup>
+
+  <!-- Needed for the MicroBuild signing plugin -->
+  <ItemGroup>
+    <SigningTarget Include="$(OutputPath)$(OutputName)"/>
+    <FilesToSign Include="@(SigningTarget)">
+      <Authenticode>Vsix</Authenticode>
+    </FilesToSign>
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +37,7 @@
     </PropertyGroup>
   </Target>
 
+  <!-- Needed by the Common Targets -->
   <Target Name="CreateManifestResourceNames"/>
 
   <!-- Import common targets to enable restore -->
