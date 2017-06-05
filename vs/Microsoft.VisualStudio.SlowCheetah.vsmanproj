@@ -9,6 +9,9 @@
    <TargetType>build-manifest</TargetType>
    <!-- Set the TargetExt now since microbuild sets it after the Common targets -->
    <TargetExt>.vsman</TargetExt>
+
+    <!-- This project should not be strong named sign -->
+    <MicroBuild_DoNotStrongNameSign>true</MicroBuild_DoNotStrongNameSign>
   </PropertyGroup>
 
   <ItemGroup>

@@ -8,6 +8,9 @@
     <OutputName>Microsoft.VisualStudio.SlowCheetah.Full</OutputName>
     <OutputType>vsix</OutputType>
     <IsPackage>true</IsPackage>
+
+    <!-- This project should not be strong named sign -->
+    <MicroBuild_DoNotStrongNameSign>true</MicroBuild_DoNotStrongNameSign>
   </PropertyGroup>
   
   <ItemGroup>
