@@ -147,25 +147,25 @@
           <source>True</source>
           <target state="final">True</target>
         </trans-unit>
-        <trans-unit id="AddDepentUponCheckbox.AutoSize" translate="no" extype="System.Boolean, mscorlib" xml:space="preserve">
+        <trans-unit id="AddDependentUponCheckbox.AutoSize" translate="no" extype="System.Boolean, mscorlib" xml:space="preserve">
           <source>True</source>
           <target state="final">True</target>
         </trans-unit>
-        <trans-unit id="AddDepentUponCheckbox.Location" translate="no" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
+        <trans-unit id="AddDependentUponCheckbox.Location" translate="no" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
           <source>6, 43</source>
           <target state="final">6, 43</target>
         </trans-unit>
-        <trans-unit id="AddDepentUponCheckbox.Size" translate="no" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
+        <trans-unit id="AddDependentUponCheckbox.Size" translate="no" extype="System.Drawing.Size, System.Drawing" xml:space="preserve">
           <source>235, 17</source>
           <target state="final">235, 17</target>
         </trans-unit>
-        <trans-unit id="AddDepentUponCheckbox.TabIndex" translate="no" extype="System.Int32, mscorlib" xml:space="preserve">
+        <trans-unit id="AddDependentUponCheckbox.TabIndex" translate="no" extype="System.Int32, mscorlib" xml:space="preserve">
           <source>1</source>
           <target state="final">1</target>
         </trans-unit>
-        <trans-unit id="AddDepentUponCheckbox.Text" translate="yes" xml:space="preserve">
-          <source>&amp;Add DepentUpon metadata to transform files</source>
-          <target state="translated">Adicionar metadados DepentUpon para transformar arquivos</target>
+        <trans-unit id="AddDependentUponCheckbox.Text" translate="yes" xml:space="preserve">
+          <source>&amp;Add DependentUpon metadata to transform files</source>
+          <target state="translated">Adicionar metadados DependentUpon para transformar arquivos</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.Dock" translate="no" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
           <source>Top</source>

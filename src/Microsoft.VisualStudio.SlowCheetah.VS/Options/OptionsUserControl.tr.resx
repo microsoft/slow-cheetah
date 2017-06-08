@@ -149,31 +149,31 @@
   <data name="GeneralGroupBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="AddDepentUponCheckbox.AutoSize" type="System.Boolean, mscorlib">
+  <data name="AddDependentUponCheckbox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="AddDepentUponCheckbox.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="AddDependentUponCheckbox.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 43</value>
   </data>
-  <data name="AddDepentUponCheckbox.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="AddDependentUponCheckbox.Size" type="System.Drawing.Size, System.Drawing">
     <value>235, 17</value>
   </data>
-  <data name="AddDepentUponCheckbox.TabIndex" type="System.Int32, mscorlib">
+  <data name="AddDependentUponCheckbox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="AddDepentUponCheckbox.Text" xml:space="preserve">
-    <value>&amp;Add DepentUpon metadata to transform files</value>
+  <data name="AddDependentUponCheckbox.Text" xml:space="preserve">
+    <value>&amp;Add DependentUpon metadata to transform files</value>
   </data>
-  <data name="&gt;&gt;AddDepentUponCheckbox.Name" xml:space="preserve">
-    <value>AddDepentUponCheckbox</value>
+  <data name="&gt;&gt;AddDependentUponCheckbox.Name" xml:space="preserve">
+    <value>AddDependentUponCheckbox</value>
   </data>
-  <data name="&gt;&gt;AddDepentUponCheckbox.Type" xml:space="preserve">
+  <data name="&gt;&gt;AddDependentUponCheckbox.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;AddDepentUponCheckbox.Parent" xml:space="preserve">
+  <data name="&gt;&gt;AddDependentUponCheckbox.Parent" xml:space="preserve">
     <value>GeneralGroupBox</value>
   </data>
-  <data name="&gt;&gt;AddDepentUponCheckbox.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;AddDependentUponCheckbox.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
