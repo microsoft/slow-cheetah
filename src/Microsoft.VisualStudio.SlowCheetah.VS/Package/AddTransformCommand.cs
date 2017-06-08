@@ -25,6 +25,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         private readonly SlowCheetahNuGetManager nuGetManager;
         private readonly SlowCheetahPackageLogger logger;
 
+        private const string TransformFilename = "{0}.{1}{2}";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AddTransformCommand"/> class.
         /// </summary>
@@ -168,7 +170,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
                     foreach (string config in transformsToCreate)
                     {
-                        string itemName = string.Format(Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
+                        string itemName = string.Format(TransformFilename, itemFilename, config, itemExtension);
                         this.AddTransformFile(selectedProjectItem, itemName, itemFolder, optionsPage.AddDependentUpon);
                         hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out uint addedFileId);
                         buildPropertyStorage.SetItemAttribute(addedFileId, SlowCheetahPackage.IsTransformFile, "True");

@@ -1,5 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Label="MultilingualAppToolkit">
+    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
+    <MultilingualFallbackLanguage>en-US</MultilingualFallbackLanguage>
+    <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
+    <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
+  </PropertyGroup>
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net45</TargetFramework>
@@ -7,7 +13,10 @@
     <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
     <CreateVsixContainer>false</CreateVsixContainer>
   </PropertyGroup>
-
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />
+  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
+    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
+  </Target>
   <ItemGroup>
     <PackageReference Include="EnvDTE" Version="8.0.1" />
     <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.40" />
@@ -23,24 +32,20 @@
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="all" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.VisualStudio.SlowCheetah\Microsoft.VisualStudio.SlowCheetah.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="Microsoft.Build" />
     <Reference Include="System.Design" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
-
   <ItemGroup>
     <VSCTCompile Include="SlowCheetah.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>
     </VSCTCompile>
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Options\AdvancedOptionsDialogPage.cs">
       <SubType>Component</SubType>
@@ -71,11 +76,49 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.cs.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.de.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.es.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.fr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.ja.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.ko.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.pl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.pt-BR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Options\AdvancedOptionsUserControl.resx">
       <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.tr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.zh-Hans.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.zh-Hant.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Options\OptionsUserControl.resx">
       <DependentUpon>OptionsUserControl.cs</DependentUpon>
@@ -91,13 +134,14 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="Microsoft.VisualStudio.SlowCheetah.VS.pkgdef">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <Target Name="LinkNugetEmbeddableAssemblies" DependsOnTargets="ResolveReferences" AfterTargets="ResolveReferences">
     <ItemGroup>
       <ReferencePath Condition="'%(FileName)' == 'Nuget.VisualStudio'">
@@ -105,5 +149,4 @@
       </ReferencePath>
     </ItemGroup>
   </Target>
-
 </Project>
