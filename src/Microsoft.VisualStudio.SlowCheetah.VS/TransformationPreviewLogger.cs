@@ -12,6 +12,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using SlowCheetah;
+    using System.Globalization;
 
     /// <summary>
     /// Logger for XDT transformation on Preview Transform
@@ -35,13 +36,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <inheritdoc/>
         public void LogError(string message, params object[] messageArgs)
         {
-            this.AddError(TaskErrorCategory.Error, string.Format(message, messageArgs), null, 0, 0);
+            this.AddError(TaskErrorCategory.Error, string.Format(CultureInfo.CurrentCulture, message, messageArgs), null, 0, 0);
         }
 
         /// <inheritdoc/>
         public void LogError(string file, int lineNumber, int linePosition, string message, params object[] messageArgs)
         {
-            this.AddError(TaskErrorCategory.Error, string.Format(message, messageArgs), file, lineNumber, linePosition);
+            this.AddError(TaskErrorCategory.Error, string.Format(CultureInfo.CurrentCulture, message, messageArgs), file, lineNumber, linePosition);
         }
 
         /// <inheritdoc/>
@@ -61,20 +62,20 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
             if (importance != LogMessageImportance.Low)
             {
-                this.AddError(TaskErrorCategory.Message, string.Format(message, messageArgs), null, 0, 0);
+                this.AddError(TaskErrorCategory.Message, string.Format(CultureInfo.CurrentCulture, message, messageArgs), null, 0, 0);
             }
         }
 
         /// <inheritdoc/>
         public void LogWarning(string message, params object[] messageArgs)
         {
-            this.AddError(TaskErrorCategory.Warning, string.Format(message, messageArgs), null, 0, 0);
+            this.AddError(TaskErrorCategory.Warning, string.Format(CultureInfo.CurrentCulture, message, messageArgs), null, 0, 0);
         }
 
         /// <inheritdoc/>
         public void LogWarning(string file, int lineNumber, int linePosition, string message, params object[] messageArgs)
         {
-            this.AddError(TaskErrorCategory.Warning, string.Format(message, messageArgs), file, lineNumber, linePosition);
+            this.AddError(TaskErrorCategory.Warning, string.Format(CultureInfo.CurrentCulture, message, messageArgs), file, lineNumber, linePosition);
         }
 
         private void AddError(TaskErrorCategory errorCategory, string text, string file, int lineNumber, int linePosition)

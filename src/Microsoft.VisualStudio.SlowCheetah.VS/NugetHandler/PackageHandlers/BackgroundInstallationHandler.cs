@@ -9,6 +9,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using TPL = System.Threading.Tasks;
+    using System.Globalization;
 
     /// <summary>
     /// Performs installation operations in the background
@@ -50,7 +51,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 {
                     // Gets the general output pane to inform user of installation
                     IVsOutputWindowPane outputWindow = (IVsOutputWindowPane)this.Package.GetService(typeof(SVsGeneralOutputWindowPane));
-                    outputWindow?.OutputString(string.Format(Resources.Resources.NugetInstall_InstallingOutput, project.Name) + Environment.NewLine);
+                    outputWindow?.OutputString(string.Format(CultureInfo.CurrentCulture, Resources.Resources.NugetInstall_InstallingOutput, project.Name) + Environment.NewLine);
 
                     TPL.Task.Run(() =>
                     {
@@ -71,7 +72,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                                 InstallTasks.Remove(projName);
                             }
 
-                            ThreadHelper.Generic.BeginInvoke(() => outputWindow?.OutputString(string.Format(outputMessage, project.Name) + Environment.NewLine));
+                            ThreadHelper.Generic.BeginInvoke(() => outputWindow?.OutputString(string.Format(CultureInfo.CurrentCulture, outputMessage, project.Name) + Environment.NewLine));
                         }
                     });
                 }

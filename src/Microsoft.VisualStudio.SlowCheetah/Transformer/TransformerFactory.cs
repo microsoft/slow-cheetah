@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
 
@@ -33,7 +34,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
             }
 
             return TransformerCatalog.FirstOrDefault(tr => tr.IsFileSupported(source))?.WithLogger(logger)
-                ?? throw new NotSupportedException(string.Format(Resources.Resources.ErrorMessage_UnsupportedFile, source));
+                ?? throw new NotSupportedException(string.Format(CultureInfo.CurrentCulture, Resources.Resources.ErrorMessage_UnsupportedFile, source));
         }
 
         /// <summary>

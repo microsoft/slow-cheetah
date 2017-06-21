@@ -134,7 +134,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         protected override void Initialize()
         {
             base.Initialize();
-            this.PackageLogger.LogMessage("SlowCheetah initalizing");
 
             this.NuGetManager = new SlowCheetahNuGetManager(this);
             this.PackageLogger = new SlowCheetahPackageLogger(this);

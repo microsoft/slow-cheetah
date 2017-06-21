@@ -6,6 +6,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System;
     using System.Diagnostics;
     using Microsoft.VisualStudio.Shell.Interop;
+    using System.Globalization;
 
     /// <summary>
     /// A logger class for <see cref="SlowCheetahPackage"/>
@@ -35,7 +36,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 return;
             }
 
-            string fullMessage = string.Format(message, args);
+            string fullMessage = string.Format(CultureInfo.CurrentCulture, message, args);
             Trace.WriteLine(fullMessage);
             Debug.WriteLine(fullMessage);
 

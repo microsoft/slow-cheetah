@@ -151,7 +151,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
             if (!this.TryGetFileToTransform(hierarchy, parentId, Path.GetFileName(transformPath), out uint docId, out string documentPath))
             {
-                throw new FileNotFoundException(string.Format(Resources.Resources.Error_FileToTransformNotFound, transformPath));
+                throw new FileNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.Resources.Error_FileToTransformNotFound, transformPath));
             }
 
             try
@@ -189,12 +189,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
             if (!File.Exists(sourceFile))
             {
-                throw new FileNotFoundException(string.Format(Resources.Resources.Error_SourceFileNotFound, sourceFile), sourceFile);
+                throw new FileNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.Resources.Error_SourceFileNotFound, sourceFile), sourceFile);
             }
 
             if (!File.Exists(transformFile))
             {
-                throw new FileNotFoundException(string.Format(Resources.Resources.Error_TransformFileNotFound, transformFile), transformFile);
+                throw new FileNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.Resources.Error_TransformFileNotFound, transformFile), transformFile);
             }
 
             // Get our options
@@ -234,7 +234,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                         if (!string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath) && !File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
                         {
                             // If the user specified a preview tool, but it doesn't exist, log a warning
-                            logger.LogWarning(string.Format(Resources.Resources.Error_CantFindPreviewTool, advancedOptionsPage.PreviewToolExecutablePath));
+                            logger.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.Resources.Error_CantFindPreviewTool, advancedOptionsPage.PreviewToolExecutablePath));
                         }
 
                         // Write all the labels for the diff tool
@@ -252,13 +252,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     }
                     else if (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
                     {
-                        throw new FileNotFoundException(string.Format(Resources.Resources.Error_CantFindPreviewTool, advancedOptionsPage.PreviewToolExecutablePath), advancedOptionsPage.PreviewToolExecutablePath);
+                        throw new FileNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.Resources.Error_CantFindPreviewTool, advancedOptionsPage.PreviewToolExecutablePath), advancedOptionsPage.PreviewToolExecutablePath);
                     }
                     else
                     {
                         // Open a process with the specified diff tool
                         // Add quotes to the file names
-                        ProcessStartInfo psi = new ProcessStartInfo(advancedOptionsPage.PreviewToolExecutablePath, string.Format(advancedOptionsPage.PreviewToolCommandLine, $"\"{sourceFile}\"", $"\"{destFile}\""))
+                        ProcessStartInfo psi = new ProcessStartInfo(advancedOptionsPage.PreviewToolExecutablePath, string.Format(CultureInfo.CurrentCulture, advancedOptionsPage.PreviewToolCommandLine, $"\"{sourceFile}\"", $"\"{destFile}\""))
                         {
                             CreateNoWindow = true,
                             UseShellExecute = false
