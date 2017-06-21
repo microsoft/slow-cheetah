@@ -10,12 +10,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using EnvDTE;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
-    using System.Globalization;
 
     /// <summary>
     /// Add Transform command

@@ -9,10 +9,10 @@
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
+    using System.Globalization;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using SlowCheetah;
-    using System.Globalization;
 
     /// <summary>
     /// Logger for XDT transformation on Preview Transform

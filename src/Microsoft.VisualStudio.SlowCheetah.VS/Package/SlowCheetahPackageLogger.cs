@@ -5,8 +5,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Diagnostics;
-    using Microsoft.VisualStudio.Shell.Interop;
     using System.Globalization;
+    using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
     /// A logger class for <see cref="SlowCheetahPackage"/>

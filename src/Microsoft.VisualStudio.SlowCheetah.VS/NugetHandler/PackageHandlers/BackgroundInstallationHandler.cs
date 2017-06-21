@@ -5,11 +5,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using EnvDTE;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using TPL = System.Threading.Tasks;
-    using System.Globalization;
 
     /// <summary>
     /// Performs installation operations in the background

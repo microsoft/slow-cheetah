@@ -134,16 +134,19 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 throw new FileNotFoundException(Resources.Resources.ErrorMessage_TransformFileNotFound, transformPath);
             }
 
-            using (XmlTextReader reader = new XmlTextReader(sourcePath))
             using (XmlTransformableDocument document = new XmlTransformableDocument())
             using (XmlTransformation transformation = new XmlTransformation(transformPath, this.logger))
             {
-                reader.DtdProcessing = DtdProcessing.Ignore;
+                using (XmlTextReader reader = new XmlTextReader(sourcePath))
+                {
+                    reader.DtdProcessing = DtdProcessing.Ignore;
 
-                document.PreserveWhitespace = true;
-                document.Load(reader);
+                    document.PreserveWhitespace = true;
+                    document.Load(reader);
+                }
 
                 var success = transformation.Apply(document);
+
                 if (success)
                 {
                     document.Save(destinationPath);
