@@ -8,12 +8,23 @@
     <OutputName>Microsoft.VisualStudio.SlowCheetah.Full</OutputName>
     <OutputType>vsix</OutputType>
     <IsPackage>true</IsPackage>
+
+    <!-- This project should not be strong named sign -->
+    <MicroBuild_DoNotStrongNameSign>true</MicroBuild_DoNotStrongNameSign>
   </PropertyGroup>
   
   <ItemGroup>
     <!-- Include packages for build -->
-    <PackageReference Include="MicroBuild.Core" Version="0.2.0"/>
+    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.40"/>
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.35"/>
+  </ItemGroup>
+
+  <!-- Needed for the MicroBuild signing plugin -->
+  <ItemGroup>
+    <SigningTarget Include="$(OutputPath)$(OutputName)"/>
+    <FilesToSign Include="@(SigningTarget)">
+      <Authenticode>Vsix</Authenticode>
+    </FilesToSign>
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +39,9 @@
       <PackagePreprocessorDefinitions>$(PackagePreprocessorDefinitions);Version=$(BuildVersion)</PackagePreprocessorDefinitions>
     </PropertyGroup>
   </Target>
+
+  <!-- Needed by the Common Targets -->
+  <Target Name="CreateManifestResourceNames"/>
 
   <!-- Import common targets to enable restore -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
