@@ -7,10 +7,15 @@
    <FinalizeSkipLayout>true</FinalizeSkipLayout>
    <!-- Set the TargetType now so that the Common targets don't use the default values -->
    <TargetType>build-manifest</TargetType>
+   <!-- Set the TargetExt now since microbuild sets it after the Common targets -->
+   <TargetExt>.vsman</TargetExt>
+
+    <!-- This project should not be strong named sign -->
+    <MicroBuild_DoNotStrongNameSign>true</MicroBuild_DoNotStrongNameSign>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MicroBuild.Core" Version="0.2.0"/>
+    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.40"/>
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.35"/>
   </ItemGroup>
 
