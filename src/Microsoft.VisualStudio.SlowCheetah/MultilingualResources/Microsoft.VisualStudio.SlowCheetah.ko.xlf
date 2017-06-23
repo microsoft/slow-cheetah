@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en-US" target-language="ko" original="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH/RESOURCES/RESOURCES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6810.0" tool-company="Microsoft" />
@@ -8,7 +8,7 @@
       <group id="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH/RESOURCES/RESOURCES.RESX" datatype="resx">
         <trans-unit id="ErrorMessage_FileNotFound" translate="yes" xml:space="preserve">
           <source>File not found</source>
-          <target state="new">File not found</target>
+          <target state="translated">파일을 찾을 수 없음</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message for missing file</note>
         </trans-unit>
         <trans-unit id="ErrorMessage_SourceFileNotFound" translate="yes" xml:space="preserve">
@@ -23,19 +23,19 @@
         </trans-unit>
         <trans-unit id="ErrorMessage_UnsupportedFile" translate="yes" xml:space="preserve">
           <source>{0} is not a supported file type for transformation</source>
-          <target state="new">{0} is not a supported file type for transformation</target>
+          <target state="translated">{0}은(는) 변환이 지원되는 파일 형식이 아닙니다.</target>
         </trans-unit>
         <trans-unit id="JsonTransform_TransformFileContents" translate="no" xml:space="preserve">
           <source>{
 }
 </source>
-          <target state="new">{
+          <target state="translated">{
 }
 </target>
         </trans-unit>
         <trans-unit id="XmlTransform_ContentInfo" translate="yes" xml:space="preserve">
           <source>For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. </source>
-          <target state="new">For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. </target>
+          <target state="translated">변환 사용에 대한 자세한 정보를 보려면 http://go.microsoft.com/fwlink/?LinkId=214134에서 web.config 예제를 확인하세요. </target>
           <note from="MultilingualBuild" annotates="source" priority="2">Info on XDT transforms, to be added as a comment in the transform file</note>
         </trans-unit>
       </group>

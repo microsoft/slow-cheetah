@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en-US" target-language="ko" original="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/VSPACKAGE.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6810.0" tool-company="Microsoft" />
@@ -30,7 +30,7 @@
         </trans-unit>
         <trans-unit id="Error_FileToTransformNotFound" translate="yes" xml:space="preserve">
           <source>Unable to preview transform. No source file found for {0}. Check to see if the file has not been renamed or removed from the project.</source>
-          <target state="new">Unable to preview transform. No source file found for {0}. Check to see if the file has not been renamed or removed from the project.</target>
+          <target state="translated">변환을 미리 볼 수 없습니다. {0}에 대한 소스 파일을 찾을 수 없습니다. 해당 파일이 프로젝트에서 이름이 바뀌었거나 삭제되었는지 확인하세요.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message for when a transform file has no corresponding source file.</note>
         </trans-unit>
         <trans-unit id="Error_NoPreviewToolSpecified" translate="yes" xml:space="preserve">
@@ -141,7 +141,7 @@
         </trans-unit>
         <trans-unit id="EnablePreviewCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Show diff on transformation preview</source>
-          <target state="translated">변환 미리 보기에 차이점 표시</target>
+          <target state="translated">변환 미리 보기에 차이점 표시(&amp;S)</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.AutoSize" translate="no" extype="System.Boolean, mscorlib" xml:space="preserve">
           <source>True</source>
@@ -165,7 +165,7 @@
         </trans-unit>
         <trans-unit id="AddDependentUponCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Add DependentUpon metadata to transform files</source>
-          <target state="translated">변환 파일에 DependentUpon 메타데이터 추가</target>
+          <target state="translated">변환 파일에 DependentUpon 메타데이터 추가(&amp;A)</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.Dock" translate="no" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
           <source>Top</source>
@@ -238,7 +238,7 @@
         </trans-unit>
         <trans-unit id="PreviewToolNameLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool P&amp;ath: </source>
-          <target state="new">Preview Tool P&amp;ath: </target>
+          <target state="translated">미리 보기 도구 경로(&amp;A): </target>
         </trans-unit>
         <trans-unit id="PreviewToolPathTextbox.Anchor" translate="no" extype="System.Windows.Forms.AnchorStyles, System.Windows.Forms" xml:space="preserve">
           <source>Top, Left, Right</source>
@@ -306,7 +306,7 @@
         </trans-unit>
         <trans-unit id="PreviewCommandLineLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool C&amp;ommand Line: </source>
-          <target state="new">Preview Tool C&amp;ommand Line: </target>
+          <target state="translated">미리 보기 도구 명령줄(&amp;O): </target>
         </trans-unit>
         <trans-unit id="PreviewToolCommandLineTextbox.Location" translate="no" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
           <source>6, 71</source>
@@ -339,8 +339,8 @@
         <trans-unit id="CommandLineExplanationLabel.Text" translate="yes" xml:space="preserve">
           <source>The command line arguments for the preview tool.
 {0} is the source file, {1} is the transformed file.</source>
-          <target state="new">The command line arguments for the preview tool.
-{0} is the source file, {1} is the transformed file.</target>
+          <target state="translated">미리 보기 도구에 대한 명령줄 인수입니다.
+{0}은(는) 소스 파일이고, {1}은(는) 변환된 파일입니다.</target>
         </trans-unit>
         <trans-unit id="AdvancedGroupBox.Dock" translate="no" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
           <source>Top</source>
@@ -360,7 +360,7 @@
         </trans-unit>
         <trans-unit id="AdvancedGroupBox.Text" translate="yes" xml:space="preserve">
           <source>Preview Transform Tool</source>
-          <target state="new">Preview Transform Tool</target>
+          <target state="translated">미리 보기 변환 도구</target>
         </trans-unit>
         <trans-unit id="$this.AutoScaleDimensions" translate="no" extype="System.Drawing.SizeF, System.Drawing" xml:space="preserve">
           <source>6, 13</source>
