@@ -10,6 +10,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -64,7 +65,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 File.Delete(path);
 
                 extension = extension.Trim();
-                if (!extension.StartsWith("."))
+                if (!extension.StartsWith(".", StringComparison.OrdinalIgnoreCase))
                 {
                     extension = "." + extension;
                 }
@@ -110,7 +111,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 string trnNameNoExt = Path.GetFileNameWithoutExtension(transformName);
                 Regex regex = new Regex("^" + docNameNoExt + @"\.", RegexOptions.IgnoreCase);
                 string configName = regex.Replace(trnNameNoExt, string.Empty);
-                return !configName.Equals(trnNameNoExt) && configs.Any(s => { return string.Compare(s, configName, true) == 0; });
+                return !configName.Equals(trnNameNoExt) && configs.Any(s => { return string.Compare(s, configName, StringComparison.OrdinalIgnoreCase) == 0; });
             }
         }
 

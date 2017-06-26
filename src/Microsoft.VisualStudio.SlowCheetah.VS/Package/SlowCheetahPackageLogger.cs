@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Diagnostics;
+    using System.Globalization;
     using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
@@ -35,7 +36,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 return;
             }
 
-            string fullMessage = string.Format(message, args);
+            string fullMessage = string.Format(CultureInfo.CurrentCulture, message, args);
             Trace.WriteLine(fullMessage);
             Debug.WriteLine(fullMessage);
 

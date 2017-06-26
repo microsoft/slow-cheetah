@@ -10,6 +10,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using EnvDTE;
@@ -168,7 +169,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
                     foreach (string config in transformsToCreate)
                     {
-                        string itemName = string.Format(Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
+                        string itemName = string.Format(CultureInfo.CurrentCulture, Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
                         this.AddTransformFile(selectedProjectItem, itemName, itemFolder, optionsPage.AddDependentUpon);
                         hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out uint addedFileId);
                         buildPropertyStorage.SetItemAttribute(addedFileId, SlowCheetahPackage.IsTransformFile, "True");

@@ -63,8 +63,10 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 // First, copy the original file to preserve encoding and header
                 File.Copy(sourcePath, transformPath, overwrite);
 
+                XmlTextReader reader = new XmlTextReader(transformPath);
+                reader.DtdProcessing = DtdProcessing.Ignore;
                 XmlDocument transformDoc = new XmlDocument();
-                transformDoc.Load(transformPath);
+                transformDoc.Load(reader);
                 XmlComment xdtInfo = transformDoc.CreateComment(Resources.Resources.XmlTransform_ContentInfo);
                 XmlElement root = transformDoc.DocumentElement;
                 transformDoc.InsertBefore(xdtInfo, root);
@@ -135,10 +137,16 @@ namespace Microsoft.VisualStudio.SlowCheetah
             using (XmlTransformableDocument document = new XmlTransformableDocument())
             using (XmlTransformation transformation = new XmlTransformation(transformPath, this.logger))
             {
-                document.PreserveWhitespace = true;
-                document.Load(sourcePath);
+                using (XmlTextReader reader = new XmlTextReader(sourcePath))
+                {
+                    reader.DtdProcessing = DtdProcessing.Ignore;
+
+                    document.PreserveWhitespace = true;
+                    document.Load(reader);
+                }
 
                 var success = transformation.Apply(document);
+
                 if (success)
                 {
                     document.Save(destinationPath);
