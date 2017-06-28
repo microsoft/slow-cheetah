@@ -141,7 +141,7 @@
         </trans-unit>
         <trans-unit id="EnablePreviewCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Show diff on transformation preview</source>
-          <target state="translated">Показать несовпадения при предварительном просмотре преобразования</target>
+          <target state="translated">&amp;Показать несовпадения при предварительном просмотре преобразования</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.AutoSize" translate="no" extype="System.Boolean, mscorlib" xml:space="preserve">
           <source>True</source>
@@ -165,7 +165,7 @@
         </trans-unit>
         <trans-unit id="AddDependentUponCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Add DependentUpon metadata to transform files</source>
-          <target state="translated">Добавление метаданных DependentUpon для преобразования файлов</target>
+          <target state="translated">&amp;Добавление метаданных DependentUpon для преобразования файлов</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.Dock" translate="no" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
           <source>Top</source>

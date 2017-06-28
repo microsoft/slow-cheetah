@@ -141,7 +141,7 @@
         </trans-unit>
         <trans-unit id="EnablePreviewCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Show diff on transformation preview</source>
-          <target state="translated">在转换预览中显示差异</target>
+          <target state="translated">在转换预览中显示差异(&amp;S)</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.AutoSize" translate="no" extype="System.Boolean, mscorlib" xml:space="preserve">
           <source>True</source>
@@ -165,7 +165,7 @@
         </trans-unit>
         <trans-unit id="AddDependentUponCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Add DependentUpon metadata to transform files</source>
-          <target state="translated">将 DependentUpon 元数据添加到转换文件</target>
+          <target state="translated">将 DependentUpon 元数据添加到转换文件(&amp;A)</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.Dock" translate="no" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
           <source>Top</source>
@@ -238,7 +238,7 @@
         </trans-unit>
         <trans-unit id="PreviewToolNameLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool P&amp;ath: </source>
-          <target state="translated">预览工具路径：</target>
+          <target state="translated">预览工具路径(&amp;A)：</target>
         </trans-unit>
         <trans-unit id="PreviewToolPathTextbox.Anchor" translate="no" extype="System.Windows.Forms.AnchorStyles, System.Windows.Forms" xml:space="preserve">
           <source>Top, Left, Right</source>
@@ -306,7 +306,7 @@
         </trans-unit>
         <trans-unit id="PreviewCommandLineLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool C&amp;ommand Line: </source>
-          <target state="translated">预览工具命令行：</target>
+          <target state="translated">预览工具命令行(&amp;O)：</target>
         </trans-unit>
         <trans-unit id="PreviewToolCommandLineTextbox.Location" translate="no" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
           <source>6, 71</source>
