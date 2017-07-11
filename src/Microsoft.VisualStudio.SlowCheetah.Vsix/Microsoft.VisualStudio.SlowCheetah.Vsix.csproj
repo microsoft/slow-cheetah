@@ -26,8 +26,7 @@
     <CopyBuildOutputToOutputDirectory>false</CopyBuildOutputToOutputDirectory>
     <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
     <IsPackable>false</IsPackable>
-    <TargetFramework>net45</TargetFramework>
-    <OutputPath>$(OutputPath)$(TargetFramework)\</OutputPath>
+    <OutputPath>$(OutputPath)net45\</OutputPath>
     <TargetName>Microsoft.VisualStudio.SlowCheetah</TargetName>
     <IsProductComponent>true</IsProductComponent>
   </PropertyGroup>
