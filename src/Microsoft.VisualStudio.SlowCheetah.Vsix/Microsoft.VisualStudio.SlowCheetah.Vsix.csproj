@@ -53,12 +53,6 @@
       <Link>Microsoft.VisualStudio.Jdt.dll</Link>
       <Visible>false</Visible>
     </Content>
-    <Content Include="$(OutputPath)Newtonsoft.Json.dll">
-      <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-      <Link>Newtonsoft.Json.dll</Link>
-      <Visible>false</Visible>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\LICENSE" Link="LICENSE">
