@@ -60,13 +60,13 @@ namespace Microsoft.VisualStudio.SlowCheetah
             // If the file should be overwritten or if it doesn't exist, we create it
             if (overwrite || !File.Exists(transformPath))
             {
-                // First, copy the original file to preserve encoding and header
-                File.Copy(sourcePath, transformPath, overwrite);
-
-                XmlTextReader reader = new XmlTextReader(transformPath);
-                reader.DtdProcessing = DtdProcessing.Ignore;
                 XmlDocument transformDoc = new XmlDocument();
-                transformDoc.Load(reader);
+                using (XmlTextReader reader = new XmlTextReader(sourcePath))
+                {
+                    reader.DtdProcessing = DtdProcessing.Ignore;
+                    transformDoc.Load(reader);
+                }
+
                 XmlComment xdtInfo = transformDoc.CreateComment(Resources.Resources.XmlTransform_ContentInfo);
                 XmlElement root = transformDoc.DocumentElement;
                 transformDoc.InsertBefore(xdtInfo, root);
