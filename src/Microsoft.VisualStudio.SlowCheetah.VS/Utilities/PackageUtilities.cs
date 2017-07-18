@@ -10,7 +10,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -23,30 +22,64 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     public class PackageUtilities
     {
         /// <summary>
-        /// List of extensions that should not be transformed
+        /// Set of extensions we explicitly do not support transforms for.
+        /// We use this avoid hitting the disk in most scenarios.
         /// </summary>
-        public static readonly IReadOnlyCollection<string> ExcludedExtensions = new List<string>(new string[] { ".htm", ".html", ".cs", ".vb", ".txt", ".jpg", ".png", ".ico", ".aspx", ".snk", ".dll", ".pdb", ".settings" });
+        private static readonly HashSet<string> ExcludedExtensions = new HashSet<string>()
+        {
+            ".dll",
+            ".pdb",
+            ".txt",
+            ".settings",
+            ".snk",
+
+            // source files
+            ".aspx",
+            ".c",
+            ".cpp",
+            ".cs",
+            ".cshtml",
+            ".css",
+            ".h",
+            ".htm",
+            ".html",
+            ".js",
+            ".jsx",
+            ".less",
+            ".resx",
+            ".ts",
+            ".sass",
+            ".vb",
+            ".vbs",
+            ".wsf",
+
+            // image files
+            ".bmp",
+            ".gif",
+            ".ico",
+            ".jpeg",
+            ".jpg",
+            ".png",
+        };
 
         /// <summary>
         /// Verifies if the extension of the given file is supported
         /// </summary>
-        /// <param name="filepath">Full path to the file</param>
+        /// <param name="filePath">Full path to the file</param>
         /// <returns>True if the file is supported</returns>
-        public static bool IsExtensionSupportedForFile(string filepath)
+        public static bool IsExtensionSupportedForFile(string filePath)
         {
-            if (string.IsNullOrWhiteSpace(filepath))
+            if (string.IsNullOrWhiteSpace(filePath))
             {
-                throw new ArgumentNullException(nameof(filepath));
+                throw new ArgumentNullException(nameof(filePath));
             }
 
-            if (!File.Exists(filepath))
+            if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException("File not found", filepath);
+                throw new FileNotFoundException("File not found", filePath);
             }
 
-            FileInfo fi = new FileInfo(filepath);
-
-            return !ExcludedExtensions.Any(ext => string.Equals(fi.Extension, ext, StringComparison.OrdinalIgnoreCase));
+            return !ExcludedExtensions.Contains(Path.GetExtension(filePath));
         }
 
         /// <summary>

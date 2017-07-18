@@ -232,21 +232,25 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 return false;
             }
 
-            bool itemSupportsTransforms = false;
-            FileInfo transformFileInfo = new FileInfo(itemFullPath);
-
-            // Make sure its not a transform file itself as well as it supports transforms
-            bool isWebConfig = string.Compare("web.config", transformFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0;
-            bool isTransformFile = this.package.IsItemTransformItem(project, itemid);
-            bool isExtensionSupportedForFile = PackageUtilities.IsExtensionSupportedForFile(itemFullPath);
-            bool isSupportedFile = TransformerFactory.IsSupportedFile(itemFullPath);
-
-            if (!isWebConfig && !isTransformFile && isExtensionSupportedForFile && isSupportedFile)
+            if (!PackageUtilities.IsExtensionSupportedForFile(itemFullPath))
             {
-                itemSupportsTransforms = true;
+                return false;
             }
 
-            return itemSupportsTransforms;
+            if (!this.package.IsItemTransformItem(project, itemid))
+            {
+                return false;
+            }
+
+            // web.config has its own transform support
+            if (string.Compare("web.config", Path.GetFileName(itemFullPath), StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                return false;
+            }
+
+            // All quick checks done, ask if this is any transformer supports this.
+            // This may hit the disk, which is costly for a context menu check and preferably avoided.
+            return TransformerFactory.IsSupportedFile(itemFullPath);
         }
 
         /// <summary>
