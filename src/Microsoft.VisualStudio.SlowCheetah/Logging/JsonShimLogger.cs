@@ -19,12 +19,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <param name="logger">Our own logger</param>
         public JsonShimLogger(ITransformationLogger logger)
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            this.logger = logger;
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <inheritdoc/>

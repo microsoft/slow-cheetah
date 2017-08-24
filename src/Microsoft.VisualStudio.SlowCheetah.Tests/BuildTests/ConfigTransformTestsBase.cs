@@ -12,6 +12,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Xml.Linq;
     using Microsoft.Build.Evaluation;
     using Microsoft.Build.Framework;
@@ -61,8 +62,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
                { "VSToolsPath", string.Empty }
             };
 
-            var project = new Project(Path.Combine(this.TestProjectsDir, projectName, projectName + ".csproj"), globalProperties, "4.0");
-            var logger = new ConsoleLogger(LoggerVerbosity.Quiet);
+            var sb = new StringBuilder();
+            var project = new Project(Path.Combine(this.TestProjectsDir, projectName, projectName + ".csproj"), globalProperties, "15.0");
+            var logger = new ConsoleLogger(LoggerVerbosity.Normal, msg => sb.AppendLine(msg), null, null);
             bool buildSuccess = project.Build(logger);
             Assert.True(buildSuccess);
         }
