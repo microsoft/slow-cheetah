@@ -286,9 +286,14 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             // Get the project configurations to use in comparing the name
             IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(hierarchy);
 
+            docId = 0;
             if (ErrorHandler.Failed(project.GetMkDocument(parentId, out documentPath)))
             {
-                docId = 0;
+                return false;
+            }
+
+            if (!PackageUtilities.IsPathValid(documentPath))
+            {
                 return false;
             }
 
@@ -311,7 +316,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     return false;
                 }
 
-                if (PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
+                if (PackageUtilities.IsPathValid(documentPath)
+                    && PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
                 {
                     return true;
                 }
@@ -322,12 +328,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     {
                         hierarchy.GetProperty(docId, (int)__VSHPROPID.VSHPROPID_NextVisibleSibling, out childIdObj);
                         docId = (uint)(int)childIdObj;
-                        if (ErrorHandler.Succeeded(project.GetMkDocument(docId, out documentPath)))
+                        if (ErrorHandler.Succeeded(project.GetMkDocument(docId, out documentPath))
+                            && PackageUtilities.IsPathValid(documentPath)
+                            && PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
                         {
-                            if (PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
                 }
