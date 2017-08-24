@@ -7,7 +7,7 @@
     </NuGetPackageImportStamp>
     <UseCodebase>true</UseCodebase>
     <StartAction>Program</StartAction>
-    <StartProgram>devenv.exe</StartProgram>
+    <StartProgram>$(DevenvDir)devenv.exe</StartProgram>
     <StartArguments>/rootsuffix Exp</StartArguments>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
