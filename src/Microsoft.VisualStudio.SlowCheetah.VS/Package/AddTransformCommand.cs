@@ -170,9 +170,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     foreach (string config in transformsToCreate)
                     {
                         string itemName = string.Format(CultureInfo.CurrentCulture, Resources.Resources.String_FormatTransformFilename, itemFilename, config, itemExtension);
-                        this.AddTransformFile(selectedProjectItem, itemName, itemFolder, optionsPage.AddDependentUpon);
-                        hierarchy.ParseCanonicalName(Path.Combine(itemFolder, itemName), out uint addedFileId);
-                        buildPropertyStorage.SetItemAttribute(addedFileId, SlowCheetahPackage.IsTransformFile, "True");
+                        this.AddTransformFile(hierarchy, selectedProjectItem, itemName, itemFolder, optionsPage.AddDependentUpon);
                     }
                 }
             }
@@ -181,11 +179,17 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Creates a new transformation file and adds it to the project.
         /// </summary>
+        /// <param name="hierarchy">The project hierarchy</param>
         /// <param name="selectedProjectItem">The selected item to be transformed</param>
         /// <param name="itemName">Full name of the transformation file</param>
         /// <param name="projectPath">Full path to the current project</param>
         /// <param name="addDependentUpon">Wheter to add the new file dependent upon the source file</param>
-        private void AddTransformFile(ProjectItem selectedProjectItem, string itemName, string projectPath, bool addDependentUpon)
+        private void AddTransformFile(
+            IVsHierarchy hierarchy,
+            ProjectItem selectedProjectItem,
+            string itemName,
+            string projectPath,
+            bool addDependentUpon)
         {
             try
             {
@@ -205,12 +209,26 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 // We need to set the Build Action to None to ensure that it doesn't get published for web projects
                 addedItem.Properties.Item("ItemType").Value = "None";
 
-                IVsHierarchy hierarchy = null;
-                IVsProject vsProject = (IVsProject)hierarchy;
-                IVsBuildPropertyStorage buildPropertyStorage = vsProject as IVsBuildPropertyStorage;
+                IVsBuildPropertyStorage buildPropertyStorage = hierarchy as IVsBuildPropertyStorage;
+
                 if (buildPropertyStorage == null)
                 {
                     this.logger.LogMessage("Error obtaining IVsBuildPropertyStorage from hierarcy.");
+                }
+                else if (ErrorHandler.Succeeded(hierarchy.ParseCanonicalName(addedItem.FileNames[0], out uint addedItemId)))
+                {
+                    buildPropertyStorage.SetItemAttribute(addedItemId, SlowCheetahPackage.IsTransformFile, "true");
+
+                    if (addDependentUpon)
+                    {
+                        // Not all projects (like CPS) set the dependent upon metadata when using the automation object
+                        buildPropertyStorage.GetItemAttribute(addedItemId, SlowCheetahPackage.DependentUpon, out string dependentUponValue);
+                        if (string.IsNullOrEmpty(dependentUponValue))
+                        {
+                            // It didm not set it
+                            buildPropertyStorage.SetItemAttribute(addedItemId, SlowCheetahPackage.DependentUpon, selectedProjectItem.Name);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -237,7 +255,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 return false;
             }
 
-            if (!this.package.IsItemTransformItem(project, itemid))
+            if (this.package.IsItemTransformItem(project, itemid))
             {
                 return false;
             }

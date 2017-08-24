@@ -18,9 +18,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// Initializes a new instance of the <see cref="PackageSolutionEvents"/> class.
         /// </summary>
         /// <param name="serviceProvider">The VSPackage</param>
-        public PackageSolutionEvents(IServiceProvider serviceProvider)
+        /// <param name="errorListProvider">The error list provider</param>
+        public PackageSolutionEvents(IServiceProvider serviceProvider, ErrorListProvider errorListProvider)
         {
             this.ServiceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            this.ErrorListProvider = errorListProvider ?? throw new ArgumentNullException(nameof(errorListProvider));
 
             if (this.ServiceProvider.GetService(typeof(SVsSolutionBuildManager)) is IVsSolutionBuildManager solutionBuildManager)
             {
