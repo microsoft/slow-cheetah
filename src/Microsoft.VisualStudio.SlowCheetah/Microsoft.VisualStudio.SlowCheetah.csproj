@@ -28,21 +28,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Build\*.targets" Pack="true" PackagePath="build" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="Build\readme.txt" Pack="true" PackagePath="" />
+    <None Update="Build\*.targets" Pack="true" PackagePath="build/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Build\readme.txt" Pack="true" PackagePath="%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.40" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.23" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Web.Xdt" Version="2.1.1" PrivateAssets="all" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" PrivateAssets="all" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Microsoft.Build.Utilities.v4.0" />
+    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.40" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="14.3.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.23" />
+    <PackageReference Include="Microsoft.Web.Xdt" Version="2.1.1" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,5 +58,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
+
+  <ItemDefinitionGroup>
+    <PackageReference>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemDefinitionGroup>
 
 </Project>

@@ -59,7 +59,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
     <Content Include="Other.config">
       <TransformOnBuild>true</TransformOnBuild>
     </Content>

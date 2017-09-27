@@ -149,6 +149,22 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
+        /// Gets if a path is valid or not.
+        /// </summary>
+        /// <param name="path">The path to check if it is valid</param>
+        /// <returns>True if path is valid, false otherwise.</returns>
+        public static bool IsPathValid(string path)
+        {
+            // empty path is valid
+            if (string.IsNullOrEmpty(path))
+            {
+                return true;
+            }
+
+            return !path.Any(c => Path.GetInvalidPathChars().Contains(c));
+        }
+
+        /// <summary>
         /// Gets an item from the project hierarchy
         /// </summary>
         /// <typeparam name="T">Type of object to be fetched</typeparam>

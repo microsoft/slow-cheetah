@@ -13,9 +13,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
-    using Microsoft.Build.Evaluation;
-    using Microsoft.Build.Framework;
-    using Microsoft.Build.Logging;
     using Xunit;
 
     /// <summary>
@@ -48,6 +45,18 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         }
 
         /// <summary>
+        /// Gets the msbuild exe path that was cached during build
+        /// </summary>
+        private static string MSBuildExePath
+        {
+            get
+            {
+                string msbuildPathCache = Path.Combine(Environment.CurrentDirectory, "msbuildPath.txt");
+                return Path.Combine(File.ReadAllLines(msbuildPathCache).First(), "msbuild.exe");
+            }
+        }
+
+        /// <summary>
         /// Builds the project of the given name from the <see cref="TestProjectsDir"/>
         /// </summary>
         /// <param name="projectName">Name of the project to be built.
@@ -58,13 +67,29 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
             {
                { "Configuration", "Debug" },
                { "OutputPath", this.OutputPath },
-               { "VSToolsPath", string.Empty }
             };
 
-            var project = new Project(Path.Combine(this.TestProjectsDir, projectName, projectName + ".csproj"), globalProperties, "4.0");
-            var logger = new ConsoleLogger(LoggerVerbosity.Quiet);
-            bool buildSuccess = project.Build(logger);
-            Assert.True(buildSuccess);
+            // We use an external process to run msbuild, because XUnit test discovery breaks
+            // when using <Reference Include="$(MSBuildToolsPath)\Microsoft.Build.dll" />.
+            // MSBuild NuGet packages proved to be difficult in getting in-proc test builds to run.
+            string projectPath = Path.Combine(this.TestProjectsDir, projectName, projectName + ".csproj");
+            string msbuildPath = MSBuildExePath;
+            string properties = "/p:" + string.Join(",", globalProperties.Select(x => $"{x.Key}={x.Value}"));
+
+            var startInfo = new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = msbuildPath,
+                Arguments = $"{projectPath} {properties}",
+                CreateNoWindow = true,
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
+            };
+
+            using (var process = System.Diagnostics.Process.Start(startInfo))
+            {
+                process.WaitForExit();
+                Assert.Equal(0, process.ExitCode);
+                process.Close();
+            }
         }
 
         /// <summary>
@@ -99,10 +124,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         /// </summary>
         public void Dispose()
         {
-            ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
             if (Directory.Exists(this.OutputPath))
             {
-                Directory.Delete(this.OutputPath, true);
+                Directory.Delete(this.OutputPath, recursive: true);
             }
         }
     }

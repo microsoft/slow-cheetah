@@ -50,14 +50,19 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     public sealed partial class SlowCheetahPackage : Package
     {
         /// <summary>
-        /// The TransformOnBuild metadata
+        /// The TransformOnBuild metadata name
         /// </summary>
         public static readonly string TransformOnBuild = "TransformOnBuild";
 
         /// <summary>
-        /// The IsTransformFile metadata
+        /// The IsTransformFile metadata name
         /// </summary>
         public static readonly string IsTransformFile = "IsTransformFile";
+
+        /// <summary>
+        /// The DependentUpon metadata name
+        /// </summary>
+        public static readonly string DependentUpon = "DependentUpon";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlowCheetahPackage"/> class.
@@ -140,7 +145,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             this.ErrorListProvider = new ErrorListProvider(this);
             this.AddCommand = new AddTransformCommand(this, this.NuGetManager, this.PackageLogger);
             this.PreviewCommand = new PreviewTransformCommand(this, this.NuGetManager, this.PackageLogger, this.ErrorListProvider);
-            this.SolutionEvents = new PackageSolutionEvents(this);
+            this.SolutionEvents = new PackageSolutionEvents(this, this.ErrorListProvider);
         }
 
         /// <inheritdoc/>

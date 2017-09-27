@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFramework>net46</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -13,20 +13,15 @@
 
   <ItemGroup>
     <PackageReference Include="MicroBuild.NonShipping" Version="2.0.40" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="xunit" Version="2.3.0-beta1-build3642" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta1-build1309" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="xunit" Version="2.2.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.VisualStudio.SlowCheetah\Microsoft.VisualStudio.SlowCheetah.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.Build" />
-    <Reference Include="Microsoft.Build.Framework" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,11 +35,19 @@
     </MSBuild>
     <ItemGroup>
       <_CopyTools Include="@(_DependentAssemblies);%(_DependentAssemblies.RelativeDir)Microsoft.Web.XmlTransform.dll" />
+      <_CopyTools Include="@(_DependentAssemblies);%(_DependentAssemblies.RelativeDir)Microsoft.VisualStudio.Jdt.dll" />
       <_CopyBuild Include="%(_DependentAssemblies.RelativeDir)Build\Microsoft.VisualStudio.SlowCheetah*.targets" />
     </ItemGroup>
     <RemoveDir Directories="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\" />
     <Copy SourceFiles="@(_CopyTools)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\tools" />
     <Copy SourceFiles="@(_CopyBuild)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\build" />
+  </Target>
+
+  <Target Name="CacheMSBuildPath" AfterTargets="Build">
+    <ItemGroup>
+      <_MSBuildPathLines Include="$(MSBuildToolsPath)" />
+    </ItemGroup>
+    <WriteLinesToFile File="$(OutputPath)msbuildPath.txt" Lines="@(_MSBuildPathLines)" Overwrite="true" />
   </Target>
 
 </Project>
