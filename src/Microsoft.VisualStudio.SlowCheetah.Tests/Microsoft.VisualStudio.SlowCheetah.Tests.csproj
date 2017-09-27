@@ -14,26 +14,14 @@
   <ItemGroup>
     <PackageReference Include="MicroBuild.NonShipping" Version="2.0.40" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
-    <PackageReference Include="xunit" Version="2.3.0-beta5-build3769" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta5-build3769" />
+    <PackageReference Include="xunit" Version="2.2.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.VisualStudio.SlowCheetah\Microsoft.VisualStudio.SlowCheetah.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.Build">
-      <HintPath>$(MSBuildToolsPath)\%(Identity).dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Build.Framework">
-      <HintPath>$(MSBuildToolsPath)\%(Identity).dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Build.Utilities.Core">
-      <HintPath>$(MSBuildToolsPath)\%(Identity).dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +41,13 @@
     <RemoveDir Directories="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\" />
     <Copy SourceFiles="@(_CopyTools)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\tools" />
     <Copy SourceFiles="@(_CopyBuild)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\build" />
+  </Target>
+
+  <Target Name="CacheMSBuildPath" AfterTargets="Build">
+    <ItemGroup>
+      <_MSBuildPathLines Include="$(MSBuildToolsPath)" />
+    </ItemGroup>
+    <WriteLinesToFile File="$(OutputPath)msbuildPath.txt" Lines="@(_MSBuildPathLines)" Overwrite="true" />
   </Target>
 
 </Project>
