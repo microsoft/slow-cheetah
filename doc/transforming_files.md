@@ -3,7 +3,7 @@
 ## Summary
 The [SlowCheetah Visual Studio extension](https://marketplace.visualstudio.com/items?itemName=WillBuikMSFT.SlowCheetah-XMLTransforms) allows you to add and preview transformation to files in your project.
 
-The [SlowCheetah NuGet package](https://www.nuget.org/packages/SlowCheetah/) is required for build-time transformations, which are discussed in more detail below.
+The [Microsoft.VisualStudio.SlowCheetah NuGet package](https://www.nuget.org/packages/Microsoft.VisualStudio.SlowCheetah) is required for build-time transformations, which are discussed in more detail below.
 
 ## Getting Started
 
