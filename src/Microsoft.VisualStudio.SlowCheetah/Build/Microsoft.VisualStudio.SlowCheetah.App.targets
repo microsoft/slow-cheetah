@@ -34,6 +34,20 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       <!-- Remove app.config transforms and execute them separately -->
       <ScAppConfigToTransform Include="@(ScFilesToTransform)" Condition="'%(Filename)%(Extension)'=='$(ScAppConfigName)'"/>
       <ScFilesToTransform Remove="@(ScFilesToTransform)" Condition="'%(Filename)%(Extension)'=='$(ScAppConfigName)'"/>
+      <ScFilesToTransform Include="@(ScFilesToTransform)"
+                         Condition=" '%(TransformOnBuild)' == 'true' and Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)') ">
+        <SourceFile>$(ProjectDir)$(OutDir)%(RelativeDir)%(Filename)%(Extension)</SourceFile>
+        <TransformFile>%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)</TransformFile>
+        <DestinationFile>$(OutDir)%(RelativeDir)%(Filename)%(Extension)</DestinationFile>
+        <DestinationFile Condition="'%(Link)' != ''">$(OutDir)%(Link)</DestinationFile>
+      </ScFilesToTransform>
+      <ScFilesToTransform Include="@(ScFilesToTransform)"
+                         Condition=" '%(TransformOnBuild)' == 'true' and !Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)') ">
+        <SourceFile>%(FullPath)</SourceFile>
+        <TransformFile>%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)</TransformFile>
+        <DestinationFile>$(OutDir)%(RelativeDir)%(Filename)%(Extension)</DestinationFile>
+        <DestinationFile Condition="'%(Link)' != ''">$(OutDir)%(Link)</DestinationFile>
+      </ScFilesToTransform>
     </ItemGroup>
 
     <PropertyGroup>
