@@ -18,7 +18,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Guid string of a Web Application project
         /// </summary>
-        public const string GuidWebApplicationString = "{349c5851-65df-11da-9384-00065b846f21}";
+        public static readonly Guid GuidWebApplicationString = new Guid("349c5851-65df-11da-9384-00065b846f21");
 
         /// <summary>
         /// Guid string for the SlowCheetah Visual Studio Package
