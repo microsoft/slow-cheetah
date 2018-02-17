@@ -10,6 +10,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.InteropServices;
     using EnvDTE;
     using Microsoft.VisualStudio;
@@ -187,8 +188,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             if (project is IVsAggregatableProject aggregatableProject)
             {
                 aggregatableProject.GetAggregateProjectTypeGuids(out string projectTypeGuids);
-                List<string> guids = new List<string>(projectTypeGuids.Split(';'));
-                return guids.Any(x => new Guid(x) == new Guid(Guids.GuidWebApplicationString));
+                var guidRegex = new System.Text.RegularExpressions.Regex(@"[0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12}", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                return projectTypeGuids.Split(';')
+                                       .Where(x => guidRegex.Match(x).Success)
+                                       .Select(x => new Guid(guidRegex.Matches(x)[0].Value))
+                                       .Any(x => x == Guids.GuidWebApplicationString);
             }
 
             return false;
