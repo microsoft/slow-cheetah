@@ -115,37 +115,33 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Checks if a file is a transform of another file according to their names.
-        /// If a given file is  "name.extension", a transfomation file should be "name.configuration.extension"
+        /// Checks if a file is a transform of another file according to their names and the given configurations
+        /// If a given file is  "name.extension", a transfomation file should be "name.{configuration}.extension"
         /// </summary>
-        /// <param name="documentName">File to be transformed</param>
-        /// <param name="transformName">File to</param>
+        /// <param name="documentName">Name of the source file</param>
+        /// <param name="transformName">Name of the potential transform file</param>
         /// <param name="configs">Project configurations</param>
-        /// <returns>True if the name</returns>
-        public static bool IsFileTransform(string documentName, string transformName, IEnumerable<string> configs)
+        /// <returns>True if the names correspond to compatible transformation files</returns>
+        public static bool IsFileTransformForBuildConfiguration(string documentName, string transformName, IEnumerable<string> configs)
         {
-            if (string.IsNullOrEmpty(documentName))
+            if (configs == null)
             {
                 return false;
             }
 
-            if (string.IsNullOrEmpty(transformName))
-            {
-                return false;
-            }
+            return IsFileTransform(documentName, transformName, configs);
+        }
 
-            if (!Path.GetExtension(documentName).Equals(Path.GetExtension(transformName), StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-            else
-            {
-                string docNameNoExt = Path.GetFileNameWithoutExtension(documentName);
-                string trnNameNoExt = Path.GetFileNameWithoutExtension(transformName);
-                Regex regex = new Regex("^" + docNameNoExt + @"\.", RegexOptions.IgnoreCase);
-                string configName = regex.Replace(trnNameNoExt, string.Empty);
-                return !configName.Equals(trnNameNoExt) && configs.Any(s => { return string.Compare(s, configName, StringComparison.OrdinalIgnoreCase) == 0; });
-            }
+        /// <summary>
+        /// Checks if a file is a generic transform of another file
+        /// If a given file is  "name.extension", a transfomation file should be "name.{something}.extension"
+        /// </summary>
+        /// <param name="documentName">Name of the source file</param>
+        /// <param name="transformName">Name of the potential transform file</param>
+        /// <returns>True if the names correspond to compatible transformation files</returns>
+        public static bool IsGenericFileTransform(string documentName, string transformName)
+        {
+            return IsFileTransform(documentName, transformName, null);
         }
 
         /// <summary>
@@ -178,6 +174,35 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             T projectItem = propertyValue as T;
 
             return projectItem;
+        }
+
+        private static bool IsFileTransform(string documentName, string transformName, IEnumerable<string> configs)
+        {
+            if (string.IsNullOrEmpty(documentName))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(transformName))
+            {
+                return false;
+            }
+
+            if (!Path.GetExtension(documentName).Equals(Path.GetExtension(transformName), StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+            else
+            {
+                string docNameNoExt = Path.GetFileNameWithoutExtension(documentName);
+                string trnNameNoExt = Path.GetFileNameWithoutExtension(transformName);
+                Regex regex = new Regex("^" + docNameNoExt + @"\.", RegexOptions.IgnoreCase);
+                string configName = regex.Replace(trnNameNoExt, string.Empty);
+                bool noExtensionFound = configName.Equals(trnNameNoExt);
+                bool allowNonConfigExtension = configs == null && !string.IsNullOrEmpty(configName);
+                bool hasConfigExtension = configs != null && configs.Any(s => { return string.Compare(s, configName, StringComparison.OrdinalIgnoreCase) == 0; });
+                return !noExtensionFound && (allowNonConfigExtension || hasConfigExtension);
+            }
         }
     }
 }
