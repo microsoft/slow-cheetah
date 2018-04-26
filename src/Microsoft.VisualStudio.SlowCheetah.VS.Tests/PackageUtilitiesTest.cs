@@ -106,9 +106,25 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
         [InlineData("App.config", "App.config")]
         [InlineData("App.Debug.config", "App.Debug.config")]
         [InlineData("App.config", "App..config")]
+        [InlineData("App.Debug.config", "App.config")]
+        [InlineData("App.config", "App.config.Debug")]
         public void IsFileGenericTransformWithInvalidArguments(string docName, string trnName)
         {
             Assert.False(PackageUtilities.IsGenericFileTransform(docName, trnName));
+        }
+
+        /// <summary>
+        /// Tests <see cref="PackageUtilities.IsGenericFileTransform(string, string)"/> with valid arguments
+        /// </summary>
+        /// <param name="docName">Document name</param>
+        /// <param name="trnName">Tranform file name</param>
+        [Theory]
+        [InlineData("App.config", "App.Debug.config")]
+        [InlineData("App.config", "App.Test.Debug.config")]
+        [InlineData("App.Test.config", "App.Test.Debug.config")]
+        public void IsFileGenericTransformWithValidArguments(string docName, string trnName)
+        {
+            Assert.True(PackageUtilities.IsGenericFileTransform(docName, trnName));
         }
     }
 }
