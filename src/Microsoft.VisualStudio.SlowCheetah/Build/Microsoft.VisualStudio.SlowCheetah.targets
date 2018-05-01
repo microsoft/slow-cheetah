@@ -24,18 +24,22 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <None>
       <TransformOnBuild>false</TransformOnBuild>
       <Link></Link>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </None>
     <Content>
       <TransformOnBuild>false</TransformOnBuild>
       <Link></Link>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Content>
     <Resource>
       <TransformOnBuild>false</TransformOnBuild>
       <Link></Link>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <EmbeddedResource>
       <TransformOnBuild>false</TransformOnBuild>
       <Link></Link>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemDefinitionGroup>
 
@@ -51,6 +55,11 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       $(AllowedReferenceRelatedFileExtensions);
       .dll.config;
     </AllowedReferenceRelatedFileExtensions>
+  
+    <BuildDependsOn Condition="'$(ScAllowCopyReferencedConfig)'=='true'">
+      $(BuildDependsOn);
+      ScUpdateCopiedFilesForReferencingProjects;
+    </BuildDependsOn>
   </PropertyGroup>
 
   <Target Name="ScCollectTransformFiles" BeforeTargets="ScApplyTransforms">
@@ -64,6 +73,8 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
         <TransformFile>%(RelativeDir)%(Filename).$(Configuration)%(Extension)</TransformFile>
         <DestinationFile>$(OutDir)%(RelativeDir)%(Filename)%(Extension)</DestinationFile>
         <DestinationFile Condition="'%(Link)' != ''">$(OutDir)%(Link)</DestinationFile>
+        <Copy>false</Copy>
+        <Copy Condition ="'%(CopyToOutputDirectory)' == 'Always' or '%(CopyToOutputDirectory)' == 'PreserveNewest'">true</Copy>
       </ScFilesToTransform>
     </ItemGroup>
 
@@ -83,8 +94,15 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <SlowCheetah.TransformTask Source="@(ScFilesToTransform->'%(SourceFile)')"
                               Transform="%(TransformFile)"
                               Destination="%(DestinationFile)"
-                              Condition=" Exists('%(TransformFile)')"/>
+                              Condition="Exists('%(TransformFile)')"/>
 
+  </Target>
+
+  <Target Name ="ScUpdateCopiedFilesForReferencingProjects" AfterTargets="ScApplyTransforms">
+    <ItemGroup>
+      <AllItemsFullPathWithTargetPath Remove="@(ScFilesToTransform->'%(SourceFile)')" Condition="Exists('%(ScFilesToTransform.DestinationFile)')"/>
+      <AllItemsFullPathWithTargetPath Include="@(ScFilesToTransform->'%(DestinationFile)')" Condition="'%(ScFilesToTransform.Copy)' == 'true' and Exists('%(ScFilesToTransform.DestinationFile)')"/>
+    </ItemGroup>
   </Target>
 
   <!-- Import native SlowCheetah behaviour -->
