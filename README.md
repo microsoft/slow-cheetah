@@ -5,7 +5,7 @@
 Transformations for XML files (such as app.config) and JSON files.
 
 Includes two primary components:
-1. NuGet package that adds an msbuild task to perform tansforms on build.
+1. NuGet package that adds an msbuild task to perform transforms on build.
 2. Visual Studio extension for generating and previewing transforms.
 
 This project has adopted the [Microsoft Open Source Code of

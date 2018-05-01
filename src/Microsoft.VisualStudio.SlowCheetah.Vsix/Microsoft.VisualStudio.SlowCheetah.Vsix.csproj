@@ -68,7 +68,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.40" />
+    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.54" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="15.1.192" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" />
   </ItemGroup>

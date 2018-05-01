@@ -129,7 +129,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             IEnumerable<string> configs = ProjectUtilities.GetProjectConfigurations(vsProject as IVsHierarchy);
 
             // If the project is a web app, check for the Web.config files added by default
-            return ProjectUtilities.IsProjectWebApp(vsProject) && PackageUtilities.IsFileTransform("web.config", Path.GetFileName(filePath), configs);
+            return ProjectUtilities.IsProjectWebApp(vsProject) && PackageUtilities.IsFileTransformForBuildConfiguration("web.config", Path.GetFileName(filePath), configs);
         }
 
         /// <summary>
