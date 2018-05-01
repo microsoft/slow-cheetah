@@ -298,7 +298,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             // Start by checking if the parent is the source file
-            if (PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
+            // Here, we can do a generic transform file test to allow for transformations that aren't associated with build configurations
+            if (PackageUtilities.IsGenericFileTransform(Path.GetFileName(documentPath), transformName))
             {
                 docId = parentId;
                 return true;
@@ -317,7 +318,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 }
 
                 if (PackageUtilities.IsPathValid(documentPath)
-                    && PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
+                    && PackageUtilities.IsFileTransformForBuildConfiguration(Path.GetFileName(documentPath), transformName, configs))
                 {
                     return true;
                 }
@@ -330,7 +331,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                         docId = (uint)(int)childIdObj;
                         if (ErrorHandler.Succeeded(project.GetMkDocument(docId, out documentPath))
                             && PackageUtilities.IsPathValid(documentPath)
-                            && PackageUtilities.IsFileTransform(Path.GetFileName(documentPath), transformName, configs))
+                            && PackageUtilities.IsFileTransformForBuildConfiguration(Path.GetFileName(documentPath), transformName, configs))
                         {
                             return true;
                         }
