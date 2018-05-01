@@ -124,12 +124,19 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if the names correspond to compatible transformation files</returns>
         public static bool IsFileTransformForBuildConfiguration(string documentName, string transformName, IEnumerable<string> configs)
         {
-            if (configs == null)
+            if (configs == null || !configs.Any())
             {
                 return false;
             }
 
-            return IsFileTransform(documentName, transformName, configs);
+            if (TryGetFileTransform(documentName, transformName, out string config))
+            {
+                return configs.Any(s => s.Equals(config, StringComparison.OrdinalIgnoreCase));
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -141,7 +148,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if the names correspond to compatible transformation files</returns>
         public static bool IsGenericFileTransform(string documentName, string transformName)
         {
-            return IsFileTransform(documentName, transformName, null);
+            return TryGetFileTransform(documentName, transformName, out string config);
         }
 
         /// <summary>
@@ -176,8 +183,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             return projectItem;
         }
 
-        private static bool IsFileTransform(string documentName, string transformName, IEnumerable<string> configs)
+        private static bool TryGetFileTransform(string documentName, string transformName, out string config)
         {
+            config = null;
+
             if (string.IsNullOrEmpty(documentName))
             {
                 return false;
@@ -197,11 +206,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 string docNameNoExt = Path.GetFileNameWithoutExtension(documentName);
                 string trnNameNoExt = Path.GetFileNameWithoutExtension(transformName);
                 Regex regex = new Regex("^" + docNameNoExt + @"\.", RegexOptions.IgnoreCase);
-                string configName = regex.Replace(trnNameNoExt, string.Empty);
-                bool noExtensionFound = configName.Equals(trnNameNoExt);
-                bool allowNonConfigExtension = configs == null && !string.IsNullOrEmpty(configName);
-                bool hasConfigExtension = configs != null && configs.Any(s => { return string.Compare(s, configName, StringComparison.OrdinalIgnoreCase) == 0; });
-                return !noExtensionFound && (allowNonConfigExtension || hasConfigExtension);
+                config = regex.Replace(trnNameNoExt, string.Empty);
+                return !string.IsNullOrEmpty(config) && !config.Equals(trnNameNoExt, StringComparison.OrdinalIgnoreCase);
             }
         }
     }
