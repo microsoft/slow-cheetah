@@ -148,7 +148,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if the names correspond to compatible transformation files</returns>
         public static bool IsGenericFileTransform(string documentName, string transformName)
         {
-            return TryGetFileTransform(documentName, transformName, out string config);
+            return TryGetFileTransform(documentName, transformName, out _);
         }
 
         /// <summary>
