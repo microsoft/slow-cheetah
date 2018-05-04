@@ -59,7 +59,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       $(AllowedReferenceRelatedFileExtensions);
       .dll.config;
     </AllowedReferenceRelatedFileExtensions>
-    </PropertyGroup>
+  </PropertyGroup>
 
   <Target Name="ScCollectTransformFiles" BeforeTargets="ScApplyTransforms">
 
@@ -69,15 +69,15 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       <_ScNoneFilesToTransform Include="@(_NoneWithTargetPath)" Condition="'%(TransformOnBuild)' == 'true'">
         <BuildAction>None</BuildAction>
       </_ScNoneFilesToTransform>
-      
+
       <_ScContentFilesToTransform Include="@(ContentWithTargetPath)" Condition="'%(TransformOnBuild)' == 'true'">
         <BuildAction>Content</BuildAction>
       </_ScContentFilesToTransform>
-      
+
       <_ScResourceFilesToTransform Include="@(Resource)" Condition="'%(TransformOnBuild)' == 'true'">
         <BuildAction>Resource</BuildAction>
       </_ScResourceFilesToTransform>
-      
+
       <_ScEmbeddedResourceFilesToTransform Include="@(EmbeddedResource)" Condition="'%(TransformOnBuild)' == 'true'">
         <BuildAction>EmbeddedResource</BuildAction>
       </_ScEmbeddedResourceFilesToTransform>
