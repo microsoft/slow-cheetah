@@ -41,6 +41,10 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       <Link></Link>
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </EmbeddedResource>
+    <ScFilesToTransform>
+      <BuildAction></BuildAction>
+      <TargetPath></TargetPath>
+    </ScFilesToTransform>
   </ItemDefinitionGroup>
 
   <PropertyGroup>
@@ -55,32 +59,48 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       $(AllowedReferenceRelatedFileExtensions);
       .dll.config;
     </AllowedReferenceRelatedFileExtensions>
-  
-    <BuildDependsOn Condition="'$(ScAllowCopyReferencedConfig)'=='true'">
-      $(BuildDependsOn);
-      ScUpdateCopiedFilesForReferencingProjects;
-    </BuildDependsOn>
-  </PropertyGroup>
+    </PropertyGroup>
 
   <Target Name="ScCollectTransformFiles" BeforeTargets="ScApplyTransforms">
 
     <Message Text="SlowCheetah: Collecting Transform files" Importance="low"/>
 
     <ItemGroup>
-      <ScFilesToTransform Include="@(None);@(Content);@(Resource);@(EmbeddedResource)"
-                         Condition=" '%(TransformOnBuild)' == 'true' ">
+      <_ScNoneFilesToTransform Include="@(_NoneWithTargetPath)" Condition="'%(TransformOnBuild)' == 'true'">
+        <BuildAction>None</BuildAction>
+      </_ScNoneFilesToTransform>
+      
+      <_ScContentFilesToTransform Include="@(ContentWithTargetPath)" Condition="'%(TransformOnBuild)' == 'true'">
+        <BuildAction>Content</BuildAction>
+      </_ScContentFilesToTransform>
+      
+      <_ScResourceFilesToTransform Include="@(Resource)" Condition="'%(TransformOnBuild)' == 'true'">
+        <BuildAction>Resource</BuildAction>
+      </_ScResourceFilesToTransform>
+      
+      <_ScEmbeddedResourceFilesToTransform Include="@(EmbeddedResource)" Condition="'%(TransformOnBuild)' == 'true'">
+        <BuildAction>EmbeddedResource</BuildAction>
+      </_ScEmbeddedResourceFilesToTransform>
+
+      <ScFilesToTransform Include="@(_ScNoneFilesToTransform);@(_ScContentFilesToTransform);@(_ScResourceFilesToTransform);@(_ScEmbeddedResourceFilesToTransform)">
         <SourceFile>%(FullPath)</SourceFile>
         <TransformFile>%(RelativeDir)%(Filename).$(Configuration)%(Extension)</TransformFile>
-        <DestinationFile>$(OutDir)%(RelativeDir)%(Filename)%(Extension)</DestinationFile>
-        <DestinationFile Condition="'%(Link)' != ''">$(OutDir)%(Link)</DestinationFile>
-        <Copy>false</Copy>
-        <Copy Condition ="'%(CopyToOutputDirectory)' == 'Always' or '%(CopyToOutputDirectory)' == 'PreserveNewest'">true</Copy>
+        <DestinationFile>$(IntermediateOutputPath)%(RelativeDir)%(Filename)%(Extension)</DestinationFile>
+        <DestinationFile Condition="'%(Link)' != ''">$(IntermediateOutputPath)%(Link)</DestinationFile>
+        <TargetPath Condition="'%(TargetPath)' == ''">%(RelativeDir)%(Filename)%(Extension)</TargetPath>
+        <TargetPath Condition="'%(Link)' != ''">%(Link)</TargetPath>
       </ScFilesToTransform>
+
+      <!--Remove files mostly for memory-->
+      <_ScNoneFilesToTransform Remove="@(_ScNoneFilesToTransform)" />
+      <_ScContentFilesToTransform Remove="@(_ScContentFilesToTransform)" />
+      <_ScResourceFilesToTransform Remove="@(_ScResourceFilesToTransform)" />
+      <_ScEmbeddedResourceFilesToTransform Remove="@(_ScEmbeddedResourceFilesToTransform)" />
     </ItemGroup>
 
   </Target>
 
-  <Target Name="ScApplyTransforms" AfterTargets="CopyFilesToOutputDirectory">
+  <Target Name="ScApplyTransforms" BeforeTargets="GetCopyToOutputDirectoryItems">
 
     <Message Text="SlowCheetah: Applying Transforms" Importance="low"/>
 
@@ -96,13 +116,31 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
                               Destination="%(DestinationFile)"
                               Condition="Exists('%(TransformFile)')"/>
 
-  </Target>
-
-  <Target Name ="ScUpdateCopiedFilesForReferencingProjects" AfterTargets="ScApplyTransforms">
     <ItemGroup>
-      <AllItemsFullPathWithTargetPath Remove="@(ScFilesToTransform->'%(SourceFile)')" Condition="Exists('%(ScFilesToTransform.DestinationFile)')"/>
-      <AllItemsFullPathWithTargetPath Include="@(ScFilesToTransform->'%(DestinationFile)')" Condition="'%(ScFilesToTransform.Copy)' == 'true' and Exists('%(ScFilesToTransform.DestinationFile)')"/>
+      <!--Gather each category of files to transform again since more may have been added between targets-->
+      <_ScNoneFilesToTransform Include="@(ScFilesToTransform)" Condition="('%(BuildAction)' == '' or '%(BuildAction)' == 'None') and Exists('%(DestinationFile)')" />
+      <_NoneWithTargetPath Remove="@(_ScNoneFilesToTransform)" />
+      <_NoneWithTargetPath Include="@(_ScNoneFilesToTransform->'%(DestinationFile)')" />
+
+      <_ScContentFilesToTransform Include="@(ScFilesToTransform)" Condition="'%(BuildAction)' == 'Content' and Exists('%(DestinationFile)')" />
+      <ContentWithTargetPath Remove="@(_ScContentFilesToTransform)" />
+      <ContentWithTargetPath Include="@(_ScContentFilesToTransform->'%(DestinationFile)')" />
+
+      <_ScResourceFilesToTransform Include="@(ScFilesToTransform)" Condition="'%(BuildAction)' == 'Resource' and Exists('%(DestinationFile)')" />
+      <Resource Remove="@(_ScResourceFilesToTransform)" />
+      <Resource Include="@(_ScResourceFilesToTransform->'%(DestinationFile)')" />
+
+      <_ScEmbeddedResourceFilesToTransform Include="@(ScFilesToTransform)" Condition="'%(BuildAction)' == 'EmbeddedResource' and Exists('%(DestinationFile)')" />
+      <EmbeddedResource Remove="@(_ScEmbeddedResourceFilesToTransform)"  />
+      <EmbeddedResource Include="@(_ScEmbeddedResourceFilesToTransform->'%(DestinationFile)')" />
+
+
+      <_ScNoneFilesToTransform Remove="@(_ScNoneFilesToTransform)" />
+      <_ScContentFilesToTransform Remove="@(_ScContentFilesToTransform)" />
+      <_ScResourceFilesToTransform Remove="@(_ScResourceFilesToTransform)" />
+      <_ScEmbeddedResourceFilesToTransform Remove="@(_ScEmbeddedResourceFilesToTransform)" />
     </ItemGroup>
+
   </Target>
 
   <!-- Import native SlowCheetah behaviour -->
