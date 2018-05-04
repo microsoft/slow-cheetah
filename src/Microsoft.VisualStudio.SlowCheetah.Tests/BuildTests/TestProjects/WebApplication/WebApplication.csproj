@@ -61,6 +61,7 @@
   <ItemGroup>
     <Content Include="Other.config">
       <TransformOnBuild>true</TransformOnBuild>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Other.Debug.config">
       <IsTransformItem>True</IsTransformItem>
