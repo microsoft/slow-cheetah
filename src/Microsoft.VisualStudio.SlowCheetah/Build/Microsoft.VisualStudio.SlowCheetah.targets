@@ -23,33 +23,32 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <!-- Default TransformOnBuild values for file types -->
     <None>
       <TransformOnBuild>false</TransformOnBuild>
-      <Link></Link>
     </None>
     <Content>
       <TransformOnBuild>false</TransformOnBuild>
-      <Link></Link>
     </Content>
     <Resource>
       <TransformOnBuild>false</TransformOnBuild>
-      <Link></Link>
     </Resource>
     <EmbeddedResource>
       <TransformOnBuild>false</TransformOnBuild>
-      <Link></Link>
     </EmbeddedResource>
+    <ScFilesToTransform>
+      <Link />
+    </ScFilesToTransform>
   </ItemDefinitionGroup>
 
   <PropertyGroup>
     <BuildDependsOn>
-      $(BuildDependsOn);
       ScApplyTransforms;
+      $(BuildDependsOn)
     </BuildDependsOn>
 
     <!-- References .dll.config files in referenced projects -->
     <ScAllowCopyReferencedConfig Condition=" '$(ScAllowCopyReferencedConfig)'=='' ">true</ScAllowCopyReferencedConfig>
     <AllowedReferenceRelatedFileExtensions Condition=" '$(ScAllowCopyReferencedConfig)'=='true' ">
-      $(AllowedReferenceRelatedFileExtensions);
       .dll.config;
+      $(AllowedReferenceRelatedFileExtensions)
     </AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
 
@@ -59,7 +58,13 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 
     <ItemGroup>
       <ScFilesToTransform Include="@(None);@(Content);@(Resource);@(EmbeddedResource)"
-                         Condition=" '%(TransformOnBuild)' == 'true' ">
+                         Condition=" '%(TransformOnBuild)' == 'true' " />
+
+      <!--
+          Two seperate actions, so if @(ScFilesToTransform) already contains items
+          the metadata will be set on them as well.
+      -->
+      <ScFilesToTransform>
         <SourceFile>%(FullPath)</SourceFile>
         <TransformFile>%(RelativeDir)%(Filename).$(Configuration)%(Extension)</TransformFile>
         <DestinationFile>$(OutDir)%(RelativeDir)%(Filename)%(Extension)</DestinationFile>
@@ -75,16 +80,23 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
 
     <!-- Get the directories that must be created -->
     <ItemGroup>
-      <_ScDirsToCreate Include="@(ScFilesToTransform -> '%(DestinationFile)')" Condition="Exists('%(TransformFile)')"/>
+      <_ScDirsToCreate Include="@(ScFilesToTransform->'%(DestinationFile)')" Condition="Exists('%(TransformFile)')"/>
     </ItemGroup>
 
-    <MakeDir Directories="@(_ScDirsToCreate->'%(RelativeDir)')" Condition=" !Exists('%(RelativeDir)') " />
+    <MakeDir Directories="@(_ScDirsToCreate->'%(RelativeDir)')" Condition="!Exists('%(RelativeDir)')" />
 
     <SlowCheetah.TransformTask Source="@(ScFilesToTransform->'%(SourceFile)')"
-                              Transform="%(TransformFile)"
-                              Destination="%(DestinationFile)"
-                              Condition=" Exists('%(TransformFile)')"/>
+                               Transform="%(TransformFile)"
+                               Destination="%(DestinationFile)"
+                               Condition=" Exists('%(TransformFile)')"/>
 
+  </Target>
+
+  <Target Name="ScCopyTransformFilesToPublishDirectory" DependsOnTargets="ScApplyTransforms" AfterTargets="CopyFilesToPublishDirectory">
+    <ItemGroup>
+      <_ScPublishItemsToCopy Include="@(ScFilesToTransform->'$(OutDir)%(RelativeDir)%(Filename)%(Extension)')"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(_ScPublishItemsToCopy)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
   </Target>
 
   <!-- Import native SlowCheetah behaviour -->
