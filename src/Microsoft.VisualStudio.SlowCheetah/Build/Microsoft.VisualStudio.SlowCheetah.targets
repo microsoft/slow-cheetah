@@ -129,7 +129,6 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       <EmbeddedResource Remove="@(_ScEmbeddedResourceFilesToTransform)"  />
       <EmbeddedResource Include="@(_ScEmbeddedResourceFilesToTransform->'%(DestinationFile)')" />
 
-
       <_ScNoneFilesToTransform Remove="@(_ScNoneFilesToTransform)" />
       <_ScContentFilesToTransform Remove="@(_ScContentFilesToTransform)" />
       <_ScResourceFilesToTransform Remove="@(_ScResourceFilesToTransform)" />
