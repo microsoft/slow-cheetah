@@ -18,6 +18,8 @@
      <RepositoryUrl>https://github.com/Microsoft/slow-cheetah</RepositoryUrl>
      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
      <IsTool>true</IsTool>
+     <DevelopmentDependency>true</DevelopmentDependency>
+     <MinClientVersion>2.8</MinClientVersion>
   </PropertyGroup>
   
   <!-- Additional files for the nupkg -->
