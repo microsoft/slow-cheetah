@@ -87,8 +87,9 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
         <TransformFile>%(RelativeDir)%(Filename).$(Configuration)%(Extension)</TransformFile>
         <DestinationFile>$(IntermediateOutputPath)%(RelativeDir)%(Filename)%(Extension)</DestinationFile>
         <DestinationFile Condition="'%(Link)' != ''">$(IntermediateOutputPath)%(Link)</DestinationFile>
+        <TargetPath Condition="'%(Link)' != '' and '%(TargetPath)' == ''">%(Link)</TargetPath>
         <TargetPath Condition="'%(TargetPath)' == ''">%(RelativeDir)%(Filename)%(Extension)</TargetPath>
-        <TargetPath Condition="'%(Link)' != ''">%(Link)</TargetPath>
+        
         <CopyToOutputDirectory Condition=" '$(CopyToOutputDirectory)' == '' ">PreserveNewest</CopyToOutputDirectory>
       </ScFilesToTransform>
     </ItemGroup>
