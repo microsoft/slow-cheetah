@@ -34,5 +34,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// Guid for the SlowCheetah commands
         /// </summary>
         public static readonly Guid GuidSlowCheetahCmdSet = new Guid(GuidSlowCheetahCmdSetString);
+
+        /// <summary>
+        /// Guid of a Web Application project
+        /// </summary>
+        public static readonly Guid GuidWebApplication = new Guid(GuidWebApplicationString);
     }
 }

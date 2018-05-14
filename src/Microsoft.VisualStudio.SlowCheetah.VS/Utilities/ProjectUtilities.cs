@@ -186,9 +186,23 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
             if (project is IVsAggregatableProject aggregatableProject)
             {
-                aggregatableProject.GetAggregateProjectTypeGuids(out string projectTypeGuids);
-                List<string> guids = new List<string>(projectTypeGuids.Split(';'));
-                return guids.Contains(Guids.GuidWebApplicationString);
+                aggregatableProject.GetAggregateProjectTypeGuids(out string projectTypeGuidStrings);
+                var projectTypeGuids = new List<Guid>();
+                foreach (string gs in projectTypeGuidStrings.Split(';'))
+                {
+                    try
+                    {
+                        var guid = new Guid(gs);
+
+                        projectTypeGuids.Add(guid);
+                    }
+                    catch
+                    {
+                        // Don't add to list of guids
+                    }
+                }
+
+                return projectTypeGuids.Contains(Guids.GuidWebApplication);
             }
 
             return false;
