@@ -18,7 +18,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Guid string of a Web Application project
         /// </summary>
-        public static readonly Guid GuidWebApplicationString = new Guid("349c5851-65df-11da-9384-00065b846f21");
+        public const string GuidWebApplicationString = "{349c5851-65df-11da-9384-00065b846f21}";
 
         /// <summary>
         /// Guid string for the SlowCheetah Visual Studio Package
@@ -34,5 +34,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// Guid for the SlowCheetah commands
         /// </summary>
         public static readonly Guid GuidSlowCheetahCmdSet = new Guid(GuidSlowCheetahCmdSetString);
+
+        /// <summary>
+        /// Guid of a Web Application project
+        /// </summary>
+        public static readonly Guid GuidWebApplication = new Guid(GuidWebApplicationString);
     }
 }
