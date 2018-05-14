@@ -10,7 +10,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Runtime.InteropServices;
     using EnvDTE;
     using Microsoft.VisualStudio;
