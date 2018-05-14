@@ -18,6 +18,8 @@
      <RepositoryUrl>https://github.com/Microsoft/slow-cheetah</RepositoryUrl>
      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
      <IsTool>true</IsTool>
+     <DevelopmentDependency>true</DevelopmentDependency>
+     <MinClientVersion>2.8</MinClientVersion>
   </PropertyGroup>
   
   <!-- Additional files for the nupkg -->
@@ -33,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.40" />
+    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.54" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="14.3.0" />
     <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.23" />
     <PackageReference Include="Microsoft.Web.Xdt" Version="2.1.1" />

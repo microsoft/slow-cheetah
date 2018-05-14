@@ -46,8 +46,8 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     -->
     <ItemGroup>
       <ScFilesToTransform>
-        <FullPathToItem Condition=" '%(Link)'=='' ">$([System.IO.Path]::GetFullPath( $(OutDir)%(RelativeDir)%(Filename)%(Extension) ))</FullPathToItem>
-        <FullPathToItem Condition=" '%(Link)'!='' ">$([System.IO.Path]::GetFullPath( $(OutDir)%(Link) ))</FullPathToItem>
+        <FullPathToItem Condition=" '%(Link)'=='' ">$([System.IO.Path]::GetFullPath( $(IntermediateOutputPath)%(RelativeDir)%(Filename)%(Extension) ))</FullPathToItem>
+        <FullPathToItem Condition=" '%(Link)'!='' ">$([System.IO.Path]::GetFullPath( $(IntermediateOutputPath)%(Link) ))</FullPathToItem>
       </ScFilesToTransform>
     </ItemGroup>
 
@@ -60,13 +60,13 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       <!-- Add the correct files to the project output group -->
       <BuiltProjectOutputGroupOutput Include="@(ScFilesToTransform->'%(FullPathToItem)')"
                                      Condition=" '%(ScFilesToTransform.Link)'==''">
-        <OriginalItemSpec>@(ScFilesToTransform->'$(OutDir)%(RelativeDir)%(Filename)%(Extension)')</OriginalItemSpec>
+        <OriginalItemSpec>@(ScFilesToTransform->'$(IntermediateOutputPath)%(RelativeDir)%(Filename)%(Extension)')</OriginalItemSpec>
         <TargetPath>@(ScFilesToTransform->'%(RelativeDir)%(Filename)%(Extension)')</TargetPath>
       </BuiltProjectOutputGroupOutput>
 
       <BuiltProjectOutputGroupOutput Include="@(ScFilesToTransform->'%(FullPathToItem)')"
                                      Condition=" '%(ScFilesToTransform.Link)'!=''">
-        <OriginalItemSpec>@(ScFilesToTransform->'$(OutDir)%(Link)')</OriginalItemSpec>
+        <OriginalItemSpec>@(ScFilesToTransform->'$(IntermediateOutputPath)%(Link)')</OriginalItemSpec>
         <TargetPath>@(ScFilesToTransform->'%(Link)')</TargetPath>
       </BuiltProjectOutputGroupOutput>
     </ItemGroup>
