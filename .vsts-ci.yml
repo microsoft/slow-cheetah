@@ -58,6 +58,7 @@ steps:
   inputs:
     vsVersion: 15.0
     solution: 'src\SlowCheetah.sln'
+    msbuildArgs: '/bl:"$(Build.ArtifactStagingDirectory)/build_logs/cps.binlog" $(AdditionalMSBuildArgs)'
     platform: $(BuildPlatform)
     configuration: $(BuildConfiguration)
   displayName: Build SlowCheetah solution
