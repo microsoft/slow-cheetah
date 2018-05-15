@@ -59,10 +59,9 @@ steps:
   inputs:
     vsVersion: 15.0
     solution: 'src\SlowCheetah.sln'
-    msbuildArgs: /t:Restore
     platform: $(BuildPlatform)
     configuration: $(BuildConfiguration)
-  displayName: Restore SlowCheetah solution
+  displayName: Build SlowCheetah solution
 
 - task: MicroBuildCodesignVerify@1
   inputs:
