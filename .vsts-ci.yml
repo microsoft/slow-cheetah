@@ -64,9 +64,9 @@ steps:
 
 - task: MicroBuildCodesignVerify@1
   inputs:
-    TargetFolder: $(Build.SourcesDirectory)\bin\$(BuildConfiguration)\Packages
-    WhiteListPathForCerts: $(Build.SourcesDirectory)\build\cloud\no_authenticode.txt
-    WhiteListPathForSigs: $(Build.SourcesDirectory)\build\cloud\no_strongname.txt
+    TargetFolder: $(Build.SourcesDirectory)\bin\$(BuildConfiguration)\packages
+    WhiteListPathForCerts: $(Build.SourcesDirectory)src\no_authenticode.txt
+    WhiteListPathForSigs: $(Build.SourcesDirectory)\src\no_strongname.txt
   displayName: Verify code signing
 
 - task: VSTest@2
