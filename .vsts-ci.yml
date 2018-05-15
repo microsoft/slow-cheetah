@@ -1,0 +1,168 @@
+trigger:
+  branches:
+    include: ["master"]
+  paths:
+    exclude: [".github", "doc", "*.md"]
+
+queue:
+  name: VSEng-MicroBuildVS2017
+  timeoutInMinutes: 60
+
+steps:
+- task: PowerShell@2
+  displayName: Set VSTS variables
+  inputs:
+    targetType: inline
+    script: |
+      if ($env:SignType -eq 'Real') {
+        $feedGuid = '09d8d03c-1ac8-456e-9274-4d2364527d99' ## VSIDE-RealSigned-Release
+      } else {
+        $feedGuid = 'da484c78-f942-44ef-b197-99e2a1bef53c' ## VSIDE-TestSigned-Release
+      }
+
+      Write-Host "##vso[task.setvariable variable=feedGuid]$feedGuid"
+
+      if ($env:ComputerName.StartsWith('factoryvm', [StringComparison]::OrdinalIgnoreCase)) {
+        Write-Host "Running on hosted queue"
+        Write-Host "##vso[task.setvariable variable=Hosted]true"
+      }
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      del /s /q "bin"
+      del /s /q "MSBuild\MSBuildDependencies\bin"
+  displayName: Purge bin
+
+- task: NuGetToolInstaller@0
+  displayName: Pin nuget.exe version
+  inputs:
+    versionSpec: 4.6.1
+
+- task: MicroBuildSigningPlugin@1
+  inputs:
+    signType: $(SignType)
+    esrpSigning: true
+    zipSources: false
+  displayName: Install MicroBuild Signing plugin
+
+- task: VSBuild@1
+  inputs:
+    vsVersion: 15.0
+    solution: 'src\SlowCheetah.sln'
+    msbuildArgs: /t:Restore
+    platform: $(BuildPlatform)
+    configuration: $(BuildConfiguration)
+  displayName: Restore SlowCheetah solution
+
+- task: VSBuild@1
+  inputs:
+    vsVersion: 15.0
+    solution: 'src\SlowCheetah.sln'
+    msbuildArgs: /t:Restore
+    platform: $(BuildPlatform)
+    configuration: $(BuildConfiguration)
+  displayName: Restore SlowCheetah solution
+
+- task: MicroBuildCodesignVerify@1
+  inputs:
+    TargetFolder: $(Build.SourcesDirectory)\bin\$(BuildConfiguration)\Packages
+    WhiteListPathForCerts: $(Build.SourcesDirectory)\build\cloud\no_authenticode.txt
+    WhiteListPathForSigs: $(Build.SourcesDirectory)\build\cloud\no_strongname.txt
+  displayName: Verify code signing
+
+- task: VSTest@2
+  inputs:
+    testFiltercriteria: TestCategory!=FailsInCloudTest
+    searchFolder: $(System.DefaultWorkingDirectory)\bin\
+    testAssemblyVer2: |
+      $(BuildConfiguration)\**\*test*.dll
+      !**\obj\**
+    platform: $(BuildPlatform)
+    configuration: $(BuildConfiguration)
+  displayName: Run Tests
+  condition: and(succeeded(), ne(variables['SignType'], 'real'))
+
+- task: MicroBuildCleanup@1
+  displayName: MicroBuild Cleanup
+  condition: succeededOrFailed()
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: $(Build.ArtifactStagingDirectory)/MicroBuild/ESRPClient
+    ArtifactName: esrpclient_logs
+    ArtifactType: Container
+  displayName: 'Publish Artifact: ESRP signing logs'
+  condition: eq(variables['SignType'], 'real')
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: $(Build.ArtifactStagingDirectory)/build_logs
+    ArtifactName: build_logs
+    ArtifactType: Container
+  displayName: 'Publish Artifact: build logs'
+  condition: succeededOrFailed()
+
+## Following steps are skipped in PR builds
+
+- task: CopyFiles@1
+  displayName: Collecting symbols artifacts
+  inputs:
+    SourceFolder: bin/$(BuildConfiguration)/net45
+    Contents: |
+    **/Microsoft.VisualStudio.SlowCheetah?(*.dll|*.pdb|*.xml)
+    !**/*Test*
+    TargetFolder: $(Build.ArtifactStagingDirectory)/symbols
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
+- task: PublishSymbols@2
+  inputs:
+    SymbolsFolder: $(Build.ArtifactStagingDirectory)/symbols
+    SearchPattern: '**\*.pdb'
+    SymbolServerType: TeamServices
+  displayName: Archive symbols to VSTS
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['SignType'], 'real'))
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/symbols'
+    ArtifactName: symbols
+    publishLocation: Container
+  displayName: 'Publish Artifact: symbols'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
+- task: ms-vscs-artifact.build-tasks.artifactSymbolTask-1.artifactSymbolTask@0
+  inputs:
+    symbolServiceURI: 'https://microsoft.artifacts.visualstudio.com/DefaultCollection'
+    requestName: 'CollectionId/$(System.CollectionId)/ProjectId/$(System.TeamProjectId)/BuildId/$(Build.BuildId)'
+    sourcePath: '$(Build.ArtifactStagingDirectory)/symbols'
+    usePat: false
+  displayName: Publish Symbols to symweb
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['SignType'], 'real'))
+
+- task: CopyFiles@1
+  displayName: Collecting packages
+  inputs:
+    SourceFolder: bin/$(BuildConfiguration)/packages
+    Contents: |
+      **
+    TargetFolder: $(Build.ArtifactStagingDirectory)/packages
+    flattenFolders: false
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish packages
+  inputs:
+    PathtoPublish: $(Build.ArtifactStagingDirectory)/packages
+    ArtifactName: packages
+    ArtifactType: Container
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
+- task: NuGetCommand@2
+  inputs:
+    command: push
+    searchPatternPush: 'bin/$(BuildConfiguration)/packages/*.nupkg'
+    publishVstsFeed: $(feedGuid)
+    allowPackageConflicts: true
+  displayName: Publish Sdk NuGet packages to VSTS feeds
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
