@@ -65,8 +65,8 @@ steps:
 - task: MicroBuildCodesignVerify@1
   inputs:
     TargetFolder: $(Build.SourcesDirectory)\bin\$(BuildConfiguration)\packages
-    WhiteListPathForCerts: $(Build.SourcesDirectory)src\no_authenticode.txt
-    WhiteListPathForSigs: $(Build.SourcesDirectory)\src\no_strongname.txt
+    WhiteListPathForCerts: $(Build.SourcesDirectory)src\build\no_authenticode.txt
+    WhiteListPathForSigs: $(Build.SourcesDirectory)\src\build\no_strongname.txt
   displayName: Verify code signing
 
 - task: VSTest@2
@@ -143,7 +143,8 @@ steps:
   inputs:
     SourceFolder: bin/$(BuildConfiguration)/packages
     Contents: |
-      **
+      *.nupkg
+      *.vsix
     TargetFolder: $(Build.ArtifactStagingDirectory)/packages
     flattenFolders: false
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
