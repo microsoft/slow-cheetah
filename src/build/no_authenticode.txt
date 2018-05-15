@@ -1,0 +1,3 @@
+*\*.targets,msbuild target files are not signed
+*\*.xml,xml doc comments are not signed
+*\newtonsoft.json.dll,oss
