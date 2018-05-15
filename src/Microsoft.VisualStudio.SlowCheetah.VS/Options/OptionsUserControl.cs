@@ -29,7 +29,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
             this.optionsPage = optionsPage ?? throw new ArgumentNullException(nameof(optionsPage));
             this.EnablePreviewCheckbox.Checked = optionsPage.EnablePreview;
-            this.AddDepentUponCheckbox.Checked = optionsPage.AddDependentUpon;
+            this.AddDependentUponCheckbox.Checked = optionsPage.AddDependentUpon;
         }
 
         private void EnablePreviewCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -40,11 +40,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
         }
 
-        private void AddDepentUponCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void AddDependentUponCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             if (this.optionsPage != null)
             {
-                this.optionsPage.AddDependentUpon = this.AddDepentUponCheckbox.Checked;
+                this.optionsPage.AddDependentUpon = this.AddDependentUponCheckbox.Checked;
             }
         }
     }
