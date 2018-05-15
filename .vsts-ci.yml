@@ -143,7 +143,8 @@ steps:
   inputs:
     SourceFolder: bin/$(BuildConfiguration)/packages
     Contents: |
-      **
+      *.nupkg
+      *.vsix
     TargetFolder: $(Build.ArtifactStagingDirectory)/packages
     flattenFolders: false
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
