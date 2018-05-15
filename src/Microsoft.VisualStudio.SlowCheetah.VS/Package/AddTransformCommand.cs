@@ -26,6 +26,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         private readonly SlowCheetahNuGetManager nuGetManager;
         private readonly SlowCheetahPackageLogger logger;
 
+        private const string TransformFilename = "{0}.{1}{2}";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AddTransformCommand"/> class.
         /// </summary>

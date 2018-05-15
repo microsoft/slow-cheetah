@@ -1,10 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  
+  <PropertyGroup Label="MultilingualAppToolkit">
+    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
+    <MultilingualFallbackLanguage>en-US</MultilingualFallbackLanguage>
+    <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
+    <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
+  </PropertyGroup>
+  
   <PropertyGroup>
     <OutputType>library</OutputType>
     <TargetFramework>net45</TargetFramework>
   </PropertyGroup>
-
+  
   <PropertyGroup>
      <Authors>Microsoft</Authors>
      <Owners>Microsoft, VisualStudioExtensibility</Owners>
@@ -22,18 +29,23 @@
      <MinClientVersion>2.8</MinClientVersion>
   </PropertyGroup>
   
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />
+  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
+    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
+  </Target>
+  
   <!-- Additional files for the nupkg -->
   <ItemGroup>
     <None Include="$(OutputPath)Microsoft.Web.XmlTransform.dll" Pack="true" PackagePath="tools" Visible="false" />
     <None Include="$(OutputPath)Microsoft.VisualStudio.Jdt.dll" Pack="true" PackagePath="tools" Visible="false" />
     <None Include="$(OutputPath)Newtonsoft.Json.dll" Pack="true" PackagePath="tools" Visible="false" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <None Update="Build\*.targets" Pack="true" PackagePath="build/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Build\readme.txt" Pack="true" PackagePath="%(Filename)%(Extension)" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.54" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="14.3.0" />
@@ -42,7 +54,7 @@
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <Compile Update="Resources\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -50,7 +62,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
+  
   <ItemGroup>
     <EmbeddedResource Update="Resources\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

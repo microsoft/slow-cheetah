@@ -173,10 +173,6 @@
     <value>SlowCheetah Update</value>
     <comment>Title for the wait dialog on update of the NuGet package</comment>
   </data>
-  <data name="String_FormatTransformFilename" xml:space="preserve">
-    <value>{0}.{1}{2}</value>
-    <comment>This is the format string for the new transform file's filename.</comment>
-  </data>
   <data name="TransformPreview_Caption" xml:space="preserve">
     <value>{0} Preview</value>
   </data>
