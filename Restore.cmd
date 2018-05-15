@@ -5,5 +5,3 @@ IF ERRORLEVEL 1 (
     EXIT /B %ERRORLEVEL%
 )
 msbuild /t:restore %~dp0\src\SlowCheetah.sln
-msbuild /t:restore %~dp0\vs\Microsoft.VisualStudio.SlowCheetah.Full.swixproj
-msbuild /t:restore %~dp0\vs\Microsoft.VisualStudio.SlowCheetah.vsmanproj
