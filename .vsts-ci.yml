@@ -109,8 +109,8 @@ steps:
   inputs:
     SourceFolder: bin/$(BuildConfiguration)/net45
     Contents: |
-    **/Microsoft.VisualStudio.SlowCheetah?(*.dll|*.pdb|*.xml)
-    !**/*Test*
+      **/Microsoft.VisualStudio.SlowCheetah?(*.dll|*.pdb|*.xml)
+      !**/*Test*
     TargetFolder: $(Build.ArtifactStagingDirectory)/symbols
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
