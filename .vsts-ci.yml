@@ -31,7 +31,6 @@ steps:
   inputs:
     script: |
       del /s /q "bin"
-      del /s /q "MSBuild\MSBuildDependencies\bin"
   displayName: Purge bin
 
 - task: NuGetToolInstaller@0
