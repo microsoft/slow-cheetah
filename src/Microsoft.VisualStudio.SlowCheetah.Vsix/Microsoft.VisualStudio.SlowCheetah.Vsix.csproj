@@ -28,7 +28,6 @@
     <IsPackable>false</IsPackable>
     <OutputPath>$(OutputPath)net45\</OutputPath>
     <TargetName>Microsoft.VisualStudio.SlowCheetah</TargetName>
-    <IsProductComponent>true</IsProductComponent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +50,12 @@
       <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
       <Link>Microsoft.VisualStudio.Jdt.dll</Link>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="$(OutputPath)Newtonsoft.Json.dll">
+      <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <Link>Newtonsoft.Json.dll</Link>
       <Visible>false</Visible>
     </Content>
   </ItemGroup>
