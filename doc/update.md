@@ -17,7 +17,7 @@ To use this new version, the older one must be manually removed from your projec
 
 ## Instructions 
 
-If SlowCheetah has never been installed on your computer or used in any of your projects, simply install the latest Nuget package [here](https://www.nuget.org/packages/SlowCheetah/).
+If SlowCheetah has never been installed on your computer or used in any of your projects, simply install the latest Nuget package [here](https://www.nuget.org/packages/Microsoft.VisualStudio.SlowCheetah/).
 
 If you have used SlowCheetah before, remove the following lines from your project file. 
 
