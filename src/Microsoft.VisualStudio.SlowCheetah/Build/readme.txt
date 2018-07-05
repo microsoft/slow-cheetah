@@ -1,7 +1,7 @@
 SlowCheetah
 ===========
 
-XML Transforms for app.config and other XML files
+Transformations for XML files (such as app.config) and JSON files.
 
 ## Visual Studio Extension
 for creating and previewing transforms:
