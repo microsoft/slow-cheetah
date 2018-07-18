@@ -137,13 +137,8 @@ namespace Microsoft.VisualStudio.SlowCheetah
             using (XmlTransformableDocument document = new XmlTransformableDocument())
             using (XmlTransformation transformation = new XmlTransformation(transformPath, this.logger))
             {
-                using (XmlTextReader reader = new XmlTextReader(sourcePath))
-                {
-                    reader.DtdProcessing = DtdProcessing.Ignore;
-
-                    document.PreserveWhitespace = true;
-                    document.Load(reader);
-                }
+                document.PreserveWhitespace = true;
+                document.Load(sourcePath);
 
                 var success = transformation.Apply(document);
 
