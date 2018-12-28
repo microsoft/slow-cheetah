@@ -39,7 +39,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
     // This attribute is used to register the informations needed to show the this package in the Help/About dialog of Visual Studio.
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-    [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
+    [ProvideAutoLoad(UIContextGuids80.SolutionExists, PackageAutoLoadFlags.BackgroundLoad)]
 
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
