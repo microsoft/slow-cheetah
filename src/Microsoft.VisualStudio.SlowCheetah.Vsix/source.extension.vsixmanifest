@@ -9,7 +9,6 @@
         <Icon>VSExtensibility.png</Icon>
         <PreviewImage>VSExtensibility.png</PreviewImage>
         <Tags>Transformations Transforms XML XDT JSON JDT</Tags>
-        <Preview>true</Preview>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0,17.0)" />
