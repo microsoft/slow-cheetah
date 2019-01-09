@@ -41,6 +41,12 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
       <Link></Link>
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </EmbeddedResource>
+    <_NoneWithTargetPath>
+      <TransformOnBuild>false</TransformOnBuild>
+    </_NoneWithTargetPath>
+    <ContentWithTargetPath>
+      <TransformOnBuild>false</TransformOnBuild>
+    </ContentWithTargetPath>
     <ScFilesToTransform>
       <_BuildAction></_BuildAction>
       <TargetPath></TargetPath>
