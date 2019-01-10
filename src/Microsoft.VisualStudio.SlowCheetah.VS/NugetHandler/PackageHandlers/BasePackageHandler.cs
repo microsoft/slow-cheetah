@@ -5,6 +5,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
     using EnvDTE;
+    using Microsoft.VisualStudio.Shell;
+    using TPL = System.Threading.Tasks;
 
     /// <summary>
     /// Handles a function relating to the NuGet package
@@ -29,7 +31,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Gets the VS package
         /// </summary>
-        public IServiceProvider Package { get; }
+        public AsyncPackage Package { get; }
 
         /// <summary>
         /// Gets the successor handler
@@ -37,6 +39,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         protected IPackageHandler Successor { get; }
 
         /// <inheritdoc/>
-        public abstract void Execute(Project project);
+        public abstract TPL.Task Execute(Project project);
     }
 }

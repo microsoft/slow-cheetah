@@ -52,13 +52,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 VsProjectTypes.ManagementPackProjectTypeGuid,
             };
 
-        private readonly IServiceProvider package;
+        private readonly AsyncPackage package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlowCheetahNuGetManager"/> class.
         /// </summary>
         /// <param name="package">VS Package</param>
-        public SlowCheetahNuGetManager(IServiceProvider package)
+        public SlowCheetahNuGetManager(AsyncPackage package)
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
         }
@@ -162,7 +162,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 };
             }
 
-            plan.Execute(currentProject);
+            this.package.JoinableTaskFactory.Run(() => plan.Execute(currentProject));
         }
 
         private static IVsPackageInstallerServices GetInstallerServices(IServiceProvider package)

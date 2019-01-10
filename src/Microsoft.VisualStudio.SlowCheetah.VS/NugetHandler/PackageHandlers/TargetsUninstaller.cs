@@ -6,6 +6,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System.Linq;
     using EnvDTE;
     using Microsoft.Build.Construction;
+    using TPL = System.Threading.Tasks;
 
     /// <summary>
     /// Uninstalls old SlowCheetah targets from the user's project file
@@ -22,10 +23,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <inheritdoc/>
-        public override void Execute(Project project)
+        public override async TPL.Task Execute(Project project)
         {
             // We handle any NuGet package logic before editing the project file
-            this.Successor.Execute(project);
+            await this.Successor.Execute(project);
 
             project.Save();
             ProjectRootElement projectRoot = ProjectRootElement.Open(project.FullName);

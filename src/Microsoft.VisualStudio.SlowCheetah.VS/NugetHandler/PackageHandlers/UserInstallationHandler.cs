@@ -4,6 +4,7 @@
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
+    using System.Threading.Tasks;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
 
@@ -27,9 +28,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <param name="title">The title of the message box</param>
         /// <param name="message">The message to be shown</param>
         /// <returns>True if the user has accepted the warning message</returns>
-        protected bool HasUserAcceptedWarningMessage(string title, string message)
+        protected async Task<bool> HasUserAcceptedWarningMessage(string title, string message)
         {
-            if (this.Package.GetService(typeof(SVsUIShell)) is IVsUIShell shell)
+            var shell = (IVsUIShell)await this.Package.GetServiceAsync(typeof(SVsUIShell));
+
+            if (shell != null)
             {
                 // Show a yes or no message box with the given title and message
                 Guid compClass = Guid.Empty;

@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using EnvDTE;
     using Microsoft.VisualStudio.Shell.Interop;
+    using TPL = System.Threading.Tasks;
 
     /// <summary>
     /// Performs installations while showing a wait dialog
@@ -21,12 +22,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <inheritdoc/>
-        public override void Execute(Project project)
+        public override async TPL.Task Execute(Project project)
         {
-            if (this.HasUserAcceptedWarningMessage(Resources.Resources.NugetUpdate_Title, Resources.Resources.NugetUpdate_Text))
+            if (await this.HasUserAcceptedWarningMessage(Resources.Resources.NugetUpdate_Title, Resources.Resources.NugetUpdate_Text))
             {
                 // Creates dialog informing the user to wait for the installation to finish
-                IVsThreadedWaitDialogFactory twdFactory = this.Package.GetService(typeof(SVsThreadedWaitDialogFactory)) as IVsThreadedWaitDialogFactory;
+                IVsThreadedWaitDialogFactory twdFactory = await this.Package.GetServiceAsync(typeof(SVsThreadedWaitDialogFactory)) as IVsThreadedWaitDialogFactory;
                 IVsThreadedWaitDialog2 dialog = null;
                 twdFactory?.CreateInstance(out dialog);
 
@@ -36,7 +37,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
                 try
                 {
-                    this.Successor.Execute(project);
+                    await this.Successor.Execute(project);
                 }
                 finally
                 {
