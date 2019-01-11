@@ -133,7 +133,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 }
 
                 // Checks the SlowCheetah NuGet package installation
-                this.nuGetManager.CheckSlowCheetahInstallation(hierarchy);
+                this.package.JoinableTaskFactory.Run(() => this.nuGetManager.CheckSlowCheetahInstallation(hierarchy));
 
                 // need to enure that this item has metadata TransformOnBuild set to true
                 buildPropertyStorage.SetItemAttribute(itemid, SlowCheetahPackage.TransformOnBuild, "true");

@@ -11,6 +11,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using NuGet.VisualStudio;
+    using TPL = System.Threading.Tasks;
 
     /// <summary>
     /// Manages installations of the SlowCheetah NuGet package in the project
@@ -111,7 +112,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// if an older version is detected, shows update information.
         /// </summary>
         /// <param name="hierarchy">Hierarchy of the project to be verified</param>
-        public void CheckSlowCheetahInstallation(IVsHierarchy hierarchy)
+        /// <returns>A <see cref="TPL.Task"/> representing the asynchronous operation.</returns>
+        public async TPL.Task CheckSlowCheetahInstallation(IVsHierarchy hierarchy)
         {
             if (hierarchy == null)
             {
@@ -162,7 +164,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 };
             }
 
-            this.package.JoinableTaskFactory.Run(() => plan.Execute(currentProject));
+            await plan.Execute(currentProject);
         }
 
         private static IVsPackageInstallerServices GetInstallerServices(IServiceProvider package)

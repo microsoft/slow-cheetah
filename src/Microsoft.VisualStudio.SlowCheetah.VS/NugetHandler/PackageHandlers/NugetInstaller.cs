@@ -3,10 +3,8 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
-    using System;
     using EnvDTE;
     using Microsoft.VisualStudio.ComponentModelHost;
-    using Microsoft.VisualStudio.Shell;
     using NuGet.VisualStudio;
     using TPL = System.Threading.Tasks;
 

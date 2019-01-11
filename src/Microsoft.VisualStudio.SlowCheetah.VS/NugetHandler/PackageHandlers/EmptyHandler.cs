@@ -29,7 +29,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public TPL.Task Execute(Project project)
         {
             // Do nothing
-            return TPL.Task.FromResult(false);
+            return TPL.Task.CompletedTask;
         }
     }
 }

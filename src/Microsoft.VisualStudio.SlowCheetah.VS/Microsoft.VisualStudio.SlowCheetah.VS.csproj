@@ -2,7 +2,7 @@
   
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
     <IsPackable>false</IsPackable>
     <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
     <CreateVsixContainer>false</CreateVsixContainer>

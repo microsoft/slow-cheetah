@@ -9,6 +9,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using EnvDTE;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
+    using Microsoft.VisualStudio.Threading;
     using TPL = System.Threading.Tasks;
 
     /// <summary>
@@ -53,8 +54,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                     IVsOutputWindowPane outputWindow = (IVsOutputWindowPane)await this.Package.GetServiceAsync(typeof(SVsGeneralOutputWindowPane));
                     outputWindow?.OutputString(string.Format(CultureInfo.CurrentCulture, Resources.Resources.NugetInstall_InstallingOutput, project.Name) + Environment.NewLine);
 
-                    var task = this.Package.JoinableTaskFactory.RunAsync(async () =>
+                    this.Package.JoinableTaskFactory.RunAsync(async () =>
                     {
+                        await TPL.TaskScheduler.Default;
+
                         string outputMessage = Resources.Resources.NugetInstall_FinishedOutput;
                         try
                         {
@@ -75,7 +78,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                             await this.Package.JoinableTaskFactory.SwitchToMainThreadAsync();
                             outputWindow?.OutputString(string.Format(CultureInfo.CurrentCulture, outputMessage, project.Name) + Environment.NewLine);
                         }
-                    });
+                    }).Task.Forget();
                 }
                 else
                 {

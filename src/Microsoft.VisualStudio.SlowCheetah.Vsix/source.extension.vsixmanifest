@@ -11,7 +11,7 @@
         <Tags>Transformations Transforms XML XDT JSON JDT</Tags>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0,17.0)" />
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,17.0)" />
     </Installation>
     <Dependencies>
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
