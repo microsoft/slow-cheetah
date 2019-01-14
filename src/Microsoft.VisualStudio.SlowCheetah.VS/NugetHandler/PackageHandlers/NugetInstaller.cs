@@ -3,10 +3,10 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
-    using System;
     using EnvDTE;
     using Microsoft.VisualStudio.ComponentModelHost;
     using NuGet.VisualStudio;
+    using TPL = System.Threading.Tasks;
 
     /// <summary>
     /// Installs the latest SlowCheetah NuGet package
@@ -23,9 +23,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <inheritdoc/>
-        public override void Execute(Project project)
+        public override async TPL.Task Execute(Project project)
         {
-            var componentModel = (IComponentModel)this.Package.GetService(typeof(SComponentModel));
+            var componentModel = (IComponentModel)await this.Package.GetServiceAsync(typeof(SComponentModel));
             IVsPackageInstaller packageInstaller = componentModel.GetService<IVsPackageInstaller>();
             packageInstaller.InstallPackage(
                 null,
@@ -34,7 +34,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 version: (string)null, // install latest stable version
                 ignoreDependencies: false);
 
-            this.Successor.Execute(project);
+            await this.Successor.Execute(project);
         }
     }
 }

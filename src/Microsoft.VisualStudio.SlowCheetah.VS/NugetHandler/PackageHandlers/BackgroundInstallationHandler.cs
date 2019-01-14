@@ -9,6 +9,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using EnvDTE;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
+    using Microsoft.VisualStudio.Threading;
     using TPL = System.Threading.Tasks;
 
     /// <summary>
@@ -34,7 +35,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public bool IsUpdate { get; set; } = false;
 
         /// <inheritdoc/>
-        public override void Execute(Project project)
+        public override async TPL.Task Execute(Project project)
         {
             string projName = project.UniqueName;
             bool needInstall = true;
@@ -47,18 +48,20 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             {
                 string warningTitle = this.IsUpdate ? Resources.Resources.NugetUpdate_Title : Resources.Resources.NugetInstall_Title;
                 string warningMessage = this.IsUpdate ? Resources.Resources.NugetUpdate_Text : Resources.Resources.NugetInstall_Text;
-                if (this.HasUserAcceptedWarningMessage(warningTitle, warningMessage))
+                if (await this.HasUserAcceptedWarningMessage(warningTitle, warningMessage))
                 {
                     // Gets the general output pane to inform user of installation
-                    IVsOutputWindowPane outputWindow = (IVsOutputWindowPane)this.Package.GetService(typeof(SVsGeneralOutputWindowPane));
+                    IVsOutputWindowPane outputWindow = (IVsOutputWindowPane)await this.Package.GetServiceAsync(typeof(SVsGeneralOutputWindowPane));
                     outputWindow?.OutputString(string.Format(CultureInfo.CurrentCulture, Resources.Resources.NugetInstall_InstallingOutput, project.Name) + Environment.NewLine);
 
-                    TPL.Task.Run(() =>
+                    this.Package.JoinableTaskFactory.RunAsync(async () =>
                     {
+                        await TPL.TaskScheduler.Default;
+
                         string outputMessage = Resources.Resources.NugetInstall_FinishedOutput;
                         try
                         {
-                            this.Successor.Execute(project);
+                            await this.Successor.Execute(project);
                         }
                         catch
                         {
@@ -72,9 +75,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                                 InstallTasks.Remove(projName);
                             }
 
-                            ThreadHelper.Generic.BeginInvoke(() => outputWindow?.OutputString(string.Format(CultureInfo.CurrentCulture, outputMessage, project.Name) + Environment.NewLine));
+                            await this.Package.JoinableTaskFactory.SwitchToMainThreadAsync();
+                            outputWindow?.OutputString(string.Format(CultureInfo.CurrentCulture, outputMessage, project.Name) + Environment.NewLine);
                         }
-                    });
+                    }).Task.Forget();
                 }
                 else
                 {

@@ -139,7 +139,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             // Checks the SlowCheetah NuGet package installation
-            this.NuGetManager.CheckSlowCheetahInstallation(hierarchy);
+            this.Package.JoinableTaskFactory.Run(() => this.NuGetManager.CheckSlowCheetahInstallation(hierarchy));
 
             // Get the parent of the file to start searching for the source file
             ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out object parentIdObj));

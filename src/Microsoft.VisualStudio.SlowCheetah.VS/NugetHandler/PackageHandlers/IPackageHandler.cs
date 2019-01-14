@@ -3,8 +3,9 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
-    using System;
     using EnvDTE;
+    using Microsoft.VisualStudio.Shell;
+    using TPL = System.Threading.Tasks;
 
     /// <summary>
     /// Representes a handler of nuget package actions
@@ -14,12 +15,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Gets the VS package
         /// </summary>
-        IServiceProvider Package { get; }
+        AsyncPackage Package { get; }
 
         /// <summary>
         /// Executes the function
         /// </summary>
-        /// <param name="project">The project to act peform actions on</param>
-        void Execute(Project project);
+        /// <param name="project">The project to peform actions on</param>
+        /// <returns>A task that executes the function</returns>
+        TPL.Task Execute(Project project);
     }
 }
