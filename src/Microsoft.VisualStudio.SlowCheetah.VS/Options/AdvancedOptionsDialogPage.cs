@@ -19,6 +19,15 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         private const string RegPreviewExe = "PreviewExe";
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="AdvancedOptionsDialogPage"/> class.
+        /// Constructor called by VSIP just in time when user wants to view this tools, options page
+        /// </summary>
+        public AdvancedOptionsDialogPage()
+        {
+            this.InitializeDefaults();
+        }
+
+        /// <summary>
         /// Gets or sets the exe path for the diff tool used to preview transformations
         /// </summary>
         public string PreviewToolExecutablePath { get; set; }
