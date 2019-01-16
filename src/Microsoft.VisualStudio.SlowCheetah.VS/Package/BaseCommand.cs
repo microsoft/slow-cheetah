@@ -15,12 +15,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseCommand"/> class.
         /// </summary>
-        /// <param name="serviceProvider">The VSPackage as a servide provider</param>
-        public BaseCommand(IServiceProvider serviceProvider)
+        /// <param name="package">The VSPackage as a servide provider</param>
+        public BaseCommand(AsyncPackage package)
         {
-            this.ServiceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-
-            this.RegisterCommand();
+            this.Package = package ?? throw new ArgumentNullException(nameof(package));
         }
 
         /// <summary>
@@ -29,9 +27,25 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public abstract int CommandId { get; }
 
         /// <summary>
-        /// Gets the service provider
+        /// Gets the package
         /// </summary>
-        protected IServiceProvider ServiceProvider { get; }
+        protected AsyncPackage Package { get; }
+
+        /// <summary>
+        /// Asynchronously registers the command in the command service
+        /// </summary>
+        /// <returns>Async task</returns>
+        public async System.Threading.Tasks.Task RegisterCommandAsync()
+        {
+            // Add our command handlers for menu (commands must exist in the .vsct file)
+            if (await this.Package.GetServiceAsync(typeof(IMenuCommandService)) is OleMenuCommandService mcs)
+            {
+                // create the command for the "Add Transform" query status menu item
+                CommandID menuContextCommandID = new CommandID(Guids.GuidSlowCheetahCmdSet, this.CommandId);
+                OleMenuCommand menuCommand = new OleMenuCommand(this.OnInvoke, this.OnChange, this.OnBeforeQueryStatus, menuContextCommandID);
+                mcs.AddCommand(menuCommand);
+            }
+        }
 
         /// <summary>
         /// This event is called when the command status has changed
@@ -54,20 +68,5 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <param name="sender">The object that fired the event</param>
         /// <param name="e">Event arguments</param>
         protected abstract void OnInvoke(object sender, EventArgs e);
-
-        /// <summary>
-        /// Registers the command in the command service
-        /// </summary>
-        private void RegisterCommand()
-        {
-            // Add our command handlers for menu (commands must exist in the .vsct file)
-            if (this.ServiceProvider.GetService(typeof(IMenuCommandService)) is OleMenuCommandService mcs)
-            {
-                // create the command for the "Add Transform" query status menu item
-                CommandID menuContextCommandID = new CommandID(Guids.GuidSlowCheetahCmdSet, this.CommandId);
-                OleMenuCommand menuCommand = new OleMenuCommand(this.OnInvoke, this.OnChange, this.OnBeforeQueryStatus, menuContextCommandID);
-                mcs.AddCommand(menuCommand);
-            }
-        }
     }
 }

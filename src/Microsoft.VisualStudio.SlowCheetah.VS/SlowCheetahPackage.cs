@@ -44,7 +44,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(Guids.GuidSlowCheetahPkgString)]
-    [ProvideAutoLoad("{f1536ef8-92ec-443c-9ed7-fdadf150da82}", PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideOptionPage(typeof(OptionsDialogPage), "Slow Cheetah", "General", 100, 101, true)]
     [ProvideOptionPage(typeof(AdvancedOptionsDialogPage), "Slow Cheetah", "Advanced", 100, 101, true)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
@@ -144,12 +144,17 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         {
             await base.InitializeAsync(cancellationToken, progress);
 
+            // Initialize the properties
             this.NuGetManager = new SlowCheetahNuGetManager(this);
             this.PackageLogger = new SlowCheetahPackageLogger(this);
             this.ErrorListProvider = new ErrorListProvider(this);
             this.AddCommand = new AddTransformCommand(this, this.NuGetManager, this.PackageLogger);
             this.PreviewCommand = new PreviewTransformCommand(this, this.NuGetManager, this.PackageLogger, this.ErrorListProvider);
             this.SolutionEvents = new PackageSolutionEvents(this, this.ErrorListProvider);
+
+            // Asynchronously register the commands
+            await this.AddCommand.RegisterCommandAsync();
+            await this.PreviewCommand.RegisterCommandAsync();
         }
 
         /// <inheritdoc/>

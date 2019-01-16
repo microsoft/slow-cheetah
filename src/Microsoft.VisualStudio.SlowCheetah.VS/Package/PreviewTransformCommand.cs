@@ -37,7 +37,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             ErrorListProvider errorListProvider)
             : base(package)
         {
-            this.Package = package ?? throw new ArgumentNullException(nameof(package));
+            this.ScPackage = package ?? throw new ArgumentNullException(nameof(package));
             this.NuGetManager = nuGetManager ?? throw new ArgumentNullException(nameof(nuGetManager));
             this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.ErrorListProvider = errorListProvider ?? throw new ArgumentNullException(nameof(errorListProvider));
@@ -49,7 +49,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         private SlowCheetahNuGetManager NuGetManager { get; }
 
-        private SlowCheetahPackage Package { get; }
+        private SlowCheetahPackage ScPackage { get; }
 
         private SlowCheetahPackageLogger Logger { get; }
 
@@ -98,13 +98,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 }
 
                 IVsProject vsProject = (IVsProject)hierarchy;
-                if (!this.Package.ProjectSupportsTransforms(vsProject))
+                if (!this.ScPackage.ProjectSupportsTransforms(vsProject))
                 {
                     return;
                 }
 
                 // The file need to be a transform item to preview
-                if (!this.Package.IsItemTransformItem(vsProject, itemid))
+                if (!this.ScPackage.IsItemTransformItem(vsProject, itemid))
                 {
                     return;
                 }
@@ -127,7 +127,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
             // Make sure that the project supports transformations
             IVsProject project = (IVsProject)hierarchy;
-            if (!this.Package.ProjectSupportsTransforms(project))
+            if (!this.ScPackage.ProjectSupportsTransforms(project))
             {
                 return;
             }
@@ -139,7 +139,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             // Checks the SlowCheetah NuGet package installation
-            this.Package.JoinableTaskFactory.Run(() => this.NuGetManager.CheckSlowCheetahInstallation(hierarchy));
+            this.ScPackage.JoinableTaskFactory.Run(() => this.NuGetManager.CheckSlowCheetahInstallation(hierarchy));
 
             // Get the parent of the file to start searching for the source file
             ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out object parentIdObj));
@@ -229,7 +229,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 else
                 {
                     // If the diffmerge service is available and no diff tool is specified, or diffmerge.exe is specifed we use the service
-                    if (((IServiceProvider)this.Package).GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath) || advancedOptionsPage.PreviewToolExecutablePath.EndsWith("diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
+                    if (((IServiceProvider)this.ScPackage).GetService(typeof(SVsDifferenceService)) is IVsDifferenceService diffService && (!File.Exists(advancedOptionsPage.PreviewToolExecutablePath) || advancedOptionsPage.PreviewToolExecutablePath.EndsWith("diffmerge.exe", StringComparison.OrdinalIgnoreCase)))
                     {
                         if (!string.IsNullOrEmpty(advancedOptionsPage.PreviewToolExecutablePath) && !File.Exists(advancedOptionsPage.PreviewToolExecutablePath))
                         {
