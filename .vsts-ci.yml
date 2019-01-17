@@ -107,7 +107,7 @@ steps:
 - task: CopyFiles@1
   displayName: Collecting symbols artifacts
   inputs:
-    SourceFolder: bin/$(BuildConfiguration)/net45
+    SourceFolder: bin/$(BuildConfiguration)/net461
     Contents: |
       **/Microsoft.VisualStudio.SlowCheetah?(*.dll|*.pdb|*.xml)
       !**/*Test*
