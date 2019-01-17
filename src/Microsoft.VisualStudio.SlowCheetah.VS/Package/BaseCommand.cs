@@ -37,10 +37,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>Async task</returns>
         public async System.Threading.Tasks.Task RegisterCommandAsync()
         {
+            await this.Package.JoinableTaskFactory.SwitchToMainThreadAsync();
+
             // Add our command handlers for menu (commands must exist in the .vsct file)
             if (await this.Package.GetServiceAsync(typeof(IMenuCommandService)) is OleMenuCommandService mcs)
             {
-                // create the command for the "Add Transform" query status menu item
+                // Create the command for this query status menu item
                 CommandID menuContextCommandID = new CommandID(Guids.GuidSlowCheetahCmdSet, this.CommandId);
                 OleMenuCommand menuCommand = new OleMenuCommand(this.OnInvoke, this.OnChange, this.OnBeforeQueryStatus, menuContextCommandID);
                 mcs.AddCommand(menuCommand);

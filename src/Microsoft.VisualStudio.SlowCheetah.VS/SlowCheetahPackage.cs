@@ -152,9 +152,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             this.PreviewCommand = new PreviewTransformCommand(this, this.NuGetManager, this.PackageLogger, this.ErrorListProvider);
             this.SolutionEvents = new PackageSolutionEvents(this, this.ErrorListProvider);
 
-            // Asynchronously register the commands
+            // Asynchronously register the commands and solution events
             await this.AddCommand.RegisterCommandAsync();
             await this.PreviewCommand.RegisterCommandAsync();
+            await this.SolutionEvents.RegisterEventsAsync();
         }
 
         /// <inheritdoc/>
