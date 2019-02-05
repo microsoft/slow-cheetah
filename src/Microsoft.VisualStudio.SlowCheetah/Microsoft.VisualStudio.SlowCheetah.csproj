@@ -9,7 +9,7 @@
      <Authors>Microsoft</Authors>
      <Owners>Microsoft, VisualStudioExtensibility</Owners>
      <Description>Allows for configuration based XML and JSON transformations at build time.</Description>
-     <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
+     <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
      <PackageTags>SlowCheetah slow cheetah XML JSON Transform XDT JDT web.config app.config</PackageTags>
      <PackageIconUrl>https://aka.ms/VsExtensibilityIcon</PackageIconUrl>
      <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
