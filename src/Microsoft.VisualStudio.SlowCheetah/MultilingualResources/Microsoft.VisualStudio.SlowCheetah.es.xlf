@@ -12,8 +12,8 @@
           <note from="MultilingualBuild" annotates="source" priority="2">Error message for missing file</note>
         </trans-unit>
         <trans-unit id="ErrorMessage_SourceFileNotFound" translate="yes" xml:space="preserve">
+          <source>File to transform not found</source>
           <target state="translated">No se encontró un archivo para transformar</target>
-          <target state="translated">File to transform not found</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Message to be shown when the source file is not found</note>
         </trans-unit>
         <trans-unit id="ErrorMessage_TransformFileNotFound" translate="yes" xml:space="preserve">
