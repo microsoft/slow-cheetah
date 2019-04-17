@@ -8,11 +8,11 @@
       <group id="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/VSPACKAGE.RESX" datatype="resx">
         <trans-unit id="110" translate="yes" xml:space="preserve">
           <source>SlowCheetah - XML config transforms</source>
-          <target state="translated" state-qualifier="mt-suggestion">SlowCheetah - XML 構成の変換</target>
+          <target state="translated">SlowCheetah - XML 構成の変換</target>
         </trans-unit>
         <trans-unit id="112" translate="yes" xml:space="preserve">
           <source>This package enables you to transform your app.config or any other XML file based on the build configuration. It also adds additional tooling to help you create XML transforms.</source>
-          <target state="translated" state-qualifier="mt-suggestion">このパッケージでは、app.config ファイルまたはその他の XML ファイルをビルド構成に基づいて変換することができます。また、XML 変換を作成するために役立つ追加のツールも提供しています。</target>
+          <target state="translated">このパッケージでは、app.config ファイルまたはその他の XML ファイルをビルド構成に基づいて変換することができます。また、XML 変換を作成するために役立つ追加のツールも提供しています。</target>
         </trans-unit>
       </group>
     </body>
@@ -25,7 +25,7 @@
       <group id="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/RESOURCES/RESOURCES.RESX" datatype="resx">
         <trans-unit id="Error_CantFindPreviewTool" translate="yes" xml:space="preserve">
           <source>Cannot find the preview tool {0}. Verify the transform settings in Tools\Options.</source>
-          <target state="translated" state-qualifier="mt-suggestion">プレビュー ツール {0} が見つかりません。Tools\Options にある変換設定を確認してください。</target>
+          <target state="translated">プレビュー ツール {0} が見つかりません。Tools\Options にある変換設定を確認してください。</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
         </trans-unit>
         <trans-unit id="Error_FileToTransformNotFound" translate="yes" xml:space="preserve">
@@ -35,84 +35,84 @@
         </trans-unit>
         <trans-unit id="Error_NoPreviewToolSpecified" translate="yes" xml:space="preserve">
           <source>No preview tool specified. You can set a preview tool in the transform settings in Tools\Options.</source>
-          <target state="translated" state-qualifier="mt-suggestion">プレビュー ツールが指定されていません。プレビュー ツールは、Tools\Options の変換設定で設定できます。</target>
+          <target state="translated">プレビュー ツールが指定されていません。プレビュー ツールは、Tools\Options の変換設定で設定できます。</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
         </trans-unit>
         <trans-unit id="Error_SourceFileNotFound" translate="yes" xml:space="preserve">
           <source>The source file for the transform {0} was not found.</source>
-          <target state="translated" state-qualifier="mt-suggestion">変換 {0} のソース ファイルが見つかりませんでした。</target>
+          <target state="translated">変換 {0} のソース ファイルが見つかりませんでした。</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
         </trans-unit>
         <trans-unit id="Error_TransformFileNotFound" translate="yes" xml:space="preserve">
           <source>The transform file {0} was not found.</source>
-          <target state="translated" state-qualifier="mt-suggestion">変換ファイル {0} が見つかりませんでした。</target>
+          <target state="translated">変換ファイル {0} が見つかりませんでした。</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
         </trans-unit>
         <trans-unit id="NugetInstall_ErrorOutput" translate="yes" xml:space="preserve">
           <source>Error installing SlowCheetah NuGet package to {0}.</source>
-          <target state="translated" state-qualifier="mt-suggestion">{0} に SlowCheetah NuGet パッケージのインストールでエラーが発生しました。</target>
+          <target state="translated">{0} に SlowCheetah NuGet パッケージのインストールでエラーが発生しました。</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text to be shown in the output window if there is an error with installing the SlowCheetah Nuget package</note>
         </trans-unit>
         <trans-unit id="NugetInstall_FinishedOutput" translate="yes" xml:space="preserve">
           <source>Finished installing SlowCheetah NuGet package to {0}.</source>
-          <target state="translated" state-qualifier="mt-suggestion">{0} に SlowCheetah NuGet パッケージをインストールする処理が完了しました。</target>
+          <target state="translated">{0} に SlowCheetah NuGet パッケージをインストールする処理が完了しました。</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text to be shown in the output window when the SlowCheetah Nuget package is done installing</note>
         </trans-unit>
         <trans-unit id="NugetInstall_InstallingOutput" translate="yes" xml:space="preserve">
           <source>Installing SlowCheetah NuGet package to {0} ...</source>
-          <target state="translated" state-qualifier="mt-suggestion">{0} に SlowCheetah NuGet パッケージをインストールしています...</target>
+          <target state="translated">{0} に SlowCheetah NuGet パッケージをインストールしています...</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text to be shown in the output window as the SlowCheetah NuGet package is being installed</note>
         </trans-unit>
         <trans-unit id="NugetInstall_Text" translate="yes" xml:space="preserve">
           <source>In order to execute transform on build, you will need the SlowCheetah NuGet package. Do you want to install the package now?</source>
-          <target state="translated" state-qualifier="mt-suggestion">ビルド時に変換を実行するには、SlowCheetah NuGet パッケージが必要になります。今すぐパッケージをインストールしますか?</target>
+          <target state="translated">ビルド時に変換を実行するには、SlowCheetah NuGet パッケージが必要になります。今すぐパッケージをインストールしますか?</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text for the prompt to install the SlowCheetah NuGet package</note>
         </trans-unit>
         <trans-unit id="NugetInstall_Title" translate="yes" xml:space="preserve">
           <source>Install SlowCheetah NuGet package</source>
-          <target state="translated" state-qualifier="mt-suggestion">SlowCheetah NuGet パッケージのインストール</target>
+          <target state="translated">SlowCheetah NuGet パッケージのインストール</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Title for the prompt to install the SlowCheetah NuGet package</note>
         </trans-unit>
         <trans-unit id="NugetUpdate_Text" translate="yes" xml:space="preserve">
           <source>It seems that you have an older version of the SlowCheetah package installed. In order to avoid conflicts, you should update you package. Doing so may cause changes to your project file. Do you wish to update now?</source>
-          <target state="translated" state-qualifier="mt-suggestion">以前のバージョンの SlowCheetah パッケージがインストールされているようです。競合を回避するために、パッケージを更新する必要があります。更新すると、プロジェクト ファイルに変更が加えられることがあります。今すぐ更新しますか?</target>
+          <target state="translated">以前のバージョンの SlowCheetah パッケージがインストールされているようです。競合を回避するために、パッケージを更新する必要があります。更新すると、プロジェクト ファイルに変更が加えられることがあります。今すぐ更新しますか?</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text for the prompt to update the SlowCheetah NuGet package</note>
         </trans-unit>
         <trans-unit id="NugetUpdate_Title" translate="yes" xml:space="preserve">
           <source>Update SlowCheetah NuGet package</source>
-          <target state="translated" state-qualifier="mt-suggestion">SlowCheetah NuGet パッケージの更新</target>
+          <target state="translated">SlowCheetah NuGet パッケージの更新</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Title for the prompt to update the SlowCheetah NuGet package</note>
         </trans-unit>
         <trans-unit id="NugetUpdate_WaitText" translate="yes" xml:space="preserve">
           <source>Updating the SlowCheetah NuGet package, this may take a few seconds</source>
-          <target state="translated" state-qualifier="mt-suggestion">SlowCheetah NuGet パッケージを更新しています。これには数秒かかる場合があります</target>
+          <target state="translated">SlowCheetah NuGet パッケージを更新しています。これには数秒かかる場合があります</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text for the wait dialog on update of the NuGet package</note>
         </trans-unit>
         <trans-unit id="NugetUpdate_WaitTitle" translate="yes" xml:space="preserve">
           <source>SlowCheetah Update</source>
-          <target state="translated" state-qualifier="mt-suggestion">SlowCheetah の更新</target>
+          <target state="translated">SlowCheetah の更新</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Title for the wait dialog on update of the NuGet package</note>
         </trans-unit>
         <trans-unit id="TransformPreview_Caption" translate="yes" xml:space="preserve">
           <source>{0} Preview</source>
-          <target state="translated" state-qualifier="tm-suggestion">{0} プレビュー</target>
+          <target state="translated">{0} プレビュー</target>
         </trans-unit>
         <trans-unit id="TransformPreview_ErrorMessage" translate="yes" xml:space="preserve">
           <source>There was an error transforming your file. See the error list for more details</source>
-          <target state="translated" state-qualifier="mt-suggestion">ファイルの変換中にエラーが発生しました。詳細については、エラー リストをご覧ください</target>
+          <target state="translated">ファイルの変換中にエラーが発生しました。詳細については、エラー リストをご覧ください</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message to be shown upon failing Preview Transform</note>
         </trans-unit>
         <trans-unit id="TransformPreview_LeftLabel" translate="yes" xml:space="preserve">
           <source>Original {0}</source>
-          <target state="translated" state-qualifier="mt-suggestion">元の {0}</target>
+          <target state="translated">元の {0}</target>
         </trans-unit>
         <trans-unit id="TransformPreview_RightLabel" translate="yes" xml:space="preserve">
           <source>Transformed {0}   (by  {1} )</source>
-          <target state="translated" state-qualifier="mt-suggestion">変換された {0} ({1} による)</target>
+          <target state="translated">変換された {0} ({1} による)</target>
         </trans-unit>
         <trans-unit id="TransformPreview_ToolTip" translate="yes" xml:space="preserve">
           <source>{0} Preview</source>
-          <target state="translated" state-qualifier="tm-suggestion">{0} プレビュー</target>
+          <target state="translated">{0} プレビュー</target>
         </trans-unit>
       </group>
     </body>
@@ -141,7 +141,7 @@
         </trans-unit>
         <trans-unit id="EnablePreviewCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Show diff on transformation preview</source>
-          <target state="translated" state-qualifier="mt-suggestion">変換プレビューに差分を表示する(&amp;S)</target>
+          <target state="translated">変換プレビューで差分を表示する(&amp;S)</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.AutoSize" translate="no" extype="System.Boolean, mscorlib" xml:space="preserve">
           <source>True</source>
@@ -165,7 +165,7 @@
         </trans-unit>
         <trans-unit id="AddDependentUponCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Add DependentUpon metadata to transform files</source>
-          <target state="translated" state-qualifier="mt-suggestion">DependentUpon メタデータを変換ファイルに追加する(&amp;A)</target>
+          <target state="translated">DependentUpon メタデータを追加して、ファイルを変換する(&amp;A)</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.Dock" translate="no" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
           <source>Top</source>
@@ -185,7 +185,7 @@
         </trans-unit>
         <trans-unit id="GeneralGroupBox.Text" translate="yes" xml:space="preserve">
           <source>General Settings</source>
-          <target state="translated" state-qualifier="tm-suggestion">全般設定</target>
+          <target state="translated">全般設定</target>
         </trans-unit>
         <trans-unit id="$this.AutoScaleDimensions" translate="no" extype="System.Drawing.SizeF, System.Drawing" xml:space="preserve">
           <source>6, 13</source>
@@ -238,7 +238,7 @@
         </trans-unit>
         <trans-unit id="PreviewToolNameLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool P&amp;ath: </source>
-          <target state="translated">プレビュー ツール パス(&amp;A): </target>
+          <target state="translated">プレビュー ツールのパス(&amp;A):</target>
         </trans-unit>
         <trans-unit id="PreviewToolPathTextbox.Anchor" translate="no" extype="System.Windows.Forms.AnchorStyles, System.Windows.Forms" xml:space="preserve">
           <source>Top, Left, Right</source>
@@ -306,7 +306,7 @@
         </trans-unit>
         <trans-unit id="PreviewCommandLineLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool C&amp;ommand Line: </source>
-          <target state="translated">プレビュー ツールのコマンドライン(&amp;O): </target>
+          <target state="translated">プレビュー ツールのコマンドライン(&amp;O):</target>
         </trans-unit>
         <trans-unit id="PreviewToolCommandLineTextbox.Location" translate="no" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
           <source>6, 71</source>

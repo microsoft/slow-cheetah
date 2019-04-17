@@ -141,7 +141,7 @@
         </trans-unit>
         <trans-unit id="EnablePreviewCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Show diff on transformation preview</source>
-          <target state="translated">&amp;Показать несовпадения при предварительном просмотре преобразования</target>
+          <target state="translated">&amp;Показать различия в рамках предварительного просмотра преобразования</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.AutoSize" translate="no" extype="System.Boolean, mscorlib" xml:space="preserve">
           <source>True</source>
@@ -165,7 +165,7 @@
         </trans-unit>
         <trans-unit id="AddDependentUponCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Add DependentUpon metadata to transform files</source>
-          <target state="translated">&amp;Добавление метаданных DependentUpon для преобразования файлов</target>
+          <target state="translated">&amp;Добавить метаданные DependentUpon для преобразования файлов</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.Dock" translate="no" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
           <source>Top</source>
@@ -238,7 +238,7 @@
         </trans-unit>
         <trans-unit id="PreviewToolNameLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool P&amp;ath: </source>
-          <target state="translated">Путь &amp;к средству предварительного просмотра: </target>
+          <target state="translated">&amp;Путь к средству предварительного просмотра:</target>
         </trans-unit>
         <trans-unit id="PreviewToolPathTextbox.Anchor" translate="no" extype="System.Windows.Forms.AnchorStyles, System.Windows.Forms" xml:space="preserve">
           <source>Top, Left, Right</source>
@@ -306,7 +306,7 @@
         </trans-unit>
         <trans-unit id="PreviewCommandLineLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool C&amp;ommand Line: </source>
-          <target state="translated">Командная &amp;строка средства предварительного просмотра: </target>
+          <target state="translated">&amp;Командная строка средства предварительного просмотра:</target>
         </trans-unit>
         <trans-unit id="PreviewToolCommandLineTextbox.Location" translate="no" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
           <source>6, 71</source>

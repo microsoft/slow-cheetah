@@ -141,7 +141,7 @@
         </trans-unit>
         <trans-unit id="EnablePreviewCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Show diff on transformation preview</source>
-          <target state="translated">Vor&amp;schau zum Unterschied bei der Transformation anzeigen</target>
+          <target state="translated">Unter&amp;schiede in Transformationsvorschau anzeigen</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.AutoSize" translate="no" extype="System.Boolean, mscorlib" xml:space="preserve">
           <source>True</source>
@@ -165,7 +165,7 @@
         </trans-unit>
         <trans-unit id="AddDependentUponCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Add DependentUpon metadata to transform files</source>
-          <target state="translated">DependentUpon-Metadaten zum Tr&amp;ansformieren von Dateien hinzufügen</target>
+          <target state="translated">DependentUpon-Metad&amp;aten zum Transformieren von Dateien hinzufügen</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.Dock" translate="no" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
           <source>Top</source>
@@ -238,7 +238,7 @@
         </trans-unit>
         <trans-unit id="PreviewToolNameLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool P&amp;ath: </source>
-          <target state="translated">Vorschautoolpf&amp;ad: </target>
+          <target state="translated">Pf&amp;ad des Vorschautools: </target>
         </trans-unit>
         <trans-unit id="PreviewToolPathTextbox.Anchor" translate="no" extype="System.Windows.Forms.AnchorStyles, System.Windows.Forms" xml:space="preserve">
           <source>Top, Left, Right</source>
@@ -306,7 +306,7 @@
         </trans-unit>
         <trans-unit id="PreviewCommandLineLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool C&amp;ommand Line: </source>
-          <target state="translated">V&amp;orschau – Toolbefehlszeile: </target>
+          <target state="translated">Befehlszeile des V&amp;orschautools: </target>
         </trans-unit>
         <trans-unit id="PreviewToolCommandLineTextbox.Location" translate="no" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
           <source>6, 71</source>

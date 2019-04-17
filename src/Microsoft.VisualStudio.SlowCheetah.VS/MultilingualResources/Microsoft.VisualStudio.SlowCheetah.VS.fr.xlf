@@ -8,11 +8,11 @@
       <group id="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/VSPACKAGE.RESX" datatype="resx">
         <trans-unit id="110" translate="yes" xml:space="preserve">
           <source>SlowCheetah - XML config transforms</source>
-          <target state="translated" state-qualifier="mt-suggestion">SlowCheetah - Transformations de configuration XML</target>
+          <target state="translated">SlowCheetah - Transformations de configuration XML</target>
         </trans-unit>
         <trans-unit id="112" translate="yes" xml:space="preserve">
           <source>This package enables you to transform your app.config or any other XML file based on the build configuration. It also adds additional tooling to help you create XML transforms.</source>
-          <target state="translated" state-qualifier="mt-suggestion">Ce package vous permet de transformer votre fichier app.config ou tout autre fichier XML en fonction de la configuration de build. Il fournit également des outils supplémentaires pour vous aider à créer des transformations XML.</target>
+          <target state="translated">Ce package vous permet de transformer votre fichier app.config ou tout autre fichier XML en fonction de la configuration de build. Il fournit également des outils supplémentaires pour vous aider à créer des transformations XML.</target>
         </trans-unit>
       </group>
     </body>
@@ -25,7 +25,7 @@
       <group id="MICROSOFT.VISUALSTUDIO.SLOWCHEETAH.VS/RESOURCES/RESOURCES.RESX" datatype="resx">
         <trans-unit id="Error_CantFindPreviewTool" translate="yes" xml:space="preserve">
           <source>Cannot find the preview tool {0}. Verify the transform settings in Tools\Options.</source>
-          <target state="translated" state-qualifier="mt-suggestion">L'outil d'aperçu {0} est introuvable. Vérifiez les paramètres de transformations dans Outils\Options.</target>
+          <target state="translated">L'outil d'aperçu {0} est introuvable. Vérifiez les paramètres de transformations dans Outils\Options.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
         </trans-unit>
         <trans-unit id="Error_FileToTransformNotFound" translate="yes" xml:space="preserve">
@@ -35,84 +35,84 @@
         </trans-unit>
         <trans-unit id="Error_NoPreviewToolSpecified" translate="yes" xml:space="preserve">
           <source>No preview tool specified. You can set a preview tool in the transform settings in Tools\Options.</source>
-          <target state="translated" state-qualifier="mt-suggestion">Aucun outil d'aperçu spécifié. Vous pouvez définir un outil d'aperçu dans les paramètres de transformations via Outils\Options.</target>
+          <target state="translated">Aucun outil d'aperçu spécifié. Vous pouvez définir un outil d'aperçu dans les paramètres de transformations via Outils\Options.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
         </trans-unit>
         <trans-unit id="Error_SourceFileNotFound" translate="yes" xml:space="preserve">
           <source>The source file for the transform {0} was not found.</source>
-          <target state="translated" state-qualifier="mt-suggestion">Le fichier source de la transformation {0} est introuvable.</target>
+          <target state="translated">Le fichier source de la transformation {0} est introuvable.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
         </trans-unit>
         <trans-unit id="Error_TransformFileNotFound" translate="yes" xml:space="preserve">
           <source>The transform file {0} was not found.</source>
-          <target state="translated" state-qualifier="mt-suggestion">Fichier de transformations {0} introuvable.</target>
+          <target state="translated">Fichier de transformations {0} introuvable.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message</note>
         </trans-unit>
         <trans-unit id="NugetInstall_ErrorOutput" translate="yes" xml:space="preserve">
           <source>Error installing SlowCheetah NuGet package to {0}.</source>
-          <target state="translated" state-qualifier="mt-suggestion">Erreur durant l'installation du package NuGet SlowCheetah sur {0}.</target>
+          <target state="translated">Erreur durant l'installation du package NuGet SlowCheetah sur {0}.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text to be shown in the output window if there is an error with installing the SlowCheetah Nuget package</note>
         </trans-unit>
         <trans-unit id="NugetInstall_FinishedOutput" translate="yes" xml:space="preserve">
           <source>Finished installing SlowCheetah NuGet package to {0}.</source>
-          <target state="translated" state-qualifier="mt-suggestion">Fin de l'installation du package NuGet SlowCheetah sur {0}.</target>
+          <target state="translated">Fin de l'installation du package NuGet SlowCheetah sur {0}.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text to be shown in the output window when the SlowCheetah Nuget package is done installing</note>
         </trans-unit>
         <trans-unit id="NugetInstall_InstallingOutput" translate="yes" xml:space="preserve">
           <source>Installing SlowCheetah NuGet package to {0} ...</source>
-          <target state="translated" state-qualifier="mt-suggestion">Installation du package NuGet SlowCheetah sur {0}...</target>
+          <target state="translated">Installation du package NuGet SlowCheetah sur {0}...</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text to be shown in the output window as the SlowCheetah NuGet package is being installed</note>
         </trans-unit>
         <trans-unit id="NugetInstall_Text" translate="yes" xml:space="preserve">
           <source>In order to execute transform on build, you will need the SlowCheetah NuGet package. Do you want to install the package now?</source>
-          <target state="translated" state-qualifier="mt-suggestion">Pour pouvoir exécuter une transformation sur la build, vous avez besoin du package NuGet SlowCheetah. Voulez-vous installer le package maintenant ?</target>
+          <target state="translated">Pour pouvoir exécuter une transformation sur la build, vous avez besoin du package NuGet SlowCheetah. Voulez-vous installer le package maintenant ?</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text for the prompt to install the SlowCheetah NuGet package</note>
         </trans-unit>
         <trans-unit id="NugetInstall_Title" translate="yes" xml:space="preserve">
           <source>Install SlowCheetah NuGet package</source>
-          <target state="translated" state-qualifier="mt-suggestion">Installer le package NuGet SlowCheetah</target>
+          <target state="translated">Installer le package NuGet SlowCheetah</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Title for the prompt to install the SlowCheetah NuGet package</note>
         </trans-unit>
         <trans-unit id="NugetUpdate_Text" translate="yes" xml:space="preserve">
           <source>It seems that you have an older version of the SlowCheetah package installed. In order to avoid conflicts, you should update you package. Doing so may cause changes to your project file. Do you wish to update now?</source>
-          <target state="translated" state-qualifier="mt-suggestion">La version installée du package SlowCheetah semble ancienne. Pour éviter les conflits, mettez à jour votre package. Cela risque de provoquer des changements dans votre fichier projet. Voulez-vous effectuer la mise à jour maintenant ?</target>
+          <target state="translated">La version installée du package SlowCheetah semble ancienne. Pour éviter les conflits, mettez à jour votre package. Cela risque de provoquer des changements dans votre fichier projet. Voulez-vous effectuer la mise à jour maintenant ?</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text for the prompt to update the SlowCheetah NuGet package</note>
         </trans-unit>
         <trans-unit id="NugetUpdate_Title" translate="yes" xml:space="preserve">
           <source>Update SlowCheetah NuGet package</source>
-          <target state="translated" state-qualifier="mt-suggestion">Mettre à jour le package NuGet SlowCheetah</target>
+          <target state="translated">Mettre à jour le package NuGet SlowCheetah</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Title for the prompt to update the SlowCheetah NuGet package</note>
         </trans-unit>
         <trans-unit id="NugetUpdate_WaitText" translate="yes" xml:space="preserve">
           <source>Updating the SlowCheetah NuGet package, this may take a few seconds</source>
-          <target state="translated" state-qualifier="mt-suggestion">Mise à jour du package NuGet SlowCheetah. L'opération peut prendre quelques secondes</target>
+          <target state="translated">Mise à jour du package NuGet SlowCheetah. L'opération peut prendre quelques secondes</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Text for the wait dialog on update of the NuGet package</note>
         </trans-unit>
         <trans-unit id="NugetUpdate_WaitTitle" translate="yes" xml:space="preserve">
           <source>SlowCheetah Update</source>
-          <target state="translated" state-qualifier="mt-suggestion">Mise à jour de SlowCheetah</target>
+          <target state="translated">Mise à jour de SlowCheetah</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Title for the wait dialog on update of the NuGet package</note>
         </trans-unit>
         <trans-unit id="TransformPreview_Caption" translate="yes" xml:space="preserve">
           <source>{0} Preview</source>
-          <target state="translated" state-qualifier="tm-suggestion">Aperçu de {0}</target>
+          <target state="translated">Aperçu de {0}</target>
         </trans-unit>
         <trans-unit id="TransformPreview_ErrorMessage" translate="yes" xml:space="preserve">
           <source>There was an error transforming your file. See the error list for more details</source>
-          <target state="translated" state-qualifier="mt-suggestion">Une erreur s'est produite durant la transformation de votre fichier. Pour plus d'informations, consultez la liste d'erreurs</target>
+          <target state="translated">Une erreur s'est produite durant la transformation de votre fichier. Pour plus d'informations, consultez la liste d'erreurs</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Error message to be shown upon failing Preview Transform</note>
         </trans-unit>
         <trans-unit id="TransformPreview_LeftLabel" translate="yes" xml:space="preserve">
           <source>Original {0}</source>
-          <target state="translated" state-qualifier="mt-suggestion">{0} original</target>
+          <target state="translated">{0} original</target>
         </trans-unit>
         <trans-unit id="TransformPreview_RightLabel" translate="yes" xml:space="preserve">
           <source>Transformed {0}   (by  {1} )</source>
-          <target state="translated" state-qualifier="mt-suggestion">Transformation de {0} effectuée (par {1})</target>
+          <target state="translated">Transformation de {0} effectuée (par {1})</target>
         </trans-unit>
         <trans-unit id="TransformPreview_ToolTip" translate="yes" xml:space="preserve">
           <source>{0} Preview</source>
-          <target state="translated" state-qualifier="tm-suggestion">Aperçu de {0}</target>
+          <target state="translated">Aperçu de {0}</target>
         </trans-unit>
       </group>
     </body>
@@ -141,7 +141,7 @@
         </trans-unit>
         <trans-unit id="EnablePreviewCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Show diff on transformation preview</source>
-          <target state="translated" state-qualifier="mt-suggestion">Afficher les différences dans l'aperçu de tran&amp;sformation</target>
+          <target state="translated">A&amp;fficher les différences dans l'aperçu de transformation</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.AutoSize" translate="no" extype="System.Boolean, mscorlib" xml:space="preserve">
           <source>True</source>
@@ -165,7 +165,7 @@
         </trans-unit>
         <trans-unit id="AddDependentUponCheckbox.Text" translate="yes" xml:space="preserve">
           <source>&amp;Add DependentUpon metadata to transform files</source>
-          <target state="translated" state-qualifier="mt-suggestion">&amp;Ajouter les métadonnées DependentUpon aux fichiers de transformations</target>
+          <target state="translated">&amp;Ajouter les métadonnées DependentUpon aux fichiers de transformations</target>
         </trans-unit>
         <trans-unit id="GeneralGroupBox.Dock" translate="no" extype="System.Windows.Forms.DockStyle, System.Windows.Forms" xml:space="preserve">
           <source>Top</source>
@@ -185,7 +185,7 @@
         </trans-unit>
         <trans-unit id="GeneralGroupBox.Text" translate="yes" xml:space="preserve">
           <source>General Settings</source>
-          <target state="translated" state-qualifier="tm-suggestion">Paramètres généraux</target>
+          <target state="translated">Paramètres généraux</target>
         </trans-unit>
         <trans-unit id="$this.AutoScaleDimensions" translate="no" extype="System.Drawing.SizeF, System.Drawing" xml:space="preserve">
           <source>6, 13</source>
@@ -238,7 +238,7 @@
         </trans-unit>
         <trans-unit id="PreviewToolNameLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool P&amp;ath: </source>
-          <target state="translated">Chem&amp;in de l’outil d’aperçu : </target>
+          <target state="translated">C&amp;hemin de l'outil en préversion : </target>
         </trans-unit>
         <trans-unit id="PreviewToolPathTextbox.Anchor" translate="no" extype="System.Windows.Forms.AnchorStyles, System.Windows.Forms" xml:space="preserve">
           <source>Top, Left, Right</source>
@@ -306,7 +306,7 @@
         </trans-unit>
         <trans-unit id="PreviewCommandLineLabel.Text" translate="yes" xml:space="preserve">
           <source>Preview Tool C&amp;ommand Line: </source>
-          <target state="translated">Ligne de c&amp;ommande de l’outil d’aperçu : </target>
+          <target state="translated">Ligne de c&amp;ommande de l'outil en préversion : </target>
         </trans-unit>
         <trans-unit id="PreviewToolCommandLineTextbox.Location" translate="no" extype="System.Drawing.Point, System.Drawing" xml:space="preserve">
           <source>6, 71</source>
@@ -358,9 +358,9 @@
           <source>0</source>
           <target state="final">0</target>
         </trans-unit>
-        <trans-unit id="AdvancedGroupBox.Text" translate="no" xml:space="preserve">
+        <trans-unit id="AdvancedGroupBox.Text" translate="yes" xml:space="preserve">
           <source>Preview Transform Tool</source>
-          <target state="final">Outil d’aperçu de transformations</target>
+          <target state="translated">Outil d’aperçu de transformations</target>
         </trans-unit>
         <trans-unit id="$this.AutoScaleDimensions" translate="no" extype="System.Drawing.SizeF, System.Drawing" xml:space="preserve">
           <source>6, 13</source>
