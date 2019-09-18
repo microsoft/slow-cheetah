@@ -60,8 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Other.config">
-      <TransformOnBuild>true</TransformOnBuild>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>      
+      <TransformOnBuild>true</TransformOnBuild>      
     </Content>
     <Content Include="Other.Debug.config">
       <IsTransformItem>True</IsTransformItem>
