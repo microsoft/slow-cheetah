@@ -114,12 +114,12 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 throw new ArgumentNullException(nameof(sourcePath));
             }
 
-            if (string.IsNullOrWhiteSpace(sourcePath))
+            if (string.IsNullOrWhiteSpace(transformPath))
             {
                 throw new ArgumentNullException(nameof(transformPath));
             }
 
-            if (string.IsNullOrWhiteSpace(sourcePath))
+            if (string.IsNullOrWhiteSpace(destinationPath))
             {
                 throw new ArgumentNullException(nameof(destinationPath));
             }
