@@ -16,7 +16,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         ITransformer WithLogger(ITransformationLogger logger);
 
         /// <summary>
-        /// Main method that tranforms a source file accoring to a transformation file and puts it in a destination file
+        /// Main method that tranforms a source file according to a transformation file and puts it in a destination file
         /// </summary>
         /// <param name="sourcePath">Path to source file</param>
         /// <param name="transformPath">Path to tranformation file</param>
