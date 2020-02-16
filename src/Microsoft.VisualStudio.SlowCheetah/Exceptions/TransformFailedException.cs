@@ -11,7 +11,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Exceptions
     using System;
 
     /// <summary>
-    /// Exception thrown on transformation failiure.
+    /// Exception thrown on transformation failure.
     /// </summary>
     [Serializable]
     public class TransformFailedException : Exception
