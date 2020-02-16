@@ -26,7 +26,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
         [InlineData("App.config", "")]
         [InlineData(null, "App.Debug.config")]
         [InlineData("", "App.Debug.config")]
-        public void IsFileTransfromWithNullArguments(string docName, string trnName)
+        public void IsFileTransformWithNullArguments(string docName, string trnName)
         {
             Assert.False(PackageUtilities.IsFileTransformForBuildConfiguration(docName, trnName, this.baseTestProjectConfigs));
         }
@@ -41,7 +41,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
         [InlineData("App.config", "app.release.config")]
         [InlineData("APP.config", "App.Debug.config")]
         [InlineData("App.Test.config", "App.Test.Debug.config")]
-        public void IsFileTransfromWithValidArguments(string docName, string trnName)
+        public void IsFileTransformWithValidArguments(string docName, string trnName)
         {
             Assert.True(PackageUtilities.IsFileTransformForBuildConfiguration(docName, trnName, this.baseTestProjectConfigs));
         }
@@ -55,7 +55,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
         [InlineData("App.config", "App.Test.Debug.config")]
         [InlineData("App.Debug.config", "App.Debug.config")]
         [InlineData("App.Debug.config", "App.Release.config")]
-        public void IsFileTransfromWithInvalidArguments(string docName, string trnName)
+        public void IsFileTransformWithInvalidArguments(string docName, string trnName)
         {
             Assert.False(PackageUtilities.IsFileTransformForBuildConfiguration(docName, trnName, this.baseTestProjectConfigs));
         }
