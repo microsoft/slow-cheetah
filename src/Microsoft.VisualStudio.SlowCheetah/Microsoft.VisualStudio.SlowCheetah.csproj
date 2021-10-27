@@ -29,11 +29,6 @@
 		<None Include="$(OutputPath)Newtonsoft.Json.dll" Pack="true" PackagePath="tools" Visible="false" />
 	</ItemGroup>
 
-	<!--<ItemGroup>
-		<None Update="Build\*.targets" Pack="true" PackagePath="build/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-		<None Update="Build\readme.txt" Pack="true" PackagePath="%(Filename)%(Extension)" />
-	</ItemGroup>-->
-
 	<ItemGroup>
 		<PackageReference Include="MicroBuild.VisualStudio" Version="2.0.54" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.9.20" PrivateAssets="all" />
