@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>b11879fb-9085-4d33-b8d7-91355ebf980a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Microsoft.VisualStudio.SlowCheetah.VS.Core</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)NugetHandler\PackageHandlers\BackgroundInstallationHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NugetHandler\PackageHandlers\BasePackageHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NugetHandler\PackageHandlers\DialogInstallationHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NugetHandler\PackageHandlers\EmptyHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NugetHandler\PackageHandlers\IPackageHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NugetHandler\PackageHandlers\NugetInstaller.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NugetHandler\PackageHandlers\NuGetUninstaller.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NugetHandler\PackageHandlers\TargetsUninstaller.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NugetHandler\PackageHandlers\UserInstallationHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NugetHandler\SlowCheetahNuGetManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NugetHandler\VsProjectTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\AdvancedOptionsDialogPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\AdvancedOptionsUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Options\AdvancedOptionsUserControl.Designer.cs">
+      <SubType>UserControl</SubType>
+      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Options\BaseOptionsDialogPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OptionsDialogPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OptionsUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OptionsUserControl.Designer.cs">
+      <SubType>UserControl</SubType>
+      <DependentUpon>OptionsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Update="$(MSBuildThisFileDirectory)Resources\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Package\AddTransformCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Package\BaseCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Package\PackageSolutionEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Package\PreviewTransformCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Package\SlowCheetahPackageLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Guids.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\PkgCmdID.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)SlowCheetahPackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TransformationPreviewLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\PackageUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ProjectUtilities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Options\AdvancedOptionsUserControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Options\OptionsUserControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>OptionsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)VSPackage.resx">
+      <SubType>Designer</SubType>
+      <MergeWithCTO>true</MergeWithCTO>
+      <ManifestResourceName>VSPackage</ManifestResourceName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

@@ -1,70 +1,60 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>library</OutputType>
-    <TargetFramework>net461</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>library</OutputType>
+		<TargetFramework>net461</TargetFramework>
+	</PropertyGroup>
 
-  <PropertyGroup>
-     <Authors>Microsoft</Authors>
-     <Owners>Microsoft, VisualStudioExtensibility</Owners>
-     <Description>Allows for configuration based XML and JSON transformations at build time.</Description>
-     <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
-     <PackageTags>SlowCheetah slow cheetah XML JSON Transform XDT JDT web.config app.config</PackageTags>
-     <PackageIconUrl>https://aka.ms/VsExtensibilityIcon</PackageIconUrl>
-     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-     <PackageLicenseUrl>https://raw.githubusercontent.com/Microsoft/slow-cheetah/master/LICENSE</PackageLicenseUrl>
-     <PackageProjectUrl>https://github.com/Microsoft/slow-cheetah</PackageProjectUrl>
-     <RepositoryUrl>https://github.com/Microsoft/slow-cheetah</RepositoryUrl>
-     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-     <IsTool>true</IsTool>
-     <DevelopmentDependency>true</DevelopmentDependency>
-     <MinClientVersion>2.8</MinClientVersion>
-  </PropertyGroup>
-  
-  <!-- Additional files for the nupkg -->
-  <ItemGroup>
-    <None Include="$(OutputPath)Microsoft.Web.XmlTransform.dll" Pack="true" PackagePath="tools" Visible="false" />
-    <None Include="$(OutputPath)Microsoft.VisualStudio.Jdt.dll" Pack="true" PackagePath="tools" Visible="false" />
-    <None Include="$(OutputPath)Newtonsoft.Json.dll" Pack="true" PackagePath="tools" Visible="false" />
-  </ItemGroup>
+	<PropertyGroup>
+		<Authors>Microsoft</Authors>
+		<Owners>Microsoft, VisualStudioExtensibility</Owners>
+		<Description>Allows for configuration based XML and JSON transformations at build time.</Description>
+		<Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+		<PackageTags>SlowCheetah slow cheetah XML JSON Transform XDT JDT web.config app.config</PackageTags>
+		<PackageIconUrl>https://aka.ms/VsExtensibilityIcon</PackageIconUrl>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageLicenseUrl>https://raw.githubusercontent.com/Microsoft/slow-cheetah/master/LICENSE</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/Microsoft/slow-cheetah</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Microsoft/slow-cheetah</RepositoryUrl>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<IsTool>true</IsTool>
+		<DevelopmentDependency>true</DevelopmentDependency>
+		<MinClientVersion>2.8</MinClientVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Update="Build\*.targets" Pack="true" PackagePath="build/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="Build\readme.txt" Pack="true" PackagePath="%(Filename)%(Extension)" />
-  </ItemGroup>
+	<!-- Additional files for the nupkg -->
+	<ItemGroup>
+		<None Include="$(OutputPath)Microsoft.Web.XmlTransform.dll" Pack="true" PackagePath="tools" Visible="false" />
+		<None Include="$(OutputPath)Microsoft.VisualStudio.Jdt.dll" Pack="true" PackagePath="tools" Visible="false" />
+		<None Include="$(OutputPath)Newtonsoft.Json.dll" Pack="true" PackagePath="tools" Visible="false" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.54" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="14.3.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.23" />
-    <PackageReference Include="Microsoft.Web.Xdt" Version="2.1.1" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
-  </ItemGroup>
+	<!--<ItemGroup>
+		<None Update="Build\*.targets" Pack="true" PackagePath="build/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+		<None Update="Build\readme.txt" Pack="true" PackagePath="%(Filename)%(Extension)" />
+	</ItemGroup>-->
 
-  <ItemGroup>
-    <Compile Update="Resources\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MicroBuild.VisualStudio" Version="2.0.54" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.9.20" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.23" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Web.Xdt" Version="2.1.1" PrivateAssets="all" />
+		<PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" PrivateAssets="all" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="all" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Resources.*.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemDefinitionGroup>
+		<PackageReference>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemDefinitionGroup>
 
-  <ItemDefinitionGroup>
-    <PackageReference>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-  </ItemDefinitionGroup>
+	<Import Project="..\Microsoft.VisualStudio.SlowCheetah.Core\Microsoft.VisualStudio.SlowCheetah.Core.projitems" Label="Shared" />
+
+	<ItemGroup>
+		<Compile Update="..\src\Microsoft.VisualStudio.SlowCheetah.Core\Resources\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+		</Compile>
+	</ItemGroup>
 
 </Project>

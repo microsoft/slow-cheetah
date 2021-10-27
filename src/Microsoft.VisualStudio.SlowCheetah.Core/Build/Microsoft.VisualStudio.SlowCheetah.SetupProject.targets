@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+***********************************************************************************************
+SlowCheetah.SetupProject.targets
+Logic for Setup Project transformations
+Copyright (C) Microsoft Corporation. All rights reserved.
+Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ScEnableSetupProjects Condition=" '$(ScEnableSetupProjects)'=='' ">true</ScEnableSetupProjects>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(ScEnableSetupProjects)'=='true'">
+    <AddAppConfigToBuildOutputs>false</AddAppConfigToBuildOutputs>
+
+    <BuiltProjectOutputGroupDependsOn>
+      $(BuiltProjectOutputGroupDependsOn);
+      ScAfterBuiltProjectOutputGroup;
+    </BuiltProjectOutputGroupDependsOn>
+
+    <!-- Execute after trasnformations -->
+    <ScAfterBuiltProjectOutputGroupDependsOn>
+      ScApplyTransforms;
+    </ScAfterBuiltProjectOutputGroupDependsOn>
+
+    <!-- If the project is an app, also depends on the app config transformation -->
+    <ScAfterBuiltProjectOutputGroupDependsOn Condition=" '$(ScIsApp)'=='true'">
+      $(AfterBuiltProjectOutputGroupDependsOn);
+      ScTransformAppConfig;
+    </ScAfterBuiltProjectOutputGroupDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ScAfterBuiltProjectOutputGroup" DependsOnTargets="$(ScAfterBuiltProjectOutputGroupDependsOn)">
+
+    <ItemGroup>
+      <_TmpAppConfig Include="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" />
+    </ItemGroup>
+
+    <!-- 
+      We need to get the full path to the files included in the Identiy metadata.
+      This is required for Worker Roles. The target CopyWorkerRoleFiles attempts to copy but
+      does not use the FullPath so it will not locate the files otherwise.
+    -->
+    <ItemGroup>
+      <ScFilesToTransform>
+        <FullPathToItem Condition=" '%(Link)'=='' ">$([System.IO.Path]::GetFullPath( $(IntermediateOutputPath)%(RelativeDir)%(Filename)%(Extension) ))</FullPathToItem>
+        <FullPathToItem Condition=" '%(Link)'!='' ">$([System.IO.Path]::GetFullPath( $(IntermediateOutputPath)%(Link) ))</FullPathToItem>
+      </ScFilesToTransform>
+    </ItemGroup>
+
+    <ItemGroup>
+      <BuiltProjectOutputGroupOutput Include="@(_TmpAppConfig->'%(FullPath)')">
+        <!-- For compatibility with 2.0 -->
+        <OriginalItemSpec>$(AppConfig)</OriginalItemSpec>
+      </BuiltProjectOutputGroupOutput>
+
+      <!-- Add the correct files to the project output group -->
+      <BuiltProjectOutputGroupOutput Include="@(ScFilesToTransform->'%(FullPathToItem)')"
+                                     Condition=" '%(ScFilesToTransform.Link)'==''">
+        <OriginalItemSpec>@(ScFilesToTransform->'$(IntermediateOutputPath)%(RelativeDir)%(Filename)%(Extension)')</OriginalItemSpec>
+        <TargetPath>@(ScFilesToTransform->'%(RelativeDir)%(Filename)%(Extension)')</TargetPath>
+      </BuiltProjectOutputGroupOutput>
+
+      <BuiltProjectOutputGroupOutput Include="@(ScFilesToTransform->'%(FullPathToItem)')"
+                                     Condition=" '%(ScFilesToTransform.Link)'!=''">
+        <OriginalItemSpec>@(ScFilesToTransform->'$(IntermediateOutputPath)%(Link)')</OriginalItemSpec>
+        <TargetPath>@(ScFilesToTransform->'%(Link)')</TargetPath>
+      </BuiltProjectOutputGroupOutput>
+    </ItemGroup>
+
+  </Target>
+
+</Project>

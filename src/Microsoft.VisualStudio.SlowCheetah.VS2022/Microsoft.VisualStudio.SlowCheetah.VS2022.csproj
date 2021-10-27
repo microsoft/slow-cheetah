@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFramework>net472</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
+        <CreateVsixContainer>false</CreateVsixContainer>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="..\Microsoft.VisualStudio.SlowCheetah.SharedFiles\AddTransform_16x.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <IncludeInVSIX>true</IncludeInVSIX>
+            <Link>AddTransform_16x.png</Link>
+        </Content>
+        <Content Include="..\Microsoft.VisualStudio.SlowCheetah.SharedFiles\PreviewTransform_16x.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <IncludeInVSIX>true</IncludeInVSIX>
+            <Link>PreviewTransform_16x.png</Link>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Microsoft.VisualStudio.SlowCheetah.VS.pkgdef">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <VSCTCompile Include="..\Microsoft.VisualStudio.SlowCheetah.SharedFiles\SlowCheetah.vsct">
+            <ResourceName>Menus.ctmenu</ResourceName>
+            <SubType>Designer</SubType>
+            <Link>SlowCheetah.vsct</Link>
+        </VSCTCompile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.54" />
+        <PackageReference Include="Microsoft.Internal.VisualStudio.Interop" Version="17.0.31822.380" />
+        <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.31825.309" />
+        <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.5232" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Web.Xdt" Version="3.1.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.23" />
+        <PackageReference Include="NuGet.VisualStudio" Version="5.11.0" />
+        <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.244" PrivateAssets="all" />
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Microsoft.VisualStudio.SlowCheetah2022\Microsoft.VisualStudio.SlowCheetah2022.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="Microsoft.Build" />
+        <Reference Include="System.Design" />
+        <Reference Include="System.Windows.Forms" />
+    </ItemGroup>
+
+    <Target Name="LinkNugetEmbeddableAssemblies" DependsOnTargets="ResolveReferences" AfterTargets="ResolveReferences">
+        <ItemGroup>
+            <ReferencePath Condition="'%(FileName)' == 'Nuget.VisualStudio'">
+                <EmbedInteropTypes>true</EmbedInteropTypes>
+            </ReferencePath>
+        </ItemGroup>
+    </Target>
+
+    <Import Project="..\Microsoft.VisualStudio.SlowCheetah.VS.Core\Microsoft.VisualStudio.SlowCheetah.VS.Core.projitems" Label="Shared" />
+
+    <ItemGroup>
+        <Compile Update="..\Microsoft.VisualStudio.SlowCheetah.VS.Core\Resources\Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+        </Compile>
+    </ItemGroup>
+
+</Project>

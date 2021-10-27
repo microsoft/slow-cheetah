@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>60e498e7-2d57-4bc6-b9a7-fc95c6b8935d</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Microsoft.VisualStudio.SlowCheetah.Core</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Build\TransformTask.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\TransformFailedException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\ITransformationLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\JsonShimLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\TransformationTaskLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\XmlShimLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Resources.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Transformer\ITransformer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Transformer\JsonTransformer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Transformer\TransformerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Transformer\TransformUtilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Transformer\XmlTransformer.cs" />
+    <Compile Update="$(MSBuildThisFileDirectory)Resources\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="$(MSBuildThisFileDirectory)Resources\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="$(MSBuildThisFileDirectory)Resources\Resources.*.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Resources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Build\Microsoft.VisualStudio.SlowCheetah.App.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Build\Microsoft.VisualStudio.SlowCheetah.ClickOnce.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Build\Microsoft.VisualStudio.SlowCheetah.SetupProject.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Build\Microsoft.VisualStudio.SlowCheetah.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Build\Microsoft.VisualStudio.SlowCheetah.Web.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Build\readme.txt" />
+  </ItemGroup>
+  <ItemDefinitionGroup>
+    <PackageReference>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemDefinitionGroup>
+</Project>

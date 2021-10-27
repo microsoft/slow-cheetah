@@ -7,6 +7,25 @@
     <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
     <CreateVsixContainer>false</CreateVsixContainer>
   </PropertyGroup>
+  
+  <ItemGroup>
+	  <Content Include="..\Microsoft.VisualStudio.SlowCheetah.SharedFiles\AddTransform_16x.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		  <IncludeInVSIX>true</IncludeInVSIX>
+		  <Link>AddTransform_16x.png</Link>
+	  </Content>
+	  <Content Include="..\Microsoft.VisualStudio.SlowCheetah.SharedFiles\PreviewTransform_16x.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		  <IncludeInVSIX>true</IncludeInVSIX>
+		  <Link>PreviewTransform_16x.png</Link>
+	  </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Microsoft.VisualStudio.SlowCheetah.VS.pkgdef">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EnvDTE" Version="8.0.1" />
@@ -35,67 +54,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <VSCTCompile Include="SlowCheetah.vsct">
+    <VSCTCompile Include="..\Microsoft.VisualStudio.SlowCheetah.SharedFiles\SlowCheetah.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
-      <SubType>Designer</SubType>
+      <Link>SlowCheetah.vsct</Link>
     </VSCTCompile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Options\AdvancedOptionsDialogPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Options\AdvancedOptionsUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Options\AdvancedOptionsUserControl.Designer.cs">
-      <SubType>UserControl</SubType>
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Options\BaseOptionsDialogPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Options\OptionsDialogPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Options\OptionsUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Options\OptionsUserControl.Designer.cs">
-      <SubType>UserControl</SubType>
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Options\AdvancedOptionsUserControl.resx">
-      <DependentUpon>AdvancedOptionsUserControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Options\OptionsUserControl.resx">
-      <DependentUpon>OptionsUserControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="VSPackage.resx">
-      <MergeWithCTO>true</MergeWithCTO>
-      <ManifestResourceName>VSPackage</ManifestResourceName>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Microsoft.VisualStudio.SlowCheetah.VS.pkgdef">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <Target Name="LinkNugetEmbeddableAssemblies" DependsOnTargets="ResolveReferences" AfterTargets="ResolveReferences">
@@ -105,5 +67,13 @@
       </ReferencePath>
     </ItemGroup>
   </Target>
+
+  <Import Project="..\Microsoft.VisualStudio.SlowCheetah.VS.Core\Microsoft.VisualStudio.SlowCheetah.VS.Core.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <Compile Update="..\Microsoft.VisualStudio.SlowCheetah.VS.Core\Resources\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+    </Compile>
+  </ItemGroup>
 
 </Project>

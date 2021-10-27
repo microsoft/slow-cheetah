@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+***********************************************************************************************
+SlowCheetah.Web.targets
+Logic for Web Project transformations
+Copyright (C) Microsoft Corporation. All rights reserved.
+Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <!-- Determines if the project is web -->
+    <WapProjectTypeGuid>349c5851-65df-11da-9384-00065b846f21</WapProjectTypeGuid>
+    <ScIsWap Condition="'$(ScIsWap)' == '' and '$(WapProjectTypeGuid)' != '' and '$(ProjectTypeGuids)' != ''">$(ProjectTypeGuids.ToLower().Contains($(WapProjectTypeGuid)))</ScIsWap>
+    <ScIsWap Condition="'$(ScIsWap)' == ''">false"</ScIsWap>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(ScIsWap)' == 'true'">
+    <!-- For web projects, web.config is considere the app config file -->
+    <ScAppConfigName>web.config</ScAppConfigName>
+
+    <OnAfterPipelinePreDeployCopyAllFilesToOneFolder>
+      $(OnAfterPipelinePreDeployCopyAllFilesToOneFolder);
+      ScApplyWebTransforms;
+    </OnAfterPipelinePreDeployCopyAllFilesToOneFolder>
+
+    <CopyAllFilesToSingleFolderForMsdeploy>
+      $(CopyAllFilesToSingleFolderForMsdeploy);
+      ScApplyWebTransforms;
+    </CopyAllFilesToSingleFolderForMsdeploy>
+
+    <!-- For VS2012 -->
+    <PipelineCopyAllFilesToOneFolderForMsdeployDependsOn>
+      $(PipelineCopyAllFilesToOneFolderForMsdeployDependsOn);
+      ScApplyWebTransforms;
+    </PipelineCopyAllFilesToOneFolderForMsdeployDependsOn>
+
+    <!-- Required for File System -->
+    <PipelinePreDeployCopyAllFilesToOneFolderDependsOn>
+      $(PipelinePreDeployCopyAllFilesToOneFolderDependsOn);
+      ScApplyWebTransforms;
+    </PipelinePreDeployCopyAllFilesToOneFolderDependsOn>
+
+    <!-- required for FS support from the VS publish dialog -->
+    <OnAfterCopyAllFilesToSingleFolderForPackage>
+      $(OnAfterCopyAllFilesToSingleFolderForPackage);
+      ScApplyWebTransforms;
+    </OnAfterCopyAllFilesToSingleFolderForPackage>
+  </PropertyGroup>
+
+  <Target Name="ScCollectWebFiles" DependsOnTargets="ScCollectTransformFiles" BeforeTargets="ScApplyWebTransforms">
+
+    <Message Text="SlowCheetah: Collecting Web files: $(ScIsWap)" Importance="low"/>
+
+    <!-- Get the name of the publish profile -->
+    <ItemGroup>
+      <ScWapPubProfileFullPath Include="$(WebPublishProfileFile)"/>
+    </ItemGroup>
+
+    <PropertyGroup>
+      <ScPubProfile Condition="'$(ScPubProfile)' == '' and '@(ScWapPubProfileFullPath)' != ''">%(ScWapPubProfileFullPath.Filename)</ScPubProfile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <!-- Do not transform the web.config file -->
+      <ScFilesToTransform Remove="@(ScFilesToTransform)" Condition="'%(Filename)%(Extension)' == 'web.config'"/>
+
+      <!-- The output for the transformation should be the temporary package directory -->
+      <ScFilesToTransform>
+        <PublishDestinationFile>$(_PackageTempDir)\%(RelativeDir)%(Filename)%(Extension)</PublishDestinationFile>
+        <PublishDestinationFile Condition="'%(Link)' != ''">$(_PackageTempDir)\%(Link)</PublishDestinationFile>
+        <PublishTransformFile>%(RelativeDir)%(Filename).$(ScPubProfile)%(Extension)</PublishTransformFile>
+      </ScFilesToTransform>
+    </ItemGroup>
+
+  </Target>
+
+  <Target Name="ScApplyWebTransforms" DependsOnTargets="ScApplyTransforms">
+
+    <Message Text="SlowCheetah: Applying Web transforms for publishing: $(ScPubProfile)" Importance="low"/>
+
+    <!-- Get the directories that must be created -->
+    <ItemGroup>
+      <_ScPublishDirsToCreate Include="@(ScFilesToTransform -> '%(PublishDestinationFile)')" Condition="Exists('%(TransformFile)') or Exists('%(PublishTransformFile)')"/>
+    </ItemGroup>
+
+    <MakeDir Directories="@(_ScPublishDirsToCreate->'%(RelativeDir)')" Condition=" !Exists('%(RelativeDir)') " />
+
+    <SlowCheetah.TransformTask Source="@(ScFilesToTransform->'%(SourceFile)')"
+                              Transform="%(TransformFile)"
+                              Destination="%(PublishDestinationFile)"
+                              Condition="Exists('%(TransformFile)')"/>
+
+    <SlowCheetah.TransformTask Source="@(ScFilesToTransform->'%(PublishDestinationFile)')"
+                              Transform="%(PublishTransformFile)"
+                              Destination="%(PublishDestinationFile)"
+                              Condition=" Exists('%(PublishTransformFile)') and '$(ScPubProfile)'!='' and '$(ScPubProfile)' != '$(Configuration)'"/>
+
+  </Target>
+
+</Project>

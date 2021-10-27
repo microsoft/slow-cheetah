@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+***********************************************************************************************
+SlowCheetah.targets
+WARNING:  DO NOT MODIFY this file, this file is added to your project automatically
+          through the SlowCheetah NuGet package. If you modify this file it may
+          get out of sync when you update the package at a later date.
+This file contains the main logic for defining transformations on build.
+Copyright (C) Microsoft Corporation. All rights reserved.
+Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SlowCheetahTaskPath>$(MSBuildThisFileDirectory)\..\tools\</SlowCheetahTaskPath>
+  </PropertyGroup>
+
+  <!--Main transformation task-->
+  <UsingTask TaskName="TransformTask" AssemblyFile="$(SlowCheetahTaskPath)Microsoft.VisualStudio.SlowCheetah.dll"/>
+
+  <ItemDefinitionGroup>
+    <!-- Default TransformOnBuild values for file types -->
+    <None>
+      <TransformOnBuild>false</TransformOnBuild>
+      <Link></Link>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </None>
+    <Content>
+      <TransformOnBuild>false</TransformOnBuild>
+      <Link></Link>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Content>
+    <Resource>
+      <TransformOnBuild>false</TransformOnBuild>
+      <Link></Link>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <EmbeddedResource>
+      <TransformOnBuild>false</TransformOnBuild>
+      <Link></Link>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </EmbeddedResource>
+    <_NoneWithTargetPath>
+      <TransformOnBuild>false</TransformOnBuild>
+    </_NoneWithTargetPath>
+    <ContentWithTargetPath>
+      <TransformOnBuild>false</TransformOnBuild>
+    </ContentWithTargetPath>
+    <ScFilesToTransform>
+      <_BuildAction></_BuildAction>
+      <TargetPath></TargetPath>
+    </ScFilesToTransform>
+  </ItemDefinitionGroup>
+
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      ScApplyTransforms;
+    </BuildDependsOn>
+
+    <!-- References .dll.config files in referenced projects -->
+    <ScAllowCopyReferencedConfig Condition=" '$(ScAllowCopyReferencedConfig)'=='' ">true</ScAllowCopyReferencedConfig>
+    <AllowedReferenceRelatedFileExtensions Condition=" '$(ScAllowCopyReferencedConfig)'=='true' ">
+      $(AllowedReferenceRelatedFileExtensions);
+      .dll.config;
+    </AllowedReferenceRelatedFileExtensions>
+  </PropertyGroup>
+
+  <Target Name="ScCollectTransformFiles" BeforeTargets="ScApplyTransforms" AfterTargets="AssignTargetPaths">
+
+    <Message Text="SlowCheetah: Collecting Transform files" Importance="low"/>
+
+    <ItemGroup>
+      <ScFilesToTransform Include="@(_NoneWithTargetPath)" Condition="'%(TransformOnBuild)' == 'true'">
+        <_BuildAction>None</_BuildAction>
+      </ScFilesToTransform>
+
+      <ScFilesToTransform Include="@(ContentWithTargetPath)" Condition="'%(TransformOnBuild)' == 'true'">
+        <_BuildAction>Content</_BuildAction>
+      </ScFilesToTransform>
+
+      <ScFilesToTransform Include="@(Resource)" Condition="'%(TransformOnBuild)' == 'true'">
+        <_BuildAction>Resource</_BuildAction>
+      </ScFilesToTransform>
+
+      <ScFilesToTransform Include="@(EmbeddedResource)" Condition="'%(TransformOnBuild)' == 'true'">
+        <_BuildAction>EmbeddedResource</_BuildAction>
+      </ScFilesToTransform>
+
+      <ScFilesToTransform>
+        <SourceFile>%(FullPath)</SourceFile>
+        <TransformFile>%(RelativeDir)%(Filename).$(Configuration)%(Extension)</TransformFile>
+        <DestinationFile>$(IntermediateOutputPath)%(RelativeDir)%(Filename)%(Extension)</DestinationFile>
+        <DestinationFile Condition="'%(Link)' != ''">$(IntermediateOutputPath)%(Link)</DestinationFile>
+        <TargetPath Condition="'%(Link)' != '' and '%(TargetPath)' == ''">%(Link)</TargetPath>
+        <TargetPath Condition="'%(TargetPath)' == ''">%(RelativeDir)%(Filename)%(Extension)</TargetPath>
+        <CopyToOutputDirectory Condition=" '$(CopyToOutputDirectory)' == '' ">PreserveNewest</CopyToOutputDirectory>
+      </ScFilesToTransform>
+    </ItemGroup>
+
+  </Target>
+
+  <Target Name="ScApplyTransforms" BeforeTargets="GetCopyToOutputDirectoryItems">
+
+    <Message Text="SlowCheetah: Applying Transforms" Importance="low"/>
+
+    <!-- Get the directories that must be created -->
+    <ItemGroup>
+      <_ScDirsToCreate Include="@(ScFilesToTransform -> '%(DestinationFile)')" Condition="Exists('%(TransformFile)')"/>
+    </ItemGroup>
+
+    <MakeDir Directories="@(_ScDirsToCreate->'%(RelativeDir)')" Condition=" !Exists('%(RelativeDir)') " />
+
+    <SlowCheetah.TransformTask Source="@(ScFilesToTransform->'%(SourceFile)')"
+                              Transform="%(TransformFile)"
+                              Destination="%(DestinationFile)"
+                              Condition="Exists('%(TransformFile)')"/>
+
+    <ItemGroup>
+      <!--Gather each category of files to transform again since more may have been added between targets-->
+      <_ScNoneFilesToTransform Include="@(ScFilesToTransform)" Condition="('%(_BuildAction)' == '' or '%(_BuildAction)' == 'None') and Exists('%(DestinationFile)')" />
+      <_NoneWithTargetPath Remove="@(_ScNoneFilesToTransform)" />
+      <_NoneWithTargetPath Include="@(_ScNoneFilesToTransform->'%(DestinationFile)')" />
+
+      <_ScContentFilesToTransform Include="@(ScFilesToTransform)" Condition="'%(_BuildAction)' == 'Content' and Exists('%(DestinationFile)')" />
+      <ContentWithTargetPath Remove="@(_ScContentFilesToTransform)" />
+      <ContentWithTargetPath Include="@(_ScContentFilesToTransform->'%(DestinationFile)')" />
+
+      <_ScResourceFilesToTransform Include="@(ScFilesToTransform)" Condition="'%(_BuildAction)' == 'Resource' and Exists('%(DestinationFile)')" />
+      <Resource Remove="@(_ScResourceFilesToTransform)" />
+      <Resource Include="@(_ScResourceFilesToTransform->'%(DestinationFile)')" />
+
+      <_ScEmbeddedResourceFilesToTransform Include="@(ScFilesToTransform)" Condition="'%(_BuildAction)' == 'EmbeddedResource' and Exists('%(DestinationFile)')" />
+      <EmbeddedResource Remove="@(_ScEmbeddedResourceFilesToTransform)"  />
+      <EmbeddedResource Include="@(_ScEmbeddedResourceFilesToTransform->'%(DestinationFile)')" />
+
+      <_ScNoneFilesToTransform Remove="@(_ScNoneFilesToTransform)" />
+      <_ScContentFilesToTransform Remove="@(_ScContentFilesToTransform)" />
+      <_ScResourceFilesToTransform Remove="@(_ScResourceFilesToTransform)" />
+      <_ScEmbeddedResourceFilesToTransform Remove="@(_ScEmbeddedResourceFilesToTransform)" />
+    </ItemGroup>
+
+  </Target>
+
+  <!-- Import native SlowCheetah behaviour -->
+  <Import Project="$(MSBuildThisFileDirectory)Microsoft.VisualStudio.SlowCheetah.*.targets" />
+
+</Project>
