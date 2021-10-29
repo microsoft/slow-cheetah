@@ -1,4 +1,5 @@
 <Project>
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets')" />
   <!-- The VSSDK immplements these targets. Since their name ends with OutputGroup,
        these targets get run during design time builds per convention. If the Project
        is not a VSIX project and sets $CreateVSIXContainer=false these targets should be 
