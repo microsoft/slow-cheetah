@@ -18,6 +18,7 @@
     <IsTool>true</IsTool>
     <DevelopmentDependency>true</DevelopmentDependency>
     <MinClientVersion>2.8</MinClientVersion>
+    <RootNamespace>Microsoft.VisualStudio.SlowCheetah</RootNamespace>
   </PropertyGroup>
   <!-- Additional files for the nupkg -->
   <ItemGroup>

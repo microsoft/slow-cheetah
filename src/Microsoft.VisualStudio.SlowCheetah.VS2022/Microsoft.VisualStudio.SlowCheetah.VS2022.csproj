@@ -5,6 +5,8 @@
     <IsPackable>false</IsPackable>
     <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
     <CreateVsixContainer>false</CreateVsixContainer>
+    <RootNamespace>Microsoft.VisualStudio.SlowCheetah.VS</RootNamespace>
+    <AssemblyName></AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="..\Microsoft.VisualStudio.SlowCheetah.SharedFiles\AddTransform_16x.png">
