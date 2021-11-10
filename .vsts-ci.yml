@@ -8,7 +8,7 @@ variables:
   NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
 
 queue:
-  name: VSEng-MicroBuildVS2019
+  name: VSEngSS-MicroBuild2019
   timeoutInMinutes: 60
 
 steps:
@@ -24,6 +24,9 @@ steps:
       }
 
       Write-Host "##vso[task.setvariable variable=feedGuid]$feedGuid"
+
+      $SkipPublishingNetworkArtifacts = 'true' ## Network artifacts not allowed on Scale Set Pool
+      Write-Host "##vso[task.setvariable variable=SkipPublishingNetworkArtifacts]$SkipPublishingNetworkArtifacts"
 
       if ($env:ComputerName.StartsWith('factoryvm', [StringComparison]::OrdinalIgnoreCase)) {
         Write-Host "Running on hosted queue"
@@ -122,6 +125,9 @@ steps:
     SymbolsFolder: $(Build.ArtifactStagingDirectory)/symbols
     SearchPattern: '**\*.pdb'
     SymbolServerType: TeamServices
+    ArtifactServices.Symbol.AccountName: microsoft
+    ArtifactServices.Symbol.PAT: $(System.AccessToken)
+    ArtifactServices.Symbol.UseAAD: false
   displayName: Archive symbols to VSTS
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['SignType'], 'real'))
 
