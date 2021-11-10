@@ -139,15 +139,6 @@ steps:
   displayName: 'Publish Artifact: symbols'
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
-- task: ms-vscs-artifact.build-tasks.artifactSymbolTask-1.artifactSymbolTask@0
-  inputs:
-    symbolServiceURI: 'https://microsoft.artifacts.visualstudio.com/DefaultCollection'
-    requestName: 'CollectionId/$(System.CollectionId)/ProjectId/$(System.TeamProjectId)/BuildId/$(Build.BuildId)'
-    sourcePath: '$(Build.ArtifactStagingDirectory)/symbols'
-    usePat: false
-  displayName: Publish Symbols to symweb
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['SignType'], 'real'))
-
 - task: CopyFiles@1
   displayName: Collecting packages
   inputs:
