@@ -4,6 +4,9 @@ trigger:
   paths:
     exclude: [".github", "doc", "*.md"]
 
+variables:
+  NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
+
 queue:
   name: VSEng-MicroBuildVS2017
   timeoutInMinutes: 60
