@@ -20,6 +20,7 @@
     <OutputType>Library</OutputType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
+    <CreateVsixContainer>true</CreateVsixContainer>
     <IncludeAssemblyInVSIXContainer>false</IncludeAssemblyInVSIXContainer>
     <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
     <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
@@ -74,12 +75,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.54" />
-    <PackageReference Include="Microsoft.VisualStudio.SlowCheetah">
-      <Version>3.2.26</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="15.1.192" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" />
   </ItemGroup>
