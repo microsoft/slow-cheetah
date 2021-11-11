@@ -8,7 +8,9 @@ trigger:
       - doc
       - '*.md'
 pr:
-- master
+  branches:
+    include:
+      - master
 
 variables:
   NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
