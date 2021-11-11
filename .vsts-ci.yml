@@ -7,6 +7,8 @@ trigger:
       - .github
       - doc
       - '*.md'
+pr:
+- master
 
 variables:
   NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
