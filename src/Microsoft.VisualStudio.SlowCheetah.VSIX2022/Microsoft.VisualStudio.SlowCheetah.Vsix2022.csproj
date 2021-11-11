@@ -14,10 +14,11 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.VisualStudio.SlowCheetah</RootNamespace>
-    <AssemblyName>Microsoft.VisualStudio.SlowCheetah2022</AssemblyName>
+    <AssemblyName>Microsoft.VisualStudio.SlowCheetah2022.Vsix</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
     <UseCodebase>true</UseCodebase>
+    <CreateVsixContainer>true</CreateVsixContainer>
     <IncludeAssemblyInVSIXContainer>false</IncludeAssemblyInVSIXContainer>
     <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
     <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
@@ -81,12 +82,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.54" />
+    <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.5232">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.244" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.VisualStudio.SlowCheetah.VS2022\Microsoft.VisualStudio.SlowCheetah.VS2022.csproj">

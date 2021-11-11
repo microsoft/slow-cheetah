@@ -31,11 +31,11 @@
         <None Update="Build\readme.txt" Pack="true" PackagePath="%(Filename)%(Extension)" />
     </ItemGroup>-->
   <ItemGroup>
-    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.54" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.11.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.23" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Web.Xdt" Version="3.1.0" PrivateAssets="all" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.244" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
   </ItemGroup>
   <Import Project="..\Microsoft.VisualStudio.SlowCheetah.Core\Microsoft.VisualStudio.SlowCheetah.Core.projitems" Label="Shared" />
