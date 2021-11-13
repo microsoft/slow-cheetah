@@ -30,6 +30,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="Build\*.targets" Pack="true" PackagePath="build/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+		<None Update="Build\readme.txt" Pack="true" PackagePath="%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
 		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.9.20" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.23" PrivateAssets="all" />
