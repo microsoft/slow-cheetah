@@ -38,23 +38,30 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
+    <!--Workaround: Specifying TargetPath to ensure these files get included in the Build subfolder in the vsix when building from VS -->
     <None Include="$(MSBuildThisFileDirectory)Build\Microsoft.VisualStudio.SlowCheetah.App.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Build\Microsoft.VisualStudio.SlowCheetah.App.targets</TargetPath>
     </None>
     <None Include="$(MSBuildThisFileDirectory)Build\Microsoft.VisualStudio.SlowCheetah.ClickOnce.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Build\Microsoft.VisualStudio.SlowCheetah.ClickOnce.targets</TargetPath>
     </None>
     <None Include="$(MSBuildThisFileDirectory)Build\Microsoft.VisualStudio.SlowCheetah.SetupProject.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Build\Microsoft.VisualStudio.SlowCheetah.SetupProject.targets</TargetPath>
     </None>
     <None Include="$(MSBuildThisFileDirectory)Build\Microsoft.VisualStudio.SlowCheetah.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Build\Microsoft.VisualStudio.SlowCheetah.targets</TargetPath>
     </None>
     <None Include="$(MSBuildThisFileDirectory)Build\Microsoft.VisualStudio.SlowCheetah.Web.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Build\Microsoft.VisualStudio.SlowCheetah.Web.targets</TargetPath>
     </None>
     <None Include="$(MSBuildThisFileDirectory)Build\readme.txt" />
   </ItemGroup>
+
   <ItemDefinitionGroup>
     <PackageReference>
       <PrivateAssets>all</PrivateAssets>
