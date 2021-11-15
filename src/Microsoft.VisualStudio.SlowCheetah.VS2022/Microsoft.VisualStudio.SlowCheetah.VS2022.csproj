@@ -6,8 +6,8 @@
     <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
     <CreateVsixContainer>false</CreateVsixContainer>
     <RootNamespace>Microsoft.VisualStudio.SlowCheetah.VS</RootNamespace>
-    <AssemblyName></AssemblyName>
   </PropertyGroup>
+
   <ItemGroup>
     <Content Include="..\Microsoft.VisualStudio.SlowCheetah.SharedFiles\AddTransform_16x.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -20,11 +20,13 @@
       <Link>PreviewTransform_16x.png</Link>
     </Content>
   </ItemGroup>
+
   <ItemGroup>
     <None Update="Microsoft.VisualStudio.SlowCheetah.VS.pkgdef">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
     <PackageReference Include="Microsoft.Internal.VisualStudio.Interop" Version="17.0.31822.380" />
@@ -40,17 +42,20 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.VisualStudio.SlowCheetah2022\Microsoft.VisualStudio.SlowCheetah2022.csproj" />
   </ItemGroup>
+
   <ItemGroup>
     <Reference Include="Microsoft.Build" />
     <Reference Include="System.Design" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
+
   <ItemGroup>
     <VSCTCompile Include="..\Microsoft.VisualStudio.SlowCheetah.SharedFiles\SlowCheetah.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <Link>SlowCheetah.vsct</Link>
     </VSCTCompile>
   </ItemGroup>
+
   <Target Name="LinkNugetEmbeddableAssemblies" DependsOnTargets="ResolveReferences" AfterTargets="ResolveReferences">
     <ItemGroup>
       <ReferencePath Condition="'%(FileName)' == 'Nuget.VisualStudio'">
@@ -58,10 +63,13 @@
       </ReferencePath>
     </ItemGroup>
   </Target>
+
   <Import Project="..\Microsoft.VisualStudio.SlowCheetah.VS.Core\Microsoft.VisualStudio.SlowCheetah.VS.Core.projitems" Label="Shared" />
+
   <ItemGroup>
     <Compile Update="..\Microsoft.VisualStudio.SlowCheetah.VS.Core\Resources\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
     </Compile>
   </ItemGroup>
+
 </Project>

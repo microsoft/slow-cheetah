@@ -20,16 +20,19 @@
     <MinClientVersion>2.8</MinClientVersion>
     <RootNamespace>Microsoft.VisualStudio.SlowCheetah</RootNamespace>
   </PropertyGroup>
+
   <!-- Additional files for the nupkg -->
   <ItemGroup>
     <None Include="$(OutputPath)Microsoft.Web.XmlTransform.dll" Pack="true" PackagePath="tools" Visible="false" />
     <None Include="$(OutputPath)Microsoft.VisualStudio.Jdt.dll" Pack="true" PackagePath="tools" Visible="false" />
     <None Include="$(OutputPath)Newtonsoft.Json.dll" Pack="true" PackagePath="tools" Visible="false" />
   </ItemGroup>
-  <!--<ItemGroup>
-        <None Update="Build\*.targets" Pack="true" PackagePath="build/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-        <None Update="Build\readme.txt" Pack="true" PackagePath="%(Filename)%(Extension)" />
-    </ItemGroup>-->
+
+  <ItemGroup>
+    <None Update="Build\*.targets" Pack="true" PackagePath="build/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Build\readme.txt" Pack="true" PackagePath="%(Filename)%(Extension)" />  
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.11.0" PrivateAssets="all" />
@@ -38,11 +41,18 @@
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
   </ItemGroup>
+
+  <ItemDefinitionGroup>
+    <PackageReference>
+        <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemDefinitionGroup>
   <Import Project="..\Microsoft.VisualStudio.SlowCheetah.Core\Microsoft.VisualStudio.SlowCheetah.Core.projitems" Label="Shared" />
-  <!-- is needed? -->
+
   <ItemGroup>
     <Compile Update="..\src\Microsoft.VisualStudio.SlowCheetah.Core\Resources\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
     </Compile>
   </ItemGroup>
+
 </Project>
