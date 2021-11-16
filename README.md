@@ -16,7 +16,7 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com)
 with any additional questions or comments.
 
 ## Supported Platforms
-* Visual Studio 2015-2019
+* Visual Studio 2015-2022
 
 ## Supported File Types
 
