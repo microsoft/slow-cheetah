@@ -73,8 +73,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <None Include="source.extension.vsixmanifest">
+    <None Include="..\Microsoft.VisualStudio.SlowCheetah.VS\source.extension.vsixmanifest">
       <SubType>Designer</SubType>
+      <Link>source.extension.vsixmanifest</Link>
     </None>
   </ItemGroup>
   <ItemGroup>
