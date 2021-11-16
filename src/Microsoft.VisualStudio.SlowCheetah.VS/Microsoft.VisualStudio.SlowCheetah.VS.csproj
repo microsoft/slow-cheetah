@@ -38,9 +38,6 @@
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>
     </VSCTCompile>
-    <!--<None Include="source.extension.vsixmanifest">
-      <SubType>Designer</SubType>
-    </None>-->
   </ItemGroup>
 
   <ItemGroup>
