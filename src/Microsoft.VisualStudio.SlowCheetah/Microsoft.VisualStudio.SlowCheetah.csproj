@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>library</OutputType>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup>
      <Authors>Microsoft</Authors>
      <Owners>Microsoft, VisualStudioExtensibility</Owners>
