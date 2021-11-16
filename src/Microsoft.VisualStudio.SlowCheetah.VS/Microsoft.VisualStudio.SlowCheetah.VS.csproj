@@ -12,7 +12,6 @@
     <PackageReference Include="EnvDTE" Version="17.0.31902.203" />
 
     <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
-    <PackageReference Include="Microsoft.Internal.VisualStudio.Interop" Version="17.0.31822.380" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.5232" />
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.31902.203" />
     <PackageReference Include="Microsoft.Web.Xdt" Version="3.1.0" />
