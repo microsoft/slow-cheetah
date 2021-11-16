@@ -20,7 +20,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.VisualStudio.SlowCheetah</RootNamespace>
-    <AssemblyName>Microsoft.VisualStudio.SlowCheetah2022.Vsix</AssemblyName>
+    <AssemblyName>Microsoft.VisualStudio.SlowCheetah.Vsix</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
     <CreateVsixContainer>true</CreateVsixContainer>
@@ -32,7 +32,7 @@
     <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
     <IsPackable>false</IsPackable>
     <OutputPath>$(OutputPath)net472\</OutputPath>
-    <TargetName>Microsoft.VisualStudio.SlowCheetah2022</TargetName>
+    <TargetName>Microsoft.VisualStudio.SlowCheetah</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
