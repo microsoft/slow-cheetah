@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="9eb9f150-fcc9-4db8-9e97-6aef2011017c" Version="|%CurrentProject%;GetBuildVersion|" Language="en-US" Publisher="Microsoft Corporation" />
+        <Identity Id="Microsoft.VisualStudio.SlowCheetah.Dev17" Version="|%CurrentProject%;GetBuildVersion|" Language="en-US" Publisher="Microsoft" />
         <DisplayName>SlowCheetah</DisplayName>
         <Description xml:space="preserve">Transform xml and json files at build time based on configuration. Contains tooling to assist in the creation and previewing of transform files.</Description>
         <MoreInfo>https://github.com/Microsoft/slow-cheetah</MoreInfo>
@@ -11,15 +11,14 @@
         <Tags>Transformations Transforms XML XDT JSON JDT</Tags>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0,17.0)" />
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
     </Installation>
-    <Dependencies>
-        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-    </Dependencies>
     <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
     </Prerequisites>
     <Assets>
-        <Asset Type="Microsoft.VisualStudio.VsPackage" Path="Microsoft.VisualStudio.SlowCheetah.VS.pkgdef" />
+      <Asset Type="Microsoft.VisualStudio.VsPackage" Path="Microsoft.VisualStudio.SlowCheetah.VS.pkgdef" />
     </Assets>
 </PackageManifest>

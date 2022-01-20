@@ -16,7 +16,8 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com)
 with any additional questions or comments.
 
 ## Supported Platforms
-* Visual Studio 2015-2019
+* Visual Studio 2022: [SlowCheetah VS 2022 Extension](https://marketplace.visualstudio.com/items?itemName=vscps.SlowCheetah-XMLTransforms-VS2022) (version 4.x)
+* Visual Studio 2015-2019: [SlowCheetah VS 2015-2019 Extension](https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.SlowCheetah-XMLTransforms) (version 3.x)
 
 ## Supported File Types
 

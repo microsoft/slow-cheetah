@@ -1,11 +1,18 @@
 trigger:
   branches:
-    include: ["master"]
+    include:
+      - master
   paths:
-    exclude: [".github", "doc", "*.md"]
+    exclude: 
+      - .github
+      - doc
+      - '*.md'
+
+variables:
+  NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
 
 queue:
-  name: VSEng-MicroBuildVS2017
+  name: VSEngSS-MicroBuild2019-1ES
   timeoutInMinutes: 60
 
 steps:
@@ -21,6 +28,9 @@ steps:
       }
 
       Write-Host "##vso[task.setvariable variable=feedGuid]$feedGuid"
+
+      $SkipPublishingNetworkArtifacts = 'true' ## Network artifacts not allowed on Scale Set Pool
+      Write-Host "##vso[task.setvariable variable=SkipPublishingNetworkArtifacts]$SkipPublishingNetworkArtifacts"
 
       if ($env:ComputerName.StartsWith('factoryvm', [StringComparison]::OrdinalIgnoreCase)) {
         Write-Host "Running on hosted queue"
@@ -107,7 +117,7 @@ steps:
 - task: CopyFiles@1
   displayName: Collecting symbols artifacts
   inputs:
-    SourceFolder: bin/$(BuildConfiguration)/net461
+    SourceFolder: bin/$(BuildConfiguration)/net472
     Contents: |
       **/Microsoft.VisualStudio.SlowCheetah?(*.dll|*.pdb|*.xml)
       !**/*Test*
@@ -119,6 +129,9 @@ steps:
     SymbolsFolder: $(Build.ArtifactStagingDirectory)/symbols
     SearchPattern: '**\*.pdb'
     SymbolServerType: TeamServices
+    ArtifactServices.Symbol.AccountName: microsoft
+    ArtifactServices.Symbol.PAT: $(System.AccessToken)
+    ArtifactServices.Symbol.UseAAD: false
   displayName: Archive symbols to VSTS
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['SignType'], 'real'))
 
@@ -129,15 +142,6 @@ steps:
     publishLocation: Container
   displayName: 'Publish Artifact: symbols'
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-
-- task: ms-vscs-artifact.build-tasks.artifactSymbolTask-1.artifactSymbolTask@0
-  inputs:
-    symbolServiceURI: 'https://microsoft.artifacts.visualstudio.com/DefaultCollection'
-    requestName: 'CollectionId/$(System.CollectionId)/ProjectId/$(System.TeamProjectId)/BuildId/$(Build.BuildId)'
-    sourcePath: '$(Build.ArtifactStagingDirectory)/symbols'
-    usePat: false
-  displayName: Publish Symbols to symweb
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['SignType'], 'real'))
 
 - task: CopyFiles@1
   displayName: Collecting packages

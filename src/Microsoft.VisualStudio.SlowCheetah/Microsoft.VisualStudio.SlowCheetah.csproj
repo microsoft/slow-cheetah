@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>library</OutputType>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup>
      <Authors>Microsoft</Authors>
      <Owners>Microsoft, VisualStudioExtensibility</Owners>
@@ -35,10 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MicroBuild.VisualStudio" Version="2.0.54" />
+    <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="14.3.0" />
     <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.23" />
-    <PackageReference Include="Microsoft.Web.Xdt" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Web.Xdt" Version="3.1.0" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
   </ItemGroup>
