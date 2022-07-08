@@ -54,6 +54,7 @@ steps:
     esrpSigning: true
     zipSources: false
   displayName: Install MicroBuild Signing plugin
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
 - task: VSBuild@1
   inputs:
