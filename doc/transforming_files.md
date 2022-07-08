@@ -11,7 +11,7 @@ Once the SlowCheetah extension has been installed, transformations are added by 
 
 ![Add Transform](AddTransforms.png)
 
-Selecting this option will add transform files according to your project's [build configurations](https://msdn.microsoft.com/en-us/library/kkz9kefa.aspx). If the project has any publish profiles, transform files are also created for them.
+Selecting this option will add transform files according to your project's [build configurations](https://docs.microsoft.com/en-us/visualstudio/ide/understanding-build-configurations). If the project has any publish profiles, transform files are also created for them.
 
 ![Transform files](TransformFiles.png)
 
