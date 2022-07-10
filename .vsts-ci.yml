@@ -54,6 +54,7 @@ steps:
     esrpSigning: true
     zipSources: false
   displayName: Install MicroBuild Signing plugin
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
 - task: VSBuild@1
   inputs:
@@ -79,6 +80,7 @@ steps:
     WhiteListPathForCerts: $(Build.SourcesDirectory)\src\build\no_authenticode.txt
     WhiteListPathForSigs: $(Build.SourcesDirectory)\src\build\no_strongname.txt
   displayName: Verify code signing
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
 - task: VSTest@2
   inputs:
