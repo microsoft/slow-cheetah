@@ -44,6 +44,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if a single item is selected</returns>
         public static bool IsSingleProjectItemSelection(out IVsHierarchy hierarchy, out uint itemid)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             hierarchy = null;
             itemid = VSConstants.VSITEMID_NIL;
             int hr = VSConstants.S_OK;
@@ -210,6 +211,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         private static IEnumerable<string> GetSupportedExtensions(IVsSettingsManager settingsManager, string rootKey)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             ErrorHandler.ThrowOnFailure(settingsManager.GetReadOnlySettingsStore((uint)__VsSettingsScope.SettingsScope_Configuration, out IVsSettingsStore settings));
             ErrorHandler.ThrowOnFailure(settings.GetSubCollectionCount(rootKey, out uint count));
 

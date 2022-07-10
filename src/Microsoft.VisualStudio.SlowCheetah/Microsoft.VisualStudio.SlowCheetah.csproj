@@ -38,7 +38,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.23" />
     <PackageReference Include="Microsoft.Web.Xdt" Version="3.1.0" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
   </ItemGroup>
 
   <ItemGroup>

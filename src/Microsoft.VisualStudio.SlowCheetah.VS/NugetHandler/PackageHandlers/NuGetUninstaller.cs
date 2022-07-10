@@ -4,6 +4,7 @@
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using EnvDTE;
+    using Microsoft;
     using Microsoft.VisualStudio.ComponentModelHost;
     using Microsoft.VisualStudio.Shell;
     using NuGet.VisualStudio;
@@ -27,6 +28,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public override async TPL.Task Execute(Project project)
         {
             var componentModel = (IComponentModel)await this.Package.GetServiceAsync(typeof(SComponentModel));
+            Assumes.Present(componentModel);
             IVsPackageUninstaller packageUninstaller = componentModel.GetService<IVsPackageUninstaller>();
             packageUninstaller.UninstallPackage(project, SlowCheetahNuGetManager.OldPackageName, true);
 

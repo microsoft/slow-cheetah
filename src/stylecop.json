@@ -10,7 +10,13 @@
         "licenseName": "MIT License",
         "licenseFile": "LICENSE"
       },
-      "xmlHeader": false
+      "xmlHeader": false,
+      "excludeFromPunctuationCheck": [
+        "summary",
+        "param",
+        "returns",
+        "typeparam"
+      ]
     }
   }
 

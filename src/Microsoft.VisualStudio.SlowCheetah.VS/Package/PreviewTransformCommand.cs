@@ -84,6 +84,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <inheritdoc/>
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             // Get the menu that fired the event
             if (sender is OleMenuCommand menuCommand)
             {
@@ -117,6 +119,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <inheritdoc/>
         protected override void OnInvoke(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             uint itemId = VSConstants.VSITEMID_NIL;
 
             // Verify only one item is selected
@@ -139,7 +142,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             // Checks the SlowCheetah NuGet package installation
-            this.ScPackage.JoinableTaskFactory.Run(() => this.NuGetManager.CheckSlowCheetahInstallation(hierarchy));
+            this.ScPackage.JoinableTaskFactory.Run(() => this.NuGetManager.CheckSlowCheetahInstallationAsync(hierarchy));
 
             // Get the parent of the file to start searching for the source file
             ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out object parentIdObj));
@@ -177,6 +180,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <param name="transformFile">Full path to the transformation file</param>
         private void PreviewTransform(IVsHierarchy hier, string sourceFile, string transformFile)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (string.IsNullOrWhiteSpace(sourceFile))
             {
                 throw new ArgumentNullException(nameof(sourceFile));
@@ -261,7 +265,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                         ProcessStartInfo psi = new ProcessStartInfo(advancedOptionsPage.PreviewToolExecutablePath, string.Format(CultureInfo.CurrentCulture, advancedOptionsPage.PreviewToolCommandLine, $"\"{sourceFile}\"", $"\"{destFile}\""))
                         {
                             CreateNoWindow = true,
-                            UseShellExecute = false
+                            UseShellExecute = false,
                         };
                         System.Diagnostics.Process.Start(psi);
                     }
@@ -281,6 +285,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if the correct file was found</returns>
         private bool TryGetFileToTransform(IVsHierarchy hierarchy, uint parentId, string transformName, out uint docId, out string documentPath)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             IVsProject project = (IVsProject)hierarchy;
 
             // Get the project configurations to use in comparing the name

@@ -6,11 +6,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System;
     using System.Collections.Generic;
     using EnvDTE;
+    using Microsoft;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.ComponentModelHost;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using NuGet.VisualStudio;
+    using NuGet.VisualStudio.Contracts;
     using TPL = System.Threading.Tasks;
 
     /// <summary>
@@ -71,9 +73,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if the project supports NuGet</returns>
         /// <remarks>This implementation is derived of the internal NuGet method IsSupported
         /// https://github.com/NuGet/NuGet.Client/blob/dev/src/NuGet.Clients/NuGet.PackageManagement.VisualStudio/Utility/EnvDTEProjectUtility.cs#L441
-        /// This should be removed when NuGet adds this to their public API</remarks>
+        /// This should be removed when NuGet adds this to their public API.</remarks>
         public bool ProjectSupportsNuget(IVsHierarchy hierarchy)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (hierarchy == null)
             {
                 throw new ArgumentNullException(nameof(hierarchy));
@@ -113,8 +116,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// </summary>
         /// <param name="hierarchy">Hierarchy of the project to be verified</param>
         /// <returns>A <see cref="TPL.Task"/> representing the asynchronous operation.</returns>
-        public async TPL.Task CheckSlowCheetahInstallation(IVsHierarchy hierarchy)
+        public async TPL.Task CheckSlowCheetahInstallationAsync(IVsHierarchy hierarchy)
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             if (hierarchy == null)
             {
                 throw new ArgumentNullException(nameof(hierarchy));
@@ -160,7 +164,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 plan = new BackgroundInstallationHandler(plan)
                 {
                     // If the old package is installed, this is an update operation
-                    IsUpdate = isOldScPackageInstalled
+                    IsUpdate = isOldScPackageInstalled,
                 };
             }
 
@@ -170,12 +174,14 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         private static IVsPackageInstallerServices GetInstallerServices(IServiceProvider package)
         {
             var componentModel = (IComponentModel)package.GetService(typeof(SComponentModel));
+            Assumes.Present(componentModel);
             IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();
             return installerServices;
         }
 
         private static bool IsOldSlowCheetahInstalled(IVsBuildPropertyStorage buildPropertyStorage)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             buildPropertyStorage.GetPropertyValue("SlowCheetahImport", null, (uint)_PersistStorageType.PST_PROJECT_FILE, out string propertyValue);
             if (!string.IsNullOrEmpty(propertyValue))
             {
@@ -193,6 +199,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         private static bool SupportsINugetProjectSystem(IVsHierarchy hierarchy)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var vsProject = hierarchy as IVsProject;
             if (vsProject == null)
             {

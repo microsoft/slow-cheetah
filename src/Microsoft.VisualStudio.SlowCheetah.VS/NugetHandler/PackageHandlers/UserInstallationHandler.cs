@@ -28,7 +28,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <param name="title">The title of the message box</param>
         /// <param name="message">The message to be shown</param>
         /// <returns>True if the user has accepted the warning message</returns>
-        protected async Task<bool> HasUserAcceptedWarningMessage(string title, string message)
+        protected async Task<bool> HasUserAcceptedWarningMessageAsync(string title, string message)
         {
             var shell = (IVsUIShell)await this.Package.GetServiceAsync(typeof(SVsUIShell));
 

@@ -31,6 +31,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <param name="args">The message arguments</param>
         public void LogMessage(string message, params object[] args)
         {
+            Shell.ThreadHelper.ThrowIfNotOnUIThread();
             if (string.IsNullOrWhiteSpace(message))
             {
                 return;
