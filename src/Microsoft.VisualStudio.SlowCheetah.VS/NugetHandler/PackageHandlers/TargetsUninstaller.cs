@@ -24,10 +24,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <inheritdoc/>
-        public override async TPL.Task Execute(Project project)
+        public override async TPL.Task ExecuteAsync(Project project)
         {
             // We handle any NuGet package logic before editing the project file
-            await this.Successor.Execute(project);
+            await this.Successor.ExecuteAsync(project);
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
             project.Save();

@@ -26,7 +26,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public AsyncPackage Package { get; }
 
         /// <inheritdoc/>
-        public TPL.Task Execute(Project project)
+        public TPL.Task ExecuteAsync(Project project)
         {
             // Do nothing
             return TPL.Task.CompletedTask;

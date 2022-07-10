@@ -168,7 +168,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 };
             }
 
-            await plan.Execute(currentProject);
+            await plan.ExecuteAsync(currentProject);
         }
 
         private static IVsPackageInstallerServices GetInstallerServices(IServiceProvider package)

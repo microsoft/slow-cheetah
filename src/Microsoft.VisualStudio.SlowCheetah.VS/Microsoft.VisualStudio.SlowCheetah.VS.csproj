@@ -10,8 +10,11 @@
 
   <ItemGroup>
     <PackageReference Include="EnvDTE" Version="17.2.32505.113" />
+    <PackageReference Include="Microsoft.ServiceHub.Framework" Version="3.1.4097" />
 
     <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
+
+    <PackageReference Include="Microsoft.VisualStudio.TemplateWizardInterface" Version="17.2.32505.113" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.2.2186">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

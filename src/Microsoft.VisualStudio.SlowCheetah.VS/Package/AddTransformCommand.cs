@@ -52,6 +52,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+
             // get the menu that fired the event
             if (sender is OleMenuCommand menuCommand)
             {

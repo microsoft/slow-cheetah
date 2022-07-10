@@ -6,6 +6,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System;
     using System.Threading.Tasks;
     using Microsoft.VisualStudio;
+    using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
@@ -30,6 +31,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if the user has accepted the warning message</returns>
         protected async Task<bool> HasUserAcceptedWarningMessageAsync(string title, string message)
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             var shell = (IVsUIShell)await this.Package.GetServiceAsync(typeof(SVsUIShell));
 
             if (shell != null)

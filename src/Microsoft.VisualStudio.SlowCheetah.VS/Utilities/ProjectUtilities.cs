@@ -33,6 +33,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>The Visual Studio DTE object</returns>
         public static DTE GetDTE()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             return (DTE)Package.GetGlobalService(typeof(DTE));
         }
 
@@ -119,6 +120,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>List of configuration names for that project</returns>
         public static IEnumerable<string> GetProjectConfigurations(Project project)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             List<string> configurations = new List<string>();
 
             if (project != null && project.ConfigurationManager != null && project.ConfigurationManager.ConfigurationRowNames != null)
@@ -185,6 +187,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if a subtype GUID matches the Web App Guid in Resources</returns>
         public static bool IsProjectWebApp(IVsProject project)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (project is IVsAggregatableProject aggregatableProject)
             {
                 aggregatableProject.GetAggregateProjectTypeGuids(out string projectTypeGuidStrings);

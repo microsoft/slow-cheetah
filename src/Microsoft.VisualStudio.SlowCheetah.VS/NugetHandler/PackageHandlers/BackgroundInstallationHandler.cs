@@ -35,7 +35,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public bool IsUpdate { get; set; } = false;
 
         /// <inheritdoc/>
-        public override async TPL.Task Execute(Project project)
+        public override async TPL.Task ExecuteAsync(Project project)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             string projName = project.UniqueName;
@@ -62,7 +62,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                         string outputMessage = Resources.Resources.NugetInstall_FinishedOutput;
                         try
                         {
-                            await this.Successor.Execute(project);
+                            await this.Successor.ExecuteAsync(project);
                         }
                         catch
                         {
