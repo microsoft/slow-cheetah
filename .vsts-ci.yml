@@ -98,6 +98,11 @@ steps:
   displayName: MicroBuild Cleanup
   condition: succeededOrFailed()
 
+- task: ManifestGeneratorTask@0
+  inputs:
+    BuildDropPath: '$(System.ArtifactsDirectory)/buildOutput'
+  displayName: Software Bill of Materials - Generate SPDX File
+
   
 - task: PublishBuildArtifacts@1
   inputs:
