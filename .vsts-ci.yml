@@ -100,7 +100,7 @@ steps:
 
 - task: ManifestGeneratorTask@0
   inputs:
-    BuildDropPath: '$(System.ArtifactsDirectory)/buildOutput'
+    BuildDropPath: '$(System.ArtifactsDirectory)'
   displayName: Software Bill of Materials - Generate SPDX File
 
   
