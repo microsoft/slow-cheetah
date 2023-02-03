@@ -100,9 +100,7 @@ steps:
 
 - task: ManifestGeneratorTask@0
   inputs:
-    BuildDropPath: '$(System.ArtifactsDirectory)'
-  displayName: Software Bill of Materials - Generate SPDX File
-
+    BuildDropPath: $(Build.ArtifactStagingDirectory)\sbom
   
 - task: PublishBuildArtifacts@1
   inputs:
@@ -111,6 +109,7 @@ steps:
     ArtifactType: Container
   displayName: 'Publish Artifact: ESRP signing logs'
   condition: eq(variables['SignType'], 'real')
+
 
 - task: PublishBuildArtifacts@1
   inputs:
