@@ -100,7 +100,7 @@ steps:
 
 - task: ManifestGeneratorTask@0
   inputs:
-    BuildDropPath: $(Build.ArtifactStagingDirectory)\sbom
+    BuildDropPath: $(Build.ArtifactStagingDirectory)
   
 - task: PublishBuildArtifacts@1
   inputs:
