@@ -98,6 +98,12 @@ steps:
   displayName: MicroBuild Cleanup
   condition: succeededOrFailed()
 
+- task: PoliCheck@2
+  displayName: 'Run PoliCheck'
+  inputs:
+    targetType: F
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
 - task: ManifestGeneratorTask@0
   inputs:
     BuildDropPath: $(Build.ArtifactStagingDirectory)/build_logs
