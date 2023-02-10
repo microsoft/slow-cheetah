@@ -56,7 +56,6 @@ steps:
   displayName: Install MicroBuild Signing plugin
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
-steps:
 - task: AntiMalware@4
   displayName: 'Run MpCmdRun.exe'
   inputs:
