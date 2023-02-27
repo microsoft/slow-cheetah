@@ -125,6 +125,14 @@ steps:
   displayName: 'Publish Artifact: build logs'
   condition: succeededOrFailed()
 
+- task: PublishSecurityAnalysisLogs@3
+  displayName: 'Publish Guardian Artifacts'
+  inputs:
+    ArtifactName: CodeAnalysisLogs
+    ArtifactType: Container
+    PublishProcessedResults: false
+    AllTools: true
+
 ## Following steps are skipped in PR builds
 
 - task: CopyFiles@1
