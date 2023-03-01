@@ -10,6 +10,7 @@ trigger:
 
 variables:
   NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
+  Codeql.Enabled: true
 
 queue:
   name: VSEngSS-MicroBuild2019-1ES
@@ -105,6 +106,12 @@ steps:
   displayName: MicroBuild Cleanup
   condition: succeededOrFailed()
 
+- task: PoliCheck@2
+  displayName: 'Run PoliCheck'
+  inputs:
+    targetType: F
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
 - task: ManifestGeneratorTask@0
   inputs:
     BuildDropPath: $(Build.ArtifactStagingDirectory)/build_logs
@@ -125,6 +132,14 @@ steps:
     ArtifactType: Container
   displayName: 'Publish Artifact: build logs'
   condition: succeededOrFailed()
+
+- task: PublishSecurityAnalysisLogs@3
+  displayName: 'Publish Guardian Artifacts'
+  inputs:
+    ArtifactName: CodeAnalysisLogs
+    ArtifactType: Container
+    PublishProcessedResults: false
+    AllTools: true
 
 ## Following steps are skipped in PR builds
 
