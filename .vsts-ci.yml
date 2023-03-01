@@ -17,6 +17,13 @@ queue:
   timeoutInMinutes: 60
 
 steps:
+
+- task: ComponentGovernanceComponentDetection@0
+  inputs:
+    scanType: 'Register'
+    verbosity: 'Verbose'
+    alertWarningLevel: 'High'
+
 - task: PowerShell@2
   displayName: Set VSTS variables
   inputs:
