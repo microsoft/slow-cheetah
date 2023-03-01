@@ -10,6 +10,7 @@ trigger:
 
 variables:
   NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
+  Codeql.Enabled: true
 
 queue:
   name: VSEngSS-MicroBuild2019-1ES
