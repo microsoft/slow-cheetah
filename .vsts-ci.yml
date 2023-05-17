@@ -147,7 +147,7 @@ steps:
     InputType: 'Basic'
     Function: 'analyze'
     TargetPattern: 'guardianGlob'
-    AnalyzeTargetGlob: '$(Build.ArtifactStagingDirectory)/**.dll;$(Build.ArtifactStagingDirectory)/**.exe;'
+    AnalyzeTargetGlob: '$(Build.ArtifactStagingDirectory)/symbols/**.dll;$(Build.ArtifactStagingDirectory)/symbols/**.exe;'
 
 - task: PublishSecurityAnalysisLogs@3
   displayName: 'Publish Guardian Artifacts'
