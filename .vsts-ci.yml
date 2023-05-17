@@ -54,7 +54,7 @@ steps:
 - task: NuGetToolInstaller@0
   displayName: Pin nuget.exe version
   inputs:
-    versionSpec: 4.6.1
+    versionSpec: 6.4.0
 
 - task: MicroBuildSigningPlugin@1
   inputs:
