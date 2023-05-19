@@ -188,8 +188,6 @@ steps:
   displayName: 'Publish Artifact: symbols'
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
-
-
 - task: CopyFiles@1
   displayName: Collecting packages
   inputs:
