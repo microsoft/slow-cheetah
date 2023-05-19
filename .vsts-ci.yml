@@ -141,14 +141,6 @@ steps:
   displayName: 'Publish Artifact: build logs'
   condition: succeededOrFailed()
 
-- task: BinSkim@4
-  displayName: Run BinSkim
-  inputs:
-    InputType: 'Basic'
-    Function: 'analyze'
-    TargetPattern: 'guardianGlob'
-    AnalyzeTargetGlob: '$(Build.ArtifactStagingDirectory)/symbols/**.dll;$(Build.ArtifactStagingDirectory)/symbols/**.exe;'
-
 - task: PublishSecurityAnalysisLogs@3
   displayName: 'Publish Guardian Artifacts'
   inputs:
@@ -187,6 +179,14 @@ steps:
     publishLocation: Container
   displayName: 'Publish Artifact: symbols'
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
+- task: BinSkim@4
+  displayName: Run BinSkim
+  inputs:
+    InputType: 'Basic'
+    Function: 'analyze'
+    TargetPattern: 'guardianGlob'
+    AnalyzeTargetGlob: '$(Build.ArtifactStagingDirectory)/symbols/**.dll;$(Build.ArtifactStagingDirectory)/symbols/**.exe;'
 
 - task: CopyFiles@1
   displayName: Collecting packages
