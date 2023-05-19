@@ -147,7 +147,7 @@ steps:
     InputType: 'Basic'
     Function: 'analyze'
     TargetPattern: 'guardianGlob'
-    AnalyzeTargetGlob: 'bin/$(BuildConfiguration)/net472/**.dll;bin/$(BuildConfiguration)/net472/**.exe;'
+    AnalyzeTargetGlob: 'bin/$(BuildConfiguration)/net472/Microsoft.VisualStudio.SlowCheetah*.dll;'
 
 - task: PublishSecurityAnalysisLogs@3
   displayName: 'Publish Guardian Artifacts'
