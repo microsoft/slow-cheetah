@@ -54,7 +54,7 @@ steps:
 - task: NuGetToolInstaller@0
   displayName: Pin nuget.exe version
   inputs:
-    versionSpec: 4.6.1
+    versionSpec: 6.4.0
 
 - task: MicroBuildSigningPlugin@1
   inputs:
@@ -140,6 +140,14 @@ steps:
     ArtifactType: Container
   displayName: 'Publish Artifact: build logs'
   condition: succeededOrFailed()
+
+- task: BinSkim@4
+  displayName: Run BinSkim
+  inputs:
+    InputType: 'Basic'
+    Function: 'analyze'
+    TargetPattern: 'guardianGlob'
+    AnalyzeTargetGlob: 'bin/$(BuildConfiguration)/net472/Microsoft.VisualStudio.SlowCheetah*.dll;'
 
 - task: PublishSecurityAnalysisLogs@3
   displayName: 'Publish Guardian Artifacts'
