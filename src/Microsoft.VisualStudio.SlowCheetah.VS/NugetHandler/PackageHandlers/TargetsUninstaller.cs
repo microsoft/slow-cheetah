@@ -9,24 +9,24 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using TPL = System.Threading.Tasks;
 
     /// <summary>
-    /// Uninstalls old SlowCheetah targets from the user's project file
+    /// Uninstalls old SlowCheetah targets from the user's project file.
     /// </summary>
     internal class TargetsUninstaller : BasePackageHandler
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TargetsUninstaller"/> class.
         /// </summary>
-        /// <param name="successor">The successor with the same package</param>
+        /// <param name="successor">The successor with the same package.</param>
         public TargetsUninstaller(IPackageHandler successor)
             : base(successor)
         {
         }
 
         /// <inheritdoc/>
-        public override async TPL.Task Execute(Project project)
+        public override async TPL.Task ExecuteAsync(Project project)
         {
             // We handle any NuGet package logic before editing the project file
-            await this.Successor.Execute(project);
+            await this.Successor.ExecuteAsync(project);
 
             project.Save();
             ProjectRootElement projectRoot = ProjectRootElement.Open(project.FullName);

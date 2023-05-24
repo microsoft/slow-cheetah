@@ -9,7 +9,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
-    /// A logger class for <see cref="SlowCheetahPackage"/>
+    /// A logger class for <see cref="SlowCheetahPackage"/>.
     /// </summary>
     public class SlowCheetahPackageLogger
     {
@@ -18,17 +18,17 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Initializes a new instance of the <see cref="SlowCheetahPackageLogger"/> class.
         /// </summary>
-        /// <param name="package">The VSPackage</param>
+        /// <param name="package">The VSPackage.</param>
         public SlowCheetahPackageLogger(IServiceProvider package)
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
         }
 
         /// <summary>
-        /// Logs a message to the Activity Log
+        /// Logs a message to the Activity Log.
         /// </summary>
-        /// <param name="message">The message</param>
-        /// <param name="args">The message arguments</param>
+        /// <param name="message">The message.</param>
+        /// <param name="args">The message arguments.</param>
         public void LogMessage(string message, params object[] args)
         {
             if (string.IsNullOrWhiteSpace(message))

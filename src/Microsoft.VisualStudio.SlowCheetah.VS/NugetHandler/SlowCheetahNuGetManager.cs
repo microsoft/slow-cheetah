@@ -14,17 +14,17 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using TPL = System.Threading.Tasks;
 
     /// <summary>
-    /// Manages installations of the SlowCheetah NuGet package in the project
+    /// Manages installations of the SlowCheetah NuGet package in the project.
     /// </summary>
     public class SlowCheetahNuGetManager
     {
         /// <summary>
-        /// The name of the SlowCheetah NuGet package
+        /// The name of the SlowCheetah NuGet package.
         /// </summary>
         internal static readonly string PackageName = "Microsoft.VisualStudio.SlowCheetah";
 
         /// <summary>
-        /// The previous name of the SlowCheetah NuGet package
+        /// The previous name of the SlowCheetah NuGet package.
         /// </summary>
         internal static readonly string OldPackageName = "SlowCheetah";
 
@@ -58,20 +58,20 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Initializes a new instance of the <see cref="SlowCheetahNuGetManager"/> class.
         /// </summary>
-        /// <param name="package">VS Package</param>
+        /// <param name="package">VS Package.</param>
         public SlowCheetahNuGetManager(AsyncPackage package)
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
         }
 
         /// <summary>
-        /// Checks if the current project supports NuGet
+        /// Checks if the current project supports NuGet.
         /// </summary>
-        /// <param name="hierarchy">Hierarchy of the project to be verified</param>
-        /// <returns>True if the project supports NuGet</returns>
+        /// <param name="hierarchy">Hierarchy of the project to be verified.</param>
+        /// <returns>True if the project supports NuGet.</returns>
         /// <remarks>This implementation is derived of the internal NuGet method IsSupported
         /// https://github.com/NuGet/NuGet.Client/blob/dev/src/NuGet.Clients/NuGet.PackageManagement.VisualStudio/Utility/EnvDTEProjectUtility.cs#L441
-        /// This should be removed when NuGet adds this to their public API</remarks>
+        /// This should be removed when NuGet adds this to their public API.</remarks>
         public bool ProjectSupportsNuget(IVsHierarchy hierarchy)
         {
             if (hierarchy == null)
@@ -111,9 +111,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// If no version is installed, prompts for install of latest version;
         /// if an older version is detected, shows update information.
         /// </summary>
-        /// <param name="hierarchy">Hierarchy of the project to be verified</param>
+        /// <param name="hierarchy">Hierarchy of the project to be verified.</param>
         /// <returns>A <see cref="TPL.Task"/> representing the asynchronous operation.</returns>
-        public async TPL.Task CheckSlowCheetahInstallation(IVsHierarchy hierarchy)
+        public async TPL.Task CheckSlowCheetahInstallationAsync(IVsHierarchy hierarchy)
         {
             if (hierarchy == null)
             {
@@ -160,11 +160,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 plan = new BackgroundInstallationHandler(plan)
                 {
                     // If the old package is installed, this is an update operation
-                    IsUpdate = isOldScPackageInstalled
+                    IsUpdate = isOldScPackageInstalled,
                 };
             }
 
-            await plan.Execute(currentProject);
+            await plan.ExecuteAsync(currentProject);
         }
 
         private static IVsPackageInstallerServices GetInstallerServices(IServiceProvider package)

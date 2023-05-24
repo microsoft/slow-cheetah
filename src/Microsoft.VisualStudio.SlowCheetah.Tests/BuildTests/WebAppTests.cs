@@ -12,13 +12,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
     using Xunit;
 
     /// <summary>
-    /// Tests build time transformations for a test web app
+    /// Tests build time transformations for a test web app.
     /// </summary>
     [Collection("BuildTests")]
     public class WebAppTests : ConfigTransformTestsBase
     {
         /// <summary>
-        /// Tests if other.config is transformed on build
+        /// Tests if other.config is transformed on build.
         /// </summary>
         [Fact]
         public void WebApp_OtherConfig_IsTransformed()

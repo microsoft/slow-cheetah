@@ -9,7 +9,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     using Microsoft.Web.XmlTransform;
 
     /// <summary>
-    /// Shim for using an <see cref="ITransformationLogger"/> as a <see cref="IXmlTransformationLogger"/>
+    /// Shim for using an <see cref="ITransformationLogger"/> as a <see cref="IXmlTransformationLogger"/>.
     /// </summary>
     public class XmlShimLogger : IXmlTransformationLogger
     {
@@ -24,8 +24,8 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlShimLogger"/> class.
         /// </summary>
-        /// <param name="logger">Our own logger</param>
-        /// <param name="useSections">Wheter or not to use sections</param>
+        /// <param name="logger">Our own logger.</param>
+        /// <param name="useSections">Wheter or not to use sections.</param>
         public XmlShimLogger(ITransformationLogger logger, bool useSections)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));

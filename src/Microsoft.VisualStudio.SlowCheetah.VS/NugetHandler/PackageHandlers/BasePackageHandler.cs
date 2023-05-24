@@ -9,14 +9,14 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using TPL = System.Threading.Tasks;
 
     /// <summary>
-    /// Handles a function relating to the NuGet package
+    /// Handles a function relating to the NuGet package.
     /// </summary>
     internal abstract class BasePackageHandler : IPackageHandler
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BasePackageHandler"/> class.
         /// </summary>
-        /// <param name="successor">The successor</param>
+        /// <param name="successor">The successor.</param>
         protected BasePackageHandler(IPackageHandler successor)
         {
             this.Successor = successor ?? throw new ArgumentNullException(nameof(successor));
@@ -29,16 +29,16 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Gets the VS package
+        /// Gets the VS package.
         /// </summary>
         public AsyncPackage Package { get; }
 
         /// <summary>
-        /// Gets the successor handler
+        /// Gets the successor handler.
         /// </summary>
         protected IPackageHandler Successor { get; }
 
         /// <inheritdoc/>
-        public abstract TPL.Task Execute(Project project);
+        public abstract TPL.Task ExecuteAsync(Project project);
     }
 }

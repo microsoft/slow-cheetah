@@ -19,17 +19,17 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.SlowCheetah.Exceptions;
 
     /// <summary>
-    /// Preview Transform command
+    /// Preview Transform command.
     /// </summary>
     public class PreviewTransformCommand : BaseCommand, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PreviewTransformCommand"/> class.
         /// </summary>
-        /// <param name="package">The VSPackage</param>
-        /// <param name="nuGetManager">The nuget manager for the VSPackage</param>
-        /// <param name="logger">VSPackage logger</param>
-        /// <param name="errorListProvider">The VS error list provider</param>
+        /// <param name="package">The VSPackage.</param>
+        /// <param name="nuGetManager">The nuget manager for the VSPackage.</param>
+        /// <param name="logger">VSPackage logger.</param>
+        /// <param name="errorListProvider">The VS error list provider.</param>
         public PreviewTransformCommand(
             SlowCheetahPackage package,
             SlowCheetahNuGetManager nuGetManager,
@@ -139,7 +139,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             }
 
             // Checks the SlowCheetah NuGet package installation
-            this.ScPackage.JoinableTaskFactory.Run(() => this.NuGetManager.CheckSlowCheetahInstallation(hierarchy));
+            this.ScPackage.JoinableTaskFactory.Run(() => this.NuGetManager.CheckSlowCheetahInstallationAsync(hierarchy));
 
             // Get the parent of the file to start searching for the source file
             ErrorHandler.ThrowOnFailure(hierarchy.GetProperty(itemId, (int)__VSHPROPID.VSHPROPID_Parent, out object parentIdObj));
@@ -172,9 +172,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Shows a preview of the transformation in a temporary file.
         /// </summary>
-        /// <param name="hier">Current IVsHierarchy</param>
-        /// <param name="sourceFile">Full path to the file to be transformed</param>
-        /// <param name="transformFile">Full path to the transformation file</param>
+        /// <param name="hier">Current IVsHierarchy.</param>
+        /// <param name="sourceFile">Full path to the file to be transformed.</param>
+        /// <param name="transformFile">Full path to the transformation file.</param>
         private void PreviewTransform(IVsHierarchy hier, string sourceFile, string transformFile)
         {
             if (string.IsNullOrWhiteSpace(sourceFile))
@@ -273,12 +273,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// Searches for a file to transform based on a transformation file.
         /// Starts the search with the parent of the file then checks all visible children.
         /// </summary>
-        /// <param name="hierarchy">Current project hierarchy</param>
+        /// <param name="hierarchy">Current project hierarchy.</param>
         /// <param name="parentId">Parent ID of the file.</param>
-        /// <param name="transformName">Name of the transformation file</param>
-        /// <param name="docId">ID of the file to transform</param>
-        /// <param name="documentPath">Resulting path of the file to transform</param>
-        /// <returns>True if the correct file was found</returns>
+        /// <param name="transformName">Name of the transformation file.</param>
+        /// <param name="docId">ID of the file to transform.</param>
+        /// <param name="documentPath">Resulting path of the file to transform.</param>
+        /// <returns>True if the correct file was found.</returns>
         private bool TryGetFileToTransform(IVsHierarchy hierarchy, uint parentId, string transformName, out uint docId, out string documentPath)
         {
             IVsProject project = (IVsProject)hierarchy;

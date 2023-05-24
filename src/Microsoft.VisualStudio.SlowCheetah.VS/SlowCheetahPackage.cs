@@ -51,17 +51,17 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     public sealed partial class SlowCheetahPackage : AsyncPackage
     {
         /// <summary>
-        /// The TransformOnBuild metadata name
+        /// The TransformOnBuild metadata name.
         /// </summary>
         public static readonly string TransformOnBuild = "TransformOnBuild";
 
         /// <summary>
-        /// The IsTransformFile metadata name
+        /// The IsTransformFile metadata name.
         /// </summary>
         public static readonly string IsTransformFile = "IsTransformFile";
 
         /// <summary>
-        /// The DependentUpon metadata name
+        /// The DependentUpon metadata name.
         /// </summary>
         public static readonly string DependentUpon = "DependentUpon";
 
@@ -78,7 +78,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Gets the SlowCheetahPackage
+        /// Gets the SlowCheetahPackage.
         /// </summary>
         public static SlowCheetahPackage OurPackage { get; private set; }
 
@@ -97,19 +97,19 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Verifies if the current project supports transformations.
         /// </summary>
-        /// <param name="project">Current IVsProject</param>
-        /// <returns>True if the project supports transformation</returns>
+        /// <param name="project">Current IVsProject.</param>
+        /// <returns>True if the project supports transformation.</returns>
         public bool ProjectSupportsTransforms(IVsProject project)
         {
             return this.NuGetManager.ProjectSupportsNuget(project as IVsHierarchy);
         }
 
         /// <summary>
-        /// Verifies if the item has a trasform configured already
+        /// Verifies if the item has a trasform configured already.
         /// </summary>
-        /// <param name="vsProject">The current project</param>
-        /// <param name="itemid">The id of the selected item inside the project</param>
-        /// <returns>True if the item has a transform</returns>
+        /// <param name="vsProject">The current project.</param>
+        /// <param name="itemid">The id of the selected item inside the project.</param>
+        /// <returns>True if the item has a transform.</returns>
         public bool IsItemTransformItem(IVsProject vsProject, uint itemid)
         {
             IVsBuildPropertyStorage buildPropertyStorage = vsProject as IVsBuildPropertyStorage;

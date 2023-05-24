@@ -12,12 +12,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests
     using Xunit;
 
     /// <summary>
-    /// Tests for <see cref="ITransformer"/>
+    /// Tests for <see cref="ITransformer"/>.
     /// </summary>
     public class TransformTest : BaseTest
     {
         /// <summary>
-        /// Tests for <see cref="XmlTransformer"/>
+        /// Tests for <see cref="XmlTransformer"/>.
         /// </summary>
         [Fact]
         public void TestXmlTransform()

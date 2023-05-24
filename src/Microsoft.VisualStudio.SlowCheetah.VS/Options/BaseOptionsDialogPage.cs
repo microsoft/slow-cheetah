@@ -6,12 +6,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell;
 
     /// <summary>
-    /// Base class for options page
+    /// Base class for options page.
     /// </summary>
     internal abstract class BaseOptionsDialogPage : DialogPage
     {
         /// <summary>
-        /// Registry key for all options
+        /// Registry key for all options.
         /// </summary>
         protected const string RegOptionsKey = "ConfigTransform";
     }

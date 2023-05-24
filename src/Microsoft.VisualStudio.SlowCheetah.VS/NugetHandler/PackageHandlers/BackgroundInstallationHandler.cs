@@ -13,7 +13,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using TPL = System.Threading.Tasks;
 
     /// <summary>
-    /// Performs installation operations in the background
+    /// Performs installation operations in the background.
     /// </summary>
     internal class BackgroundInstallationHandler : UserInstallationHandler
     {
@@ -23,20 +23,21 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Initializes a new instance of the <see cref="BackgroundInstallationHandler"/> class.
         /// </summary>
-        /// <param name="successor">The successor with the same package</param>
+        /// <param name="successor">The successor with the same package.</param>
         public BackgroundInstallationHandler(IPackageHandler successor)
             : base(successor)
         {
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the operation is an update or a new installation
+        /// Gets or sets a value indicating whether the operation is an update or a new installation.
         /// </summary>
         public bool IsUpdate { get; set; } = false;
 
         /// <inheritdoc/>
-        public override async TPL.Task Execute(Project project)
+        public override async TPL.Task ExecuteAsync(Project project)
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             string projName = project.UniqueName;
             bool needInstall = true;
             lock (SyncObject)
@@ -48,7 +49,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             {
                 string warningTitle = this.IsUpdate ? Resources.Resources.NugetUpdate_Title : Resources.Resources.NugetInstall_Title;
                 string warningMessage = this.IsUpdate ? Resources.Resources.NugetUpdate_Text : Resources.Resources.NugetInstall_Text;
-                if (await this.HasUserAcceptedWarningMessage(warningTitle, warningMessage))
+                if (await this.HasUserAcceptedWarningMessageAsync(warningTitle, warningMessage))
                 {
                     // Gets the general output pane to inform user of installation
                     IVsOutputWindowPane outputWindow = (IVsOutputWindowPane)await this.Package.GetServiceAsync(typeof(SVsGeneralOutputWindowPane));
@@ -61,7 +62,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                         string outputMessage = Resources.Resources.NugetInstall_FinishedOutput;
                         try
                         {
-                            await this.Successor.Execute(project);
+                            await this.Successor.ExecuteAsync(project);
                         }
                         catch
                         {

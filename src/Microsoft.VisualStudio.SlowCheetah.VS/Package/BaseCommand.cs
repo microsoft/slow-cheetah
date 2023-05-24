@@ -8,33 +8,33 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell;
 
     /// <summary>
-    /// Base class for package commands
+    /// Base class for package commands.
     /// </summary>
     public abstract class BaseCommand
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseCommand"/> class.
         /// </summary>
-        /// <param name="package">The VSPackage as a servide provider</param>
+        /// <param name="package">The VSPackage as a servide provider.</param>
         public BaseCommand(AsyncPackage package)
         {
             this.Package = package ?? throw new ArgumentNullException(nameof(package));
         }
 
         /// <summary>
-        /// Gets the ID of the command
+        /// Gets the ID of the command.
         /// </summary>
         public abstract int CommandId { get; }
 
         /// <summary>
-        /// Gets the package
+        /// Gets the package.
         /// </summary>
         protected AsyncPackage Package { get; }
 
         /// <summary>
-        /// Asynchronously registers the command in the command service
+        /// Asynchronously registers the command in the command service.
         /// </summary>
-        /// <returns>Async task</returns>
+        /// <returns>Async task.</returns>
         public async System.Threading.Tasks.Task RegisterCommandAsync()
         {
             await this.Package.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -50,25 +50,25 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// This event is called when the command status has changed
+        /// This event is called when the command status has changed.
         /// </summary>
-        /// <param name="sender">The object that fired the event</param>
-        /// <param name="e">Event arguments</param>
+        /// <param name="sender">The object that fired the event.</param>
+        /// <param name="e">Event arguments.</param>
         protected abstract void OnChange(object sender, EventArgs e);
 
         /// <summary>
         /// This event is fired when a user right-clicks on a menu, but prior to the menu showing.
         /// This function is used to set the visibility of the menu.
         /// </summary>
-        /// <param name="sender">The object that fired the event</param>
-        /// <param name="e">Event arguments</param>
+        /// <param name="sender">The object that fired the event.</param>
+        /// <param name="e">Event arguments.</param>
         protected abstract void OnBeforeQueryStatus(object sender, EventArgs e);
 
         /// <summary>
         /// This function is the callback used to execute a command when the a menu item is clicked.
         /// </summary>
-        /// <param name="sender">The object that fired the event</param>
-        /// <param name="e">Event arguments</param>
+        /// <param name="sender">The object that fired the event.</param>
+        /// <param name="e">Event arguments.</param>
         protected abstract void OnInvoke(object sender, EventArgs e);
     }
 }

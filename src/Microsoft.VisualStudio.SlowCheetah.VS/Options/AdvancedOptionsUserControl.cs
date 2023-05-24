@@ -7,7 +7,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System.Windows.Forms;
 
     /// <summary>
-    /// The UI for the advanced section of the options page
+    /// The UI for the advanced section of the options page.
     /// </summary>
     public partial class AdvancedOptionsUserControl : UserControl
     {
@@ -22,9 +22,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Initialized the Advanced Options Page Control
+        /// Initialized the Advanced Options Page Control.
         /// </summary>
-        /// <param name="advancedOptionsPage">The options page that corresponds to this control</param>
+        /// <param name="advancedOptionsPage">The options page that corresponds to this control.</param>
         internal void Initialize(AdvancedOptionsDialogPage advancedOptionsPage)
         {
             this.advancedOptionsPage = advancedOptionsPage;

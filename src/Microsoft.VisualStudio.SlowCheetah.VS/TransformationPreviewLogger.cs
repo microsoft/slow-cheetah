@@ -15,7 +15,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using SlowCheetah;
 
     /// <summary>
-    /// Logger for XDT transformation on Preview Transform
+    /// Logger for XDT transformation on Preview Transform.
     /// </summary>
     public class TransformationPreviewLogger : ITransformationLogger
     {
@@ -25,8 +25,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Initializes a new instance of the <see cref="TransformationPreviewLogger"/> class.
         /// </summary>
-        /// <param name="errorListProvider">The VS Package</param>
-        /// <param name="hierachy">The current project hierarchy</param>
+        /// <param name="errorListProvider">The VS Package.</param>
+        /// <param name="hierachy">The current project hierarchy.</param>
         public TransformationPreviewLogger(ErrorListProvider errorListProvider, IVsHierarchy hierachy)
         {
             this.errorListProvider = errorListProvider ?? throw new ArgumentNullException(nameof(errorListProvider));

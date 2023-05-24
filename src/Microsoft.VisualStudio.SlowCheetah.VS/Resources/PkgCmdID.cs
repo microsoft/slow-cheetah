@@ -9,17 +9,17 @@
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     /// <summary>
-    /// List of the Command IDs for SlowCheetah
+    /// List of the Command IDs for SlowCheetah.
     /// </summary>
     public static class PkgCmdID
     {
         /// <summary>
-        /// ID for the "Add Transform" command
+        /// ID for the "Add Transform" command.
         /// </summary>
         public const uint CmdIdAddTransform = 0x100;
 
         /// <summary>
-        /// ID for the "Preview Transform" command
+        /// ID for the "Preview Transform" command.
         /// </summary>
         public const uint CmdIdPreviewTransform = 0x101;
     }

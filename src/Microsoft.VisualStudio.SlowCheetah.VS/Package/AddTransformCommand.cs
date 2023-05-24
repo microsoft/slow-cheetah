@@ -18,7 +18,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
-    /// Add Transform command
+    /// Add Transform command.
     /// </summary>
     public class AddTransformCommand : BaseCommand
     {
@@ -29,9 +29,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Initializes a new instance of the <see cref="AddTransformCommand"/> class.
         /// </summary>
-        /// <param name="package">The VSPackage</param>
-        /// <param name="nuGetManager">The nuget manager for the VSPackage</param>
-        /// <param name="logger">VSPackage logger</param>
+        /// <param name="package">The VSPackage.</param>
+        /// <param name="nuGetManager">The nuget manager for the VSPackage.</param>
+        /// <param name="logger">VSPackage logger.</param>
         public AddTransformCommand(SlowCheetahPackage package, SlowCheetahNuGetManager nuGetManager, SlowCheetahPackageLogger logger)
             : base(package)
         {
@@ -133,7 +133,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 }
 
                 // Checks the SlowCheetah NuGet package installation
-                this.package.JoinableTaskFactory.Run(() => this.nuGetManager.CheckSlowCheetahInstallation(hierarchy));
+                this.package.JoinableTaskFactory.Run(() => this.nuGetManager.CheckSlowCheetahInstallationAsync(hierarchy));
 
                 // need to enure that this item has metadata TransformOnBuild set to true
                 buildPropertyStorage.SetItemAttribute(itemid, SlowCheetahPackage.TransformOnBuild, "true");
@@ -179,11 +179,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Creates a new transformation file and adds it to the project.
         /// </summary>
-        /// <param name="hierarchy">The project hierarchy</param>
-        /// <param name="selectedProjectItem">The selected item to be transformed</param>
-        /// <param name="itemName">Full name of the transformation file</param>
-        /// <param name="projectPath">Full path to the current project</param>
-        /// <param name="addDependentUpon">Wheter to add the new file dependent upon the source file</param>
+        /// <param name="hierarchy">The project hierarchy.</param>
+        /// <param name="selectedProjectItem">The selected item to be transformed.</param>
+        /// <param name="itemName">Full name of the transformation file.</param>
+        /// <param name="projectPath">Full path to the current project.</param>
+        /// <param name="addDependentUpon">Wheter to add the new file dependent upon the source file.</param>
         private void AddTransformFile(
             IVsHierarchy hierarchy,
             ProjectItem selectedProjectItem,
@@ -240,9 +240,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Verifies if an item supports transforms.
         /// </summary>
-        /// <param name="project">Current IVsProject</param>
-        /// <param name="itemid">Id of the item inside the project</param>
-        /// <returns>True if the item supports transforms</returns>
+        /// <param name="project">Current IVsProject.</param>
+        /// <param name="itemid">Id of the item inside the project.</param>
+        /// <returns>True if the item supports transforms.</returns>
         private bool ItemSupportsTransforms(IVsProject project, uint itemid)
         {
             if (ErrorHandler.Failed(project.GetMkDocument(itemid, out string itemFullPath)))
@@ -272,11 +272,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Verifies any publish profiles in the project and returns it as a list of strings
+        /// Verifies any publish profiles in the project and returns it as a list of strings.
         /// </summary>
-        /// <param name="hierarchy">The current project hierarchy</param>
-        /// <param name="projectPath">Full path of the current project</param>
-        /// <returns>List of publish profile names</returns>
+        /// <param name="hierarchy">The current project hierarchy.</param>
+        /// <param name="projectPath">Full path of the current project.</param>
+        /// <returns>List of publish profile names.</returns>
         private IEnumerable<string> GetPublishProfileTransforms(IVsHierarchy hierarchy, string projectPath)
         {
             if (hierarchy == null)

@@ -7,7 +7,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System.Windows.Forms;
 
     /// <summary>
-    /// The UI for the options page
+    /// The UI for the options page.
     /// </summary>
     public partial class OptionsUserControl : UserControl
     {
@@ -22,9 +22,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Initialized the Options Page Control
+        /// Initialized the Options Page Control.
         /// </summary>
-        /// <param name="optionsPage">The options page that corresponds to this control</param>
+        /// <param name="optionsPage">The options page that corresponds to this control.</param>
         internal void Initialize(OptionsDialogPage optionsPage)
         {
             this.optionsPage = optionsPage ?? throw new ArgumentNullException(nameof(optionsPage));

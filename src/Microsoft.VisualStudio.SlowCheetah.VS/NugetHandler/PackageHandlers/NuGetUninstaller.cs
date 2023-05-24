@@ -10,27 +10,27 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using TPL = System.Threading.Tasks;
 
     /// <summary>
-    /// Uninstalls older versions of the SlowCheetah NuGet package
+    /// Uninstalls older versions of the SlowCheetah NuGet package.
     /// </summary>
     internal class NuGetUninstaller : BasePackageHandler
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NuGetUninstaller"/> class.
         /// </summary>
-        /// <param name="successor">The successor with the same package</param>
+        /// <param name="successor">The successor with the same package.</param>
         public NuGetUninstaller(IPackageHandler successor)
             : base(successor)
         {
         }
 
         /// <inheritdoc/>
-        public override async TPL.Task Execute(Project project)
+        public override async TPL.Task ExecuteAsync(Project project)
         {
             var componentModel = (IComponentModel)await this.Package.GetServiceAsync(typeof(SComponentModel));
             IVsPackageUninstaller packageUninstaller = componentModel.GetService<IVsPackageUninstaller>();
             packageUninstaller.UninstallPackage(project, SlowCheetahNuGetManager.OldPackageName, true);
 
-            await this.Successor.Execute(project);
+            await this.Successor.ExecuteAsync(project);
         }
     }
 }

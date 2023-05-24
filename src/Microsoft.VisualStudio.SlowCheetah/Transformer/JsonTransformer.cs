@@ -8,7 +8,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     using Microsoft.VisualStudio.Jdt;
 
     /// <summary>
-    /// Transforms JSON files using JSON Document Transformations
+    /// Transforms JSON files using JSON Document Transformations.
     /// </summary>
     public class JsonTransformer : ITransformer
     {
@@ -25,9 +25,9 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JsonTransformer"/> class with an external logger
+        /// Initializes a new instance of the <see cref="JsonTransformer"/> class with an external logger.
         /// </summary>
-        /// <param name="logger">The external logger</param>
+        /// <param name="logger">The external logger.</param>
         public JsonTransformer(ITransformationLogger logger)
         {
             if (logger == null)

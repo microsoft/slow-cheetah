@@ -12,13 +12,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
     using Xunit;
 
     /// <summary>
-    /// Tests build time transformations for a test console app
+    /// Tests build time transformations for a test console app.
     /// </summary>
     [Collection("BuildTests")]
     public class ConsoleAppTests : ConfigTransformTestsBase
     {
         /// <summary>
-        /// Tests if app.config is transformed on build
+        /// Tests if app.config is transformed on build.
         /// </summary>
         [Fact]
         public void ConsoleApp_AppConfig_IsTransformed()
@@ -34,7 +34,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         }
 
         /// <summary>
-        /// Tests if other.config is transformed on build
+        /// Tests if other.config is transformed on build.
         /// </summary>
         [Fact]
         public void ConsoleApp_OtherConfig_IsTransformed()
