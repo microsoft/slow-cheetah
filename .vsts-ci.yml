@@ -10,12 +10,20 @@ trigger:
 
 variables:
   NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
+  Codeql.Enabled: true
 
 queue:
   name: VSEngSS-MicroBuild2019-1ES
   timeoutInMinutes: 60
 
 steps:
+
+- task: ComponentGovernanceComponentDetection@0
+  inputs:
+    scanType: 'Register'
+    verbosity: 'Verbose'
+    alertWarningLevel: 'High'
+
 - task: PowerShell@2
   displayName: Set VSTS variables
   inputs:
@@ -46,7 +54,7 @@ steps:
 - task: NuGetToolInstaller@0
   displayName: Pin nuget.exe version
   inputs:
-    versionSpec: 4.6.1
+    versionSpec: 6.4.0
 
 - task: MicroBuildSigningPlugin@1
   inputs:
@@ -55,6 +63,14 @@ steps:
     zipSources: false
   displayName: Install MicroBuild Signing plugin
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
+- task: AntiMalware@4
+  displayName: 'Run MpCmdRun.exe'
+  inputs:
+    InputType: Basic
+    ScanType: CustomScan
+    FileDirPath: '$(Build.StagingDirectory)'
+    DisableRemediation: false
 
 - task: VSBuild@1
   inputs:
@@ -98,6 +114,12 @@ steps:
   displayName: MicroBuild Cleanup
   condition: succeededOrFailed()
 
+- task: PoliCheck@2
+  displayName: 'Run PoliCheck'
+  inputs:
+    targetType: F
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
 - task: ManifestGeneratorTask@0
   inputs:
     BuildDropPath: $(Build.ArtifactStagingDirectory)/build_logs
@@ -118,6 +140,22 @@ steps:
     ArtifactType: Container
   displayName: 'Publish Artifact: build logs'
   condition: succeededOrFailed()
+
+- task: BinSkim@4
+  displayName: Run BinSkim
+  inputs:
+    InputType: 'Basic'
+    Function: 'analyze'
+    TargetPattern: 'guardianGlob'
+    AnalyzeTargetGlob: 'bin/$(BuildConfiguration)/net472/Microsoft.VisualStudio.SlowCheetah*.dll;'
+
+- task: PublishSecurityAnalysisLogs@3
+  displayName: 'Publish Guardian Artifacts'
+  inputs:
+    ArtifactName: CodeAnalysisLogs
+    ArtifactType: Container
+    PublishProcessedResults: false
+    AllTools: true
 
 ## Following steps are skipped in PR builds
 
