@@ -9,16 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EnvDTE" Version="17.0.31902.203" />
+    <PackageReference Include="EnvDTE" Version="17.2.32505.113" />
+    <PackageReference Include="Microsoft.ServiceHub.Framework" Version="3.1.4097" />
 
     <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.5232" />
-    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.31902.203" />
+
+    <PackageReference Include="Microsoft.VisualStudio.TemplateWizardInterface" Version="17.2.32505.113" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.2.2186">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.2.32505.173" />
     <PackageReference Include="Microsoft.Web.Xdt" Version="3.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.63" />
-    <PackageReference Include="NuGet.VisualStudio" Version="5.11.0" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" PrivateAssets="all" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="all" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.23" />
+    <PackageReference Include="NuGet.VisualStudio" Version="17.2.1" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.107" PrivateAssets="all" />
+    <PackageReference Include="NuGet.VisualStudio.Contracts" Version="17.2.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

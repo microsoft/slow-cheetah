@@ -80,8 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.5232" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="1.6.30" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.2.2186">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.VisualStudio.SlowCheetah.VS\Microsoft.VisualStudio.SlowCheetah.VS.csproj">
@@ -94,16 +96,17 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.107">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
-
   <Target Name="Pack" AfterTargets="Build">
-    <Copy SourceFiles="$(TargetVsixContainer)"
-          DestinationFolder="$(PackageOutputPath)"
-          UseHardlinksIfPossible="true"
-          SkipUnchangedFiles="true" />
+  	<Copy SourceFiles="$(TargetVsixContainer)" DestinationFolder="$(PackageOutputPath)" UseHardlinksIfPossible="true" SkipUnchangedFiles="true" />
   </Target>
-
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	<!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

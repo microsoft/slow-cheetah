@@ -39,6 +39,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         protected IPackageHandler Successor { get; }
 
         /// <inheritdoc/>
-        public abstract TPL.Task Execute(Project project);
+        public abstract TPL.Task ExecuteAsync(Project project);
     }
 }

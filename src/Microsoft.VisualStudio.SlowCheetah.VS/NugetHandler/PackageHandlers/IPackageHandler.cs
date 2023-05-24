@@ -22,6 +22,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// </summary>
         /// <param name="project">The project to peform actions on</param>
         /// <returns>A task that executes the function</returns>
-        TPL.Task Execute(Project project);
+        TPL.Task ExecuteAsync(Project project);
     }
 }

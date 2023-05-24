@@ -4,6 +4,7 @@
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using EnvDTE;
+    using Microsoft;
     using Microsoft.VisualStudio.ComponentModelHost;
     using NuGet.VisualStudio;
     using TPL = System.Threading.Tasks;
@@ -23,9 +24,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <inheritdoc/>
-        public override async TPL.Task Execute(Project project)
+        public override async TPL.Task ExecuteAsync(Project project)
         {
             var componentModel = (IComponentModel)await this.Package.GetServiceAsync(typeof(SComponentModel));
+            Assumes.Present(componentModel);
             IVsPackageInstaller packageInstaller = componentModel.GetService<IVsPackageInstaller>();
             packageInstaller.InstallPackage(
                 null,
@@ -34,7 +36,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 version: (string)null, // install latest stable version
                 ignoreDependencies: false);
 
-            await this.Successor.Execute(project);
+            await this.Successor.ExecuteAsync(project);
         }
     }
 }

@@ -101,6 +101,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if the project supports transformation</returns>
         public bool ProjectSupportsTransforms(IVsProject project)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             return this.NuGetManager.ProjectSupportsNuget(project as IVsHierarchy);
         }
 
@@ -112,6 +113,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if the item has a transform</returns>
         public bool IsItemTransformItem(IVsProject vsProject, uint itemid)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             IVsBuildPropertyStorage buildPropertyStorage = vsProject as IVsBuildPropertyStorage;
             if (buildPropertyStorage == null)
             {

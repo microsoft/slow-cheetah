@@ -35,8 +35,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public bool IsUpdate { get; set; } = false;
 
         /// <inheritdoc/>
-        public override async TPL.Task Execute(Project project)
+        public override async TPL.Task ExecuteAsync(Project project)
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             string projName = project.UniqueName;
             bool needInstall = true;
             lock (SyncObject)
@@ -48,7 +49,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             {
                 string warningTitle = this.IsUpdate ? Resources.Resources.NugetUpdate_Title : Resources.Resources.NugetInstall_Title;
                 string warningMessage = this.IsUpdate ? Resources.Resources.NugetUpdate_Text : Resources.Resources.NugetInstall_Text;
-                if (await this.HasUserAcceptedWarningMessage(warningTitle, warningMessage))
+                if (await this.HasUserAcceptedWarningMessageAsync(warningTitle, warningMessage))
                 {
                     // Gets the general output pane to inform user of installation
                     IVsOutputWindowPane outputWindow = (IVsOutputWindowPane)await this.Package.GetServiceAsync(typeof(SVsGeneralOutputWindowPane));
@@ -61,7 +62,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                         string outputMessage = Resources.Resources.NugetInstall_FinishedOutput;
                         try
                         {
-                            await this.Successor.Execute(project);
+                            await this.Successor.ExecuteAsync(project);
                         }
                         catch
                         {
