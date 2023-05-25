@@ -18,7 +18,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests
     public class BaseTest : IDisposable
     {
         /// <summary>
-        /// Gets the list of temporary files to delete after test
+        /// Gets the list of temporary files to delete after test.
         /// </summary>
         protected IList<string> FilesToDeleteAfterTest { get; } = new List<string>();
 

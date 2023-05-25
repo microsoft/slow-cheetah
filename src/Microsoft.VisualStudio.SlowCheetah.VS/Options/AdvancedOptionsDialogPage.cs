@@ -11,7 +11,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.Win32;
 
     /// <summary>
-    /// Advanced Options Page for SlowCheetah
+    /// Advanced Options Page for SlowCheetah.
     /// </summary>
     internal class AdvancedOptionsDialogPage : BaseOptionsDialogPage
     {
@@ -20,7 +20,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdvancedOptionsDialogPage"/> class.
-        /// Constructor called by VSIP just in time when user wants to view this tools, options page
+        /// Constructor called by VSIP just in time when user wants to view this tools, options page.
         /// </summary>
         public AdvancedOptionsDialogPage()
         {
@@ -28,12 +28,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Gets or sets the exe path for the diff tool used to preview transformations
+        /// Gets or sets the exe path for the diff tool used to preview transformations.
         /// </summary>
         public string PreviewToolExecutablePath { get; set; }
 
         /// <summary>
-        /// Gets or sets the required command on execution of the preview tool
+        /// Gets or sets the required command on execution of the preview tool.
         /// </summary>
         public string PreviewToolCommandLine { get; set; }
 
@@ -122,7 +122,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Save Tools-->Options settings to registry
+        /// Save Tools-->Options settings to registry.
         /// </summary>
         public override void SaveSettingsToStorage()
         {

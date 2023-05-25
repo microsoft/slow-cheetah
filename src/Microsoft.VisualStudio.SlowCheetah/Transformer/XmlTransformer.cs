@@ -9,7 +9,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     using Microsoft.Web.XmlTransform;
 
     /// <summary>
-    /// Transforms XML files utilizing Microsoft Web XmlTransform library
+    /// Transforms XML files utilizing Microsoft Web XmlTransform library.
     /// </summary>
     public class XmlTransformer : ITransformer
     {
@@ -26,9 +26,9 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="XmlTransformer"/> class with an external logger
+        /// Initializes a new instance of the <see cref="XmlTransformer"/> class with an external logger.
         /// </summary>
-        /// <param name="logger">The external logger</param>
+        /// <param name="logger">The external logger.</param>
         public XmlTransformer(ITransformationLogger logger)
         {
             if (logger == null)

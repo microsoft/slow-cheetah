@@ -7,7 +7,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
     using Xunit;
 
     /// <summary>
-    /// Test class for <see cref="PackageUtilities"/>
+    /// Test class for <see cref="PackageUtilities"/>.
     /// </summary>
     public class PackageUtilitiesTest
     {
@@ -15,10 +15,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
         private IEnumerable<string> testProjectConfigsWithDots = new List<string>(new string[] { "Debug", "Debug.Test", "Release", "Test.Release", "Test.Rel" });
 
         /// <summary>
-        /// Tests <see cref="PackageUtilities.IsFileTransformForBuildConfiguration(string, string, IEnumerable{string})"/> returns on arguments that are null or empty strings
+        /// Tests <see cref="PackageUtilities.IsFileTransformForBuildConfiguration(string, string, IEnumerable{string})"/> returns on arguments that are null or empty strings.
         /// </summary>
-        /// <param name="docName">Document name</param>
-        /// <param name="trnName">Transform file name</param>
+        /// <param name="docName">Document name.</param>
+        /// <param name="trnName">Transform file name.</param>
         [Theory]
         [InlineData(null, null)]
         [InlineData("", "")]
@@ -34,8 +34,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
         /// <summary>
         /// Tests <see cref="PackageUtilities.IsFileTransformForBuildConfiguration(string, string, IEnumerable{string})"/> with valid arguments normally found in projects.
         /// </summary>
-        /// <param name="docName">Document name</param>
-        /// <param name="trnName">Transform file name</param>
+        /// <param name="docName">Document name.</param>
+        /// <param name="trnName">Transform file name.</param>
         [Theory]
         [InlineData("App.config", "App.Debug.config")]
         [InlineData("App.config", "app.release.config")]
@@ -47,10 +47,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
         }
 
         /// <summary>
-        /// Tests <see cref="PackageUtilities.IsFileTransformForBuildConfiguration(string, string, IEnumerable{string})"/> with invalid arguments
+        /// Tests <see cref="PackageUtilities.IsFileTransformForBuildConfiguration(string, string, IEnumerable{string})"/> with invalid arguments.
         /// </summary>
-        /// <param name="docName">Document name</param>
-        /// <param name="trnName">Transform file name</param>
+        /// <param name="docName">Document name.</param>
+        /// <param name="trnName">Transform file name.</param>
         [Theory]
         [InlineData("App.config", "App.Test.Debug.config")]
         [InlineData("App.Debug.config", "App.Debug.config")]
@@ -62,10 +62,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
 
         /// <summary>
         /// Tests <see cref="PackageUtilities.IsFileTransformForBuildConfiguration(string, string, IEnumerable{string})"/> with project configurations containing dots
-        /// and file names with similar structures. Tests valid names
+        /// and file names with similar structures. Tests valid names.
         /// </summary>
-        /// <param name="docName">Document name</param>
-        /// <param name="trnName">Transform file name</param>
+        /// <param name="docName">Document name.</param>
+        /// <param name="trnName">Transform file name.</param>
         [Theory]
         [InlineData("App.config", "App.Debug.Test.config")]
         [InlineData("App.System.config", "App.System.Debug.Test.config")]
@@ -80,10 +80,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
 
         /// <summary>
         /// Tests <see cref="PackageUtilities.IsFileTransformForBuildConfiguration(string, string, IEnumerable{string})"/> with project configurations containing dots
-        /// and file names with similar structures. Tests invalid names
+        /// and file names with similar structures. Tests invalid names.
         /// </summary>
-        /// <param name="docName">Document name</param>
-        /// <param name="trnName">Transform file name</param>
+        /// <param name="docName">Document name.</param>
+        /// <param name="trnName">Transform file name.</param>
         [Theory]
         [InlineData("App.config", "App.Release.Test.config")]
         [InlineData("App.config", "App.Rel.Test.config")]
@@ -98,10 +98,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
         }
 
         /// <summary>
-        /// Tests <see cref="PackageUtilities.IsGenericFileTransform(string, string)"/> with invalid arguments
+        /// Tests <see cref="PackageUtilities.IsGenericFileTransform(string, string)"/> with invalid arguments.
         /// </summary>
-        /// <param name="docName">Document name</param>
-        /// <param name="trnName">Transform file name</param>
+        /// <param name="docName">Document name.</param>
+        /// <param name="trnName">Transform file name.</param>
         [Theory]
         [InlineData("App.config", "App.config")]
         [InlineData("App.Debug.config", "App.Debug.config")]
@@ -114,10 +114,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS.Tests
         }
 
         /// <summary>
-        /// Tests <see cref="PackageUtilities.IsGenericFileTransform(string, string)"/> with valid arguments
+        /// Tests <see cref="PackageUtilities.IsGenericFileTransform(string, string)"/> with valid arguments.
         /// </summary>
-        /// <param name="docName">Document name</param>
-        /// <param name="trnName">Transform file name</param>
+        /// <param name="docName">Document name.</param>
+        /// <param name="trnName">Transform file name.</param>
         [Theory]
         [InlineData("App.config", "App.Debug.config")]
         [InlineData("App.config", "App.Test.Debug.config")]

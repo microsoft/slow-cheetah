@@ -8,7 +8,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
-    /// Contains solution events for <see cref="SlowCheetahPackage"/>
+    /// Contains solution events for <see cref="SlowCheetahPackage"/>.
     /// </summary>
     public class PackageSolutionEvents : IVsUpdateSolutionEvents, IDisposable
     {
@@ -17,8 +17,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageSolutionEvents"/> class.
         /// </summary>
-        /// <param name="asyncPackage">The VSPackage</param>
-        /// <param name="errorListProvider">The error list provider</param>
+        /// <param name="asyncPackage">The VSPackage.</param>
+        /// <param name="errorListProvider">The error list provider.</param>
         public PackageSolutionEvents(AsyncPackage asyncPackage, ErrorListProvider errorListProvider)
         {
             this.Package = asyncPackage ?? throw new ArgumentNullException(nameof(asyncPackage));
@@ -62,9 +62,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Asynchronously registers the solution eve
+        /// Asynchronously registers the solution eve.
         /// </summary>
-        /// <returns>Async task</returns>
+        /// <returns>Async task.</returns>
         public async System.Threading.Tasks.Task RegisterEventsAsync()
         {
             await this.Package.JoinableTaskFactory.SwitchToMainThreadAsync();

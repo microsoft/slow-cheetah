@@ -4,7 +4,7 @@
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     /// <summary>
-    /// VS project type GUIDs
+    /// VS project type GUIDs.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements must be documented", Justification = "Static collection of GUIDs")]
     internal static class VsProjectTypes

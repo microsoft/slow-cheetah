@@ -7,7 +7,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     using Microsoft.VisualStudio.Jdt;
 
     /// <summary>
-    /// Shim for using <see cref="ITransformationLogger"/>
+    /// Shim for using <see cref="ITransformationLogger"/>.
     /// </summary>
     public class JsonShimLogger : IJsonTransformationLogger
     {
@@ -16,7 +16,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonShimLogger"/> class.
         /// </summary>
-        /// <param name="logger">Our own logger</param>
+        /// <param name="logger">Our own logger.</param>
         public JsonShimLogger(ITransformationLogger logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));

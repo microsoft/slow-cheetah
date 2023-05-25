@@ -21,7 +21,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
     public abstract class ConfigTransformTestsBase : IDisposable
     {
         /// <summary>
-        /// Gets the test solution directory
+        /// Gets the test solution directory.
         /// </summary>
         public string SolutionDir
         {
@@ -29,7 +29,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         }
 
         /// <summary>
-        /// Gets the output path of the test project
+        /// Gets the output path of the test project.
         /// </summary>
         public string OutputPath
         {
@@ -37,7 +37,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         }
 
         /// <summary>
-        /// Gets the test projects directory
+        /// Gets the test projects directory.
         /// </summary>
         public string TestProjectsDir
         {
@@ -45,7 +45,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         }
 
         /// <summary>
-        /// Gets the msbuild exe path that was cached during build
+        /// Gets the msbuild exe path that was cached during build.
         /// </summary>
         private static string MSBuildExePath
         {
@@ -57,10 +57,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         }
 
         /// <summary>
-        /// Builds the project of the given name from the <see cref="TestProjectsDir"/>
+        /// Builds the project of the given name from the <see cref="TestProjectsDir"/>.
         /// </summary>
         /// <param name="projectName">Name of the project to be built.
-        /// Must correspond to a folder name in the test projects directory</param>
+        /// Must correspond to a folder name in the test projects directory.</param>
         public void BuildProject(string projectName)
         {
             var globalProperties = new Dictionary<string, string>()
@@ -93,11 +93,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         }
 
         /// <summary>
-        /// Gets a app setting from a configuration file
+        /// Gets a app setting from a configuration file.
         /// </summary>
-        /// <param name="configFilePath">Path to the configuration file</param>
-        /// <param name="appSettingKey">Setting key</param>
-        /// <returns>Value of the setting</returns>
+        /// <param name="configFilePath">Path to the configuration file.</param>
+        /// <param name="appSettingKey">Setting key.</param>
+        /// <returns>Value of the setting.</returns>
         public string GetAppSettingValue(string configFilePath, string appSettingKey)
         {
             var configFile = XDocument.Load(configFilePath);
@@ -108,11 +108,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         }
 
         /// <summary>
-        /// Gets the value of a node within a configuration file
+        /// Gets the value of a node within a configuration file.
         /// </summary>
-        /// <param name="configFilePath">Path to the configuration file</param>
-        /// <param name="nodeName">Name of the node</param>
-        /// <returns>Value of the node</returns>
+        /// <param name="configFilePath">Path to the configuration file.</param>
+        /// <param name="nodeName">Name of the node.</param>
+        /// <returns>Value of the node.</returns>
         public string GetConfigNodeValue(string configFilePath, string nodeName)
         {
             var configFile = XDocument.Load(configFilePath);
@@ -120,7 +120,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         }
 
         /// <summary>
-        /// At the end of tests, delete the output path for the tested projects
+        /// At the end of tests, delete the output path for the tested projects.
         /// </summary>
         public void Dispose()
         {

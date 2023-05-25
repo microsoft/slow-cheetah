@@ -12,7 +12,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.Win32;
 
     /// <summary>
-    /// Options page for SlowCheetah
+    /// Options page for SlowCheetah.
     /// </summary>
     [System.Runtime.InteropServices.Guid("01B6BAC2-0BD6-4ead-95AE-6D6DE30A6286")]
     internal class OptionsDialogPage : BaseOptionsDialogPage
@@ -22,7 +22,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OptionsDialogPage"/> class.
-        /// Constructor called by VSIP just in time when user wants to view this tools, options page
+        /// Constructor called by VSIP just in time when user wants to view this tools, options page.
         /// </summary>
         public OptionsDialogPage()
         {
@@ -30,12 +30,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether preview is enabled or not
+        /// Gets or sets a value indicating whether preview is enabled or not.
         /// </summary>
         public bool EnablePreview { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to add DependentUpon metadata
+        /// Gets or sets a value indicating whether to add DependentUpon metadata.
         /// </summary>
         public bool AddDependentUpon { get; set; }
 
@@ -125,7 +125,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Save Tools-->Options settings to registry
+        /// Save Tools-->Options settings to registry.
         /// </summary>
         public override void SaveSettingsToStorage()
         {
@@ -149,7 +149,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// This event is raised when VS wants to deactivate this page.
         /// The page is deactivated unless the event is cancelled.
         /// </summary>
-        /// <param name="e">Arguments for the event</param>
+        /// <param name="e">Arguments for the event.</param>
         protected override void OnDeactivate(CancelEventArgs e)
         {
         }

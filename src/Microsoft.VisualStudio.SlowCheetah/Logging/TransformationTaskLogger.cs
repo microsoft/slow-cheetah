@@ -9,7 +9,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     using Microsoft.Build.Utilities;
 
     /// <summary>
-    /// Shim for using MSBuild logger in <see cref="ITransformer"/>
+    /// Shim for using MSBuild logger in <see cref="ITransformer"/>.
     /// </summary>
     public class TransformationTaskLogger : ITransformationLogger
     {
@@ -18,7 +18,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <summary>
         /// Initializes a new instance of the <see cref="TransformationTaskLogger"/> class.
         /// </summary>
-        /// <param name="logger">The MSBuild logger</param>
+        /// <param name="logger">The MSBuild logger.</param>
         public TransformationTaskLogger(TaskLoggingHelper logger)
         {
             this.loggingHelper = logger ?? throw new ArgumentNullException(nameof(logger));

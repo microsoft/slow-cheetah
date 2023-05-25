@@ -17,7 +17,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
-    /// Utilities class for the Visual Studio Extension Package
+    /// Utilities class for the Visual Studio Extension Package.
     /// </summary>
     public class PackageUtilities
     {
@@ -63,10 +63,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         };
 
         /// <summary>
-        /// Verifies if the extension of the given file is supported
+        /// Verifies if the extension of the given file is supported.
         /// </summary>
-        /// <param name="filePath">Full path to the file</param>
-        /// <returns>True if the file is supported</returns>
+        /// <param name="filePath">Full path to the file.</param>
+        /// <returns>True if the file is supported.</returns>
         public static bool IsExtensionSupportedForFile(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
@@ -83,11 +83,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Creates a temporary file name with an optional extension
+        /// Creates a temporary file name with an optional extension.
         /// </summary>
-        /// <param name="ensureFileDoesntExist">Whether it is ensured the file does not exist</param>
-        /// <param name="extension">Optional extension for the file</param>
-        /// <returns>Full path to the temporary file</returns>
+        /// <param name="ensureFileDoesntExist">Whether it is ensured the file does not exist.</param>
+        /// <param name="extension">Optional extension for the file.</param>
+        /// <returns>Full path to the temporary file.</returns>
         public static string GetTempFilename(bool ensureFileDoesntExist, string extension = null)
         {
             string path = Path.GetTempFileName();
@@ -116,12 +116,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         /// <summary>
         /// Checks if a file is a transform of another file according to their names and the given configurations
-        /// If a given file is  "name.extension", a transfomation file should be "name.{configuration}.extension"
+        /// If a given file is  "name.extension", a transfomation file should be "name.{configuration}.extension".
         /// </summary>
-        /// <param name="documentName">Name of the source file</param>
-        /// <param name="transformName">Name of the potential transform file</param>
-        /// <param name="configs">Project configurations</param>
-        /// <returns>True if the names correspond to compatible transformation files</returns>
+        /// <param name="documentName">Name of the source file.</param>
+        /// <param name="transformName">Name of the potential transform file.</param>
+        /// <param name="configs">Project configurations.</param>
+        /// <returns>True if the names correspond to compatible transformation files.</returns>
         public static bool IsFileTransformForBuildConfiguration(string documentName, string transformName, IEnumerable<string> configs)
         {
             if (configs == null || !configs.Any())
@@ -141,11 +141,11 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         /// <summary>
         /// Checks if a file is a generic transform of another file
-        /// If a given file is  "name.extension", a transfomation file should be "name.{something}.extension"
+        /// If a given file is  "name.extension", a transfomation file should be "name.{something}.extension".
         /// </summary>
-        /// <param name="documentName">Name of the source file</param>
-        /// <param name="transformName">Name of the potential transform file</param>
-        /// <returns>True if the names correspond to compatible transformation files</returns>
+        /// <param name="documentName">Name of the source file.</param>
+        /// <param name="transformName">Name of the potential transform file.</param>
+        /// <returns>True if the names correspond to compatible transformation files.</returns>
         public static bool IsGenericFileTransform(string documentName, string transformName)
         {
             return TryGetFileTransform(documentName, transformName, out _);
@@ -154,7 +154,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <summary>
         /// Gets if a path is valid or not.
         /// </summary>
-        /// <param name="path">The path to check if it is valid</param>
+        /// <param name="path">The path to check if it is valid.</param>
         /// <returns>True if path is valid, false otherwise.</returns>
         public static bool IsPathValid(string path)
         {
@@ -168,12 +168,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Gets an item from the project hierarchy
+        /// Gets an item from the project hierarchy.
         /// </summary>
-        /// <typeparam name="T">Type of object to be fetched</typeparam>
-        /// <param name="pHierarchy">Current IVsHierarchy</param>
-        /// <param name="itemID">ID of the desired item in the project</param>
-        /// <returns>The desired object typed to T</returns>
+        /// <typeparam name="T">Type of object to be fetched.</typeparam>
+        /// <param name="pHierarchy">Current IVsHierarchy.</param>
+        /// <param name="itemID">ID of the desired item in the project.</param>
+        /// <returns>The desired object typed to T.</returns>
         public static T GetAutomationFromHierarchy<T>(IVsHierarchy pHierarchy, uint itemID)
             where T : class
         {

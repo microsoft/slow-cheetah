@@ -17,7 +17,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
-    /// Utilities class for the Visual Studio Extension Package that deals specifically with projects
+    /// Utilities class for the Visual Studio Extension Package that deals specifically with projects.
     /// </summary>
     public static class ProjectUtilities
     {
@@ -28,20 +28,20 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         private static IEnumerable<string> supportedItemExtensions;
 
         /// <summary>
-        /// Gets the DTE from current context
+        /// Gets the DTE from current context.
         /// </summary>
-        /// <returns>The Visual Studio DTE object</returns>
+        /// <returns>The Visual Studio DTE object.</returns>
         public static DTE GetDTE()
         {
             return (DTE)Package.GetGlobalService(typeof(DTE));
         }
 
         /// <summary>
-        /// Verifies if a single object is selected
+        /// Verifies if a single object is selected.
         /// </summary>
-        /// <param name="hierarchy">Current selected project hierarchy</param>
-        /// <param name="itemid">ID of the selected item</param>
-        /// <returns>True if a single item is selected</returns>
+        /// <param name="hierarchy">Current selected project hierarchy.</param>
+        /// <param name="itemid">ID of the selected item.</param>
+        /// <returns>True if a single item is selected.</returns>
         public static bool IsSingleProjectItemSelection(out IVsHierarchy hierarchy, out uint itemid)
         {
             hierarchy = null;
@@ -112,10 +112,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Gets all project configurations
+        /// Gets all project configurations.
         /// </summary>
-        /// <param name="project">Current open project</param>
-        /// <returns>List of configuration names for that project</returns>
+        /// <param name="project">Current open project.</param>
+        /// <returns>List of configuration names for that project.</returns>
         public static IEnumerable<string> GetProjectConfigurations(Project project)
         {
             List<string> configurations = new List<string>();
@@ -136,10 +136,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Gets all project configurations
+        /// Gets all project configurations.
         /// </summary>
-        /// <param name="hierarchy">Current project hierarchy</param>
-        /// <returns>List of configuration names for that project</returns>
+        /// <param name="hierarchy">Current project hierarchy.</param>
+        /// <returns>List of configuration names for that project.</returns>
         public static IEnumerable<string> GetProjectConfigurations(IVsHierarchy hierarchy)
         {
             Project project = PackageUtilities.GetAutomationFromHierarchy<Project>(hierarchy, (uint)VSConstants.VSITEMID.Root);
@@ -147,10 +147,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Retrieves the supported project extensions from the package settings
+        /// Retrieves the supported project extensions from the package settings.
         /// </summary>
-        /// <param name="settingsManager">The settings manager for the project</param>
-        /// <returns>List of supported project extensions starting with '.'</returns>
+        /// <param name="settingsManager">The settings manager for the project.</param>
+        /// <returns>List of supported project extensions starting with '.'.</returns>
         public static IEnumerable<string> GetSupportedProjectExtensions(IVsSettingsManager settingsManager)
         {
             if (supportedProjectExtensions == null)
@@ -162,10 +162,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         }
 
         /// <summary>
-        /// Retrieves the supported item extensions from the package settings
+        /// Retrieves the supported item extensions from the package settings.
         /// </summary>
-        /// <param name="settingsManager">The settings manager for the project</param>
-        /// <returns>A list of supported item extensions</returns>
+        /// <param name="settingsManager">The settings manager for the project.</param>
+        /// <returns>A list of supported item extensions.</returns>
         public static IEnumerable<string> GetSupportedItemExtensions(IVsSettingsManager settingsManager)
         {
             if (supportedItemExtensions == null)
@@ -180,8 +180,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// Verifies if the given project is a Web Application.
         /// Checks the type GUIDs for that project.
         /// </summary>
-        /// <param name="project">Project to verify</param>
-        /// <returns>True if a subtype GUID matches the Web App Guid in Resources</returns>
+        /// <param name="project">Project to verify.</param>
+        /// <returns>True if a subtype GUID matches the Web App Guid in Resources.</returns>
         public static bool IsProjectWebApp(IVsProject project)
         {
             if (project is IVsAggregatableProject aggregatableProject)

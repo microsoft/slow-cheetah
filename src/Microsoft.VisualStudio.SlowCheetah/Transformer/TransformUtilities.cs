@@ -8,7 +8,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     using System.Text;
 
     /// <summary>
-    /// Utilities for transformations
+    /// Utilities for transformations.
     /// </summary>
     public static class TransformUtilities
     {

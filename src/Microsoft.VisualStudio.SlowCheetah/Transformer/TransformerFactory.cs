@@ -10,7 +10,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     using System.Linq;
 
     /// <summary>
-    /// Factory for <see cref="ITransformer"/>
+    /// Factory for <see cref="ITransformer"/>.
     /// </summary>
     public static class TransformerFactory
     {
@@ -21,11 +21,11 @@ namespace Microsoft.VisualStudio.SlowCheetah
         };
 
         /// <summary>
-        /// Gets the appropriate <see cref="ITransformer"/> for the given transformation
+        /// Gets the appropriate <see cref="ITransformer"/> for the given transformation.
         /// </summary>
-        /// <param name="source">Path to the file to be transformed</param>
-        /// <param name="logger">Logger to be used in the transformer</param>
-        /// <returns>The appropriate transformer for the given file</returns>
+        /// <param name="source">Path to the file to be transformed.</param>
+        /// <param name="logger">Logger to be used in the transformer.</param>
+        /// <returns>The appropriate transformer for the given file.</returns>
         public static ITransformer GetTransformer(string source, ITransformationLogger logger)
         {
             if (string.IsNullOrWhiteSpace(source))
@@ -40,8 +40,8 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <summary>
         /// Verifies if a file is of a supported format.
         /// </summary>
-        /// <param name="filePath">Full path to the file</param>
-        /// <returns>True is the file type is supported</returns>
+        /// <param name="filePath">Full path to the file.</param>
+        /// <returns>True is the file type is supported.</returns>
         public static bool IsSupportedFile(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))

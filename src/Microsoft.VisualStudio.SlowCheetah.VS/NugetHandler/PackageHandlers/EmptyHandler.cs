@@ -9,14 +9,14 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using TPL = System.Threading.Tasks;
 
     /// <summary>
-    /// An empty handler that performs no actions
+    /// An empty handler that performs no actions.
     /// </summary>
     internal class EmptyHandler : IPackageHandler
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EmptyHandler"/> class.
         /// </summary>
-        /// <param name="package">VS package</param>
+        /// <param name="package">VS package.</param>
         public EmptyHandler(AsyncPackage package)
         {
             this.Package = package ?? throw new ArgumentNullException(nameof(package));
@@ -26,7 +26,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         public AsyncPackage Package { get; }
 
         /// <inheritdoc/>
-        public TPL.Task Execute(Project project)
+        public TPL.Task ExecuteAsync(Project project)
         {
             // Do nothing
             return TPL.Task.CompletedTask;
