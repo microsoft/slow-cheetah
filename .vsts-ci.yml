@@ -8,6 +8,12 @@ trigger:
       - doc
       - '*.md'
 
+parameters:
+- name: RunApiScanTools
+  displayName: Run API Scan?
+  type: boolean
+  default: false
+
 variables:
   NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
   Codeql.Enabled: true
@@ -148,6 +154,40 @@ steps:
     Function: 'analyze'
     TargetPattern: 'guardianGlob'
     AnalyzeTargetGlob: 'bin/$(BuildConfiguration)/net472/Microsoft.VisualStudio.SlowCheetah*.dll;'
+
+ ### Copy files for APIScan
+- task: CopyFiles@2
+  displayName: 'Copy Files for APIScan'
+  inputs:
+    SourceFolder: 'bin/$(BuildConfiguration)/net472/'
+    Contents: |
+      **/Microsoft.VisualStudio.SlowCheetah*.dll
+      **/Microsoft.VisualStudio.SlowCheetah*.pdb
+    TargetFolder: $(Agent.TempDirectory)\APIScanFiles
+  condition: and(succeeded(), ne(variables['DisableAPIScan'], 'true'))
+
+ ### Run latest version of APIScan listed at https://www.1eswiki.com/wiki/APIScan_Build_Task
+- task: APIScan@2
+  displayName: Run APIScan
+  inputs:
+    softwareFolder: $(Agent.TempDirectory)\APIScanFiles
+    softwareName: 'StreamJsonRpc'
+    softwareVersionNum: '$(Build.BuildId)'
+    isLargeApp: false
+    toolVersion: 'Latest'
+  condition: and(succeeded(), ne(variables['DisableAPIScan'], 'true'))
+  env:
+    AzureServicesAuthConnectionString: runAs=App;AppId=$(ApiScanClientId);TenantId=$(ApiScanTenant);AppKey=$(ApiScanSecret)
+
+ ### Create formatted HTML code analysis log file.
+- task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
+  displayName: 'Create Security Analysis Report'
+  inputs:
+    BinSkim: true
+    BinSkimBreakOn: WarningAbove
+    CredScan: true
+    PoliCheck: true
+    PoliCheckBreakOn: Severity4Above
 
 - task: PublishSecurityAnalysisLogs@3
   displayName: 'Publish Guardian Artifacts'
