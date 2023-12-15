@@ -80,7 +80,6 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    vsVersion: 15.0
     solution: 'src\SlowCheetah.sln'
     msbuildArgs: /t:Restore
     platform: $(BuildPlatform)
@@ -89,7 +88,6 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    vsVersion: 15.0
     solution: 'src\SlowCheetah.sln'
     msbuildArgs: '/bl:"$(Build.ArtifactStagingDirectory)/build_logs/slowcheetah.binlog"'
     platform: $(BuildPlatform)
