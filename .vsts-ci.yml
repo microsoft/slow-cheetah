@@ -80,6 +80,9 @@ steps:
 
 - task: NuGetAuthenticate@0
   displayName: 'NuGet Authenticate'
+  inputs:
+    nuGetServiceConnections: azure-public/msft_consumption
+    forceReinstallCredentialProvider: true
 
 - task: VSBuild@1
   inputs:
