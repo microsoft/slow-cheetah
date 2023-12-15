@@ -78,6 +78,9 @@ steps:
     FileDirPath: '$(Build.StagingDirectory)'
     DisableRemediation: false
 
+- task: NuGetAuthenticate@0
+  displayName: 'NuGet Authenticate'
+
 - task: VSBuild@1
   inputs:
     solution: 'src\SlowCheetah.sln'
