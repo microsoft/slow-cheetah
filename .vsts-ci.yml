@@ -183,7 +183,7 @@ steps:
       **/Microsoft.VisualStudio.SlowCheetah*.dll
       **/Microsoft.VisualStudio.SlowCheetah*.pdb
     TargetFolder: $(Agent.TempDirectory)\APIScanFiles
-  condition: and(succeeded(), ne(variables['DisableAPIScan'], 'true'))
+  condition: and(succeeded(), eq(variables['RunAPIScan'], 'true'))
 
  ### Run latest version of APIScan listed at https://www.1eswiki.com/wiki/APIScan_Build_Task
 - task: APIScan@2
@@ -194,7 +194,7 @@ steps:
     softwareVersionNum: '$(Build.BuildId)'
     isLargeApp: false
     toolVersion: 'Latest'
-  condition: and(succeeded(), ne(variables['DisableAPIScan'], 'true'))
+  condition: and(succeeded(), eq(variables['RunAPIScan'], 'true'))
   env:
     AzureServicesAuthConnectionString: runAs=App;AppId=$(ApiScanClientId);TenantId=$(ApiScanTenant);AppKey=$(ApiScanSecret)
 
