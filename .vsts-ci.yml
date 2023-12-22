@@ -8,6 +8,15 @@ trigger:
       - doc
       - '*.md'
 
+schedules:
+    # Weekly api-scan builds
+  - cron: "0 10 * * Sun" # Every Sunday @ 2 am PST
+    displayName: Weekly api-scan
+    always: true
+    branches:
+      include:
+      - main
+
 parameters:
 - name: RunApiScanTools
   displayName: Run API Scan?
@@ -16,10 +25,16 @@ parameters:
 
 variables:
   NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
+  ${{ if or(eq(parameters.RunApiScanTools, 'true'), eq(variables['Build.CronSchedule.DisplayName'], 'Weekly api-scan')) }}:
+    RunAPIScan: true
+  ${{ else }}:
+    RunAPIScan: false
   Codeql.Enabled: true
+  Codeql.TSAEnabled: true
+  Codeql.TSAOptionsPath: $(Build.SourcesDirectory)\azure-pipelines\TSAOptions.json
 
 queue:
-  name: VSEngSS-MicroBuild2019-1ES
+  name: VSEngSS-MicroBuild2022-1ES
   timeoutInMinutes: 60
 
 steps:
@@ -62,7 +77,7 @@ steps:
   inputs:
     versionSpec: 6.4.0
 
-- task: MicroBuildSigningPlugin@1
+- task: MicroBuildSigningPlugin@4
   inputs:
     signType: $(SignType)
     esrpSigning: true
@@ -99,11 +114,12 @@ steps:
     configuration: $(BuildConfiguration)
   displayName: Build SlowCheetah solution
 
-- task: MicroBuildCodesignVerify@1
+- task: MicroBuildCodesignVerify@3
   inputs:
-    TargetFolder: $(Build.SourcesDirectory)\bin\$(BuildConfiguration)\packages
-    WhiteListPathForCerts: $(Build.SourcesDirectory)\src\build\no_authenticode.txt
-    WhiteListPathForSigs: $(Build.SourcesDirectory)\src\build\no_strongname.txt
+    TargetFolders: |
+      $(Build.SourcesDirectory)\bin\$(BuildConfiguration)\packages
+    ApprovalListPathForCerts: $(Build.SourcesDirectory)\src\build\no_authenticode.txt
+    ApprovalListPathForSigs: $(Build.SourcesDirectory)\src\build\no_strongname.txt
   displayName: Verify code signing
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
@@ -174,7 +190,7 @@ steps:
   displayName: Run APIScan
   inputs:
     softwareFolder: $(Agent.TempDirectory)\APIScanFiles
-    softwareName: 'StreamJsonRpc'
+    softwareName: 'Slowcheetah'
     softwareVersionNum: '$(Build.BuildId)'
     isLargeApp: false
     toolVersion: 'Latest'
@@ -186,6 +202,7 @@ steps:
 - task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
   displayName: 'Create Security Analysis Report'
   inputs:
+    APIScan: true
     BinSkim: true
     BinSkimBreakOn: WarningAbove
     CredScan: true
@@ -199,6 +216,14 @@ steps:
     ArtifactType: Container
     PublishProcessedResults: false
     AllTools: true
+
+# Create bugs for APIScan
+- task: TSAUpload@2
+  displayName: 'Create bugs for APIScan'
+  inputs:
+    GdnPublishTsaOnboard: true
+    GdnPublishTsaConfigFile: '$(Build.SourcesDirectory)\azure-pipelines\TSAOptions.json'
+  condition: eq(variables['RunApiScan'], 'true')
 
 ## Following steps are skipped in PR builds
 
