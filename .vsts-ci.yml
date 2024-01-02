@@ -8,12 +8,33 @@ trigger:
       - doc
       - '*.md'
 
+schedules:
+    # Weekly api-scan builds
+  - cron: "0 10 * * Sun" # Every Sunday @ 2 am PST
+    displayName: Weekly api-scan
+    always: true
+    branches:
+      include:
+      - main
+
+parameters:
+- name: RunApiScanTools
+  displayName: Run API Scan?
+  type: boolean
+  default: false
+
 variables:
   NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
+  ${{ if or(eq(parameters.RunApiScanTools, 'true'), eq(variables['Build.CronSchedule.DisplayName'], 'Weekly api-scan')) }}:
+    RunAPIScan: true
+  ${{ else }}:
+    RunAPIScan: false
   Codeql.Enabled: true
+  Codeql.TSAEnabled: true
+  Codeql.TSAOptionsPath: $(Build.SourcesDirectory)\azure-pipelines\TSAOptions.json
 
 queue:
-  name: VSEngSS-MicroBuild2019-1ES
+  name: VSEngSS-MicroBuild2022-1ES
   timeoutInMinutes: 60
 
 steps:
@@ -56,7 +77,7 @@ steps:
   inputs:
     versionSpec: 6.4.0
 
-- task: MicroBuildSigningPlugin@1
+- task: MicroBuildSigningPlugin@4
   inputs:
     signType: $(SignType)
     esrpSigning: true
@@ -72,9 +93,13 @@ steps:
     FileDirPath: '$(Build.StagingDirectory)'
     DisableRemediation: false
 
+- task: NuGetAuthenticate@0
+  displayName: 'NuGet Authenticate'
+  inputs:
+    forceReinstallCredentialProvider: true
+
 - task: VSBuild@1
   inputs:
-    vsVersion: 15.0
     solution: 'src\SlowCheetah.sln'
     msbuildArgs: /t:Restore
     platform: $(BuildPlatform)
@@ -83,18 +108,18 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    vsVersion: 15.0
     solution: 'src\SlowCheetah.sln'
     msbuildArgs: '/bl:"$(Build.ArtifactStagingDirectory)/build_logs/slowcheetah.binlog"'
     platform: $(BuildPlatform)
     configuration: $(BuildConfiguration)
   displayName: Build SlowCheetah solution
 
-- task: MicroBuildCodesignVerify@1
+- task: MicroBuildCodesignVerify@3
   inputs:
-    TargetFolder: $(Build.SourcesDirectory)\bin\$(BuildConfiguration)\packages
-    WhiteListPathForCerts: $(Build.SourcesDirectory)\src\build\no_authenticode.txt
-    WhiteListPathForSigs: $(Build.SourcesDirectory)\src\build\no_strongname.txt
+    TargetFolders: |
+      $(Build.SourcesDirectory)\bin\$(BuildConfiguration)\packages
+    ApprovalListPathForCerts: $(Build.SourcesDirectory)\src\build\no_authenticode.txt
+    ApprovalListPathForSigs: $(Build.SourcesDirectory)\src\build\no_strongname.txt
   displayName: Verify code signing
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
@@ -149,6 +174,41 @@ steps:
     TargetPattern: 'guardianGlob'
     AnalyzeTargetGlob: 'bin/$(BuildConfiguration)/net472/Microsoft.VisualStudio.SlowCheetah*.dll;'
 
+ ### Copy files for APIScan
+- task: CopyFiles@2
+  displayName: 'Copy Files for APIScan'
+  inputs:
+    SourceFolder: 'bin/$(BuildConfiguration)/net472/'
+    Contents: |
+      **/Microsoft.VisualStudio.SlowCheetah*.dll
+      **/Microsoft.VisualStudio.SlowCheetah*.pdb
+    TargetFolder: $(Agent.TempDirectory)\APIScanFiles
+  condition: and(succeeded(), eq(variables['RunAPIScan'], 'true'))
+
+ ### Run latest version of APIScan listed at https://www.1eswiki.com/wiki/APIScan_Build_Task
+- task: APIScan@2
+  displayName: Run APIScan
+  inputs:
+    softwareFolder: $(Agent.TempDirectory)\APIScanFiles
+    softwareName: 'Slowcheetah'
+    softwareVersionNum: '$(Build.BuildId)'
+    isLargeApp: false
+    toolVersion: 'Latest'
+  condition: and(succeeded(), eq(variables['RunAPIScan'], 'true'))
+  env:
+    AzureServicesAuthConnectionString: runAs=App;AppId=$(ApiScanClientId);TenantId=$(ApiScanTenant);AppKey=$(ApiScanSecret)
+
+ ### Create formatted HTML code analysis log file.
+- task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
+  displayName: 'Create Security Analysis Report'
+  inputs:
+    APIScan: true
+    BinSkim: true
+    BinSkimBreakOn: WarningAbove
+    CredScan: true
+    PoliCheck: true
+    PoliCheckBreakOn: Severity4Above
+
 - task: PublishSecurityAnalysisLogs@3
   displayName: 'Publish Guardian Artifacts'
   inputs:
@@ -156,6 +216,14 @@ steps:
     ArtifactType: Container
     PublishProcessedResults: false
     AllTools: true
+
+# Create bugs for APIScan
+- task: TSAUpload@2
+  displayName: 'Create bugs for APIScan'
+  inputs:
+    GdnPublishTsaOnboard: true
+    GdnPublishTsaConfigFile: '$(Build.SourcesDirectory)\azure-pipelines\TSAOptions.json'
+  condition: eq(variables['RunApiScan'], 'true')
 
 ## Following steps are skipped in PR builds
 
