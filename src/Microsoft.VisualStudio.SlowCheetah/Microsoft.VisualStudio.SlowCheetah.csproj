@@ -11,7 +11,7 @@
      <PackageTags>SlowCheetah slow cheetah XML JSON Transform XDT JDT web.config app.config</PackageTags>
      <PackageIconUrl>https://aka.ms/VsExtensibilityIcon</PackageIconUrl>
      <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-     <PackageLicenseUrl>https://raw.githubusercontent.com/Microsoft/slow-cheetah/master/LICENSE</PackageLicenseUrl>
+     <PackageLicenseUrl>https://raw.githubusercontent.com/Microsoft/slow-cheetah/main/LICENSE</PackageLicenseUrl>
      <PackageProjectUrl>https://github.com/Microsoft/slow-cheetah</PackageProjectUrl>
      <RepositoryUrl>https://github.com/Microsoft/slow-cheetah</RepositoryUrl>
      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
