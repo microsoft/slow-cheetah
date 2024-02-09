@@ -69,12 +69,6 @@ extends:
               zipSources: false
           outputs:
           - output: pipelineArtifact
-            displayName: 'Publish Artifact: ESRP signing logs'
-            condition: eq(variables['SignType'], 'real')
-            targetPath: $(Build.ArtifactStagingDirectory)/MicroBuild/ESRPClient
-            artifactName: esrpclient_logs
-            artifactType: Container
-          - output: pipelineArtifact
             displayName: 'Publish Artifact: build logs'
             condition: succeededOrFailed()
             targetPath: $(Build.ArtifactStagingDirectory)/build_logs
