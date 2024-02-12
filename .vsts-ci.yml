@@ -124,7 +124,7 @@ extends:
             ScanType: CustomScan
             FileDirPath: '$(Build.StagingDirectory)'
             DisableRemediation: false
-        - task: NuGetAuthenticate@0
+        - task: NuGetAuthenticate@1
           displayName: 'NuGet Authenticate'
           inputs:
             forceReinstallCredentialProvider: true
