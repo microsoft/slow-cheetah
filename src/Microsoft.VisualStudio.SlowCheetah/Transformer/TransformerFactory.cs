@@ -18,6 +18,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         {
             new JsonTransformer(),
             new XmlTransformer(),
+            new IniTransformer()
         };
 
         /// <summary>
