@@ -41,11 +41,10 @@ extends:
     sdl:
       sourceAnalysisPool:
         name: VSEngSS-MicroBuild2022-1ES
-        image: server2022-microbuildVS2022-1es
-
+        image: 1ESPT-Windows2022
     pool:
       name: VSEngSS-MicroBuild2022-1ES
-      image: server2022-microbuildVS2022-1es
+      image: 1ESPT-Windows2022
       os: windows
     customBuildTags:
     - ES365AIMigrationTooling
