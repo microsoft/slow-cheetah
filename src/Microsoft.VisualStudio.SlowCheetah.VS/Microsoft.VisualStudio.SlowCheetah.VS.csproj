@@ -21,7 +21,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.63" />
     <PackageReference Include="NuGet.VisualStudio" Version="17.6.0" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.132" PrivateAssets="all" />
-    <PackageReference Include="NuGet.VisualStudio.Contracts" Version="17.11.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
   </ItemGroup>
 
