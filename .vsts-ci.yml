@@ -1,30 +1,26 @@
 trigger:
   branches:
     include:
-      - main
+    - main
   paths:
-    exclude: 
-      - .github
-      - doc
-      - '*.md'
-
+    exclude:
+    - .github
+    - doc
+    - '*.md'
 schedules:
-    # Weekly api-scan builds
-  - cron: "0 10 * * Sun" # Every Sunday @ 2 am PST
-    displayName: Weekly api-scan
-    always: true
-    branches:
-      include:
-      - main
-
+- cron: "0 10 * * Sun"
+  displayName: Weekly api-scan
+  always: true
+  branches:
+    include:
+    - main
 parameters:
 - name: RunApiScanTools
   displayName: Run API Scan?
   type: boolean
   default: false
-
 variables:
-  NugetSecurityAnalysisWarningLevel: none # nuget.config requires signed packages by trusted owners
+  NugetSecurityAnalysisWarningLevel: none
   ${{ if or(eq(parameters.RunApiScanTools, 'true'), eq(variables['Build.CronSchedule.DisplayName'], 'Weekly api-scan')) }}:
     RunAPIScan: true
   ${{ else }}:
@@ -33,253 +29,209 @@ variables:
   Codeql.TSAEnabled: true
   Codeql.TSAOptionsPath: $(Build.SourcesDirectory)\azure-pipelines\TSAOptions.json
 
-queue:
-  name: VSEngSS-MicroBuild2022-1ES
-  timeoutInMinutes: 60
+resources:
+  repositories:
+  - repository: MicroBuildTemplate
+    type: git
+    name: 1ESPipelineTemplates/MicroBuildTemplate
+    ref: refs/tags/release
+extends:
+  template: azure-pipelines/MicroBuild.1ES.Official.yml@MicroBuildTemplate
+  parameters:
+    sdl:
+      sourceAnalysisPool:
+        name: VSEngSS-MicroBuild2022-1ES
+        image: server2022-microbuildVS2022-1es
 
-steps:
+    pool:
+      name: VSEngSS-MicroBuild2022-1ES
+      image: server2022-microbuildVS2022-1es
+      os: windows
+    customBuildTags:
+    - ES365AIMigrationTooling
+    stages:
+    - stage: stage
+      jobs:
+      - job: job
+        templateContext:
+          mb:
+            signing:
+              enabled: true
+              signType: $(SignType)
+              zipSources: false
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: build logs'
+            condition: succeededOrFailed()
+            targetPath: $(Build.ArtifactStagingDirectory)/build_logs
+            artifactName: build_logs
+            artifactType: Container
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: symbols'
+            condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+            targetPath: '$(Build.ArtifactStagingDirectory)/symbols'
+            artifactName: symbols
+            publishLocation: Container
+          - output: pipelineArtifact
+            displayName: 'Publish packages'
+            condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+            targetPath: $(Build.ArtifactStagingDirectory)/packages
+            artifactName: packages
+            artifactType: Container
+          - output: nuget
+            displayName: 'Publish Sdk NuGet packages to VSTS feeds'
+            condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+            packageParentPath: '$(Build.ArtifactStagingDirectory)'
+            searchPatternPush: 'bin/$(BuildConfiguration)/packages/*.nupkg'
+            publishVstsFeed: $(feedGuid)
+            allowPackageConflicts: true
+        steps:
+        - task: ComponentGovernanceComponentDetection@0
+          inputs:
+            scanType: 'Register'
+            verbosity: 'Verbose'
+            alertWarningLevel: 'High'
+        - task: PowerShell@2
+          displayName: Set VSTS variables
+          inputs:
+            targetType: inline
+            script: |
+              if ($env:SignType -eq 'Real') {
+                $feedGuid = '09d8d03c-1ac8-456e-9274-4d2364527d99' ## VSIDE-RealSigned-Release
+              } else {
+                $feedGuid = 'da484c78-f942-44ef-b197-99e2a1bef53c' ## VSIDE-TestSigned-Release
+              }
+              Write-Host "##vso[task.setvariable variable=feedGuid]$feedGuid"
+              $SkipPublishingNetworkArtifacts = 'true' ## Network artifacts not allowed on Scale Set Pool
+              Write-Host "##vso[task.setvariable variable=SkipPublishingNetworkArtifacts]$SkipPublishingNetworkArtifacts"
+              if ($env:ComputerName.StartsWith('factoryvm', [StringComparison]::OrdinalIgnoreCase)) {
+                Write-Host "Running on hosted queue"
+                Write-Host "##vso[task.setvariable variable=Hosted]true"
+              }
+        - task: CmdLine@2
+          inputs:
+            script: |
+              del /s /q "bin"
+          displayName: Purge bin
+        - task: NuGetToolInstaller@0
+          displayName: Pin nuget.exe version
+          inputs:
+            versionSpec: 6.4.0
+        - task: AntiMalware@4
+          displayName: 'Run MpCmdRun.exe'
+          inputs:
+            InputType: Basic
+            ScanType: CustomScan
+            FileDirPath: '$(Build.StagingDirectory)'
+            DisableRemediation: false
+        - task: NuGetAuthenticate@1
+          displayName: 'NuGet Authenticate'
+          inputs:
+            forceReinstallCredentialProvider: true
+        - task: VSBuild@1
+          inputs:
+            solution: 'src\SlowCheetah.sln'
+            msbuildArgs: /t:Restore
+            platform: $(BuildPlatform)
+            configuration: $(BuildConfiguration)
+          displayName: Restore SlowCheetah solution
+        - task: VSBuild@1
+          inputs:
+            solution: 'src\SlowCheetah.sln'
+            msbuildArgs: '/bl:"$(Build.ArtifactStagingDirectory)/build_logs/slowcheetah.binlog"'
+            platform: $(BuildPlatform)
+            configuration: $(BuildConfiguration)
+          displayName: Build SlowCheetah solution
+        - task: MicroBuildCodesignVerify@3
+          inputs:
+            TargetFolders: |
+              $(Build.SourcesDirectory)\bin\$(BuildConfiguration)\packages
+            ApprovalListPathForCerts: $(Build.SourcesDirectory)\src\build\no_authenticode.txt
+            ApprovalListPathForSigs: $(Build.SourcesDirectory)\src\build\no_strongname.txt
+          displayName: Verify code signing
+          condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        - task: VSTest@2
+          inputs:
+            testFiltercriteria: TestCategory!=FailsInCloudTest
+            searchFolder: $(System.DefaultWorkingDirectory)\bin\
+            testAssemblyVer2: |
+              $(BuildConfiguration)\**\*test*.dll
+              !**\obj\**
+            platform: $(BuildPlatform)
+            configuration: $(BuildConfiguration)
+          displayName: Run Tests
+          condition: and(succeeded(), ne(variables['SignType'], 'real'))
+        - task: PoliCheck@2
+          displayName: 'Run PoliCheck'
+          inputs:
+            targetType: F
+          condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        - task: ManifestGeneratorTask@0
+          inputs:
+            BuildDropPath: $(Build.ArtifactStagingDirectory)/build_logs
+        - task: BinSkim@4
+          displayName: Run BinSkim
+          inputs:
+            InputType: 'Basic'
+            Function: 'analyze'
+            TargetPattern: 'guardianGlob'
+            AnalyzeTargetGlob: 'bin/$(BuildConfiguration)/net472/Microsoft.VisualStudio.SlowCheetah*.dll;'
+        - task: CopyFiles@2
+          displayName: 'Copy Files for APIScan'
+          inputs:
+            SourceFolder: 'bin/$(BuildConfiguration)/net472/'
+            Contents: |
+              **/Microsoft.VisualStudio.SlowCheetah*.dll
+              **/Microsoft.VisualStudio.SlowCheetah*.pdb
+            TargetFolder: $(Agent.TempDirectory)\APIScanFiles
+          condition: and(succeeded(), eq(variables['RunAPIScan'], 'true'))
+        - task: APIScan@2
+          displayName: Run APIScan
+          inputs:
+            softwareFolder: $(Agent.TempDirectory)\APIScanFiles
+            softwareName: 'Slowcheetah'
+            softwareVersionNum: '$(Build.BuildId)'
+            isLargeApp: false
+            toolVersion: 'Latest'
+          condition: and(succeeded(), eq(variables['RunAPIScan'], 'true'))
+          env:
+            AzureServicesAuthConnectionString: RunAs=App;AppId=$(ApiScanClientId)
+        - task: PublishSecurityAnalysisLogs@3
+          displayName: 'Publish Guardian Artifacts'
+          inputs:
+            ArtifactName: CodeAnalysisLogs
+            ArtifactType: Container
+            PublishProcessedResults: false
+            AllTools: true
+        - task: TSAUpload@2
+          displayName: 'Create bugs for APIScan'
+          inputs:
+            GdnPublishTsaOnboard: true
+            GdnPublishTsaConfigFile: '$(Build.SourcesDirectory)\azure-pipelines\TSAOptions.json'
+          condition: eq(variables['RunApiScan'], 'true')
+        - task: CopyFiles@1
+          displayName: Collecting symbols artifacts
+          inputs:
+            SourceFolder: bin/$(BuildConfiguration)/net472
+            Contents: |
+              **/Microsoft.VisualStudio.SlowCheetah?(*.dll|*.pdb|*.xml)
+              !**/*Test*
+            TargetFolder: $(Build.ArtifactStagingDirectory)/symbols
+          condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
-- task: ComponentGovernanceComponentDetection@0
-  inputs:
-    scanType: 'Register'
-    verbosity: 'Verbose'
-    alertWarningLevel: 'High'
-
-- task: PowerShell@2
-  displayName: Set VSTS variables
-  inputs:
-    targetType: inline
-    script: |
-      if ($env:SignType -eq 'Real') {
-        $feedGuid = '09d8d03c-1ac8-456e-9274-4d2364527d99' ## VSIDE-RealSigned-Release
-      } else {
-        $feedGuid = 'da484c78-f942-44ef-b197-99e2a1bef53c' ## VSIDE-TestSigned-Release
-      }
-
-      Write-Host "##vso[task.setvariable variable=feedGuid]$feedGuid"
-
-      $SkipPublishingNetworkArtifacts = 'true' ## Network artifacts not allowed on Scale Set Pool
-      Write-Host "##vso[task.setvariable variable=SkipPublishingNetworkArtifacts]$SkipPublishingNetworkArtifacts"
-
-      if ($env:ComputerName.StartsWith('factoryvm', [StringComparison]::OrdinalIgnoreCase)) {
-        Write-Host "Running on hosted queue"
-        Write-Host "##vso[task.setvariable variable=Hosted]true"
-      }
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      del /s /q "bin"
-  displayName: Purge bin
-
-- task: NuGetToolInstaller@0
-  displayName: Pin nuget.exe version
-  inputs:
-    versionSpec: 6.4.0
-
-- task: MicroBuildSigningPlugin@4
-  inputs:
-    signType: $(SignType)
-    esrpSigning: true
-    zipSources: false
-  displayName: Install MicroBuild Signing plugin
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-
-- task: AntiMalware@4
-  displayName: 'Run MpCmdRun.exe'
-  inputs:
-    InputType: Basic
-    ScanType: CustomScan
-    FileDirPath: '$(Build.StagingDirectory)'
-    DisableRemediation: false
-
-- task: NuGetAuthenticate@0
-  displayName: 'NuGet Authenticate'
-  inputs:
-    forceReinstallCredentialProvider: true
-
-- task: VSBuild@1
-  inputs:
-    solution: 'src\SlowCheetah.sln'
-    msbuildArgs: /t:Restore
-    platform: $(BuildPlatform)
-    configuration: $(BuildConfiguration)
-  displayName: Restore SlowCheetah solution
-
-- task: VSBuild@1
-  inputs:
-    solution: 'src\SlowCheetah.sln'
-    msbuildArgs: '/bl:"$(Build.ArtifactStagingDirectory)/build_logs/slowcheetah.binlog"'
-    platform: $(BuildPlatform)
-    configuration: $(BuildConfiguration)
-  displayName: Build SlowCheetah solution
-
-- task: MicroBuildCodesignVerify@3
-  inputs:
-    TargetFolders: |
-      $(Build.SourcesDirectory)\bin\$(BuildConfiguration)\packages
-    ApprovalListPathForCerts: $(Build.SourcesDirectory)\src\build\no_authenticode.txt
-    ApprovalListPathForSigs: $(Build.SourcesDirectory)\src\build\no_strongname.txt
-  displayName: Verify code signing
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-
-- task: VSTest@2
-  inputs:
-    testFiltercriteria: TestCategory!=FailsInCloudTest
-    searchFolder: $(System.DefaultWorkingDirectory)\bin\
-    testAssemblyVer2: |
-      $(BuildConfiguration)\**\*test*.dll
-      !**\obj\**
-    platform: $(BuildPlatform)
-    configuration: $(BuildConfiguration)
-  displayName: Run Tests
-  condition: and(succeeded(), ne(variables['SignType'], 'real'))
-
-- task: MicroBuildCleanup@1
-  displayName: MicroBuild Cleanup
-  condition: succeededOrFailed()
-
-- task: PoliCheck@2
-  displayName: 'Run PoliCheck'
-  inputs:
-    targetType: F
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-
-- task: ManifestGeneratorTask@0
-  inputs:
-    BuildDropPath: $(Build.ArtifactStagingDirectory)/build_logs
-  
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: $(Build.ArtifactStagingDirectory)/MicroBuild/ESRPClient
-    ArtifactName: esrpclient_logs
-    ArtifactType: Container
-  displayName: 'Publish Artifact: ESRP signing logs'
-  condition: eq(variables['SignType'], 'real')
-
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: $(Build.ArtifactStagingDirectory)/build_logs
-    ArtifactName: build_logs
-    ArtifactType: Container
-  displayName: 'Publish Artifact: build logs'
-  condition: succeededOrFailed()
-
-- task: BinSkim@4
-  displayName: Run BinSkim
-  inputs:
-    InputType: 'Basic'
-    Function: 'analyze'
-    TargetPattern: 'guardianGlob'
-    AnalyzeTargetGlob: 'bin/$(BuildConfiguration)/net472/Microsoft.VisualStudio.SlowCheetah*.dll;'
-
- ### Copy files for APIScan
-- task: CopyFiles@2
-  displayName: 'Copy Files for APIScan'
-  inputs:
-    SourceFolder: 'bin/$(BuildConfiguration)/net472/'
-    Contents: |
-      **/Microsoft.VisualStudio.SlowCheetah*.dll
-      **/Microsoft.VisualStudio.SlowCheetah*.pdb
-    TargetFolder: $(Agent.TempDirectory)\APIScanFiles
-  condition: and(succeeded(), eq(variables['RunAPIScan'], 'true'))
-
- ### Run latest version of APIScan listed at https://www.1eswiki.com/wiki/APIScan_Build_Task
-- task: APIScan@2
-  displayName: Run APIScan
-  inputs:
-    softwareFolder: $(Agent.TempDirectory)\APIScanFiles
-    softwareName: 'Slowcheetah'
-    softwareVersionNum: '$(Build.BuildId)'
-    isLargeApp: false
-    toolVersion: 'Latest'
-  condition: and(succeeded(), eq(variables['RunAPIScan'], 'true'))
-  env:
-    AzureServicesAuthConnectionString: runAs=App;AppId=$(ApiScanClientId);TenantId=$(ApiScanTenant);AppKey=$(ApiScanSecret)
-
- ### Create formatted HTML code analysis log file.
-- task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
-  displayName: 'Create Security Analysis Report'
-  inputs:
-    APIScan: true
-    BinSkim: true
-    BinSkimBreakOn: WarningAbove
-    CredScan: true
-    PoliCheck: true
-    PoliCheckBreakOn: Severity4Above
-
-- task: PublishSecurityAnalysisLogs@3
-  displayName: 'Publish Guardian Artifacts'
-  inputs:
-    ArtifactName: CodeAnalysisLogs
-    ArtifactType: Container
-    PublishProcessedResults: false
-    AllTools: true
-
-# Create bugs for APIScan
-- task: TSAUpload@2
-  displayName: 'Create bugs for APIScan'
-  inputs:
-    GdnPublishTsaOnboard: true
-    GdnPublishTsaConfigFile: '$(Build.SourcesDirectory)\azure-pipelines\TSAOptions.json'
-  condition: eq(variables['RunApiScan'], 'true')
-
-## Following steps are skipped in PR builds
-
-- task: CopyFiles@1
-  displayName: Collecting symbols artifacts
-  inputs:
-    SourceFolder: bin/$(BuildConfiguration)/net472
-    Contents: |
-      **/Microsoft.VisualStudio.SlowCheetah?(*.dll|*.pdb|*.xml)
-      !**/*Test*
-    TargetFolder: $(Build.ArtifactStagingDirectory)/symbols
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-
-- task: PublishSymbols@2
-  inputs:
-    SymbolsFolder: $(Build.ArtifactStagingDirectory)/symbols
-    SearchPattern: '**\*.pdb'
-    SymbolServerType: TeamServices
-    ArtifactServices.Symbol.AccountName: microsoft
-    ArtifactServices.Symbol.PAT: $(System.AccessToken)
-    ArtifactServices.Symbol.UseAAD: false
-  displayName: Archive symbols to VSTS
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['SignType'], 'real'))
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/symbols'
-    ArtifactName: symbols
-    publishLocation: Container
-  displayName: 'Publish Artifact: symbols'
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-
-- task: CopyFiles@1
-  displayName: Collecting packages
-  inputs:
-    SourceFolder: bin/$(BuildConfiguration)/packages
-    Contents: |
-      *.nupkg
-      *.vsix
-    TargetFolder: $(Build.ArtifactStagingDirectory)/packages
-    flattenFolders: false
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-
-- task: PublishBuildArtifacts@1
-  displayName: Publish packages
-  inputs:
-    PathtoPublish: $(Build.ArtifactStagingDirectory)/packages
-    ArtifactName: packages
-    ArtifactType: Container
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-
-- task: NuGetCommand@2
-  inputs:
-    command: push
-    searchPatternPush: 'bin/$(BuildConfiguration)/packages/*.nupkg'
-    publishVstsFeed: $(feedGuid)
-    allowPackageConflicts: true
-  displayName: Publish Sdk NuGet packages to VSTS feeds
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        - task: MicroBuildArchiveSymbols@5
+          displayName: 🔣 Archive symbols to Symweb
+          inputs:
+            SymbolsFeatureName: $(SymbolsFeatureName)
+            SymbolsProject: VS
+          condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['SignType'], 'real'))
+        - task: CopyFiles@1
+          displayName: Collecting packages
+          inputs:
+            SourceFolder: bin/$(BuildConfiguration)/packages
+            Contents: |
+              *.nupkg
+              *.vsix
+            TargetFolder: $(Build.ArtifactStagingDirectory)/packages
+            flattenFolders: false
+          condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
