@@ -74,6 +74,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// This should be removed when NuGet adds this to their public API.</remarks>
         public bool ProjectSupportsNuget(IVsHierarchy hierarchy)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (hierarchy == null)
             {
                 throw new ArgumentNullException(nameof(hierarchy));
@@ -115,6 +116,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>A <see cref="TPL.Task"/> representing the asynchronous operation.</returns>
         public async TPL.Task CheckSlowCheetahInstallationAsync(IVsHierarchy hierarchy)
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             if (hierarchy == null)
             {
                 throw new ArgumentNullException(nameof(hierarchy));
@@ -176,6 +178,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         private static bool IsOldSlowCheetahInstalled(IVsBuildPropertyStorage buildPropertyStorage)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             buildPropertyStorage.GetPropertyValue("SlowCheetahImport", null, (uint)_PersistStorageType.PST_PROJECT_FILE, out string propertyValue);
             if (!string.IsNullOrEmpty(propertyValue))
             {
@@ -193,6 +196,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
 
         private static bool SupportsINugetProjectSystem(IVsHierarchy hierarchy)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var vsProject = hierarchy as IVsProject;
             if (vsProject == null)
             {

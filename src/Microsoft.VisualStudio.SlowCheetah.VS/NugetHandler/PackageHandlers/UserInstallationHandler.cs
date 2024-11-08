@@ -4,9 +4,11 @@
 namespace Microsoft.VisualStudio.SlowCheetah.VS
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
+    using Microsoft.VisualStudio.Threading;
 
     /// <summary>
     /// Represents a handler that requires user input to install/uninstall packages.
@@ -30,6 +32,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if the user has accepted the warning message.</returns>
         protected async Task<bool> HasUserAcceptedWarningMessageAsync(string title, string message)
         {
+            await this.Package.JoinableTaskFactory.SwitchToMainThreadAsync(CancellationToken.None);
             var shell = (IVsUIShell)await this.Package.GetServiceAsync(typeof(SVsUIShell));
 
             if (shell != null)

@@ -23,7 +23,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <summary>
         /// Low Importance. Do not show if unnecessary
         /// </summary>
-        Low = 0
+        Low = 0,
     }
 
     /// <summary>

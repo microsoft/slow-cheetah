@@ -51,6 +51,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <inheritdoc/>
         protected override void OnBeforeQueryStatus(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             // get the menu that fired the event
             if (sender is OleMenuCommand menuCommand)
             {
@@ -83,6 +85,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <inheritdoc/>
         protected override void OnInvoke(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             uint itemid = VSConstants.VSITEMID_NIL;
 
             if (!ProjectUtilities.IsSingleProjectItemSelection(out IVsHierarchy hierarchy, out itemid))
@@ -191,6 +194,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             string projectPath,
             bool addDependentUpon)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             try
             {
                 string transformPath = Path.Combine(projectPath, itemName);
@@ -245,6 +249,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>True if the item supports transforms.</returns>
         private bool ItemSupportsTransforms(IVsProject project, uint itemid)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (ErrorHandler.Failed(project.GetMkDocument(itemid, out string itemFullPath)))
             {
                 return false;
@@ -279,6 +284,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <returns>List of publish profile names.</returns>
         private IEnumerable<string> GetPublishProfileTransforms(IVsHierarchy hierarchy, string projectPath)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (hierarchy == null)
             {
                 throw new ArgumentNullException(nameof(hierarchy));

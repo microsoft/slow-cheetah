@@ -9,18 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EnvDTE" Version="17.6.36389" />
+    <PackageReference Include="EnvDTE" Version="17.12.40361" />
 
     <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.6.2164">
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.12.40365" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.12.2069">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.5.33428.388" />
     <PackageReference Include="Microsoft.Web.Xdt" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.63" />
     <PackageReference Include="NuGet.VisualStudio" Version="17.6.0" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.132" PrivateAssets="all" />
+    <PackageReference Include="NuGet.VisualStudio.Contracts" Version="17.11.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
   </ItemGroup>
 

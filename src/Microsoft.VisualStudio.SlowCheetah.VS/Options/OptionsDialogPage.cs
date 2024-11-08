@@ -53,6 +53,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <inheritdoc/>
         public override void SaveSettingsToXml(IVsSettingsWriter writer)
         {
+            Shell.ThreadHelper.ThrowIfNotOnUIThread();
             try
             {
                 base.SaveSettingsToXml(writer);
@@ -70,6 +71,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         /// <inheritdoc/>
         public override void LoadSettingsFromXml(IVsSettingsReader reader)
         {
+            Shell.ThreadHelper.ThrowIfNotOnUIThread();
             try
             {
                 this.InitializeDefaults();
