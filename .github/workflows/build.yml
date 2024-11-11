@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - microbuild
       - validate/*
   pull_request:
 

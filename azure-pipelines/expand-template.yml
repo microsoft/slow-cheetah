@@ -1,0 +1,18 @@
+steps:
+- script: |
+    dotnet build-server shutdown
+    git clean -fdx
+  displayName: 🧹 Cleaning repo for template expansion
+- powershell: |
+    git config user.name "test user"
+    git config user.email "andrewarnott@gmail.com"
+    ./Expand-Template.ps1 -LibraryName Calc -Author "Andrew Arnott"
+  displayName: 🧪 Expanding template
+  failOnStderr: true
+# TODO: Verify that all changes are staged to the git index
+
+- powershell: .\init.ps1
+  displayName: 🔽 Install prereqs and restore packages
+
+- script: dotnet build
+  displayName: 🛠 dotnet build (expanded template)
