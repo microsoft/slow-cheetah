@@ -1,17 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <!-- Setup the default output and intermediate paths -->
+  <!-- Include and reference README in nuget package, if a README is in the project directory. -->
   <PropertyGroup>
-    <Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
-    <Platform Condition="'$(Platform)'==''">AnyCPU</Platform>
-    <BaseOutputPath>$(MSBuildThisFileDirectory)..\bin\</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
-    <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
-    <OutputPath>$(BaseOutputPath)$(Configuration)\</OutputPath>
-    <PackageOutputPath>$(OutputPath)packages\</PackageOutputPath>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile Condition="Exists('README.md')">README.md</PackageReadmeFile>
   </PropertyGroup>
-
   <ItemGroup>
-    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Visible="false" />
+    <None Condition="Exists('README.md')" Include="README.md" Pack="true" PackagePath="" />
   </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove($(MSBuildThisFile), $(MSBuildThisFileDirectory)..))" />
 </Project>
