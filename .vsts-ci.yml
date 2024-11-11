@@ -128,6 +128,7 @@ extends:
           displayName: 'NuGet Authenticate'
           inputs:
             forceReinstallCredentialProvider: true
+            nuGetServiceConnections: azure-public/msft_consumption
         - task: VSBuild@1
           inputs:
             solution: 'src\SlowCheetah.sln'
