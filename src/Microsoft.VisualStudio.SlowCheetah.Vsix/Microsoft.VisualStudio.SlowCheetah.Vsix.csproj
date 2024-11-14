@@ -31,7 +31,7 @@
     <CopyBuildOutputToOutputDirectory>false</CopyBuildOutputToOutputDirectory>
     <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
     <IsPackable>false</IsPackable>
-    <OutputPath>$(OutputPath)net472\</OutputPath>
+    <OutputPath>$(BaseOutputPath)$(Configuration)\net472\</OutputPath>
     <TargetName>Microsoft.VisualStudio.SlowCheetah</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -79,15 +79,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.6.2164">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.132">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Update="Microsoft.VSSDK.BuildTools" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" PrivateAssets="all" />
+    <PackageReference Update="Nerdbank.GitVersioning" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Microsoft.VisualStudio.SDK" ExcludeAssets="all" />
+    <PackageReference Update="Microsoft.Web.Xdt" ExcludeAssets="all" />
+    <PackageReference Update="Microsoft.VisualStudio.Jdt" ExcludeAssets="all" />
+    <PackageReference Update="NuGet.VisualStudio" ExcludeAssets="all" />
+    <PackageReference Update="StyleCop.Analyzers" ExcludeAssets="all" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.VisualStudio.SlowCheetah.VS\Microsoft.VisualStudio.SlowCheetah.VS.csproj">

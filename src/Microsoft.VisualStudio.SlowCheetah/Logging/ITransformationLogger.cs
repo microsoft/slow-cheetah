@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// Licensed under the MIT License license. See LICENSE file in the project root for full license information.
 
 namespace Microsoft.VisualStudio.SlowCheetah
 {
@@ -11,7 +11,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     public enum LogMessageImportance
     {
         /// <summary>
-        /// High importace. Prioritize
+        /// High importace. Prioritize.
         /// </summary>
         High = 2,
 
@@ -21,9 +21,9 @@ namespace Microsoft.VisualStudio.SlowCheetah
         Normal = 1,
 
         /// <summary>
-        /// Low Importance. Do not show if unnecessary
+        /// Low Importance. Do not show if unnecessary.
         /// </summary>
-        Low = 0
+        Low = 0,
     }
 
     /// <summary>

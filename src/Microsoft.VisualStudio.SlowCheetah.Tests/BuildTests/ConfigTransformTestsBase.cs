@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// Licensed under the MIT License license. See LICENSE file in the project root for full license information.
 
 #pragma warning disable SA1512 // Single-line comments must not be followed by blank line
 
@@ -25,7 +25,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         /// </summary>
         public string SolutionDir
         {
-            get { return Path.Combine(Environment.CurrentDirectory, @"..\..\..\src"); }
+            get { return Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\src"); }
         }
 
         /// <summary>
@@ -80,15 +80,23 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
             {
                 FileName = msbuildPath,
                 Arguments = $"{projectPath} {properties}",
-                CreateNoWindow = true,
-                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
+                CreateNoWindow = false,
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Maximized,
             };
 
-            using (var process = System.Diagnostics.Process.Start(startInfo))
+            try
             {
-                process.WaitForExit();
-                Assert.Equal(0, process.ExitCode);
-                process.Close();
+
+                using (var process = System.Diagnostics.Process.Start(startInfo))
+                {
+                    process.WaitForExit();
+                    Assert.Equal(0, process.ExitCode);
+                    process.Close();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"Error running msbuild: {ex.Message}", ex);
             }
         }
 
