@@ -1,19 +1,22 @@
 {
   "tsaVersion": "TsaV2",
   "codebase": "NewOrUpdate",
-  "codebaseName": "LibraryName",
+  "codebaseName": "SlowCheetah",
   "tsaStamp": "DevDiv",
   "tsaEnvironment": "PROD",
   "notificationAliases": [
-     "vsidemicrobuild@microsoft.com"
+    "vsslnx@microsoft.com"
   ],
   "codebaseAdmins": [
-      "REDMOND\\andarno"
+    "REDMOND\\tevinstanley"
   ],
   "instanceUrl": "https://devdiv.visualstudio.com",
   "projectName": "DevDiv",
-  "areaPath": "DevDiv\\VS Core",
+  "areaPath": "DevDiv\\VS Core\\Project\\SlowCheetah",
   "iterationPath": "DevDiv",
-  "alltools": true,
-  "repositoryName": "Library.Template"
+  "tools": [
+    "APIScan",
+    "CodeQL"
+  ],
+  "repositoryName": "SlowCheetah"
 }
