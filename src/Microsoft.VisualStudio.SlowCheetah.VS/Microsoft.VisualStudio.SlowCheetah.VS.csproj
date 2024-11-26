@@ -7,6 +7,7 @@
     <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
     <CreateVsixContainer>false</CreateVsixContainer>
     <LangVersion>10.0</LangVersion>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,9 +16,8 @@
 
   <ItemGroup>
     <PackageReference Include="EnvDTE" />
-
-    <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" />
-    <PackageReference Include="Microsoft.VSSDK.BuildTools">
+    <PackageReference Include="Microsoft.IO.Redist" />
+    <PackageReference Update="Microsoft.VSSDK.BuildTools">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -25,8 +25,9 @@
     <PackageReference Include="Microsoft.Web.Xdt" />
     <PackageReference Include="Microsoft.VisualStudio.Jdt" />
     <PackageReference Include="NuGet.VisualStudio" />
-    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
-    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="all" />
+    <PackageReference Include="System.Resources.Extensions" />
+    <PackageReference Update="Nerdbank.GitVersioning" PrivateAssets="all" />
+    <PackageReference Update="StyleCop.Analyzers" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

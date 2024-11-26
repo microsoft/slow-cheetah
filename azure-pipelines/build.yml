@@ -42,10 +42,10 @@ parameters:
 # Callers (e.g. Official.yml) *may* expose these parameters at queue-time in order to turn OFF optional agents.
 - name: EnableLinuxBuild
   type: boolean
-  default: true
+  default: false
 - name: EnableMacOSBuild
   type: boolean
-  default: true
+  default: false
 
 ##### 👆🏼 You MAY change the defaults above.
 ##### 👇🏼 You should NOT change the defaults below.

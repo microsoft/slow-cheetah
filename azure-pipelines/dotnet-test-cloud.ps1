@@ -44,7 +44,7 @@ if ($x86) {
   }
 }
 
-& $dotnet test $RepoRoot `
+& $dotnet test "$RepoRoot\src" `
     --no-build `
     -c $Configuration `
     --filter "TestCategory!=FailsInCloudTest" `
