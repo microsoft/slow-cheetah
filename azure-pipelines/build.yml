@@ -194,7 +194,7 @@ jobs:
       IsOptProf: ${{ parameters.IsOptProf }}
 
   - ${{ if and(parameters.EnableDotNetFormatCheck, not(parameters.EnableLinuxBuild)) }}:
-    - script: dotnet format --verify-no-changes --no-restore
+    - script: dotnet format --verify-no-changes --no-restore src
       displayName: 💅 Verify formatted code
 
   - ${{ if eq(variables['system.collectionId'], '011b8bdf-6d56-4f87-be0d-0092136884d9') }}:
@@ -236,7 +236,7 @@ jobs:
           Is1ESPT: ${{ parameters.Is1ESPT }}
           RunTests: ${{ parameters.RunTests }}
       - ${{ if parameters.EnableDotNetFormatCheck }}:
-        - script: dotnet format --verify-no-changes --no-restore
+        - script: dotnet format --verify-no-changes --no-restore src
           displayName: 💅 Verify formatted code
       - template: expand-template.yml
 
