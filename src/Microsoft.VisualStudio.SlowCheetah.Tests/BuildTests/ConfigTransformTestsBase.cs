@@ -13,6 +13,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
+    using Microsoft.Build.Utilities;
     using Xunit;
 
     /// <summary>
@@ -69,11 +70,13 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
                { "OutputPath", this.OutputPath },
             };
 
+            var msbuildPath = ToolLocationHelper.GetPathToBuildToolsFile("msbuild.exe", ToolLocationHelper.CurrentToolsVersion);
+
             // We use an external process to run msbuild, because XUnit test discovery breaks
             // when using <Reference Include="$(MSBuildToolsPath)\Microsoft.Build.dll" />.
             // MSBuild NuGet packages proved to be difficult in getting in-proc test builds to run.
             string projectPath = Path.Combine(this.TestProjectsDir, projectName, projectName + ".csproj");
-            string msbuildPath = MSBuildExePath;
+            //string msbuildPath = MSBuildExePath;
             string properties = "/p:" + string.Join(",", globalProperties.Select(x => $"{x.Key}={x.Value}"));
 
             var startInfo = new System.Diagnostics.ProcessStartInfo()
@@ -84,11 +87,25 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
                 WindowStyle = System.Diagnostics.ProcessWindowStyle.Maximized,
             };
 
+            string path = "C:\\src\\libtempslowcheetah\\src\\Microsoft.VisualStudio.SlowCheetah.Tests\\example.txt";
+
+            // Open the file for reading
+            using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Write))
+            {
+                // Read from the file
+                using (StreamWriter writer = new StreamWriter(fs))
+                {
+                    writer.WriteLine($"Running msbuild.exe {startInfo.Arguments}");
+                    writer.WriteLine($"Running msbuild.exe filename {startInfo.FileName}");
+                }
+            }
+
             try
             {
 
                 using (var process = System.Diagnostics.Process.Start(startInfo))
                 {
+
                     process.WaitForExit();
                     Assert.Equal(0, process.ExitCode);
                     process.Close();

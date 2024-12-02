@@ -19,7 +19,7 @@
     <PackageVersion Include="NuGet.VisualStudio" Version="17.6.0" />
     <PackageVersion Include="Microsoft.VSSDK.BuildTools" Version="17.6.2164" PrivateAssets="All" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
     <PackageVersion Include="EnvDTE" Version="17.6.36389" />
-    <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="14.3.0" />
+    <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="17.12.13" />
   </ItemGroup>
   <ItemGroup>
     <GlobalPackageReference Include="CSharpIsNullAnalyzer" Version="0.1.593" />
