@@ -84,21 +84,22 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
                 FileName = msbuildPath,
                 Arguments = $"{projectPath} {properties}",
                 CreateNoWindow = false,
-                WindowStyle = System.Diagnostics.ProcessWindowStyle.Maximized,
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
             };
 
-            string path = "C:\\src\\libtempslowcheetah\\src\\Microsoft.VisualStudio.SlowCheetah.Tests\\example.txt";
+            // Tevin: Delete later
+            //string path = "C:\\src\\libtempslowcheetah\\src\\Microsoft.VisualStudio.SlowCheetah.Tests\\example.txt";
 
-            // Open the file for reading
-            using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Write))
-            {
-                // Read from the file
-                using (StreamWriter writer = new StreamWriter(fs))
-                {
-                    writer.WriteLine($"Running msbuild.exe {startInfo.Arguments}");
-                    writer.WriteLine($"Running msbuild.exe filename {startInfo.FileName}");
-                }
-            }
+            //// Open the file for reading
+            //using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Write))
+            //{
+            //    // Read from the file
+            //    using (StreamWriter writer = new StreamWriter(fs))
+            //    {
+            //        writer.WriteLine($"Running msbuild.exe {startInfo.Arguments}");
+            //        writer.WriteLine($"Running msbuild.exe filename {startInfo.FileName}");
+            //    }
+            //}
 
             try
             {
