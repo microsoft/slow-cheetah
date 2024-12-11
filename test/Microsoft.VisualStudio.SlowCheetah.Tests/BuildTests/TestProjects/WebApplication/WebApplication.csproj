@@ -23,6 +23,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ExcludeGlobalPackages>True</ExcludeGlobalPackages>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,14 +65,14 @@
     <PackageReference Include="CSharpIsNullAnalyzer" ExcludeAssets="All" />
     <PackageReference Include="DotNetAnalyzers.DocumentationAnalyzers" ExcludeAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" ExcludeAssets="All" />
-    <PackageReference Include="Nerdbank.GitVersioning"  />
+    <PackageReference Include="Nerdbank.GitVersioning" />
     <PackageReference Include="Nullable" ExcludeAssets="All" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" ExcludeAssets="All" />
     <PackageReference Include="StyleCop.Analyzers" ExcludeAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Other.config">
-      <TransformOnBuild>true</TransformOnBuild>      
+      <TransformOnBuild>true</TransformOnBuild>
     </Content>
     <Content Include="Other.Debug.config">
       <IsTransformItem>True</IsTransformItem>
@@ -92,7 +93,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
