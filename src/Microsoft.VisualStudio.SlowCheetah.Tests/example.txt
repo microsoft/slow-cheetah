@@ -1,0 +1,2 @@
+Running msbuild.exe C:\src\libtempslowcheetah\bin\Microsoft.VisualStudio.SlowCheetah.Tests\Debug\net472\..\..\..\..\test\Microsoft.VisualStudio.SlowCheetah.Tests\BuildTests\TestProjects\WebApplication\WebApplication.csproj /p:Configuration=Debug,OutputPath=C:\src\libtempslowcheetah\bin\Microsoft.VisualStudio.SlowCheetah.Tests\Debug\net472\ProjectOutput
+Running msbuild.exe filename C:\Program Files\Microsoft Visual Studio\2022\IntPreview\MSBuild\Current\Bin\amd64\msbuild.exe
