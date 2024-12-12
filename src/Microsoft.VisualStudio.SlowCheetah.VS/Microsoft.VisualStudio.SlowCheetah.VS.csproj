@@ -8,6 +8,7 @@
     <CreateVsixContainer>false</CreateVsixContainer>
     <LangVersion>10.0</LangVersion>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    <RuntimeIdentifier>win</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
