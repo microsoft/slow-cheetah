@@ -76,7 +76,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
             // when using <Reference Include="$(MSBuildToolsPath)\Microsoft.Build.dll" />.
             // MSBuild NuGet packages proved to be difficult in getting in-proc test builds to run.
             string projectPath = Path.Combine(this.TestProjectsDir, projectName, projectName + ".csproj");
-            //string msbuildPath = MSBuildExePath;
             string properties = "/p:" + string.Join(",", globalProperties.Select(x => $"{x.Key}={x.Value}"));
 
             var startInfo = new System.Diagnostics.ProcessStartInfo()
@@ -88,18 +87,18 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
             };
 
             // Tevin: Delete later
-            string path = "C:\\src\\libtempslowcheetah\\test\\Microsoft.VisualStudio.SlowCheetah.Tests\\example.txt";
+            //string path = "C:\\src\\libtempslowcheetah\\test\\Microsoft.VisualStudio.SlowCheetah.Tests\\example.txt";
 
-            // Open the file for reading
-            using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Write))
-            {
-                // Read from the file
-                using (StreamWriter writer = new StreamWriter(fs))
-                {
-                    writer.WriteLine($"Running msbuild.exe {startInfo.Arguments}");
-                    writer.WriteLine($"Running msbuild.exe filename {startInfo.FileName}");
-                }
-            }
+            //// Open the file for reading
+            //using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Write))
+            //{
+            //    // Read from the file
+            //    using (StreamWriter writer = new StreamWriter(fs))
+            //    {
+            //        writer.WriteLine($"Running msbuild.exe {startInfo.Arguments}");
+            //        writer.WriteLine($"Running msbuild.exe filename {startInfo.FileName}");
+            //    }
+            //}
 
             try
             {
