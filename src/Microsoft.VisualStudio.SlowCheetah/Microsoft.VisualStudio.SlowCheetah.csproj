@@ -25,7 +25,7 @@
     <None Include="$(OutputPath)Microsoft.Web.XmlTransform.dll" Pack="true" PackagePath="tools" Visible="false" />
     <None Include="$(OutputPath)Microsoft.VisualStudio.Jdt.dll" Pack="true" PackagePath="tools" Visible="false" />
     <!-- Tevin: Test to see what this does and if it is necessary. -->
-    <!-- <None Include="$(OutputPath)Newtonsoft.Json.dll" Pack="true" PackagePath="tools" Visible="false" /> -->
+     <None Include="$(OutputPath)Newtonsoft.Json.dll" Pack="true" PackagePath="tools" Visible="false" /> 
   </ItemGroup>
 
 

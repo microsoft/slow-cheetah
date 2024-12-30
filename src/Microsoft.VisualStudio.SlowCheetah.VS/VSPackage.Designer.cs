@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.VisualStudio.SlowCheetah.Resources {
+namespace Microsoft.VisualStudio.SlowCheetah.VS {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Microsoft.VisualStudio.SlowCheetah.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class VSPackage {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal VSPackage() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.VisualStudio.SlowCheetah.Resources.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.VisualStudio.SlowCheetah.VS.VSPackage", typeof(VSPackage).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,58 +61,20 @@ namespace Microsoft.VisualStudio.SlowCheetah.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File not found.
+        ///   Looks up a localized string similar to SlowCheetah - XML config transforms.
         /// </summary>
-        internal static string ErrorMessage_FileNotFound {
+        internal static string _110 {
             get {
-                return ResourceManager.GetString("ErrorMessage_FileNotFound", resourceCulture);
+                return ResourceManager.GetString("110", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File to transform not found.
+        ///   Looks up a localized string similar to This package enables you to transform your app.config or any other XML file based on the build configuration. It also adds additional tooling to help you create XML transforms..
         /// </summary>
-        internal static string ErrorMessage_SourceFileNotFound {
+        internal static string _112 {
             get {
-                return ResourceManager.GetString("ErrorMessage_SourceFileNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Transform file not found.
-        /// </summary>
-        internal static string ErrorMessage_TransformFileNotFound {
-            get {
-                return ResourceManager.GetString("ErrorMessage_TransformFileNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} is not a supported file type for transformation.
-        /// </summary>
-        internal static string ErrorMessage_UnsupportedFile {
-            get {
-                return ResourceManager.GetString("ErrorMessage_UnsupportedFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {
-        ///}
-        ///.
-        /// </summary>
-        internal static string JsonTransform_TransformFileContents {
-            get {
-                return ResourceManager.GetString("JsonTransform_TransformFileContents", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. .
-        /// </summary>
-        internal static string XmlTransform_ContentInfo {
-            get {
-                return ResourceManager.GetString("XmlTransform_ContentInfo", resourceCulture);
+                return ResourceManager.GetString("112", resourceCulture);
             }
         }
     }

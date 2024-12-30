@@ -33,7 +33,7 @@
     <IsPackable>false</IsPackable>
     <OutputPath>$(BaseOutputPath)$(Configuration)\net472\</OutputPath>
     <TargetName>Microsoft.VisualStudio.SlowCheetah</TargetName>
-    <RuntimeIdentifier>win</RuntimeIdentifier>
+    <!--<RuntimeIdentifier>win</RuntimeIdentifier>-->
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
