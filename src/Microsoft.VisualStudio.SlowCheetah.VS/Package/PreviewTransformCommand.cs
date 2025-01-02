@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #pragma warning disable SA1512 // Single-line comments must not be followed by blank line
 
@@ -261,7 +261,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                         ProcessStartInfo psi = new ProcessStartInfo(advancedOptionsPage.PreviewToolExecutablePath, string.Format(CultureInfo.CurrentCulture, advancedOptionsPage.PreviewToolCommandLine, $"\"{sourceFile}\"", $"\"{destFile}\""))
                         {
                             CreateNoWindow = true,
-                            UseShellExecute = false
+                            UseShellExecute = false,
                         };
                         System.Diagnostics.Process.Start(psi);
                     }

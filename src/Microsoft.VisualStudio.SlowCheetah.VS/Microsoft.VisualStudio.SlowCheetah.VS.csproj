@@ -7,8 +7,6 @@
     <Copyright>Copyright © Microsoft Corporation. All rights reserved.</Copyright>
     <CreateVsixContainer>false</CreateVsixContainer>
     <LangVersion>10.0</LangVersion>
-    <!--<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>-->
-    <RuntimeIdentifier>win</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,12 +20,8 @@
     <PackageReference Include="Microsoft.Web.Xdt" />
     <PackageReference Include="Microsoft.VisualStudio.Jdt" />
     <PackageReference Include="NuGet.VisualStudio" />
-    <!--<PackageReference Include="System.Resources.Extensions" />-->
     <PackageReference Update="Nerdbank.GitVersioning" PrivateAssets="all" />
     <PackageReference Update="StyleCop.Analyzers" PrivateAssets="all" />
-    <!-- This section holds packages we get from central package management which we should not pass onto the customer. -->
-    
-    
   </ItemGroup>
 
   <ItemGroup>

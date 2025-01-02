@@ -83,13 +83,13 @@
     <PackageReference Update="Microsoft.VSSDK.BuildTools" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" PrivateAssets="all" />
     <PackageReference Update="Nerdbank.GitVersioning" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" PrivateAssets="all" />
   </ItemGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <PackageReference Update="Microsoft.VisualStudio.SDK" ExcludeAssets="all" />
     <PackageReference Update="Microsoft.Web.Xdt" ExcludeAssets="all" />
     <PackageReference Update="Microsoft.VisualStudio.Jdt" ExcludeAssets="all" />
     <PackageReference Update="NuGet.VisualStudio" ExcludeAssets="all" />
     <PackageReference Update="StyleCop.Analyzers" ExcludeAssets="all" />
-  </ItemGroup>
+  </ItemGroup>-->
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.VisualStudio.SlowCheetah.VS\Microsoft.VisualStudio.SlowCheetah.VS.csproj">
       <Project>{80A712EE-7B5C-44D3-A2AD-F918B893B6DF}</Project>

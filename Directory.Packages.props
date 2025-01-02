@@ -10,14 +10,13 @@
     <PackageVersion Include="Microsoft.IO.Redist" Version="6.1.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageVersion Include="Microsoft.VisualStudio.Internal.MicroBuild.NonShipping" Version="$(MicroBuildVersion)" />
-    <PackageVersion Include="System.Resources.Extensions" Version="9.0.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
     <PackageVersion Include="xunit" Version="2.9.2" />
     <PackageVersion Include="Microsoft.VisualStudio.SDK" Version="17.5.33428.388" />
     <PackageVersion Include="Microsoft.Web.Xdt" Version="3.1.0" />
     <PackageVersion Include="Microsoft.VisualStudio.Jdt" Version="0.9.63" />
     <PackageVersion Include="NuGet.VisualStudio" Version="17.6.0" />
-    <PackageVersion Include="Microsoft.VSSDK.BuildTools" Version="17.6.2164" PrivateAssets="All" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    <PackageVersion Include="Microsoft.VSSDK.BuildTools" Version="17.6.2164" />
     <PackageVersion Include="EnvDTE" Version="17.6.36389" />
     <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="17.12.13" />
   </ItemGroup>

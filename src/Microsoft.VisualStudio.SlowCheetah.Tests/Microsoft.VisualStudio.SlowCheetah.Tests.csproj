@@ -12,15 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Remove="C:\src\libtempslowcheetah\stylecop.json" />
-  </ItemGroup>
-
-  <!--<ItemGroup>
-    <AdditionalFiles Remove="C:\src\libtempslowcheetah\stylecop.json" />
-    <AdditionalFiles Remove="stylecop.json" />
-  </ItemGroup>-->
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Build.Utilities.Core" />
     <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.NonShipping" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
