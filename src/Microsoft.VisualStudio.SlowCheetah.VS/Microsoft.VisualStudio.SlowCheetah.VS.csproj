@@ -12,10 +12,7 @@
   <ItemGroup>
     <PackageReference Include="EnvDTE" />
     <PackageReference Include="Microsoft.IO.Redist" />
-    <PackageReference Update="Microsoft.VSSDK.BuildTools">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" PrivateAssets="all" IncludeAssets="build; native; contentfiles; analyzers; buildtransitive" />
     <PackageReference Include="Microsoft.VisualStudio.SDK" />
     <PackageReference Include="Microsoft.Web.Xdt" />
     <PackageReference Include="Microsoft.VisualStudio.Jdt" />

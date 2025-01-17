@@ -60,7 +60,7 @@
     </Content>
     <Content Include="$(OutputPath)Newtonsoft.Json.dll">
       <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
+      <IncludeInVSIX>false</IncludeInVSIX>
       <Link>Newtonsoft.Json.dll</Link>
       <Visible>false</Visible>
     </Content>
