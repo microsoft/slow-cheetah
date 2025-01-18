@@ -28,8 +28,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
-    - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1
     - name: ⚙ Install prerequisites
       run: |
         ./init.ps1 -UpgradePrerequisites
@@ -43,9 +41,12 @@ jobs:
     - name: ⚙️ Set pipeline variables based on source
       run: azure-pipelines/variables/_pipelines.ps1
       shell: pwsh
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
     - name: 🛠 build
-      run: |
-           msbuild.exe src/Slowcheetah.sln /t:build,pack /bl:"${{ runner.temp }}/_artifacts/build_logs/build.binlog"
+      run: msbuild src/Slowcheetah.sln /t:build,pack /bl:"${{ runner.temp }}/_artifacts/build_logs/build.binlog"
       # run: dotnet build -t:build,pack --no-restore -c ${{ env.BUILDCONFIGURATION }} -warnAsError -warnNotAsError:NU1901,NU1902,NU1903,NU1904 /bl:"${{ runner.temp }}/_artifacts/build_logs/build.binlog"
     - name: 🧪 test
       run: azure-pipelines/dotnet-test-cloud.ps1 -Configuration ${{ env.BUILDCONFIGURATION }} -Agent ${{ runner.os }}
