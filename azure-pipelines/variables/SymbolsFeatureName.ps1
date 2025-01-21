@@ -1,1 +1,1 @@
-'LibraryName'
+'slow-cheetah'
