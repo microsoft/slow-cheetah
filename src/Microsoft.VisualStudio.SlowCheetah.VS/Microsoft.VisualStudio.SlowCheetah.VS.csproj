@@ -20,6 +20,8 @@
     <PackageReference Include="NuGet.VisualStudio" />
     <PackageReference Update="Nerdbank.GitVersioning" PrivateAssets="all" />
     <PackageReference Update="StyleCop.Analyzers" PrivateAssets="all" />
+    <PackageReference Include="MessagePack" />
+    <PackageReference Include="System.Text.Json" />
   </ItemGroup>
 
   <ItemGroup>
