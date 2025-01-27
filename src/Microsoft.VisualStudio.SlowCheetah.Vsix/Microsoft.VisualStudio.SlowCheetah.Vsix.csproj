@@ -31,8 +31,9 @@
     <CopyBuildOutputToOutputDirectory>false</CopyBuildOutputToOutputDirectory>
     <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
     <IsPackable>false</IsPackable>
-    <OutputPath>$(OutputPath)net472\</OutputPath>
+    <OutputPath>$(BaseOutputPath)$(Configuration)\net472\</OutputPath>
     <TargetName>Microsoft.VisualStudio.SlowCheetah</TargetName>
+    <RuntimeIdentifier>win</RuntimeIdentifier>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,7 +60,7 @@
     </Content>
     <Content Include="$(OutputPath)Newtonsoft.Json.dll">
       <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
+      <IncludeInVSIX>false</IncludeInVSIX>
       <Link>Newtonsoft.Json.dll</Link>
       <Visible>false</Visible>
     </Content>
@@ -79,16 +80,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.6.2164">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.132">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Update="Microsoft.VSSDK.BuildTools" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" PrivateAssets="all" />
+    <PackageReference Update="Nerdbank.GitVersioning" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" PrivateAssets="all" />
   </ItemGroup>
+  <!--<ItemGroup>
+    <PackageReference Update="Microsoft.VisualStudio.SDK" ExcludeAssets="all" />
+    <PackageReference Update="Microsoft.Web.Xdt" ExcludeAssets="all" />
+    <PackageReference Update="Microsoft.VisualStudio.Jdt" ExcludeAssets="all" />
+    <PackageReference Update="NuGet.VisualStudio" ExcludeAssets="all" />
+    <PackageReference Update="StyleCop.Analyzers" ExcludeAssets="all" />
+  </ItemGroup>-->
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.VisualStudio.SlowCheetah.VS\Microsoft.VisualStudio.SlowCheetah.VS.csproj">
       <Project>{80A712EE-7B5C-44D3-A2AD-F918B893B6DF}</Project>
@@ -102,7 +103,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <Target Name="Pack" AfterTargets="Build">
-    <Copy SourceFiles="$(TargetVsixContainer)" DestinationFolder="$(PackageOutputPath)" UseHardlinksIfPossible="true" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(TargetVsixContainer)" DestinationFolder="$(VSIXOutputPath)" UseHardlinksIfPossible="true" SkipUnchangedFiles="true" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

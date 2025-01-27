@@ -11,7 +11,6 @@
      <PackageTags>SlowCheetah slow cheetah XML JSON Transform XDT JDT web.config app.config</PackageTags>
      <PackageIconUrl>https://aka.ms/VsExtensibilityIcon</PackageIconUrl>
      <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-     <PackageLicenseUrl>https://raw.githubusercontent.com/Microsoft/slow-cheetah/main/LICENSE</PackageLicenseUrl>
      <PackageProjectUrl>https://github.com/Microsoft/slow-cheetah</PackageProjectUrl>
      <RepositoryUrl>https://github.com/Microsoft/slow-cheetah</RepositoryUrl>
      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -19,13 +18,9 @@
      <DevelopmentDependency>true</DevelopmentDependency>
      <MinClientVersion>2.8</MinClientVersion>
   </PropertyGroup>
-  
-  <!-- Additional files for the nupkg -->
-  <ItemGroup>
-    <None Include="$(OutputPath)Microsoft.Web.XmlTransform.dll" Pack="true" PackagePath="tools" Visible="false" />
-    <None Include="$(OutputPath)Microsoft.VisualStudio.Jdt.dll" Pack="true" PackagePath="tools" Visible="false" />
-    <None Include="$(OutputPath)Newtonsoft.Json.dll" Pack="true" PackagePath="tools" Visible="false" />
-  </ItemGroup>
+
+
+ 
 
   <ItemGroup>
     <None Update="Build\*.targets" Pack="true" PackagePath="build/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
@@ -33,12 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.VisualStudio" Version="2.0.66" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="14.3.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Jdt" Version="0.9.63" />
-    <PackageReference Include="Microsoft.Web.Xdt" Version="3.1.0" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.132" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" />
+    <PackageReference Include="Microsoft.VisualStudio.Jdt" />
+    <PackageReference Include="Microsoft.Web.Xdt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,10 +51,27 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <FilesToSign Include="$(OutputPath)Newtonsoft.Json.dll">
+      <Authenticode>3PartySHA2</Authenticode>
+      <StrongName>None</StrongName>
+    </FilesToSign>
+  </ItemGroup>
+
+  <!-- Additional files for the nupkg -->
+  <ItemGroup>
+    <None Include="$(OutputPath)Microsoft.Web.XmlTransform.dll" Pack="true" PackagePath="tools" Visible="false" />
+    <None Include="$(OutputPath)Microsoft.VisualStudio.Jdt.dll" Pack="true" PackagePath="tools" Visible="false" />
+    <!-- Tevin: Test to see what this does and if it is necessary. -->
+    <None Include="$(OutputPath)Newtonsoft.Json.dll" Pack="true" PackagePath="tools" Visible="false" />
+  </ItemGroup>
+
+
   <ItemDefinitionGroup>
     <PackageReference>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemDefinitionGroup>
+  
 
 </Project>

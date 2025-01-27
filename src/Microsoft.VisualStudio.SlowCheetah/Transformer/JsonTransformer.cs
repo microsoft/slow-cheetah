@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Microsoft.VisualStudio.SlowCheetah
 {
@@ -59,7 +59,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
             // If the file should be overwritten or if it doesn't exist, we create it
             if (overwrite || !File.Exists(transformPath))
             {
-                var encoding = TransformUtilities.GetEncoding(sourcePath);
+                System.Text.Encoding encoding = TransformUtilities.GetEncoding(sourcePath);
                 File.WriteAllText(transformPath, Resources.Resources.JsonTransform_TransformFileContents, encoding);
             }
         }
@@ -146,7 +146,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
             try
             {
                 string contents;
-                var encoding = TransformUtilities.GetEncoding(sourceFile);
+                System.Text.Encoding encoding = TransformUtilities.GetEncoding(sourceFile);
                 using (StreamReader reader = new StreamReader(result, true))
                 {
                     // Get the contents of the result stram

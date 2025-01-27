@@ -27,6 +27,6 @@ SlowCheetah supports transformations for XML files, specified by [XDT](https://m
 
 Perform transformations of XML and JSON files on build per configuration and publish profiles.
 
-Quickly add and preview transformations to a file in the project. 
+Quickly add and preview transformations to a file in the project.
 
 ## [How to Perform Transformations](doc/transforming_files.md)

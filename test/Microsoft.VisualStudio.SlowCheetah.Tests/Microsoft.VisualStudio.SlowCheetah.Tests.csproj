@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="BuildTests\TestProjects\**" />
+    <EmbeddedResource Remove="BuildTests\TestProjects\**" />
+    <None Remove="BuildTests\TestProjects\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Utilities.Core" />
+    <!--<PackageReference Include="Microsoft.VisualStudio.Internal.MicroBuild.NonShipping" />-->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    <PackageReference Update="Nerdbank.GitVersioning" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    <PackageReference Update="StyleCop.Analyzers" PrivateAssets="All" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Microsoft.VisualStudio.SlowCheetah\Microsoft.VisualStudio.SlowCheetah.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+  <!--Copy SlowCheetah Output to test folder-->
+  <Target Name="CopySlowCheetahFiles" AfterTargets="Build">
+    <MSBuild Projects="@(ProjectReference)" Targets="GetTargetPath" BuildInParallel="true" Properties="Configuration=$(Configuration)" Condition="'%(Filename)'=='Microsoft.VisualStudio.SlowCheetah'">
+      <Output TaskParameter="TargetOutputs" ItemName="_DependentAssemblies" />
+    </MSBuild>
+    <ItemGroup>
+      <_CopyTools Include="@(_DependentAssemblies);%(_DependentAssemblies.RelativeDir)Microsoft.Web.XmlTransform.dll" />
+      <_CopyTools Include="@(_DependentAssemblies);%(_DependentAssemblies.RelativeDir)Microsoft.VisualStudio.Jdt.dll" />
+      <_CopyBuild Include="%(_DependentAssemblies.RelativeDir)Build\Microsoft.VisualStudio.SlowCheetah*.targets" />
+    </ItemGroup>
+    <RemoveDir Directories="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\" />
+    <Copy SourceFiles="@(_CopyTools)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\tools" />
+    <Copy SourceFiles="@(_CopyBuild)" DestinationFolder="$(MSBuildThisFileDirectory)BuildTests\TestProjects\packages\slowcheetah\build" />
+  </Target>
+
+  <Target Name="CacheMSBuildPath" AfterTargets="Build">
+    <ItemGroup>
+      <_MSBuildPathLines Include="$(MSBuildToolsPath)" />
+    </ItemGroup>
+    <WriteLinesToFile File="$(OutputPath)msbuildPath.txt" Lines="@(_MSBuildPathLines)" Overwrite="true" />
+  </Target>
+
+</Project>
