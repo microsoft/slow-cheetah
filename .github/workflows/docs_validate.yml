@@ -1,12 +1,11 @@
 name: 📃 Docfx Validate
 
 on:
-  pull_request:
-  workflow_dispatch:
   push:
     branches:
     - main
     - microbuild
+  workflow_dispatch:
 
 jobs:
   build:
