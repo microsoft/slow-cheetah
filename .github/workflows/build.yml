@@ -39,7 +39,7 @@ jobs:
         }
       shell: pwsh
     - name: ⚙️ Set pipeline variables based on source
-      run: azure-pipelines/variables/_pipelines.ps1
+      run: tools/variables/_define.ps1
       shell: pwsh
 
     - name: Add msbuild to PATH
@@ -56,7 +56,7 @@ jobs:
       shell: pwsh
       if: runner.os == 'Linux'
     - name: ⚙ Update pipeline variables based on build outputs
-      run: azure-pipelines/variables/_pipelines.ps1
+      run: tools/variables/_define.ps1
       shell: pwsh
     - name: 📥 Collect artifacts
       run: azure-pipelines/artifacts/_stage_all.ps1
