@@ -47,19 +47,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="$(OutputPath)Microsoft.Web.XmlTransform.dll">
-      <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
       <Link>Microsoft.Web.XmlTransform.dll</Link>
       <Visible>false</Visible>
     </Content>
     <Content Include="$(OutputPath)Microsoft.VisualStudio.Jdt.dll">
-      <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
       <Link>Microsoft.VisualStudio.Jdt.dll</Link>
       <Visible>false</Visible>
     </Content>
     <Content Include="$(OutputPath)Newtonsoft.Json.dll">
-      <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>false</IncludeInVSIX>
       <Link>Newtonsoft.Json.dll</Link>
       <Visible>false</Visible>
@@ -67,11 +67,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\LICENSE" Link="LICENSE">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="$(RepoRootPath)obj/NOTICE" Link="NOTICE" Condition=" Exists('$(RepoRootPath)obj/NOTICE') ">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="VSExtensibility.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <None Include="..\Microsoft.VisualStudio.SlowCheetah.VS\source.extension.vsixmanifest">
