@@ -1,4 +1,7 @@
-trigger: none # We only want to trigger manually or based on a schedule
+trigger:
+  branches:
+    include:
+    - main
 pr: none
 #schedules:
 #- cron: "0 3 * * *" # Daily @ 8 PM PST
