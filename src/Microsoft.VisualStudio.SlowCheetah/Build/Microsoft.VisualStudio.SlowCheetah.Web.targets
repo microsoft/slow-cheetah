@@ -13,11 +13,11 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <!-- Determines if the project is web -->
     <WapProjectTypeGuid>349c5851-65df-11da-9384-00065b846f21</WapProjectTypeGuid>
     <ScIsWap Condition="'$(ScIsWap)' == '' and '$(WapProjectTypeGuid)' != '' and '$(ProjectTypeGuids)' != ''">$(ProjectTypeGuids.ToLower().Contains($(WapProjectTypeGuid)))</ScIsWap>
-    <ScIsWap Condition="'$(ScIsWap)' == ''">false"</ScIsWap>
+    <ScIsWap Condition="'$(ScIsWap)' == ''">false</ScIsWap>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(ScIsWap)' == 'true'">
-    <!-- For web projects, web.config is considere the app config file -->
+    <!-- For web projects, web.config is considered the app config file -->
     <ScAppConfigName>web.config</ScAppConfigName>
 
     <OnAfterPipelinePreDeployCopyAllFilesToOneFolder>
