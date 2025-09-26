@@ -5,6 +5,9 @@ parameters:
   default: false
 - name: Is1ESPT
   type: boolean
+- name: BuildRequiresAccessToken
+  type: boolean
+  default: false
 
 steps:
 
@@ -15,9 +18,6 @@ steps:
     msbuildArgs: /t:build,pack /bl:"$(Build.ArtifactStagingDirectory)/build_logs/build.binlog"
     configuration: $(BuildConfiguration)
   displayName: 🛠 Build
-# Tevin: delete later
-# - script: dotnet build src -t:build,pack --no-restore -c $(BuildConfiguration) /bl:"$(Build.ArtifactStagingDirectory)/build_logs/build.binlog"
-#   displayName: 🛠 dotnet build
 
 - ${{ if not(parameters.IsOptProf) }}:
   - powershell: tools/dotnet-test-cloud.ps1 -Configuration $(BuildConfiguration) -Agent $(Agent.JobName) -PublishResults
