@@ -18,7 +18,7 @@
     <PackageVersion Include="NuGet.VisualStudio" Version="17.6.0" />
     <PackageVersion Include="Microsoft.VSSDK.BuildTools" Version="17.6.2164" />
     <PackageVersion Include="EnvDTE" Version="17.6.36389" />
-    <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="17.12.13" />
+    <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="17.12.50" />
     <PackageVersion Include="MessagePack" Version="2.5.187" />
     <PackageVersion Include="System.Text.Json" Version="6.0.10" />
   </ItemGroup>
