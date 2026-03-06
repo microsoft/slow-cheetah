@@ -24,6 +24,7 @@
     </NuGetPackageImportStamp>
     <ExcludeGlobalPackages>True</ExcludeGlobalPackages>
     <Use64BitIISExpress />
+    <NoWarn>CS2008</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -94,6 +95,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ScReplaceToken Include="ToBeReplaced01" Value="TokenReplaced01" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
