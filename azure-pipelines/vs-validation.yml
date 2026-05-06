@@ -27,7 +27,7 @@ extends:
   template: azure-pipelines/MicroBuild.1ES.Unofficial.yml@MicroBuildTemplate
   parameters:
     sdl:
-      sourceAnalysisPool: VSEngSS-MicroBuild2022-1ES
+      sourceAnalysisPool: VSEng-MicroBuildVSStable
       credscan:
         enabled: false
 
@@ -44,7 +44,7 @@ extends:
           Is1ESPT: true
           RealSign: false
           # ShouldSkipOptimize: ${{ parameters.ShouldSkipOptimize }}
-          windowsPool: VSEngSS-MicroBuild2022-1ES
+          windowsPool: VSEng-MicroBuildVSStable
           linuxPool:
             name: AzurePipelines-EO
             demands:
@@ -52,7 +52,7 @@ extends:
             os: Linux
           macOSPool:
             name: Azure Pipelines
-            vmImage: macOS-14
+            vmImage: macOS-15
             os: macOS
           EnableMacOSBuild: false
           RunTests: false
@@ -68,7 +68,7 @@ extends:
       jobs:
       - job: insertion
         displayName: VS insertion
-        pool: VSEngSS-MicroBuild2022-1ES
+        pool: VSEng-MicroBuildVSStable
         steps:
         - checkout: self
           clean: true
@@ -103,12 +103,16 @@ extends:
             InsertionPayloadName: $(Build.Repository.Name) VALIDATION BUILD $(Build.BuildNumber) ($(Build.SourceBranch)) [Skip-SymbolCheck] [Skip-HashCheck] [Skip-SignCheck]
             InsertionDescription: |
               This PR is for **validation purposes only** for !$(System.PullRequest.PullRequestId). **Do not complete**.
-            CustomScriptExecutionCommand: src/VSSDK/NuGet/AllowUnstablePackages.ps1
+            CustomScriptExecutionCommand: $(Pipeline.Workspace)\VSInsertion-Windows\vs-insertion-script.ps1; src\VSSDK\NuGet\AllowUnstablePackages.ps1
             InsertionBuildPolicies: Request Perf DDRITs
             InsertionReviewers: $(Build.RequestedFor)
             DraftPR: false # set to true and update InsertionBuildPolicy when we can specify all the validations we want to run (https://dev.azure.com/devdiv/DevDiv/_workitems/edit/2224288)
             AutoCompletePR: false
             ShallowClone: true
+            ${{ if eq(variables['system.collectionId'], '011b8bdf-6d56-4f87-be0d-0092136884d9') }}:
+              ConnectedVSDropServiceName: 'VSEng-VSDrop-MI'
+          env:
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
         - powershell: |
             $insertionPRId = azure-pipelines/Get-InsertionPRId.ps1
             $Markdown = @"
