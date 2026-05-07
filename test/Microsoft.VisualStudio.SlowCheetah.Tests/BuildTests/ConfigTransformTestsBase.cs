@@ -64,13 +64,16 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
             // when using <Reference Include="$(MSBuildToolsPath)\Microsoft.Build.dll" />.
             // MSBuild NuGet packages proved to be difficult in getting in-proc test builds to run.
             string projectPath = Path.Combine(this.TestProjectsDir, projectName, projectName + ".csproj");
-            string properties = "/p:" + string.Join(",", globalProperties.Select(x => $"{x.Key}={x.Value}"));
+            string properties = "/p:" + string.Join(";", globalProperties.Select(x => $"{x.Key}={x.Value}"));
 
             var startInfo = new System.Diagnostics.ProcessStartInfo()
             {
                 FileName = msbuildPath,
-                Arguments = $"{projectPath} {properties}",
+                Arguments = $"\"{projectPath}\" {properties}",
                 CreateNoWindow = false,
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
                 WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
             };
 
@@ -78,8 +81,10 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
             {
                 using (var process = System.Diagnostics.Process.Start(startInfo))
                 {
+                    System.Threading.Tasks.Task<string> standardOutput = process.StandardOutput.ReadToEndAsync();
+                    System.Threading.Tasks.Task<string> standardError = process.StandardError.ReadToEndAsync();
                     process.WaitForExit();
-                    Assert.Equal(0, process.ExitCode);
+                    Assert.True(process.ExitCode == 0, $"msbuild.exe exited with code {process.ExitCode}.`nCommand: \"{startInfo.FileName}\" {startInfo.Arguments}`nStandard output:`n{standardOutput.GetAwaiter().GetResult()}`nStandard error:`n{standardError.GetAwaiter().GetResult()}");
                     process.Close();
                 }
             }

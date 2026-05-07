@@ -3,12 +3,11 @@ trigger:
     include:
     - main
 pr: none
-#schedules:
-#- cron: "0 3 * * *" # Daily @ 8 PM PST
-#  displayName: Daily vs-insertion
-#  branches:
-#    include:
-#    - microbuild
+schedules:
+- cron: "0 3 * * *" # Daily @ 8 PM PST
+  branches:
+    include:
+    - main
 
 parameters:
 # As an entrypoint pipeline yml file, all parameters here show up in the Queue Run dialog.
