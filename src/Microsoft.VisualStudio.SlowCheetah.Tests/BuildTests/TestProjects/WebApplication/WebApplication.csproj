@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebApplication</RootNamespace>
     <AssemblyName>WebApplication</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -70,7 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Other.config">
-      <TransformOnBuild>true</TransformOnBuild>      
+      <TransformOnBuild>true</TransformOnBuild>
     </Content>
     <Content Include="Other.Debug.config">
       <IsTransformItem>True</IsTransformItem>
@@ -119,7 +119,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
