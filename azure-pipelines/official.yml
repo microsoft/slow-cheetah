@@ -2,7 +2,7 @@ trigger:
   branches:
     include:
     - main
-pr: none
+
 schedules:
 - cron: "0 3 * * *" # Daily @ 8 PM PST
   branches:
