@@ -4,10 +4,16 @@ trigger:
     - main
 
 schedules:
-- cron: "0 3 * * *" # Daily @ 8 PM PST
+# Monthly compliance sweep: runs at 03:00 UTC (8 PM PST previous day) on the 1st of every month.
+# `always: true` ensures it runs even if there have been no code changes since the last successful build,
+# so we can detect regressions in compliance tooling (APIScan, PoliCheck, CodeSignValidation, etc.).
+- cron: "0 3 1 * *"
+  displayName: Monthly compliance sweep
   branches:
     include:
     - main
+  always: true
+
 
 parameters:
 # As an entrypoint pipeline yml file, all parameters here show up in the Queue Run dialog.
