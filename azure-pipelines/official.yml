@@ -2,13 +2,18 @@ trigger:
   branches:
     include:
     - main
-pr: none
-#schedules:
-#- cron: "0 3 * * *" # Daily @ 8 PM PST
-#  displayName: Daily vs-insertion
-#  branches:
-#    include:
-#    - microbuild
+
+schedules:
+# Monthly compliance sweep: runs at 03:00 UTC (8 PM PST previous day) on the 1st of every month.
+# `always: true` ensures it runs even if there have been no code changes since the last successful build,
+# so we can detect regressions in compliance tooling (APIScan, PoliCheck, CodeSignValidation, etc.).
+- cron: "0 3 1 * *"
+  displayName: Monthly compliance sweep
+  branches:
+    include:
+    - main
+  always: true
+
 
 parameters:
 # As an entrypoint pipeline yml file, all parameters here show up in the Queue Run dialog.
@@ -49,11 +54,11 @@ extends:
   template: azure-pipelines/MicroBuild.1ES.Official.yml@MicroBuildTemplate
   parameters:
     sdl:
-      sourceAnalysisPool: VSEngSS-MicroBuild2022-1ES
+      sourceAnalysisPool: VSEng-MicroBuildVSStable
       codeSignValidation:
         enabled: true
         break: true
-        additionalTargetsGlobPattern: -|Variables-*\*.ps1;-|LocBin-*\**;-|APIScanInputs-*\**;-|test_symbols-*\**;-|MicroBuild\**
+        additionalTargetsGlobPattern: -|Variables-*\*.ps1;-|LocBin-*\**;-|APIScanInputs-*\**;-|test_symbols-*\**;-|MicroBuild\**;-|$(Build.ArtifactStagingDirectory)\VSInsertion-Windows\vs-insertion-script.ps1
       policheck:
         enabled: true
         exclusionsFile: $(System.DefaultWorkingDirectory)\azure-pipelines\PoliCheckExclusions.xml
@@ -69,10 +74,11 @@ extends:
       - template: /azure-pipelines/build.yml@self
         parameters:
           Is1ESPT: true
+          Is1ESPTOfficial: true
           RealSign: true
           # ShouldSkipOptimize: ${{ parameters.ShouldSkipOptimize }}
           EnableAPIScan: ${{ parameters.EnableAPIScan }}
-          windowsPool: VSEngSS-MicroBuild2022-1ES
+          windowsPool: VSEng-MicroBuildVSStable
           linuxPool:
             name: AzurePipelines-EO
             demands:
@@ -80,7 +86,7 @@ extends:
             os: Linux
           macOSPool:
             name: Azure Pipelines
-            vmImage: macOS-14
+            vmImage: macOS-15
             os: macOS
           EnableMacOSBuild: ${{ parameters.EnableMacOSBuild }}
           RunTests: ${{ parameters.RunTests }}

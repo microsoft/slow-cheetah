@@ -20,7 +20,7 @@
   </PropertyGroup>
 
 
- 
+
 
   <ItemGroup>
     <None Update="Build\*.targets" Pack="true" PackagePath="build/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
@@ -72,6 +72,6 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemDefinitionGroup>
-  
+
 
 </Project>

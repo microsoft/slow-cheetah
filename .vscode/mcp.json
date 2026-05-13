@@ -1,0 +1,19 @@
+{
+    "servers": {
+        "github": {
+            "type": "http",
+            "url": "https://api.githubcopilot.com/mcp/"
+        },
+        "azure-devops": {
+            "type": "http",
+            "url": "https://mcp.dev.azure.com/devdiv",
+            "headers": {
+                "X-MCP-Toolsets": "repos,pipelines,wit,wiki"
+            }
+        },
+        "microsoftdocs": {
+            "type": "http",
+            "url": "https://learn.microsoft.com/api/mcp"
+        }
+    }
+}

@@ -46,18 +46,6 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
         }
 
         /// <summary>
-        /// Gets the msbuild exe path that was cached during build.
-        /// </summary>
-        private static string MSBuildExePath
-        {
-            get
-            {
-                string msbuildPathCache = Path.Combine(Environment.CurrentDirectory, "msbuildPath.txt");
-                return Path.Combine(File.ReadAllLines(msbuildPathCache).First(), "msbuild.exe");
-            }
-        }
-
-        /// <summary>
         /// Builds the project of the given name from the <see cref="TestProjectsDir"/>.
         /// </summary>
         /// <param name="projectName">Name of the project to be built.
@@ -70,43 +58,33 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
                { "OutputPath", this.OutputPath },
             };
 
-            var msbuildPath = ToolLocationHelper.GetPathToBuildToolsFile("msbuild.exe", ToolLocationHelper.CurrentToolsVersion);
+            var msbuildPath = ResolveMSBuildExePath();
 
             // We use an external process to run msbuild, because XUnit test discovery breaks
             // when using <Reference Include="$(MSBuildToolsPath)\Microsoft.Build.dll" />.
             // MSBuild NuGet packages proved to be difficult in getting in-proc test builds to run.
             string projectPath = Path.Combine(this.TestProjectsDir, projectName, projectName + ".csproj");
-            string properties = "/p:" + string.Join(",", globalProperties.Select(x => $"{x.Key}={x.Value}"));
+            string properties = "/p:" + string.Join(";", globalProperties.Select(x => $"{x.Key}={x.Value}"));
 
             var startInfo = new System.Diagnostics.ProcessStartInfo()
             {
                 FileName = msbuildPath,
-                Arguments = $"{projectPath} {properties}",
+                Arguments = $"\"{projectPath}\" {properties}",
                 CreateNoWindow = false,
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
                 WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
             };
 
-            // Tevin: Delete later
-            //string path = "C:\\src\\libtempslowcheetah\\test\\Microsoft.VisualStudio.SlowCheetah.Tests\\example.txt";
-
-            //// Open the file for reading
-            //using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Write))
-            //{
-            //    // Read from the file
-            //    using (StreamWriter writer = new StreamWriter(fs))
-            //    {
-            //        writer.WriteLine($"Running msbuild.exe {startInfo.Arguments}");
-            //        writer.WriteLine($"Running msbuild.exe filename {startInfo.FileName}");
-            //    }
-            //}
-
             try
             {
-
                 using (var process = System.Diagnostics.Process.Start(startInfo))
                 {
+                    System.Threading.Tasks.Task<string> standardOutput = process.StandardOutput.ReadToEndAsync();
+                    System.Threading.Tasks.Task<string> standardError = process.StandardError.ReadToEndAsync();
                     process.WaitForExit();
-                    Assert.Equal(0, process.ExitCode);
+                    Assert.True(process.ExitCode == 0, $"msbuild.exe exited with code {process.ExitCode}.`nCommand: \"{startInfo.FileName}\" {startInfo.Arguments}`nStandard output:`n{standardOutput.GetAwaiter().GetResult()}`nStandard error:`n{standardError.GetAwaiter().GetResult()}");
                     process.Close();
                 }
             }
@@ -152,6 +130,31 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
             {
                 Directory.Delete(this.OutputPath, recursive: true);
             }
+        }
+
+        private static string ResolveMSBuildExePath()
+        {
+            var msbuildPath = ToolLocationHelper.GetPathToBuildToolsFile("msbuild.exe", ToolLocationHelper.CurrentToolsVersion);
+            if (!string.IsNullOrEmpty(msbuildPath))
+            {
+                return msbuildPath;
+            }
+
+            string msbuildPathCache = Path.Combine(Environment.CurrentDirectory, "msbuildPath.txt");
+            if (File.Exists(msbuildPathCache))
+            {
+                var cachedMSBuildToolsPath = File.ReadLines(msbuildPathCache).FirstOrDefault();
+                if (!string.IsNullOrEmpty(cachedMSBuildToolsPath))
+                {
+                    var cachedMSBuildExePath = Path.Combine(cachedMSBuildToolsPath, "msbuild.exe");
+                    if (File.Exists(cachedMSBuildExePath))
+                    {
+                        return cachedMSBuildExePath;
+                    }
+                }
+            }
+
+            throw new FileNotFoundException($"Unable to locate msbuild.exe. ToolLocationHelper returned no path and {msbuildPathCache} did not point to an existing MSBuild tools path.");
         }
     }
 }
