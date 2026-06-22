@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <TokenReplaceTestProperty>TokenReplaced02</TokenReplaceTestProperty>
+  </PropertyGroup>
+  <ItemGroup>
+    <ScReplaceToken Include="ToBeReplaced02" Value="$(TokenReplaceTestProperty)" />
+  </ItemGroup>
+</Project>

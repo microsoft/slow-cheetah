@@ -29,8 +29,12 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests.BuildTests
             var configFilePath = Path.Combine(this.OutputPath, "Other.config");
 
             var testNodeValue = this.GetConfigNodeValue(configFilePath, "TestNode");
+            var tokenReplaceNodeValue01 = this.GetConfigNodeValue(configFilePath, "TokenReplaceNode01");
+            var tokenReplaceNodeValue02 = this.GetConfigNodeValue(configFilePath, "TokenReplaceNode02");
 
             Assert.Equal("Debug", testNodeValue);
+            Assert.Equal("TokenReplaced01", tokenReplaceNodeValue01);
+            Assert.Equal("TokenReplaced02", tokenReplaceNodeValue02);
         }
     }
 }

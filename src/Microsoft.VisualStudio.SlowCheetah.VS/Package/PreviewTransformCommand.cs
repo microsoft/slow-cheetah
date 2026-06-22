@@ -14,6 +14,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     using System.Globalization;
     using System.IO;
     using EnvDTE;
+    using Microsoft.Build.Framework;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.SlowCheetah.Exceptions;
@@ -216,7 +217,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 this.ErrorListProvider.Tasks.Clear();
                 ITransformationLogger logger = new TransformationPreviewLogger(this.ErrorListProvider, hier);
                 ITransformer transformer = TransformerFactory.GetTransformer(sourceFile, logger);
-                if (!transformer.Transform(sourceFile, transformFile, destFile))
+                if (!transformer.Transform(sourceFile, transformFile, destFile, Array.Empty<ITaskItem>()))
                 {
                     throw new TransformFailedException(Resources.Resources.TransformPreview_ErrorMessage);
                 }

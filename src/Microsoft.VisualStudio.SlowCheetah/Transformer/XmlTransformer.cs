@@ -6,6 +6,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
     using System;
     using System.IO;
     using System.Xml;
+    using Microsoft.Build.Framework;
     using Microsoft.Web.XmlTransform;
 
     /// <summary>
@@ -107,7 +108,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <inheritdoc/>
-        public bool Transform(string sourcePath, string transformPath, string destinationPath)
+        public bool Transform(string sourcePath, string transformPath, string destinationPath, ITaskItem[] replaceTokens)
         {
             if (string.IsNullOrWhiteSpace(sourcePath))
             {
@@ -145,6 +146,8 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 if (success)
                 {
                     document.Save(destinationPath);
+
+                    TransformUtilities.ReplaceTokens(destinationPath, replaceTokens);
                 }
 
                 return success;

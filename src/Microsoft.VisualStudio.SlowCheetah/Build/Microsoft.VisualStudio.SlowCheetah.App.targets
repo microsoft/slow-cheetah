@@ -63,10 +63,12 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011-2013. All rights reserve
     <SlowCheetah.TransformTask Source="$(ScIntermediateAppConfig)"
                   Transform="@(ScAppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)')"
                   Destination="$(ScIntermediateAppConfig)"
+                  ReplaceTokens="@(ScReplaceToken)"
                   Condition="'$(_ScHasAppConfigConfigurationTransform)' == 'true'"/>
     <SlowCheetah.TransformTask Source="$(ScIntermediateAppConfig)"
                     Transform="@(ScAppConfigToTransform->'%(RelativeDir)%(Filename).$(PublishProfile)%(Extension)')"
                     Destination="$(ScIntermediateAppConfig)"
+                    ReplaceTokens="@(ScReplaceToken)"
                     Condition="'$(_ScHasAppConfigPublishProfileTransform)'=='true'"/>
 
     <!-- Rewrite App.config build variables so the copy target gets it from new location -->

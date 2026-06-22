@@ -6,12 +6,16 @@ namespace Microsoft.VisualStudio.SlowCheetah
     using System;
     using System.IO;
     using System.Text;
+    using System.Text.RegularExpressions;
+    using Microsoft.Build.Framework;
 
     /// <summary>
     /// Utilities for transformations.
     /// </summary>
     public static class TransformUtilities
     {
+        private static readonly Regex ReplaceTokensRegex = new Regex(@"\$\((.*?)\)");
+
         /// <summary>
         /// Determines a text file's encoding by analyzing its byte order mark (BOM).
         /// Defaults to ASCII when detection of the text file's endianness fails.
@@ -80,6 +84,38 @@ namespace Microsoft.VisualStudio.SlowCheetah
                 reader.Peek();
                 return reader.CurrentEncoding;
             }
+        }
+
+        public static void ReplaceTokens(string filename, ITaskItem[] replaceTokens)
+        {
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                throw new ArgumentException(nameof(filename));
+            }
+
+            if (replaceTokens is null || replaceTokens.Length <= 0)
+            {
+                return;
+            }
+
+            string contents = File.ReadAllText(filename);
+
+            contents = ReplaceTokensRegex.Replace(contents, match =>
+            {
+                string tokenKey = match.Groups[1].Value.Trim();
+
+                ITaskItem token = replaceTokens.FirstOrDefault(rt => rt.ItemSpec == tokenKey);
+                if (token is null)
+                {
+                    return "$(" + tokenKey + ")";
+                }
+
+                string value = token.GetMetadata("Value");
+
+                return value;
+            });
+
+            File.WriteAllText(filename, contents);
         }
     }
 }

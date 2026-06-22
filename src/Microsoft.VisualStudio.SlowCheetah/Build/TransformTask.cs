@@ -28,6 +28,11 @@ namespace Microsoft.VisualStudio.SlowCheetah
         [Required]
         public string Destination { get; set; }
 
+        /// <summary>
+        /// Gets or sets an array of task items that are used as token replacements
+        /// </summary>
+        public ITaskItem[] ReplaceTokens { get; set; }
+
         /// <inheritdoc/>
         public override bool Execute()
         {
@@ -37,7 +42,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
 
             this.Log.LogMessage("Beginning transformation.");
 
-            bool success = transformer.Transform(this.Source, this.Transform, this.Destination);
+            bool success = transformer.Transform(this.Source, this.Transform, this.Destination, this.ReplaceTokens);
             success = success && !this.Log.HasLoggedErrors;
 
             this.Log.LogMessage(success ?
