@@ -40,6 +40,8 @@ namespace Microsoft.VisualStudio.SlowCheetah
             bool success = transformer.Transform(this.Source, this.Transform, this.Destination);
             success = success && !this.Log.HasLoggedErrors;
 
+            // Dummy Coomment
+
             this.Log.LogMessage(success ?
                     "Transformation succeeded." :
                     "Transformation failed.");
