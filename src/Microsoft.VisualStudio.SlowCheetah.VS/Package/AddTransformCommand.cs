@@ -39,6 +39,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             this.nuGetManager = nuGetManager ?? throw new ArgumentNullException(nameof(nuGetManager));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
+        // another comment.
 
         /// <inheritdoc/>
         public override int CommandId { get; } = 0x100;
