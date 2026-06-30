@@ -22,6 +22,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
         private readonly ErrorListProvider errorListProvider;
         private readonly IVsHierarchy hierachy;
 
+
+        // Test
         /// <summary>
         /// Initializes a new instance of the <see cref="TransformationPreviewLogger"/> class.
         /// </summary>
