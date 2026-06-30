@@ -33,6 +33,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             this.hierachy = hierachy ?? throw new ArgumentNullException(nameof(hierachy));
         }
 
+        // Test
+
         /// <inheritdoc/>
         public void LogError(string message, params object[] messageArgs)
         {
