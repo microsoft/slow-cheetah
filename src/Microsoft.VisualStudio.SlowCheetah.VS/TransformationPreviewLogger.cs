@@ -19,6 +19,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     /// </summary>
     public class TransformationPreviewLogger : ITransformationLogger
     {
+        // Test: 
         private readonly ErrorListProvider errorListProvider;
         private readonly IVsHierarchy hierachy;
 
