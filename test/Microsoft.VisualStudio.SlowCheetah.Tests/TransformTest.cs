@@ -16,6 +16,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests
     /// </summary>
     public class TransformTest : BaseTest
     {
+        // Tevin: 
         /// <summary>
         /// Tests for <see cref="XmlTransformer"/>.
         /// </summary>
