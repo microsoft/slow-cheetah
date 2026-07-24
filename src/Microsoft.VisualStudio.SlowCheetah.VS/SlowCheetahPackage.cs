@@ -50,6 +50,7 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed partial class SlowCheetahPackage : AsyncPackage
     {
+        // test
         /// <summary>
         /// The TransformOnBuild metadata name.
         /// </summary>
