@@ -3,21 +3,21 @@
   "isRoot": true,
   "tools": {
     "powershell": {
-      "version": "7.6.2",
+      "version": "7.6.4",
       "commands": [
         "pwsh"
       ],
       "rollForward": false
     },
     "dotnet-coverage": {
-      "version": "18.8.0",
+      "version": "18.9.0",
       "commands": [
         "dotnet-coverage"
       ],
       "rollForward": false
     },
     "nbgv": {
-      "version": "3.9.50",
+      "version": "3.10.91",
       "commands": [
         "nbgv"
       ],
