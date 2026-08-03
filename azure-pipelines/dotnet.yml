@@ -11,7 +11,7 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    solution: src/SlowCheetah.sln
+    solution: src/SlowCheetah.slnx
     msbuildArgs: /t:build,pack /bl:"$(Build.ArtifactStagingDirectory)/build_logs/build.binlog"
     configuration: $(BuildConfiguration)
   displayName: 🛠 Build
