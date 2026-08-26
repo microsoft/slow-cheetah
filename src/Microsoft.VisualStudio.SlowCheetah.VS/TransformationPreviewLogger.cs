@@ -45,6 +45,8 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             this.AddError(TaskErrorCategory.Error, string.Format(CultureInfo.CurrentCulture, message, messageArgs), file, lineNumber, linePosition);
         }
 
+
+        // test
         /// <inheritdoc/>
         public void LogErrorFromException(Exception ex)
         {
