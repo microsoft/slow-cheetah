@@ -39,6 +39,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
             this.AddError(TaskErrorCategory.Error, string.Format(CultureInfo.CurrentCulture, message, messageArgs), null, 0, 0);
         }
 
+
+
+        // TEvinsfasdfsdfsda
         /// <inheritdoc/>
         public void LogError(string file, int lineNumber, int linePosition, string message, params object[] messageArgs)
         {
