@@ -69,6 +69,11 @@ jobs:
         }
       shell: pwsh
       timeout-minutes: 3
+    # BEGIN TEMPLATE EXPANSION VALIDATION
+    - name: 🧪 Validate template expansion
+      run: ./tools/Validate-TemplateExpansion.ps1
+      shell: pwsh
+    # END TEMPLATE EXPANSION VALIDATION
 
   docs:
     name: 📃 Docs
