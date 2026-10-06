@@ -130,31 +130,34 @@ try {
     # Replace placeholders in source files
     Replace-Placeholders -Path "src/$LibraryName/Calculator.cs" -Replacements @{
         'Library'=$LibraryName
+        'COMPANY-PLACEHOLDER|Microsoft Corporation'=$Author
     }
     Replace-Placeholders -Path "test/$LibraryName.Tests/CalculatorTests.cs" -Replacements @{
         'Library'=$LibraryName
-        'COMPANY-PLACEHOLDER'=$Author
+        'COMPANY-PLACEHOLDER|Microsoft Corporation'=$Author
     }
     Replace-Placeholders -Path "test/AotCompatibilityTest/AotCompatibilityTest.csproj" -Replacements @{
         'Library'=$LibraryName
     }
     Replace-Placeholders -Path "test/AotCompatibilityTest/Program.cs" -Replacements @{
-        'COMPANY-PLACEHOLDER'=$Author
+        'COMPANY-PLACEHOLDER|Microsoft Corporation'=$Author
     }
     Replace-Placeholders -Path "src/AssemblyInfo.cs" -Replacements @{
-        'COMPANY-PLACEHOLDER'=$Author
+        'COMPANY-PLACEHOLDER|Microsoft Corporation'=$Author
     }
     Replace-Placeholders -Path "src/AssemblyInfo.vb" -Replacements @{
-        'COMPANY-PLACEHOLDER'=$Author
+        'COMPANY-PLACEHOLDER|Microsoft Corporation'=$Author
     }
     Replace-Placeholders -Path "LICENSE" -Replacements @{
-        'COMPANY-PLACEHOLDER'=$Author
+        'COMPANY-PLACEHOLDER|Microsoft Corporation'=$Author
     }
     Replace-Placeholders -Path "stylecop.json" -Replacements @{
-        'COMPANY-PLACEHOLDER'=$Author
+        'COMPANY-PLACEHOLDER|Microsoft Corporation'=$Author
     }
     Replace-Placeholders -Path "Directory.Build.props" -Replacements @{
-        'COMPANY-PLACEHOLDER'=$Author
+        '<Company>(?:COMPANY-PLACEHOLDER|Microsoft)</Company>'="<Company>$Author</Company>"
+        '<Authors>(?:COMPANY-PLACEHOLDER|Microsoft)</Authors>'="<Authors>$Author</Authors>"
+        'COMPANY-PLACEHOLDER|Microsoft Corporation'=$Author
     }
     Replace-Placeholders -Path "README.md" -Replacements @{
         "(?m)^.*\[NuGet package\][^`r`n]*"="[![NuGet package](https://img.shields.io/nuget/v/$LibraryName.svg)](https://nuget.org/packages/$LibraryName)"
@@ -173,8 +176,10 @@ try {
     Replace-Placeholders -Path "azure-pipelines/build.yml" -Replacements @{
         "(?m).*expand-template\.yml(?:\r)?\n" = ""
     }
-    Replace-Placeholders -Path ".github/workflows/build.yml" -Replacements @{
-        "(?ms)^    # BEGIN TEMPLATE EXPANSION VALIDATION\r?\n.*?^    # END TEMPLATE EXPANSION VALIDATION\r?\n" = ""
+    if (Test-Path -LiteralPath ".github/workflows/build.yml") {
+        Replace-Placeholders -Path ".github/workflows/build.yml" -Replacements @{
+            "(?ms)^    # BEGIN TEMPLATE EXPANSION VALIDATION\r?\n.*?^    # END TEMPLATE EXPANSION VALIDATION\r?\n" = ""
+        }
     }
 
     $YmlReplacements = @{
