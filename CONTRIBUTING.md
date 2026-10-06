@@ -85,6 +85,64 @@ After making a change, you can rebuild the docs site while the localhost server 
 
 The `.github/workflows/docs.yml` GitHub Actions workflow publishes the content of these docs to github.io if the workflow itself and [GitHub Pages is enabled for your repository](https://docs.github.com/en/pages/quickstart).
 
+### Documentation validation feed authentication
+
+The `.github/workflows/docs_validate.yml` workflow uses GitHub OIDC to authenticate
+as the **azure-public/vside package pull** Entra application before `init.ps1` restores packages.
+It requests an Azure DevOps access token and supplies it through
+`NuGetPackageSourceCredentials_<source name>` for each Azure Artifacts source in
+`nuget.config`, including repositories that use a different name such as
+`msft_consumption_public`.
+No client secret or PAT is required, and no credentials are written to `nuget.config`.
+
+Run `tools/Configure-GitHubOidc.ps1` from the repository to configure GitHub's immutable
+OIDC subject format and create matching Entra federated credentials.
+Sign in with `gh auth login` and
+`az login --tenant 72f988bf-86f1-41af-91ab-2d7cd011db47 --allow-no-subscriptions` first.
+The signed-in identities need repository administration and permission to manage the app's
+federated credentials. Use `-WhatIf` to preview without making changes.
+The script discovers the calling repository, trusts pull requests plus its default branch,
+and can be rerun without duplicating credentials.
+Use `-Branches microbuild,release` to add other trusted branches; the default branch
+and PR context are always included. The script reports each created or reused credential.
+Credential names identify the owner, repository, and PR or branch context, for example
+`github-AArnott-Library.Template-pull-request` and
+`github-AArnott-Library.Template-branch-main`. Names requiring punctuation replacement
+or truncation include a short hash suffix to preserve uniqueness within Entra's name limits.
+
+This changes OIDC subjects for **all workflows** in the repository. Update any other cloud
+trust policies (including environment subjects) before running it; existing Entra credentials
+are preserved. The script does not configure Azure DevOps feed permissions.
+
+The configuration uses:
+
+* Tenant ID: `72f988bf-86f1-41af-91ab-2d7cd011db47`.
+* Application (client) ID: `2799af29-63f3-404f-bdcf-67ff9c70abc9`.
+* App registration object ID: `1c99fd4b-8b5b-44bb-b214-52bdd958e339`.
+* Federated credentials must use issuer `https://token.actions.githubusercontent.com`
+  and audience `api://AzureADTokenExchange`, with separate subjects for
+  `repo:AArnott@3548/Library.Template@192191543:pull_request` and
+  `repo:AArnott@3548/Library.Template@192191543:ref:refs/heads/main` by default.
+  Owner and repository IDs prevent a recycled namespace from inheriting this trust.
+  Runs on other branches, including `microbuild`, require an additional matching branch
+  subject configured explicitly with `-Branches`.
+* Add the application's service principal to the `azure-public` Azure DevOps organization
+  and grant access to the `vside` project and **Feed and Upstream Reader (Collaborator)**
+  on `msft_consumption`. Reader alone cannot save new packages from upstream sources.
+  The service principal object ID from Entra **Enterprise applications** is distinct
+  from the app registration object ID above.
+
+Authentication is enabled only for repositories owned by the `microsoft` organization,
+because this Entra tenant requires enterprise-issued GitHub assertions.
+Same-repository dependency update PRs, including Renovate and Dependabot, authenticate
+using the job's explicit `id-token: write` permission.
+Repositories owned by other accounts (including this template) and fork PRs
+skip authentication and retain anonymous restore behavior;
+new upstream dependencies may still need to be ingested by a trusted run first.
+Do not switch this workflow to `pull_request_target` to give untrusted PR code credentials.
+Repositories based on this template must configure their own trusted subjects and, if necessary,
+update the application and tenant IDs in the workflow.
+
 ## Updating dependencies
 
 This repo uses Renovate to keep dependencies current.
