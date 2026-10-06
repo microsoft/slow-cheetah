@@ -114,29 +114,11 @@ This changes OIDC subjects for **all workflows** in the repository. Update any o
 trust policies (including environment subjects) before running it; existing Entra credentials
 are preserved. The script does not configure Azure DevOps feed permissions.
 
-The configuration uses:
-
-* Tenant ID: `72f988bf-86f1-41af-91ab-2d7cd011db47`.
-* Application (client) ID: `2799af29-63f3-404f-bdcf-67ff9c70abc9`.
-* App registration object ID: `1c99fd4b-8b5b-44bb-b214-52bdd958e339`.
-* Federated credentials must use issuer `https://token.actions.githubusercontent.com`
-  and audience `api://AzureADTokenExchange`, with separate subjects for
-  `repo:AArnott@3548/Library.Template@192191543:pull_request` and
-  `repo:AArnott@3548/Library.Template@192191543:ref:refs/heads/main` by default.
-  Owner and repository IDs prevent a recycled namespace from inheriting this trust.
-  Runs on other branches, including `microbuild`, require an additional matching branch
-  subject configured explicitly with `-Branches`.
-* Add the application's service principal to the `azure-public` Azure DevOps organization
-  and grant access to the `vside` project and **Feed and Upstream Reader (Collaborator)**
-  on `msft_consumption`. Reader alone cannot save new packages from upstream sources.
-  The service principal object ID from Entra **Enterprise applications** is distinct
-  from the app registration object ID above.
-
 Authentication is enabled only for repositories owned by the `microsoft` organization,
 because this Entra tenant requires enterprise-issued GitHub assertions.
 Same-repository dependency update PRs, including Renovate and Dependabot, authenticate
 using the job's explicit `id-token: write` permission.
-Repositories owned by other accounts (including this template) and fork PRs
+Repositories owned by non-microsoft accounts and fork PRs
 skip authentication and retain anonymous restore behavior;
 new upstream dependencies may still need to be ingested by a trusted run first.
 Do not switch this workflow to `pull_request_target` to give untrusted PR code credentials.
