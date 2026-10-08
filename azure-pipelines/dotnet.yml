@@ -8,7 +8,6 @@ parameters:
 
 steps:
 
-
 - task: VSBuild@1
   inputs:
     solution: src/SlowCheetah.sln
@@ -16,7 +15,7 @@ steps:
     configuration: $(BuildConfiguration)
   displayName: 🛠 Build
 
-- powershell: tools/dotnet-test-cloud.ps1 -Configuration $(BuildConfiguration) -Agent $(Agent.JobName) -PublishResults
+- powershell: tools/dotnet-test-cloud.ps1 -Configuration $(BuildConfiguration) -Agent $(Agent.JobName) -PublishResults -IncludeNativeAOT
   displayName: 🧪 dotnet test
   condition: and(succeeded(), ${{ parameters.RunTests }})
 
