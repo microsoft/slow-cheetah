@@ -3,8 +3,14 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove($(MSBuildThisFile), $(MSBuildThisFileDirectory)..))" />
 
   <PropertyGroup>
+    <IsTestProject>true</IsTestProject>
+    <PublishNativeAOTTests>true</PublishNativeAOTTests>
     <IsPackable>false</IsPackable>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(NativeAOT)' == 'true' and '$(PublishNativeAOTTests)' == 'true'">
+    <RuntimeIdentifier>$(DefaultRuntimeIdentifier)</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>

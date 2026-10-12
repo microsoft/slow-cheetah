@@ -2,14 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Build.Utilities.Core" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    <PackageReference Include="xunit.v3.mtp-v2" />
     <PackageReference Update="Nerdbank.GitVersioning" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
     <PackageReference Update="StyleCop.Analyzers" PrivateAssets="All" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
   </ItemGroup>

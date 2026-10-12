@@ -5,6 +5,8 @@
     Runs tests as they are run in cloud test runs.
 .PARAMETER Configuration
     The configuration within which to run tests
+.PARAMETER IncludeNativeAOT
+    Runs the NativeAOT-compiled tests and fails if the expected image is missing.
 .PARAMETER Agent
     The name of the agent. This is used in preparing test run titles.
 .PARAMETER PublishResults
@@ -13,14 +15,18 @@
     A switch to run the tests in an x86 process.
 .PARAMETER dotnet32
     The path to a 32-bit dotnet executable to use.
+.PARAMETER NoCoverage
+    A switch to skip code coverage collection.
 #>
 [CmdletBinding()]
 Param(
-  [string]$Configuration = 'Debug',
-  [string]$Agent = 'Local',
-  [switch]$PublishResults,
-  [switch]$x86,
-  [string]$dotnet32
+    [string]$Configuration = 'Debug',
+    [switch]$IncludeNativeAOT,
+    [string]$Agent = 'Local',
+    [switch]$PublishResults,
+    [switch]$x86,
+    [string]$dotnet32,
+    [switch]$NoCoverage
 )
 
 $RepoRoot = (Resolve-Path "$PSScriptRoot/..").Path
@@ -42,13 +48,16 @@ if ($x86) {
     }
     else {
       Write-Error "Unable to find 32-bit dotnet.exe"
-      return 1
+      exit 1
     }
   }
 }
 
 $testBinLog = Join-Path $ArtifactStagingFolder (Join-Path build_logs test.binlog)
 $testLogs = Join-Path $ArtifactStagingFolder test_logs
+if (Test-Path -LiteralPath $testLogs) {
+    Remove-Item -LiteralPath $testLogs -Recurse -Force
+}
 
 $globalJson = Get-Content $PSScriptRoot/../global.json | ConvertFrom-Json
 $isMTP = $globalJson.test.runner -eq 'Microsoft.Testing.Platform'
@@ -60,44 +69,92 @@ if ($isMTP) {
 
     $dumpSwitches = @(
         ,'--hangdump'
-        ,'--hangdump-timeout','120s'
+        ,'--hangdump-timeout','5m'
         ,'--crashdump'
+        ,'--crashdump-type','Heap'
+        # The native crash report accompanies the dump and is often the only way to identify the
+        # faulting thread and instruction when a test host dies of an access violation on Linux.
+        ,'--crash-report-if-supported'
     )
     $mtpArgs = @(
-        ,'--coverage'
-        ,'--coverage-output-format','cobertura'
         ,'--diagnostic'
-        ,'--diagnostic-output-directory',$testLogs
+        ,"--diagnostic-output-directory=$testLogs"
         ,'--diagnostic-verbosity','Information'
-        ,'--results-directory',$testLogs
+        ,"--results-directory=$testLogs"
         ,'--report-trx'
     )
 
-    & $dotnet test "$RepoRoot\test" `
-        --no-build `
-        -c $Configuration `
-        -bl:"$testBinLog" `
-        --filter-not-trait 'TestCategory=FailsInCloudTest' `
-        --coverage-settings "$PSScriptRoot/test.runsettings" `
-        @mtpArgs `
-        @dumpSwitches `
-        @extraArgs
-    if ($LASTEXITCODE -ne 0) { $failedTests += 1 }
+    if (-not $NoCoverage) {
+        $mtpArgs += @(
+            ,'--coverage'
+            ,'--coverage-output-format','cobertura'
+            ,'--coverage-settings',"$PSScriptRoot/test.runsettings"
+        )
+    }
+
+    $testProjects = Get-ChildItem "$RepoRoot\test" -Recurse -Filter *.csproj |
+        Where-Object { $_.FullName -notmatch '\\TestProjects\\|\\AotCompatibilityTest\\' }
+    foreach ($testProject in $testProjects) {
+        & $dotnet test --project $testProject.FullName `
+            --no-build `
+            -c $Configuration `
+            -bl:"$testBinLog" `
+            -- `
+            --filter-not-trait 'FailsInCloudTest=true' `
+            @mtpArgs `
+            @dumpSwitches `
+            @extraArgs
+        if ($LASTEXITCODE -ne 0) { $failedTests += 1 }
+    }
+
+    if ($IncludeNativeAOT) {
+        $nativeAotTests = @(& "$PSScriptRoot/Get-NativeAOTTestProjects.ps1" -Configuration $Configuration)
+        foreach ($nativeAotTest in $nativeAotTests) {
+            $testExecutable = $nativeAotTest.ExecutablePath
+            if (-not (Test-Path -LiteralPath $testExecutable -PathType Leaf)) {
+                Write-Error "Expected NativeAOT test executable '$testExecutable' was not found."
+                $failedTests += 1
+                continue
+            }
+
+            $nativeAotArgs = @(
+                ,'--diagnostic'
+                ,"--diagnostic-output-directory=$testLogs"
+                ,'--diagnostic-verbosity','Information'
+                ,"--results-directory=$testLogs"
+                ,'--report-trx'
+                ,'--report-trx-filename',"$($nativeAotTest.ProjectName)_$($nativeAotTest.TargetFramework)_NativeAOT_{arch}.trx"
+            )
+            if ($IsWindows) {
+                $nativeAotArgs += $dumpSwitches
+            }
+            Write-Host "Running NativeAOT tests from '$testExecutable'." -ForegroundColor Cyan
+            & $testExecutable @nativeAotArgs @extraArgs
+            if ($LASTEXITCODE -ne 0) { $failedTests += 1 }
+        }
+    }
 
     $trxFiles = Get-ChildItem -Recurse -Path $testLogs\*.trx
 } else {
     $testDiagLog = Join-Path $ArtifactStagingFolder (Join-Path test_logs diag.log)
+    $coverageArgs = @()
+    if (-not $NoCoverage) {
+        $coverageArgs = @(
+            ,'--collect','Code Coverage;Format=cobertura'
+            ,'--settings',"$PSScriptRoot/test.runsettings"
+        )
+    }
+
     & $dotnet test "$RepoRoot\test" `
         --no-build `
         -c $Configuration `
         --filter "TestCategory!=FailsInCloudTest" `
-        --collect "Code Coverage;Format=cobertura" `
-        --settings "$PSScriptRoot/test.runsettings" `
         --blame-hang-timeout 60s `
         --blame-crash `
         -bl:"$testBinLog" `
         --diag "$testDiagLog;TraceLevel=info" `
         --logger trx `
+        @coverageArgs `
         @extraArgs
     if ($LASTEXITCODE -ne 0) { $failedTests += 1 }
 

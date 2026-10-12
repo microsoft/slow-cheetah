@@ -4,5 +4,33 @@
 		"github>microsoft/vs-renovate-presets:microbuild",
 		"github>microsoft/vs-renovate-presets:vs_main_dependencies"
 	],
-	"packageRules": []
+	"labels": ["dependencies"],
+	"packageRules": [
+		{
+			"matchPackageNames": ["nbgv", "nerdbank.gitversioning"],
+			"groupName": "nbgv and nerdbank.gitversioning updates"
+		},
+		{
+			"matchPackageNames": ["xunit*"],
+			"groupName": "xunit"
+		},
+		{
+			"matchPackageNames": ["tunit*"],
+			"groupName": "tunit",
+			"schedule": ["on the first day of the month"]
+		},
+		{
+			"matchPackageNames": ["Microsoft.Testing.Extensions.*"],
+			"groupName": "Microsoft Testing Platform"
+		},
+		{
+			"matchDatasources": ["dotnet-version", "docker"],
+			"matchDepNames": ["dotnet-sdk", "mcr.microsoft.com/dotnet/sdk"],
+			"groupName": "Dockerfile and global.json updates"
+		},
+		{
+			"matchPackageNames": ["*"],
+			"allowedVersions": "!/-g[a-f0-9]+$/"
+		}
+	]
 }
