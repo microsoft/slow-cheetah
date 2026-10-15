@@ -74,6 +74,9 @@
       <TransformOnBuild>true</TransformOnBuild>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ScReplaceToken Include="ToBeReplaced01" Value="TokenReplaced01" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildThisFileDirectory)..\packages\slowcheetah\build\Microsoft.VisualStudio.SlowCheetah.targets" />
 </Project>

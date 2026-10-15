@@ -9,6 +9,7 @@
 namespace Microsoft.VisualStudio.SlowCheetah.Tests
 {
     using System.IO;
+    using Microsoft.Build.Framework;
     using Xunit;
 
     /// <summary>
@@ -28,7 +29,31 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests
 
             string destFile = this.GetTempFilename(true);
             ITransformer transformer = new XmlTransformer();
-            transformer.Transform(sourceFile, transformFile, destFile);
+            transformer.Transform(sourceFile, transformFile, destFile, Array.Empty<ITaskItem>());
+
+            Assert.True(File.Exists(sourceFile));
+            Assert.True(File.Exists(transformFile));
+            Assert.True(File.Exists(destFile));
+
+            string actualResult = File.ReadAllText(destFile);
+            string expectedResult = File.ReadAllText(expectedResultFile);
+            Assert.Equal(expectedResult.Trim(), actualResult.Trim());
+        }
+
+
+        /// <summary>
+        /// Tests for <see cref="XmlTransformer"/>.
+        /// </summary>
+        [Fact]
+        public void TestXmlTransformWithTokenReplacement()
+        {
+            string sourceFile = this.WriteTextToTempFile(TestUtilities.Source01);
+            string transformFile = this.WriteTextToTempFile(TestUtilities.Transform02);
+            string expectedResultFile = this.WriteTextToTempFile(TestUtilities.Result02);
+
+            string destFile = this.GetTempFilename(true);
+            ITransformer transformer = new XmlTransformer();
+            transformer.Transform(sourceFile, transformFile, destFile, TestUtilities.ReplaceTokens01);
 
             Assert.True(File.Exists(sourceFile));
             Assert.True(File.Exists(transformFile));

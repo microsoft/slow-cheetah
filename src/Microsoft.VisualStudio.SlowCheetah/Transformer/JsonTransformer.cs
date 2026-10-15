@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
 {
     using System;
     using System.IO;
+    using Microsoft.Build.Framework;
     using Microsoft.VisualStudio.Jdt;
 
     /// <summary>
@@ -81,7 +82,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         }
 
         /// <inheritdoc/>
-        public bool Transform(string sourcePath, string transformPath, string destinationPath)
+        public bool Transform(string sourcePath, string transformPath, string destinationPath, ITaskItem[] replaceTokens)
         {
             if (string.IsNullOrWhiteSpace(sourcePath))
             {
@@ -114,7 +115,14 @@ namespace Microsoft.VisualStudio.SlowCheetah
             {
                 using (Stream result = transformation.Apply(sourcePath))
                 {
-                    return this.TrySaveToFile(result, sourcePath, destinationPath);
+                    bool success = this.TrySaveToFile(result, sourcePath, destinationPath);
+
+                    if (success)
+                    {
+                        TransformUtilities.ReplaceTokens(destinationPath, replaceTokens);
+                    }
+
+                    return success;
                 }
             }
             catch

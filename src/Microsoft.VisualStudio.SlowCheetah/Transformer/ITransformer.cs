@@ -3,6 +3,8 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah
 {
+    using Microsoft.Build.Framework;
+
     /// <summary>
     /// Interface for file tranformers.
     /// </summary>
@@ -22,7 +24,7 @@ namespace Microsoft.VisualStudio.SlowCheetah
         /// <param name="transformPath">Path to tranformation file.</param>
         /// <param name="destinationPath">Path to destination of transformed file.</param>
         /// <returns>True if the transform succeeded.</returns>
-        bool Transform(string sourcePath, string transformPath, string destinationPath);
+        bool Transform(string sourcePath, string transformPath, string destinationPath, ITaskItem[] replaceTokens);
 
         /// <summary>
         /// Verifies if a given file is supported by this transformer.

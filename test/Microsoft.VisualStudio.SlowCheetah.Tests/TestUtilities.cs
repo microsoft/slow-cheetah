@@ -8,6 +8,9 @@
 
 namespace Microsoft.VisualStudio.SlowCheetah.Tests
 {
+    using Microsoft.Build.Framework;
+    using Microsoft.Build.Utilities;
+
     /// <summary>
     /// Utilities class for SlowCheetah tests.
     /// </summary>
@@ -40,6 +43,20 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests
             </configuration>";
 
         /// <summary>
+        /// Example transform file for transform testing.
+        /// </summary>
+        public const string Transform02 =
+            @"<?xml version=""1.0""?>
+            <configuration xmlns:xdt=""http://schemas.microsoft.com/XML-Document-Transform"">
+                <appSettings>
+                    <add key=""setting01"" value=""$(ScVariable01)""
+                        xdt:Locator=""Match(key)"" xdt:Transform=""Replace"" />
+                    <add key=""setting02"" value=""$(ScVariable02)""
+                        xdt:Locator=""Match(key)"" xdt:Transform=""Replace"" />
+                </appSettings>
+            </configuration>";
+
+        /// <summary>
         /// Example result file for transform testing.
         /// </summary>
         public const string Result01 =
@@ -50,5 +67,28 @@ namespace Microsoft.VisualStudio.SlowCheetah.Tests
                     <add key=""setting02"" value=""debug02""/> 
                 </appSettings>
             </configuration>";
+
+        /// <summary>
+        /// Example result file for transform testing.
+        /// </summary>
+        public const string Result02 =
+            @"<?xml version=""1.0""?>
+            <configuration>
+                <appSettings>
+                    <add key=""setting01"" value=""ReplaceTokenResult01""/> 
+                    <add key=""setting02"" value=""$(ScVariable02)""/> 
+                </appSettings>
+            </configuration>";
+
+        /// <summary>
+        /// Example variables token replacement testing.
+        /// </summary>
+        public static readonly ITaskItem[] ReplaceTokens01 = new ITaskItem[]
+        {
+            new TaskItem("ScVariable01", new Dictionary<object, object>
+            {
+                { "Value", "ReplaceTokenResult01" },
+            }),
+        };
     }
 }
