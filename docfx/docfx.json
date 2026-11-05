@@ -1,48 +1,52 @@
 {
-    "metadata": [
-        {
-            "src": [
-                {
-                    "src": "../src/Library",
-                    "files": [
-                        "**/*.csproj"
-                    ]
-                }
-            ],
-            "dest": "api"
-        }
-    ],
-    "build": {
-        "content": [
-            {
-                "files": [
-                    "**/*.{md,yml}"
-                ],
-                "exclude": [
-                    "_site/**"
-                ]
-            }
-        ],
-        "resource": [
-            {
-                "files": [
-                    "images/**"
-                ]
-            }
-        ],
-        "xref": [
-            "https://learn.microsoft.com/en-us/dotnet/.xrefmap.json"
-        ],
-        "output": "_site",
-        "template": [
-            "default",
-            "modern"
-        ],
-        "globalMetadata": {
-            "_appName": "Library",
-            "_appTitle": "Library",
-            "_enableSearch": true,
-            "pdf": false
-        }
-    }
+	"metadata": [
+		{
+			"src": [
+				{
+					"src": "../src",
+					"files": [
+						"Microsoft.VisualStudio.SlowCheetah/*.csproj",
+						"Microsoft.VisualStudio.SlowCheetah.VS/*.csproj"
+					]
+				}
+			],
+			"dest": "api",
+			"properties": {
+				"NoWarn": "NU1901;NU1902;NU1903;NU1904"
+			}
+		}
+	],
+	"build": {
+		"content": [
+			{
+				"files": [
+					"**/*.{md,yml}"
+				],
+				"exclude": [
+					"_site/**"
+				]
+			}
+		],
+		"resource": [
+			{
+				"files": [
+					"images/**"
+				]
+			}
+		],
+		"xref": [
+			"https://learn.microsoft.com/en-us/dotnet/.xrefmap.json"
+		],
+		"output": "_site",
+		"template": [
+			"default",
+			"modern"
+		],
+		"globalMetadata": {
+			"_appName": "SlowCheetah",
+			"_appTitle": "SlowCheetah",
+			"_enableSearch": true,
+			"pdf": false
+		}
+	}
 }

@@ -118,6 +118,7 @@ if ($isMTP) {
             }
 
             $nativeAotArgs = @(
+                ,'--filter-not-trait','FailsInCloudTest=true'
                 ,'--diagnostic'
                 ,"--diagnostic-output-directory=$testLogs"
                 ,'--diagnostic-verbosity','Information'

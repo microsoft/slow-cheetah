@@ -39,7 +39,7 @@ before_build:
   nuget restore src
 
 build:
-  project: src\SlowCheetah.sln  # path to Visual Studio solution or project
+  project: src\SlowCheetah.slnx  # path to Visual Studio solution or project
   verbosity: normal             # MSBuild verbosity level
 
 #---------------------------------#

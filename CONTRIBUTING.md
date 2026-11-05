@@ -37,9 +37,11 @@ to the feeds that packages for this repo come from, if any.
 
 ## Building
 
-This repository can be built on Windows, Linux, and OSX.
+The Visual Studio extension is built on Windows with the Visual Studio development tools installed.
 
-Building, testing, and packing this repository can be done by using the standard dotnet CLI commands (e.g. `dotnet build`, `dotnet test`, `dotnet pack`, etc.).
+Building and packing the Visual Studio extension require full Visual Studio MSBuild.
+From a Visual Studio Developer PowerShell, run `msbuild src\SlowCheetah.slnx -restore -p:Configuration=Release`.
+Managed tests use xUnit v3 on Microsoft.Testing.Platform and can be run with `dotnet test --solution src\SlowCheetah.slnx --no-build -c Release`.
 
 ## Testing
 
@@ -47,24 +49,9 @@ You can use `dotnet test` to build and/or test the repo.
 
 There may be tests that are known to be unstable or have special requirements. These can be avoided by running tests using the [dotnet-test-cloud.ps1](tools/dotnet-test-cloud.ps1) script *after* running `dotnet build`.
 
-To build both managed and NativeAOT tests, run `dotnet publish tools/dirs.proj -c Release`.
-Then run `./tools/dotnet-test-cloud.ps1 -Configuration Release -IncludeNativeAOT`.
-The traversal projects discover projects under `src` and `test`, and publish each eligible test framework targeting .NET 8 or later.
-Keep test projects in the solution as well: managed test runs still use the solution, while NativeAOT runs use the traversal's evaluated executable paths.
-Test projects can opt out of NativeAOT publishing with `<PublishNativeAOTTests>false</PublishNativeAOTTests>`.
-One restore includes all test target frameworks, runtime identifiers, and NativeAOT compiler dependencies.
-Managed builds are RID-neutral by default; NativeAOT builds use the SDK's runtime-specific output directories.
-For a specified RID, managed execution and native publishing can share the same build outputs.
-Test builds keep dynamic code, startup hooks, and event tracing enabled for managed code coverage.
-The `ConfigureNativeAOTTestFeatures` target disables those features only in the native compiler's publish-time inputs, without rewriting the managed runtime configuration.
-It preserves all other runtime feature options, including invariant globalization, so native compilation and linking use consistent settings.
-For an existing RID-specific build, `dotnet publish test/Library.Tests/Library.Tests.csproj -f net8.0 -r <RID> -p:NativeAOT=true --no-build` publishes native tests from the managed build.
-Use the same configuration, framework, and RID for the preceding build and the publish.
-Test builds use invariant globalization and retain only English satellite resources; RID-specific builds are self-contained.
-Shipping libraries targeting .NET 8 or later opt into NativeAOT compatibility analysis with `IsAotCompatible`.
-The `test/AotCompatibilityTest` project complements those analyzers by rooting the shipping assembly and passing it through the NativeAOT compiler during every traversal publish.
-Add each shipping assembly that must be validated as a `TrimmerRootAssembly`, and keep this project publishable in `test/dirs.proj`.
-Root `Directory.Build.props` supplies project-reference defaults for both traversal and SDK projects that remove the `_IsPublishing` global property for managed dependencies, avoiding duplicate project instances that write to the same outputs during parallel publishing.
+The test projects target .NET Framework 4.7.2 and run as managed tests, not NativeAOT executables.
+Run `.\tools\dotnet-test-cloud.ps1 -Configuration Release` after building to collect coverage and exclude tests with the `FailsInCloudTest=true` trait.
+Use xUnit's `--filter-method`, `--filter-class`, or `--filter-trait` options after `--` when filtering individual `dotnet test` runs; TUnit's `--treenode-filter` does not apply.
 
 ## Releases
 
@@ -80,16 +67,24 @@ Trigger the pipeline by adding the `auto-release` tag on a run of your main `azu
 
 ## Tutorial and API documentation
 
+Markup links are checked in CI with [mlc](https://github.com/becheran/mlc).
+Run `mlc` from the repository root to use the same settings, configured in `.mlc.toml`.
+
 API and hand-written docs are found under the `docfx/` directory and are built by [docfx](https://dotnet.github.io/docfx/).
 
 You can make changes and host the site locally to preview them by switching to that directory and running the `dotnet docfx --serve` command.
 After making a change, you can rebuild the docs site while the localhost server is running by running `dotnet docfx` again from a separate terminal.
 
+DocFX metadata extraction suppresses `NU1901` through `NU1904` in `docfx/docfx.json`.
+DocFX otherwise turns MSBuild workspace warnings into fatal documentation warnings under `--warningsAsErrors`.
+Normal builds still report these audit warnings, and other documentation warnings remain fatal in CI.
+
 The `.github/workflows/docs.yml` GitHub Actions workflow publishes the content of these docs to github.io if the workflow itself and [GitHub Pages is enabled for your repository](https://docs.github.com/en/pages/quickstart).
 
-### Documentation validation feed authentication
+### Documentation validation and Copilot feed authentication
 
-The `.github/workflows/docs_validate.yml` workflow uses GitHub OIDC to authenticate
+The `.github/workflows/docs_validate.yml` and `.github/workflows/copilot-setup-steps.yml`
+workflows use GitHub OIDC to authenticate
 as the **azure-public/vside package pull** Entra application before `init.ps1` restores packages.
 It requests an Azure DevOps access token and supplies it through
 `NuGetPackageSourceCredentials_<source name>` for each Azure Artifacts source in
@@ -103,18 +98,27 @@ Sign in with `gh auth login` and
 `az login --tenant 72f988bf-86f1-41af-91ab-2d7cd011db47 --allow-no-subscriptions` first.
 The signed-in identities need repository administration and permission to manage the app's
 federated credentials. Use `-WhatIf` to preview without making changes.
-The script discovers the calling repository, trusts pull requests plus its default branch,
-and can be rerun without duplicating credentials.
+The script discovers the calling repository, trusts pull requests, its default branch,
+and the `copilot` environment used by Copilot code review and cloud agent setup.
+It can be rerun without duplicating credentials.
 Use `-Branches microbuild,release` to add other trusted branches; the default branch
-and PR context are always included. The script reports each created or reused credential.
-Credential names identify the owner, repository, and PR or branch context, for example
-`github-AArnott-Library.Template-pull-request` and
+and the PR and Copilot environment contexts are always included.
+The script reports each created or reused credential.
+Credential names identify the owner, repository, and PR, environment, or branch context, for example
+`github-AArnott-Library.Template-pull-request`,
+`github-AArnott-Library.Template-environment-copilot`, and
 `github-AArnott-Library.Template-branch-main`. Names requiring punctuation replacement
 or truncation include a short hash suffix to preserve uniqueness within Entra's name limits.
 
 This changes OIDC subjects for **all workflows** in the repository. Update any other cloud
 trust policies (including environment subjects) before running it; existing Entra credentials
 are preserved. The script does not configure Azure DevOps feed permissions.
+
+For repositories configured before Copilot environment trust was included, rerun the script
+with any additional trusted branches retained, then re-request the Copilot review.
+Copilot setup runs use an OIDC subject ending in `:environment:copilot`, rather than the
+PR or branch subject, so those existing credentials alone do not authenticate Copilot.
+Without the environment credential, Azure login fails with `AADSTS700213` before package restore.
 
 Authentication is enabled only for repositories owned by the `microsoft` organization,
 because this Entra tenant requires enterprise-issued GitHub assertions.
