@@ -203,8 +203,9 @@ namespace Microsoft.VisualStudio.SlowCheetah.VS
                 // Add the file to the project
                 // If the DependentUpon metadata is required, add it under the original file
                 // If not, add it to the project
-                ProjectItem addedItem = addDependentUpon ? selectedProjectItem.ProjectItems.AddFromFile(transformPath)
-                                                      : selectedProjectItem.ContainingProject.ProjectItems.AddFromFile(transformPath);
+                ProjectItem addedItem = addDependentUpon
+                    ? selectedProjectItem.ProjectItems.AddFromFile(transformPath)
+                    : selectedProjectItem.ContainingProject.ProjectItems.AddFromFile(transformPath);
 
                 // We need to set the Build Action to None to ensure that it doesn't get published for web projects
                 addedItem.Properties.Item("ItemType").Value = "None";

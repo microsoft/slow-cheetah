@@ -130,14 +130,14 @@ extends:
             forceReinstallCredentialProvider: true
         - task: VSBuild@1
           inputs:
-            solution: 'src\SlowCheetah.sln'
+            solution: 'src\SlowCheetah.slnx'
             msbuildArgs: /t:Restore
             platform: $(BuildPlatform)
             configuration: $(BuildConfiguration)
           displayName: Restore SlowCheetah solution
         - task: VSBuild@1
           inputs:
-            solution: 'src\SlowCheetah.sln'
+            solution: 'src\SlowCheetah.slnx'
             msbuildArgs: '/bl:"$(Build.ArtifactStagingDirectory)/build_logs/slowcheetah.binlog"'
             platform: $(BuildPlatform)
             configuration: $(BuildConfiguration)
