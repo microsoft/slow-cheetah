@@ -81,10 +81,9 @@ Normal builds still report these audit warnings, and other documentation warning
 
 The `.github/workflows/docs.yml` GitHub Actions workflow publishes the content of these docs to github.io if the workflow itself and [GitHub Pages is enabled for your repository](https://docs.github.com/en/pages/quickstart).
 
-### Documentation validation and Copilot feed authentication
+### Documentation validation feed authentication
 
-The `.github/workflows/docs_validate.yml` and `.github/workflows/copilot-setup-steps.yml`
-workflows use GitHub OIDC to authenticate
+The `.github/workflows/docs_validate.yml` workflow uses GitHub OIDC to authenticate
 as the **azure-public/vside package pull** Entra application before `init.ps1` restores packages.
 It requests an Azure DevOps access token and supplies it through
 `NuGetPackageSourceCredentials_<source name>` for each Azure Artifacts source in
@@ -114,11 +113,9 @@ This changes OIDC subjects for **all workflows** in the repository. Update any o
 trust policies (including environment subjects) before running it; existing Entra credentials
 are preserved. The script does not configure Azure DevOps feed permissions.
 
-For repositories configured before Copilot environment trust was included, rerun the script
-with any additional trusted branches retained, then re-request the Copilot review.
-Copilot setup runs use an OIDC subject ending in `:environment:copilot`, rather than the
-PR or branch subject, so those existing credentials alone do not authenticate Copilot.
-Without the environment credential, Azure login fails with `AADSTS700213` before package restore.
+The Copilot setup workflow retains its existing unauthenticated prerequisite setup;
+it does not use the template's Azure login steps. The configuration script retains
+support for the `copilot` environment if authenticated Copilot setup is adopted later.
 
 Authentication is enabled only for repositories owned by the `microsoft` organization,
 because this Entra tenant requires enterprise-issued GitHub assertions.
